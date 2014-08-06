@@ -16,6 +16,11 @@ class Renderer
 {
 public:
 	static void Initialize();
+	static void BeginFrame();
+	static void EndFrame();
+
+	// return program id of shader with type
+	static unsigned int GetShaderProgramID(ShaderType type) { return shaders[static_cast<int>(type)]; }
 
 private:
 	static GLuint LoadShader(std::string name);
