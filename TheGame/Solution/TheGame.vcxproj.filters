@@ -16,6 +16,9 @@
     <Filter Include="Source Files\Util">
       <UniqueIdentifier>{28787196-cd60-4eb5-8874-fd7266c9fff1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Shaders">
+      <UniqueIdentifier>{9e26cdf2-7431-4e39-b9d7-a32fc4273b50}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\main.cpp">
@@ -30,6 +33,9 @@
     <ClCompile Include="..\Source\Util\GameTime.cpp">
       <Filter>Source Files\Util</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\Util\Renderer.cpp">
+      <Filter>Source Files\Util</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Util\InputManager.h">
@@ -41,5 +47,16 @@
     <ClInclude Include="..\Source\Util\GameTime.h">
       <Filter>Source Files\Util</Filter>
     </ClInclude>
+    <ClInclude Include="..\Source\Util\Renderer.h">
+      <Filter>Source Files\Util</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Source\Shaders\TestShader.frag">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="..\Source\Shaders\TestShader.vert">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

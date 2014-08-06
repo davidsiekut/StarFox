@@ -14,12 +14,18 @@
     <ClCompile Include="..\Source\main.cpp" />
     <ClCompile Include="..\Source\Util\GameTime.cpp" />
     <ClCompile Include="..\Source\Util\InputManager.cpp" />
+    <ClCompile Include="..\Source\Util\Renderer.cpp" />
     <ClCompile Include="..\Source\Util\WindowManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Util\GameTime.h" />
     <ClInclude Include="..\Source\Util\InputManager.h" />
+    <ClInclude Include="..\Source\Util\Renderer.h" />
     <ClInclude Include="..\Source\Util\WindowManager.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Source\Shaders\TestShader.frag" />
+    <None Include="..\Source\Shaders\TestShader.vert" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{4D5003D7-211D-46A3-96DD-093E78CA4943}</ProjectGuid>
@@ -58,8 +64,10 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\Source\Include\glew-1.10.0\include;..\Source\Include\glfw-3.0.4\include;..\Source\Include\glm-0.9.5.4\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <SDLCheck>
+      </SDLCheck>
+      <AdditionalIncludeDirectories>..\Source\Util;..\Source\Include\glew-1.10.0\include;..\Source\Include\glfw-3.0.4\include;..\Source\Include\glm-0.9.5.4\glm</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -78,6 +86,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>..\Source\Include\glew-1.10.0\include;..\Source\Include\glfw-3.0.4\include;..\Source\Include\glm-0.9.5.4\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

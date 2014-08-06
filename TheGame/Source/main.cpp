@@ -1,12 +1,12 @@
-#include "Util/InputManager.h"
-#include "Util/WindowManager.h"
-#include "Util/GameTime.h"
-
-#include <iostream>
+#include "GameTime.h"
+#include "InputManager.h"
+#include "Renderer.h"
+#include "WindowManager.h"
 
 int main(int argc, char*argv[])
 {
 	WindowManager::Initialize();
+	Renderer::Initialize();
 
 	// defer loading to here
 

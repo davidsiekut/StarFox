@@ -1,7 +1,7 @@
 #include "WindowManager.h"
 #include <GLFW/glfw3.h>
-#include <stdio.h>
 #include <iostream>
+#include <stdio.h>
 
 GLFWwindow* WindowManager::w = NULL;
 
@@ -9,7 +9,7 @@ void WindowManager::Initialize()
 {
 	if (!glfwInit())
 	{
-		fprintf(stderr, "Failed to initialize GLFW\n");
+		fprintf(stderr, "Error in glfwInit()\n");
 		exit(-1);
 	}
 
