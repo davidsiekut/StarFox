@@ -1,3 +1,5 @@
+#version 330
+
 void main(void)
 {
 	vec4 a = gl_Vertex;
