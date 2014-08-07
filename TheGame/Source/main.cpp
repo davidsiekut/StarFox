@@ -5,6 +5,8 @@
 #include "Scene.h"
 #include "Cube.h"
 
+#include <GLFW/glfw3.h>
+
 int main(int argc, char*argv[])
 {
 	WindowManager::Initialize();
@@ -22,7 +24,6 @@ int main(int argc, char*argv[])
 	do
 	{
 		InputManager::Update();
-
 		GameTime::Update();
 		float dt = GameTime::GetFrameTime();
 		scene.Update(dt);
@@ -30,6 +31,8 @@ int main(int argc, char*argv[])
 	} while (WindowManager::ExitRequested() == false);
 
 	// should prolly do cleanup here i dont know
+	Renderer::Shutdown();
+	glfwTerminate();
 
 	return 0;
 }

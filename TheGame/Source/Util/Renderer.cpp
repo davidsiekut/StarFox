@@ -167,4 +167,34 @@ void Renderer::BeginFrame()
 void Renderer::EndFrame()
 {
 	glfwSwapBuffers(w);
+	GLenum err = glGetError();
+	if (err != GL_NO_ERROR)
+	{
+		char* error;
+		switch (err)
+		{
+		case GL_INVALID_ENUM:					error = "GL_INVALID_ENUM"; break;
+		case GL_INVALID_VALUE:					error = "GL_INVALID_VALUE"; break;
+		case GL_INVALID_OPERATION:				error = "GL_INVALID_OPERATION"; break;
+		case GL_INVALID_FRAMEBUFFER_OPERATION:	error = "GL_INVALID_FRAMEBUFFER_OPERATION"; break;
+		case GL_OUT_OF_MEMORY:					error = "GL_OUT_OF_MEMORY"; break;
+		case GL_STACK_UNDERFLOW:				error = "GL_STACK_UNDERFLOW"; break;
+		case GL_STACK_OVERFLOW:					error = "GL_STACK_OVERFLOW"; break;
+		default:								error = "UNKNOWN_ERROR"; break;
+		}
+		fprintf(stderr, "OpenGL Error %s\n", error);
+	}
+}
+
+void Renderer::Shutdown()
+{
+	// Shaders
+	for (std::vector<unsigned int>::iterator it = shaders.begin(); it < shaders.end(); ++it)
+	{
+		glDeleteProgram(*it);
+	}
+	shaders.clear();
+
+	// Managed by WindowManager
+	w = NULL;
 }
