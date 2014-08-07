@@ -11,6 +11,8 @@ public:
 	void Update(float dt);
 	void Draw();
 
+	void AddEntity(Entity* entity);
+
 private:
 	std::vector<Entity*> entities;
 	//glm::vec4 lightPosition;

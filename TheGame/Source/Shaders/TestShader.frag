@@ -1,6 +1,12 @@
-#version 330
+#version 330 core
 
-void main (void)  
-{     
-	gl_FragColor = vec4(0.0, 1.0, 0.0, 1.0);  
-}  
+// Ouput data
+out vec3 color;
+in vec3 v_Color;
+
+void main()
+{
+	// set the fragment color to the interpolated vertex color
+	// Nothing else to do here...
+	color = v_Color;
+}

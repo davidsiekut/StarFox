@@ -1,7 +1,8 @@
 #include "Entity.h"
 #include <glm/gtc/matrix_transform.hpp>
 
-Entity::Entity(Entity *parent) :	name("UNNAMED"), 
+Entity::Entity(Entity *parent) :	name("UNNAMED"),
+									parent(parent),
 									position(0.0f, 0.0f, 0.0f), 
 									scaling(1.0f, 1.0f, 1.0f), 
 									rotationAxis(0.0f, 1.0f, 0.0f), 
@@ -9,7 +10,6 @@ Entity::Entity(Entity *parent) :	name("UNNAMED"),
 									materialCoefficients(0.0, 0.0, 0.0, 1.0),
 									shaderType(ShaderType::SHADER_TEST)
 {
-
 }
 
 Entity::~Entity()
@@ -29,7 +29,9 @@ void Entity::Update(float dt)
 
 void Entity::Draw()
 {
-
+	// Set material properties
+	GLuint materialPropertiesID = glGetUniformLocation(Renderer::GetShaderProgramID(this->shaderType), "materialCoefficients");
+	glUniform4f(materialPropertiesID, materialCoefficients.x, materialCoefficients.y, materialCoefficients.z, materialCoefficients.w);
 }
 
 glm::mat4 Entity::GetWorldMatrix() const

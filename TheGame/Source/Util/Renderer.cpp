@@ -60,26 +60,16 @@ GLuint Renderer::LoadShader(std::string name)
 	//Compile the vertex shader
 	glCompileShader(vertexShader);
 
-	GLint isCompiled = 0;
-	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &isCompiled);
-	if (isCompiled == GL_FALSE)
-	{
-		GLint maxLength = 0;
-		glGetShaderiv(vertexShader, GL_INFO_LOG_LENGTH, &maxLength);
+	int Result;
+	GLint InfoLogLength;
 
-		//The maxLength includes the NULL character
-		std::vector<GLchar> infoLog(maxLength);
-		glGetShaderInfoLog(vertexShader, maxLength, &maxLength, &infoLog[0]);
-
-		//We don't need the shader anymore.
-		glDeleteShader(vertexShader);
-
-		//Use the infoLog as you see fit.
-
-		//In this simple program, we'll just leave
-		//return;
-		getchar();
-		exit(-1);
+	// Check Vertex Shader
+	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &Result);
+	glGetShaderiv(vertexShader, GL_INFO_LOG_LENGTH, &InfoLogLength);
+	if (InfoLogLength > 0){
+		std::vector<char> VertexShaderErrorMessage(InfoLogLength + 1);
+		glGetShaderInfoLog(vertexShader, InfoLogLength, NULL, &VertexShaderErrorMessage[0]);
+		printf("%s\n", &VertexShaderErrorMessage[0]);
 	}
 
 	//Create an empty fragment shader handle
@@ -94,27 +84,13 @@ GLuint Renderer::LoadShader(std::string name)
 	//Compile the fragment shader
 	glCompileShader(fragmentShader);
 
-	glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &isCompiled);
-	if (isCompiled == GL_FALSE)
-	{
-		GLint maxLength = 0;
-		glGetShaderiv(fragmentShader, GL_INFO_LOG_LENGTH, &maxLength);
-
-		//The maxLength includes the NULL character
-		std::vector<GLchar> infoLog(maxLength);
-		glGetShaderInfoLog(fragmentShader, maxLength, &maxLength, &infoLog[0]);
-
-		//We don't need the shader anymore.
-		glDeleteShader(fragmentShader);
-		//Either of them. Don't leak shaders.
-		glDeleteShader(vertexShader);
-
-		//Use the infoLog as you see fit.
-
-		//In this simple program, we'll just leave
-		//return;
-		getchar();
-		exit(-1);
+	// Check Fragment Shader
+	glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &Result);
+	glGetShaderiv(fragmentShader, GL_INFO_LOG_LENGTH, &InfoLogLength);
+	if (InfoLogLength > 0){
+		std::vector<char> FragmentShaderErrorMessage(InfoLogLength + 1);
+		glGetShaderInfoLog(fragmentShader, InfoLogLength, NULL, &FragmentShaderErrorMessage[0]);
+		printf("%s\n", &FragmentShaderErrorMessage[0]);
 	}
 
 	//Vertex and fragment shaders are successfully compiled.
