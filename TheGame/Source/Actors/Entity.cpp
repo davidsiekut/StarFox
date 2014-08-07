@@ -12,7 +12,7 @@ Entity::Entity(Entity *parent) :	name("UNNAMED"),
 									scaling(1.0f, 1.0f, 1.0f), 
 									rotationAxis(0.0f, 1.0f, 0.0f), 
 									rotationAngle(0.0f), 
-									materialCoefficients(0.0, 0.0, 0.0, 1.0),
+									materialCoefficients(0.2f, 0.8f, 0.2f, 50.0f),
 									shaderType(ShaderType::SHADER_SOLID_COLOR),
 									objPath("")
 {
@@ -50,9 +50,6 @@ void Entity::Update(float dt)
 
 void Entity::Draw()
 {
-	// Set material properties
-	//GLuint materialPropertiesID = glGetUniformLocation(Renderer::GetShaderProgramID(this->shaderType), "materialCoefficients");
-	//glUniform4f(materialPropertiesID, materialCoefficients.x, materialCoefficients.y, materialCoefficients.z, materialCoefficients.w);
 
 	glBindVertexArray(vertexArrayID);
 

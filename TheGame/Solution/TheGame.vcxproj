@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\Actors\Entity.cpp" />
+    <ClCompile Include="..\Source\Actors\sphere.cpp" />
     <ClCompile Include="..\Source\main.cpp" />
     <ClCompile Include="..\Source\Util\GameTime.cpp" />
     <ClCompile Include="..\Source\Util\InputManager.cpp" />
@@ -21,6 +22,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Actors\Entity.h" />
+    <ClInclude Include="..\Source\Actors\sphere.h" />
     <ClInclude Include="..\Source\Util\GameTime.h" />
     <ClInclude Include="..\Source\Util\InputManager.h" />
     <ClInclude Include="..\Source\Util\Renderer.h" />
@@ -28,6 +30,8 @@
     <ClInclude Include="..\Source\World\Scene.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\Source\Shaders\Gouraud.frag" />
+    <None Include="..\Source\Shaders\Gouraud.vert" />
     <None Include="..\Source\Shaders\SolidColor.frag" />
     <None Include="..\Source\Shaders\SolidColor.vert" />
   </ItemGroup>

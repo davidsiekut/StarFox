@@ -17,14 +17,4 @@ private:
 	std::vector<Entity*> entities;
 	//glm::vec4 lightPosition;
 	//std::vector<Light*> lights;
-
-	GLuint WorldMatrixID;
-	GLuint ViewMatrixID;
-	GLuint ProjMatrixID;
-
-	GLuint LightPositionID;
-	GLuint LightColorID;
-	GLuint LightAttenuationID;
-
-	GLuint MaterialID;
 };
