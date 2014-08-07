@@ -1,3 +1,4 @@
+#include "Arwing.h"
 #include "Renderer.h"
 #include "Scene.h"
 #include <iostream>
@@ -12,10 +13,8 @@ void Scene::Initialize()
 	// init any scene variable such as lights here
 
 	// defer loading to here
-	Entity* e = new Entity(NULL);
-	e->SetPosition(glm::vec3(0, 0, 0));
-	e->SetScaling(glm::vec3(0.01, 0.01, 0.01));
-	AddEntity(e);
+	Arwing* a = new Arwing(NULL);
+	AddEntity(a);
 }
 
 void Scene::Update(float dt)
@@ -36,8 +35,8 @@ void Scene::Draw()
 	glm::mat4 W(1.0f);
 
 	// TODO implement this into its own camera class
-	glm::mat4 V = glm::lookAt(glm::vec3(5.f, 5.f, -5.f), glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.f, 1.f, 0.f));
-	glm::mat4 P = glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 1000.0f);
+	glm::mat4 V = glm::lookAt(glm::vec3(5.f, 10.f, -30.f), glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.f, 1.f, 0.f));
+	glm::mat4 P = glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.0f);
 
 	for (std::vector<Entity*>::iterator it = entities.begin(); it < entities.end(); ++it)
 	{

@@ -33,6 +33,7 @@ void Renderer::Initialize()
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
 
+	shaders.push_back(LoadShader("SolidColor"));
 	shaders.push_back(LoadShader("Gouraud"));
 }
 

@@ -9,6 +9,7 @@ struct GLFWwindow;
 enum ShaderType
 {
 	SHADER_SOLID_COLOR,
+	SHADER_GOURAUD,
 	NUM_SHADERS
 };
 
@@ -27,6 +28,4 @@ private:
 
 	static GLFWwindow* w;
 	static std::vector<unsigned int> shaders;
-
-	static GLuint Renderer::LoadShaders(const char * vertex_shader_path, const char * fragment_shader_path);
 };

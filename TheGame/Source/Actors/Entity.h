@@ -10,12 +10,12 @@ public:
 	Entity(Entity *parent);
 	virtual ~Entity();
 
-	static void Initialize();
+	void Initialize();
 
 	virtual void Update(float dt);
-	virtual void Draw();
+	void Draw();
 
-	virtual glm::mat4 GetWorldMatrix() const;
+	glm::mat4 GetWorldMatrix() const;
 
 	void SetPosition(glm::vec3 position);
 	void SetScaling(glm::vec3 scaling);
@@ -30,7 +30,6 @@ public:
 	glm::vec4 GetMaterialCoefficients() { return materialCoefficients; }
 
 	ShaderType GetShaderType() { return shaderType; }
-
 
 protected:
 	Entity *parent;

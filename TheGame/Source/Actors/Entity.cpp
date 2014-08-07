@@ -16,20 +16,7 @@ Entity::Entity(Entity *parent) :	name("UNNAMED"),
 									shaderType(ShaderType::SHADER_SOLID_COLOR),
 									objPath("")
 {
-	std::vector<Vertex> buffer;
-	bool res = loadOBJ("../Assets/Models/arwing.obj", buffer);
 
-	// if Vertex struct is modified, this needs to be changed also
-	vertexBufferSize = buffer.size();
-	printf("%i", vertexBufferSize);
-	// create vertex array
-	glGenVertexArrays(1, &vertexArrayID);
-
-	// upload vertexbuffer to the GPU
-	glGenBuffers(1, &vertexBufferID);
-	// and keep a reference to it (vertexBufferID)
-	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferID);
-	glBufferData(GL_ARRAY_BUFFER, buffer.size() * (3 * sizeof(glm::vec3) + sizeof(glm::vec2)), &buffer[0], GL_STATIC_DRAW);
 }
 
 Entity::~Entity()
@@ -40,12 +27,26 @@ Entity::~Entity()
 
 void Entity::Initialize()
 {
+	std::vector<Vertex> buffer;
+	bool res = loadOBJ(objPath, buffer);
 
+	// if Vertex struct is modified, this needs to be changed also
+	vertexBufferSize = buffer.size();
+	//printf("%i", vertexBufferSize);
+
+	// create vertex array
+	glGenVertexArrays(1, &vertexArrayID);
+
+	// upload vertexbuffer to the GPU
+	glGenBuffers(1, &vertexBufferID);
+	// and keep a reference to it (vertexBufferID)
+	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferID);
+	glBufferData(GL_ARRAY_BUFFER, buffer.size() * (3 * sizeof(glm::vec3) + sizeof(glm::vec2)), &buffer[0], GL_STATIC_DRAW);
 }
 
 void Entity::Update(float dt)
 {
-	rotationAngle -= 20 * dt;
+
 }
 
 void Entity::Draw()
@@ -202,7 +203,7 @@ bool Entity::loadOBJ(std::string path, std::vector<Entity::Vertex> &buffer)
 		}
 	}
 
-	srand(time(NULL));
+	srand((int)time(NULL));
 	for (unsigned int i = 0; i < vertexIndices.size(); i++)
 	{
 		unsigned int vertexIndex = vertexIndices[i];
@@ -221,9 +222,9 @@ bool Entity::loadOBJ(std::string path, std::vector<Entity::Vertex> &buffer)
 
 		// give our vertex a random colour
 		// maybe change this when uv tex mapping is added
-		float r = (rand() / (double)(RAND_MAX + 1));
-		float g = (rand() / (double)(RAND_MAX + 1));
-		float b = (rand() / (double)(RAND_MAX + 1));
+		float r = (rand() / (float)(RAND_MAX + 1));
+		float g = (rand() / (float)(RAND_MAX + 1));
+		float b = (rand() / (float)(RAND_MAX + 1));
 		v.color = glm::vec3(r, g, b);
 
 		buffer.push_back(v);

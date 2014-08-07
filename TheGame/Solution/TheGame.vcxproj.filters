@@ -51,7 +51,7 @@
     <ClCompile Include="..\Source\Actors\Entity.cpp">
       <Filter>Source Files\Actors</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Actors\sphere.cpp">
+    <ClCompile Include="..\Source\Actors\Arwing.cpp">
       <Filter>Source Files\Actors</Filter>
     </ClCompile>
   </ItemGroup>
@@ -74,7 +74,7 @@
     <ClInclude Include="..\Source\Actors\Entity.h">
       <Filter>Source Files\Actors</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\Actors\sphere.h">
+    <ClInclude Include="..\Source\Actors\Arwing.h">
       <Filter>Source Files\Actors</Filter>
     </ClInclude>
   </ItemGroup>
