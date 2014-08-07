@@ -4,6 +4,7 @@
 #include "WindowManager.h"
 #include "Scene.h"
 #include "Cube.h"
+#include "sphere.h"
 
 #include <GLFW/glfw3.h>
 
@@ -17,7 +18,7 @@ int main(int argc, char*argv[])
 
 	// defer loading to here
 
-	Cube* c = new Cube();
+	SphereModel* c = new SphereModel(glm::vec3(0,0,0), glm::vec4(0,0,0,0));
 	c->SetPosition(glm::vec3(0, 0, 0));
 	scene.AddEntity(c);
 

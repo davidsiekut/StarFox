@@ -29,11 +29,11 @@ void Renderer::Initialize()
 		exit(-1);
 	}
 
-	glClearColor(0.0f, 0.0f, 0.2f, 0.0f);
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
 
-	shaders.push_back(LoadShader("TestShader"));
+	shaders.push_back(LoadShader("Gouraud"));
 }
 
 GLuint Renderer::LoadShader(std::string name)

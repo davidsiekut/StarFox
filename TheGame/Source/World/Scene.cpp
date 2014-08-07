@@ -38,24 +38,25 @@ void Scene::Draw()
 		// dial it in
 		W = (*it)->GetWorldMatrix();
 
-		WorldMatrixID = glGetUniformLocation(program, "WorldTransform");
-		ViewMatrixID = glGetUniformLocation(program, "ViewTransform");
-		ProjMatrixID = glGetUniformLocation(program, "ProjTransform");
+		GLuint WorldMatrixID = glGetUniformLocation(program, "WorldTransform");
+		GLuint ViewMatrixID = glGetUniformLocation(program, "ViewTransform");
+		GLuint ProjMatrixID = glGetUniformLocation(program, "ProjTransform");
 
-		//LightPositionID = glGetUniformLocation(program, "lPosition_World");
-		//LightColorID = glGetUniformLocation(program, "lColor");
-		//LightAttenuationID = glGetUniformLocation(program, "lAttenuation");
-		//MaterialID = glGetUniformLocation(program, "materialCoefficients");
+		GLuint LightPositionID = glGetUniformLocation(program, "lPosition_World");
+		GLuint lColorID = glGetUniformLocation(program, "lColor");
+		GLuint lAttenuationID = glGetUniformLocation(program, "lAttenuation");
+		GLuint MaterialID = glGetUniformLocation(program, "materialCoefficients");
 
 		// amp it up!
 		glUniformMatrix4fv(WorldMatrixID, 1, GL_FALSE, &W[0][0]);
 		glUniformMatrix4fv(ViewMatrixID, 1, GL_FALSE, &V[0][0]);
 		glUniformMatrix4fv(ProjMatrixID, 1, GL_FALSE, &P[0][0]);
 
-		//glUniform4f(MaterialID, (*it)->GetMaterialCoefficients().x, (*it)->GetMaterialCoefficients().y, (*it)->GetMaterialCoefficients().z, (*it)->GetMaterialCoefficients().w);
-		//glUniform4f(LightPositionID, 5.0f, 5.0f, -5.0f, 1.0f);
-		//glUniform3f(LightColorID, 1.0f, 1.0f, 1.0f);
-		//glUniform3f(LightAttenuationID, 1.0f, 0.0f, 0.02f);
+		glm::vec4 materialCoefficients = (*it)->GetMaterialCoefficients();
+		glUniform4f(MaterialID, materialCoefficients.x, materialCoefficients.y, materialCoefficients.z, materialCoefficients.w);
+		glUniform4f(LightPositionID, 5.0f, 5.0f, -5.0f, 1.0f);
+		glUniform3f(lColorID, 1.0f, 1.0f, 1.0f);
+		glUniform3f(lAttenuationID, 0.0f, 0.0f, 0.02f);
 
 		(*it)->Draw();
 	}
