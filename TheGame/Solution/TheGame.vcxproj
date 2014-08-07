@@ -30,8 +30,8 @@
     <ClInclude Include="..\Source\World\Scene.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Source\Shaders\TestShader.frag" />
-    <None Include="..\Source\Shaders\TestShader.vert" />
+    <None Include="..\Source\Shaders\SolidColor.frag" />
+    <None Include="..\Source\Shaders\SolidColor.vert" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{4D5003D7-211D-46A3-96DD-093E78CA4943}</ProjectGuid>

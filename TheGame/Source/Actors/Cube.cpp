@@ -1,6 +1,4 @@
 #include "Cube.h"
-
-#define GLEW_STATIC
 #include <gl/glew.h>
 
 using namespace glm;

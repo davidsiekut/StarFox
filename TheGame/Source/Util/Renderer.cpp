@@ -8,7 +8,6 @@
 
 GLFWwindow* Renderer::w = NULL;
 std::vector<unsigned int> Renderer::shaders;
-unsigned int Renderer::currentShader;
 
 void Renderer::Initialize()
 {
@@ -26,23 +25,22 @@ void Renderer::Initialize()
 
 	if (glewInit() != GLEW_OK)
 	{
-		fprintf(stderr, "Error in glewInit()\n");
+		fprintf(stderr, "[Renderer] Error in glewInit()\n");
 		exit(-1);
 	}
 
-	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	glClearColor(1.0f, 0.0f, 1.0f, 0.0f);
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
 
-	shaders.push_back(LoadShader("TestShader"));
-	currentShader = 0;
+	shaders.push_back(LoadShader("SolidColor"));
 }
 
 GLuint Renderer::LoadShader(std::string name)
 {
 	//http://www.opengl.org/wiki/Shader_Compilation
 
-	printf("Loading shader '%s'\n", (const GLchar *)name.c_str());
+	printf("[Renderer] Loading shader '%s'\n", (const GLchar *)name.c_str());
 
 	//Read our shaders into the appropriate buffers
 	std::string vertexSource = LoadFromFile("../Source/Shaders/" + name + ".vert"); //Get source code for vertex shader.
@@ -56,7 +54,7 @@ GLuint Renderer::LoadShader(std::string name)
 	const GLchar *source = (const GLchar *)vertexSource.c_str();
 	glShaderSource(vertexShader, 1, &source, 0);
 
-	printf("Compiling vertex...\n");
+	printf("[Renderer] Compiling vertex...\n");
 	//Compile the vertex shader
 	glCompileShader(vertexShader);
 
@@ -66,10 +64,11 @@ GLuint Renderer::LoadShader(std::string name)
 	// Check Vertex Shader
 	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &Result);
 	glGetShaderiv(vertexShader, GL_INFO_LOG_LENGTH, &InfoLogLength);
-	if (InfoLogLength > 0){
+	if (InfoLogLength > 1)
+	{
 		std::vector<char> VertexShaderErrorMessage(InfoLogLength + 1);
 		glGetShaderInfoLog(vertexShader, InfoLogLength, NULL, &VertexShaderErrorMessage[0]);
-		printf("%s\n", &VertexShaderErrorMessage[0]);
+		printf("[Renderer] %s\n", &VertexShaderErrorMessage[0]);
 	}
 
 	//Create an empty fragment shader handle
@@ -80,17 +79,18 @@ GLuint Renderer::LoadShader(std::string name)
 	source = (const GLchar *)fragmentSource.c_str();
 	glShaderSource(fragmentShader, 1, &source, 0);
 
-	printf("Compiling fragment...\n");
+	printf("[Renderer] Compiling fragment...\n");
 	//Compile the fragment shader
 	glCompileShader(fragmentShader);
 
 	// Check Fragment Shader
 	glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &Result);
 	glGetShaderiv(fragmentShader, GL_INFO_LOG_LENGTH, &InfoLogLength);
-	if (InfoLogLength > 0){
+	if (InfoLogLength > 1)
+	{
 		std::vector<char> FragmentShaderErrorMessage(InfoLogLength + 1);
 		glGetShaderInfoLog(fragmentShader, InfoLogLength, NULL, &FragmentShaderErrorMessage[0]);
-		printf("%s\n", &FragmentShaderErrorMessage[0]);
+		printf("[Renderer] %s\n", &FragmentShaderErrorMessage[0]);
 	}
 
 	//Vertex and fragment shaders are successfully compiled.
@@ -102,7 +102,7 @@ GLuint Renderer::LoadShader(std::string name)
 	glAttachShader(program, vertexShader);
 	glAttachShader(program, fragmentShader);
 
-	printf("Linking...\n");
+	printf("[Renderer] Linking...\n");
 	//Link our program
 	glLinkProgram(program);
 
@@ -131,7 +131,7 @@ GLuint Renderer::LoadShader(std::string name)
 		getchar();
 		exit(-1);
 	}
-	printf("Detaching...\n");
+	printf("[Renderer] Detaching...\n");
 	//Always detach shaders after a successful link.
 	glDetachShader(program, vertexShader);
 	glDetachShader(program, fragmentShader);
@@ -146,7 +146,7 @@ std::string Renderer::LoadFromFile(const std::string filename)
 
 	if (!file.good())
 	{
-		printf("Error loading shader file\n");
+		printf("[Renderer] Error loading shader file\n");
 		getchar();
 		exit(-1);
 	}

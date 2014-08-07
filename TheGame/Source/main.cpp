@@ -18,6 +18,7 @@ int main(int argc, char*argv[])
 	Cube* c = new Cube();
 	c->SetPosition(glm::vec3(0, 0, 0));
 	scene.AddEntity(c);
+
 	do
 	{
 		InputManager::Update();

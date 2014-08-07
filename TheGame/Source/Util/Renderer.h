@@ -8,7 +8,7 @@ struct GLFWwindow;
 
 enum ShaderType
 {
-	SHADER_TEST,
+	SHADER_SOLID_COLOR,
 	NUM_SHADERS
 };
 
@@ -18,8 +18,6 @@ public:
 	static void Initialize();
 	static void BeginFrame();
 	static void EndFrame();
-
-	// return program id of shader with type
 	static unsigned int GetShaderProgramID(ShaderType type) { return shaders[static_cast<int>(type)]; }
 
 private:
@@ -28,5 +26,6 @@ private:
 
 	static GLFWwindow* w;
 	static std::vector<unsigned int> shaders;
-	static unsigned int currentShader;
+
+	static GLuint Renderer::LoadShaders(const char * vertex_shader_path, const char * fragment_shader_path);
 };

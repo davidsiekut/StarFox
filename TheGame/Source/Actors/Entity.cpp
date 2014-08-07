@@ -8,8 +8,9 @@ Entity::Entity(Entity *parent) :	name("UNNAMED"),
 									rotationAxis(0.0f, 1.0f, 0.0f), 
 									rotationAngle(0.0f), 
 									materialCoefficients(0.0, 0.0, 0.0, 1.0),
-									shaderType(ShaderType::SHADER_TEST)
+									shaderType(ShaderType::SHADER_SOLID_COLOR)
 {
+
 }
 
 Entity::~Entity()
@@ -30,8 +31,8 @@ void Entity::Update(float dt)
 void Entity::Draw()
 {
 	// Set material properties
-	GLuint materialPropertiesID = glGetUniformLocation(Renderer::GetShaderProgramID(this->shaderType), "materialCoefficients");
-	glUniform4f(materialPropertiesID, materialCoefficients.x, materialCoefficients.y, materialCoefficients.z, materialCoefficients.w);
+	//GLuint materialPropertiesID = glGetUniformLocation(Renderer::GetShaderProgramID(this->shaderType), "materialCoefficients");
+	//glUniform4f(materialPropertiesID, materialCoefficients.x, materialCoefficients.y, materialCoefficients.z, materialCoefficients.w);
 }
 
 glm::mat4 Entity::GetWorldMatrix() const
@@ -52,16 +53,16 @@ glm::mat4 Entity::GetWorldMatrix() const
 
 void Entity::SetPosition(glm::vec3 position)
 {
-	position = position;
+	this->position = position;
 }
 
 void Entity::SetScaling(glm::vec3 scaling)
 {
-	scaling = scaling;
+	this->scaling = scaling;
 }
 
 void Entity::SetRotation(glm::vec3 axis, float angle)
 {
-	rotationAxis = axis;
-	rotationAngle = angle;
+	this->rotationAxis = axis;
+	this->rotationAngle = angle;
 }
