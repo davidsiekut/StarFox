@@ -18,6 +18,7 @@ public:
 	static void Initialize();
 	static void BeginFrame();
 	static void EndFrame();
+	static void Shutdown();
 	static unsigned int GetShaderProgramID(ShaderType type) { return shaders[static_cast<int>(type)]; }
 
 private:
