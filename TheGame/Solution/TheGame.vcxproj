@@ -19,6 +19,8 @@
     <ClCompile Include="..\Source\Util\Renderer.cpp" />
     <ClCompile Include="..\Source\Util\WindowManager.cpp" />
     <ClCompile Include="..\Source\World\Scene.cpp" />
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="ThirdPersonCamera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Actors\Arwing.h" />
@@ -28,6 +30,8 @@
     <ClInclude Include="..\Source\Util\Renderer.h" />
     <ClInclude Include="..\Source\Util\WindowManager.h" />
     <ClInclude Include="..\Source\World\Scene.h" />
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="ThirdPersonCamera.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Source\Shaders\Gouraud.frag" />
@@ -67,6 +71,7 @@
     <OutDir>$(SolutionDir)/../Bin/</OutDir>
     <IntDir>$(SolutionDir)/../Build/$(Configuration)/</IntDir>
     <TargetName>$(ProjectName)-$(Configuration)</TargetName>
+    <ReferencePath>$(VC_ReferencesPath_x86); $(ProjectDir);</ReferencePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>

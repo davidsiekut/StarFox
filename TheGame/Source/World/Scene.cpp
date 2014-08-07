@@ -1,6 +1,7 @@
 #include "Arwing.h"
 #include "Renderer.h"
 #include "Scene.h"
+#include "ThirdPersonCamera.h"
 #include <iostream>
 
 #include <glm/gtc/matrix_transform.hpp>
@@ -15,6 +16,7 @@ void Scene::Initialize()
 	// defer loading to here
 	Arwing* a = new Arwing(NULL);
 	AddEntity(a);
+	ThirdPersonCamera camera = new ThirdPersonCamera(a);
 }
 
 void Scene::Update(float dt)
