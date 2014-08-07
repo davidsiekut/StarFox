@@ -33,7 +33,7 @@ void Renderer::Initialize()
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
 
-	shaders.push_back(LoadShader("SolidColor"));
+	shaders.push_back(LoadShader("TestShader"));
 }
 
 GLuint Renderer::LoadShader(std::string name)
@@ -168,7 +168,7 @@ void Renderer::EndFrame()
 {
 	glfwSwapBuffers(w);
 	GLenum err = glGetError();
-	if (err != GL_NO_ERROR)
+	/*if (err != GL_NO_ERROR)
 	{
 		char* error;
 		switch (err)
@@ -183,7 +183,7 @@ void Renderer::EndFrame()
 		default:								error = "UNKNOWN_ERROR"; break;
 		}
 		fprintf(stderr, "OpenGL Error %s\n", error);
-	}
+	}*/
 }
 
 void Renderer::Shutdown()

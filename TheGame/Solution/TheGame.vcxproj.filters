@@ -85,5 +85,11 @@
     <None Include="..\Source\Shaders\SolidColor.vert">
       <Filter>Source Files\Shaders</Filter>
     </None>
+    <None Include="..\Source\Shaders\TestShader.vert">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="..\Source\Shaders\TestShader.frag">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>
