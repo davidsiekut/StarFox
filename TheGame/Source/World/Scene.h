@@ -7,7 +7,7 @@ class Entity;
 class Scene
 {
 public:
-	static void Initialize();
+	void Initialize();
 	void Update(float dt);
 	void Draw();
 

@@ -21,7 +21,7 @@ void Renderer::Initialize()
 	the glewExperimental global switch can be turned on by setting it to GL_TRUE before calling
 	glewInit(), which ensures that all extensions with valid entry points will be exposed.
 	*/
-	glewExperimental = true;
+	glewExperimental = GL_TRUE;
 
 	if (glewInit() != GLEW_OK)
 	{

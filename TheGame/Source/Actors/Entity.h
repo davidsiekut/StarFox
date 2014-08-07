@@ -30,18 +30,32 @@ public:
 	glm::vec4 GetMaterialCoefficients() { return materialCoefficients; }
 
 	ShaderType GetShaderType() { return shaderType; }
+
+
 protected:
+	Entity *parent;
 	std::string name;
 	glm::vec3 position;
 	glm::vec3 scaling;
 	glm::vec3 rotationAxis;
 	float rotationAngle; // in degrees
 
-	Entity *parent;
-
 	glm::vec4 materialCoefficients; //ka, kd, ks, n
-
 	ShaderType shaderType;
+	std::string objPath;
 
 private:
+	unsigned int vertexArrayID;
+	unsigned int vertexBufferID;
+	unsigned int vertexBufferSize;
+
+	struct Vertex
+	{
+		glm::vec3 position;
+		glm::vec2 uv;
+		glm::vec3 normal;
+		glm::vec3 color;
+	};
+
+	bool loadOBJ(std::string path, std::vector<Vertex> &buffer);
 };

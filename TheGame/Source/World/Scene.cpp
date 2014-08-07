@@ -7,14 +7,24 @@
 
 void Scene::Initialize()
 {
-	printf("Initializing scene...\n");
+	printf("[Scene] Initializing...\n");
 
 	// init any scene variable such as lights here
+
+	// defer loading to here
+	Entity* e = new Entity(NULL);
+	e->SetPosition(glm::vec3(0, 0, 0));
+	e->SetScaling(glm::vec3(0.01, 0.01, 0.01));
+	AddEntity(e);
 }
 
 void Scene::Update(float dt)
 {
 	// update actors
+	for (std::vector<Entity*>::iterator it = entities.begin(); it < entities.end(); ++it)
+	{
+		(*it)->Update(dt);
+	}
 
 	// physics checks go here
 }

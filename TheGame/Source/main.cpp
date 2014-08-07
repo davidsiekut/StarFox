@@ -3,7 +3,6 @@
 #include "Renderer.h"
 #include "WindowManager.h"
 #include "Scene.h"
-#include "Cube.h"
 
 int main(int argc, char*argv[])
 {
@@ -12,12 +11,6 @@ int main(int argc, char*argv[])
 
 	Scene scene = Scene();
 	scene.Initialize();
-
-	// defer loading to here
-
-	Cube* c = new Cube();
-	c->SetPosition(glm::vec3(0, 0, 0));
-	scene.AddEntity(c);
 
 	do
 	{
