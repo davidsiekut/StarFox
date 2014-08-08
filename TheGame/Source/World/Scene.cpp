@@ -1,6 +1,7 @@
 #include "Arwing.h"
 #include "Enemy.h"
 #include "Chunk.h"
+#include "Cube.h"
 #include "Renderer.h"
 #include "Scene.h"
 #include "ThirdPersonCamera.h"
