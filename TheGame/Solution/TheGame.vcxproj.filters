@@ -75,6 +75,9 @@
     <ClCompile Include="..\Source\Camera\GameplayCamera.cpp">
       <Filter>Source Files\Camera</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\Util\EnemyFactory.cpp">
+      <Filter>Source Files\Util</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Util\InputManager.h">
@@ -113,6 +116,9 @@
     <ClInclude Include="..\Source\Camera\GameplayCamera.h">
       <Filter>Source Files\Camera</Filter>
     </ClInclude>
+    <ClInclude Include="..\Source\Util\EnemyFactory.h">
+      <Filter>Source Files\Util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Source\Shaders\SolidColor.frag">
@@ -127,13 +133,5 @@
     <None Include="..\Source\Shaders\Gouraud.vert">
       <Filter>Source Files\Shaders</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Object Include="..\Assets\Models\arwing.obj">
-      <Filter>Resource Files</Filter>
-    </Object>
-    <Object Include="..\Assets\Models\cube.obj">
-      <Filter>Resource Files</Filter>
-    </Object>
   </ItemGroup>
 </Project>

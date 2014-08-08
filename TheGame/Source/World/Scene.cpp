@@ -5,6 +5,7 @@
 #include "Scene.h"
 #include "ThirdPersonCamera.h"
 #include "GameplayCamera.h"
+#include "EnemyFactory.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform.hpp>
@@ -19,6 +20,8 @@ void Scene::Initialize()
 	a = new Arwing(NULL);
 	a->SetPosition(glm::vec3(0.f, 10.f, 0.f));
 	AddEntity(a);
+
+	enemyFactory = new EnemyFactory(a, this);
 
 	camera = new GameplayCamera(40.f, a);
 
@@ -51,6 +54,23 @@ void Scene::Update(float dt)
 		c->SetPosition(glm::vec3(0.f, 0.f, (lastChunk + 1) * Chunk::CHUNK_DEPTH));
 		AddEntity(c);
 		lastChunk++;
+	}
+
+	// Spawn one enemy every 8 seconds.
+	enemyTimer -= dt;
+	if (enemyTimer < 0)
+	{
+		enemyTimer = 8.f;
+		if (left)
+		{
+			enemyFactory->SpawnEnemies(1, EnemyFactory::Direction::LEFT, 12.5f);
+			left = !left;
+		}
+		else
+		{
+			enemyFactory->SpawnEnemies(1, EnemyFactory::Direction::RIGHT, 12.5f);
+			left = !left;
+		}
 	}
 
 	// physics checks go here

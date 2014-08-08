@@ -6,7 +6,7 @@
 // TEMPORARY
 #include <time.h>
 
-Enemy::Enemy(Entity *parent) : Entity(parent)
+Enemy::Enemy(Entity *parent, EnemyFactory::Direction direction) : Entity(parent)
 {
 	name = "ENEMY";
 	scaling = glm::vec3(5, 5, 2);
@@ -17,8 +17,19 @@ Enemy::Enemy(Entity *parent) : Entity(parent)
 	objPath = "../Assets/Models/cube.obj";
 
 	Initialize();
+
+	this->direction = direction;
 }
 
 void Enemy::Update(float dt)
 {
+	if (direction == EnemyFactory::Direction::LEFT)
+	{
+		position.x -= dt * 15.f;
+	}
+	else
+	{
+		position.x += dt * 15.f;
+	}
+	position.z += dt * 10.f;
 }

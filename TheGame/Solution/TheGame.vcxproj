@@ -19,6 +19,7 @@
     <ClCompile Include="..\Source\Camera\GameplayCamera.cpp" />
     <ClCompile Include="..\Source\Camera\ThirdPersonCamera.cpp" />
     <ClCompile Include="..\Source\main.cpp" />
+    <ClCompile Include="..\Source\Util\EnemyFactory.cpp" />
     <ClCompile Include="..\Source\Util\GameTime.cpp" />
     <ClCompile Include="..\Source\Util\InputManager.cpp" />
     <ClCompile Include="..\Source\Util\Renderer.cpp" />
@@ -33,6 +34,7 @@
     <ClInclude Include="..\Source\Camera\Camera.h" />
     <ClInclude Include="..\Source\Camera\GameplayCamera.h" />
     <ClInclude Include="..\Source\Camera\ThirdPersonCamera.h" />
+    <ClInclude Include="..\Source\Util\EnemyFactory.h" />
     <ClInclude Include="..\Source\Util\GameTime.h" />
     <ClInclude Include="..\Source\Util\InputManager.h" />
     <ClInclude Include="..\Source\Util\Renderer.h" />
@@ -44,10 +46,6 @@
     <None Include="..\Source\Shaders\Gouraud.vert" />
     <None Include="..\Source\Shaders\SolidColor.frag" />
     <None Include="..\Source\Shaders\SolidColor.vert" />
-  </ItemGroup>
-  <ItemGroup>
-    <Object Include="..\Assets\Models\arwing.obj" />
-    <Object Include="..\Assets\Models\cube.obj" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{4D5003D7-211D-46A3-96DD-093E78CA4943}</ProjectGuid>
