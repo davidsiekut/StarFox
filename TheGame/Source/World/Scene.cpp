@@ -109,6 +109,14 @@ void Scene::Draw()
 	glm::mat4 V = camera->GetViewMatrix();
 	glm::mat4 P = camera->GetProjectionMatrix();
 
+	// Push all the pewpews into the entities list so they can be drawn
+	for (std::vector<Entity*>::iterator it = a->pewpews.begin(); it < a->pewpews.end(); ++it)
+	{
+		// Commented out because it breaks the game :( --> I'll fix when I unhide.
+		//entities.push_back(*it);
+	}
+
+
 	for (std::vector<Entity*>::iterator it = entities.begin(); it < entities.end(); ++it)
 	{
 		// check it out

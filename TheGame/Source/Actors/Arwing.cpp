@@ -6,6 +6,8 @@
 #define GLM_FORCE_RADIANS
 #define dtor(x) x*(3.141592f/180.0f)
 #include <glm/gtc/matrix_transform.hpp>
+#include "PewPew.h"
+#include "Scene.h"
 
 Arwing::Arwing(Entity *parent) : Entity(parent)
 {
@@ -105,11 +107,30 @@ void Arwing::Update(float dt)
 		position.z += dt * speedZ * 2;
 	}
 	SetPosition(position);
+
+	// Update all the pewpews currently in the Scene - Make them travel along the Z axis
+	// Until they are too far away for the camera to see in which case they get deleted.
+	for (std::vector<Entity*>::iterator it = pewpews.begin(); it < pewpews.end(); ++it)
+	{
+		// If the pew pew is too far ahead, we delete it.
+		if ((*it)->GetPosition().z > position.z + 20.0f)
+		{
+			//pewpews.pop_back();
+		}
+		// Update the rest of the pewpews
+		(*it)->Update(dt);
+	}
 }
 
 void Arwing::Shoot()
 {
 	shotFired = true;
+
+	PewPew* pewpewL = new PewPew(this, glm::vec3(position.x - 0.5f, position.y, position.z));
+	PewPew* pewpewR = new PewPew(this, glm::vec3(position.x + 0.5f, position.y, position.z));
+
+	pewpews.push_back(pewpewL);
+	pewpews.push_back(pewpewR);
 
 	//TODO create lasers here.
 	fprintf(stdout, "pew pew");

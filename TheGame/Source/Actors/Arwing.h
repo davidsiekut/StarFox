@@ -8,8 +8,11 @@ class Arwing : public Entity
 public:
 	Arwing(Entity *parent);
 	void Update(float dt);
+	void Draw();
 
 	void SetMovingForwards(bool forward) { movingForward = forward; }
+
+	std::vector<Entity*> pewpews;
 
 protected:
 
@@ -23,4 +26,5 @@ private:
 	float speedZ;
 	bool movingForward;
 	bool shotFired;
+
 };
