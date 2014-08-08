@@ -1,7 +1,8 @@
 #include "Arwing.h"
 #include "Renderer.h"
 #include "Scene.h"
-#include "ThirdPersonCamera.h"
+#include "../Camera/ThirdPersonCamera.h"
+
 #include <iostream>
 
 #include <glm/gtc/matrix_transform.hpp>
@@ -10,13 +11,13 @@
 void Scene::Initialize()
 {
 	printf("[Scene] Initializing...\n");
-
+	
 	// init any scene variable such as lights here
 
 	// defer loading to here
 	Arwing* a = new Arwing(NULL);
 	AddEntity(a);
-	ThirdPersonCamera camera = new ThirdPersonCamera(a);
+	camera = new ThirdPersonCamera(glm::vec3(0.0f, 0.0f, -25.0f), a);
 }
 
 void Scene::Update(float dt)
@@ -26,19 +27,17 @@ void Scene::Update(float dt)
 	{
 		(*it)->Update(dt);
 	}
-
 	// physics checks go here
 }
 
 void Scene::Draw()
 {
 	Renderer::BeginFrame();
-
 	glm::mat4 W(1.0f);
 
-	// TODO implement this into its own camera class
-	glm::mat4 V = glm::lookAt(glm::vec3(5.f, 10.f, -30.f), glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.f, 1.f, 0.f));
-	glm::mat4 P = glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.0f);
+	// Get the View and Project Matrices
+	glm::mat4 V = camera->GetViewMatrix();
+	glm::mat4 P = camera->GetProjectionMatrix();
 
 	for (std::vector<Entity*>::iterator it = entities.begin(); it < entities.end(); ++it)
 	{
@@ -46,7 +45,7 @@ void Scene::Draw()
 		GLuint program = Renderer::GetShaderProgramID((*it)->GetShaderType());
 		glUseProgram(program);
 
-		// dial it in
+		// Get the World Matrix
 		W = (*it)->GetWorldMatrix();
 
 		GLuint WorldMatrixID = glGetUniformLocation(program, "WorldTransform");

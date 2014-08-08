@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Entity.h"
-#include "ThirdPersonCamera.h"
+#include "../Camera/ThirdPersonCamera.h"
 
 class Entity;
 
@@ -16,6 +16,7 @@ public:
 
 private:
 	std::vector<Entity*> entities;
+	ThirdPersonCamera* camera;
 	//glm::vec4 lightPosition;
 	//std::vector<Light*> lights;
 };

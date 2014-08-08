@@ -4,10 +4,10 @@ class InputManager
 {
 public:
 	static void Update();
+	static float  mouseDeltaX;
+	static float  mouseDeltaY;
 
 private:
 	static double mouseX;
 	static double mouseY;
-	static float  mouseDeltaX;
-	static float  mouseDeltaY;
 };

@@ -12,4 +12,12 @@ public:
 protected:
 
 private:
+	void StrafeUp(float dt);
+	void StrafeUpRelease(float dt);
+	void StrafeDown(float dt);
+	void StrafeDownRelease(float dt);
+
+	float rotationAngle;
+	glm::vec3 position;
+	float speed;
 };
