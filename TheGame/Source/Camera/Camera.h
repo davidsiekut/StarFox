@@ -16,7 +16,9 @@ public:
 	virtual glm::mat4 GetProjectionMatrix() const;
 	glm::mat4 GetViewProjectionMatrix() const;
 
-private:
+protected:
+
+	// The camera will follow this entity
 	Entity* parent;
 
 };

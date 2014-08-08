@@ -25,7 +25,8 @@ Arwing::Arwing(Entity *parent) : Entity(parent)
 	Initialize();
 
 	rotationSpeed = 60.0f;
-	speed = 18.0f;
+	speed = 16.0f;
+	movingForwards = false;
 }
 
 void Arwing::Update(float dt)

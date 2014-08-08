@@ -6,7 +6,7 @@
 class ThirdPersonCamera : public Camera
 {
 public:
-	ThirdPersonCamera(glm::vec3 position, Entity* parentEntity);
+	ThirdPersonCamera(float radiusLength, Entity* parentEntity);
 	virtual ~ThirdPersonCamera();
 
 	virtual void Update(float dt);
@@ -23,4 +23,6 @@ private:
 
 	float alphaMouseAngle;
 	float betaMouseAngle;
+
+	float radiusLength;
 };
