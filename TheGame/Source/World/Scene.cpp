@@ -4,7 +4,6 @@
 #include "Scene.h"
 #include "../Camera/ThirdPersonCamera.h"
 
-#include <iostream>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform.hpp>
 
@@ -19,7 +18,7 @@ void Scene::Initialize()
 	a->SetPosition(glm::vec3(0.f, 5.f, 0.f));
 	AddEntity(a);
 
-	camera = new ThirdPersonCamera(glm::vec3(0.0f, 0.0f, -25.0f), a);
+	camera = new ThirdPersonCamera(glm::vec3(0.0f, 0.0f, -40.0f), a);
 
 	// load initial level geometry
 	for (unsigned int i = 0; i < 20; i++)
