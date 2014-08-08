@@ -21,6 +21,10 @@ Enemy::Enemy(Entity *parent, EnemyFactory::Direction direction, float horizontal
 	this->direction = direction;
 	this->horizontalAxis = horizontalAxis;
 	this->timeElapsed = timeElapsed;
+
+	COLLIDE_X = 5;
+	COLLIDE_Y = 5;
+	COLLIDE_Z = 2;
 }
 
 void Enemy::Update(float dt)
