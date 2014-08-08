@@ -27,6 +27,11 @@ Enemy::Enemy(Entity *parent, EnemyFactory::Direction direction, float horizontal
 	COLLIDE_Z = 2;
 }
 
+Enemy::~Enemy()
+{
+	printf("Enemy deleted");
+}
+
 void Enemy::Update(float dt)
 {
 	if (direction == EnemyFactory::Direction::LEFT)
@@ -42,4 +47,9 @@ void Enemy::Update(float dt)
 	position.y = horizontalAxis + glm::sin(timeElapsed) * 7.f;
 
 	position.z += dt * 15.f;
+
+	if (timeElapsed > 30.f)
+	{
+		markedForDeletion = true;
+	}
 }

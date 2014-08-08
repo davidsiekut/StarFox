@@ -37,6 +37,8 @@ public:
 	float COLLIDE_Y;
 	float COLLIDE_Z;
 
+	bool markedForDeletion;
+
 protected:
 	Entity *parent;
 	std::string name;

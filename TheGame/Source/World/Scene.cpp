@@ -38,6 +38,20 @@ void Scene::Initialize()
 
 void Scene::Update(float dt)
 {
+	// Delete anything that's marked
+	for (std::vector<Entity*>::iterator it = entities.begin(); it < entities.end();)
+	{
+		if ((*it)->markedForDeletion)
+		{
+			delete *it;
+			it = entities.erase(it);
+		}
+		else
+		{
+			it++;
+		}
+	}
+
 	// update actors
 	for (std::vector<Entity*>::iterator it = entities.begin(); it < entities.end(); ++it)
 	{
@@ -46,10 +60,10 @@ void Scene::Update(float dt)
 	camera->Update(dt);
 
 	// update terrain
-	if ((a->GetPosition().z / Chunk::CHUNK_DEPTH) + TERRAIN_LOADAHEAD > lastChunk)
+	/*if ((a->GetPosition().z / Chunk::CHUNK_DEPTH) + TERRAIN_LOADAHEAD > lastChunk)
 	{
 		AddChunk(glm::vec3(0.f, 0.f, lastChunk * Chunk::CHUNK_DEPTH));
-	}
+	}*/
 
 // Spawn one enemy every 8 seconds.
 	enemyTimer -= dt;
