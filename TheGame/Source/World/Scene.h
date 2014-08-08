@@ -26,4 +26,6 @@ private:
 
 	static const unsigned int TERRAIN_PRELOAD;
 	static const unsigned int TERRAIN_LOADAHEAD;
+
+	bool CheckAABBCollision(Entity* b1, Entity* b2);
 };

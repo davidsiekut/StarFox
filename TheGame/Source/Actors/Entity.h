@@ -23,6 +23,7 @@ public:
 
 	std::string GetName() const { return name; }
 	glm::vec3 GetPosition() const { return position; }
+	glm::vec3 GetPositionWorld();
 	glm::vec3 GetScaling() const { return scaling; }
 	glm::vec3 GetRotationAxis() const { return rotationAxis; }
 	float GetRotationAngle() const { return rotationAngle; }
@@ -30,6 +31,11 @@ public:
 	glm::vec4 GetMaterialCoefficients() { return materialCoefficients; }
 
 	ShaderType GetShaderType() { return shaderType; }
+
+	// dimensions of box collider for this entity
+	float COLLIDE_X;
+	float COLLIDE_Y;
+	float COLLIDE_Z;
 
 protected:
 	Entity *parent;

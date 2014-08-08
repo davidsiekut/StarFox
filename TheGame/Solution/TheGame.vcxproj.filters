@@ -28,9 +28,6 @@
     <Filter Include="Source Files\Actors">
       <UniqueIdentifier>{78646391-3c94-4e2e-8576-7e50a684b6fc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\World\Geometry">
-      <UniqueIdentifier>{7772baa2-9204-47e2-9d75-5bfef8ed6e62}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Actors\Geometry">
       <UniqueIdentifier>{17ed15bd-03f2-4944-b172-60a11bac1839}</UniqueIdentifier>
     </Filter>

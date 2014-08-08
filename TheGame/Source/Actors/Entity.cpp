@@ -47,7 +47,27 @@ void Entity::Initialize()
 
 void Entity::Update(float dt)
 {
+	printf("%f, %f, %f\n", GetPositionWorld().x, GetPositionWorld().y, GetPositionWorld().z);
 
+
+	//collider->min = parent->GetPosition() + glm::vec3(-0.5, -0.5, -0.5) * size;
+	//collider->max = parent->GetPosition() + glm::vec3(0.5, 0.5, 0.5) * size;
+}
+
+glm::vec3 Entity::GetPositionWorld()
+{
+	glm::vec3 pos(0.f);
+
+	if (parent != NULL)
+	{
+		pos = parent->GetPositionWorld() + pos;
+	}
+	else
+	{
+		pos = GetPosition();
+	}
+
+	return pos;
 }
 
 void Entity::Draw()
