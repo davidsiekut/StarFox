@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Arwing.h"
 #include "Entity.h"
 
 class Entity;
@@ -17,4 +18,7 @@ private:
 	std::vector<Entity*> entities;
 	//glm::vec4 lightPosition;
 	//std::vector<Light*> lights;
+	Arwing* a;
+
+	int lastChunk = 0;
 };

@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClCompile Include="..\Source\Actors\Arwing.cpp" />
     <ClCompile Include="..\Source\Actors\Entity.cpp" />
+    <ClCompile Include="..\Source\Actors\Geometry\Chunk.cpp" />
     <ClCompile Include="..\Source\main.cpp" />
     <ClCompile Include="..\Source\Util\GameTime.cpp" />
     <ClCompile Include="..\Source\Util\InputManager.cpp" />
@@ -23,6 +24,7 @@
   <ItemGroup>
     <ClInclude Include="..\Source\Actors\Arwing.h" />
     <ClInclude Include="..\Source\Actors\Entity.h" />
+    <ClInclude Include="..\Source\Actors\Geometry\Chunk.h" />
     <ClInclude Include="..\Source\Util\GameTime.h" />
     <ClInclude Include="..\Source\Util\InputManager.h" />
     <ClInclude Include="..\Source\Util\Renderer.h" />
@@ -79,7 +81,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>
       </SDLCheck>
-      <AdditionalIncludeDirectories>..\Source\Actors;..\Source\Util;..\Source\World;..\Source\Include\glew-1.10.0\include;..\Source\Include\glfw-3.0.4\include;..\Source\Include\glm-0.9.5.4</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Source\Actors;..\Source\Actors\Geometry;..\Source\Util;..\Source\World;..\Source\Include\glew-1.10.0\include;..\Source\Include\glfw-3.0.4\include;..\Source\Include\glm-0.9.5.4</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
