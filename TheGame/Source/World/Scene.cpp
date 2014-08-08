@@ -90,7 +90,6 @@ void Scene::Draw()
 	Renderer::BeginFrame();
 	glm::mat4 W(1.0f);
 
-	// Get the View and Project Matrices
 	glm::mat4 V = camera->GetViewMatrix();
 	glm::mat4 P = camera->GetProjectionMatrix();
 
@@ -100,7 +99,6 @@ void Scene::Draw()
 		GLuint program = Renderer::GetShaderProgramID((*it)->GetShaderType());
 		glUseProgram(program);
 
-		// Get the World Matrix
 		W = (*it)->GetWorldMatrix();
 
 		GLuint WorldMatrixID = glGetUniformLocation(program, "WorldTransform");
@@ -144,33 +142,34 @@ void Scene::AddChunk(glm::vec3 pos)
 	chunks.push_back(c);
 	lastChunk++;
 
-	printf("[Scene] Creating cube\n");
+	// add level geometry to this chunk
 	Cube* u = new Cube(c, glm::vec3(10.f, 1.f, 1.f));
 	u->SetPosition(glm::vec3(0.f, 5.f, 0.f));
 	AddEntity(u);
+	printf("[Scene] Creating cube at (%f, %f, %f)\n", u->GetPositionWorld().x, u->GetPositionWorld().y, u->GetPositionWorld().z);
 }
 
 bool Scene::CheckAABBCollision(Entity* b1, Entity* b2)
 {
 	glm::vec3 min1 = glm::vec3(
-		b1->GetPositionWorld().x - b1->COLLIDE_X,
-		b1->GetPositionWorld().y - b1->COLLIDE_Y,
-		b1->GetPositionWorld().z - b1->COLLIDE_Z);
+		b1->GetPositionWorld().x - b1->COLLIDE_X / 2,
+		b1->GetPositionWorld().y - b1->COLLIDE_Y / 2,
+		b1->GetPositionWorld().z - b1->COLLIDE_Z / 2);
 
 	glm::vec3 max1 = glm::vec3(
-		b1->GetPositionWorld().x + b1->COLLIDE_X,
-		b1->GetPositionWorld().y + b1->COLLIDE_Y,
-		b1->GetPositionWorld().z + b1->COLLIDE_Z);
+		b1->GetPositionWorld().x + b1->COLLIDE_X / 2,
+		b1->GetPositionWorld().y + b1->COLLIDE_Y / 2,
+		b1->GetPositionWorld().z + b1->COLLIDE_Z / 2);
 
 	glm::vec3 min2 = glm::vec3(
-		b2->GetPositionWorld().x - b2->COLLIDE_X,
-		b2->GetPositionWorld().y - b2->COLLIDE_Y,
-		b2->GetPositionWorld().z - b2->COLLIDE_Z);
+		b2->GetPositionWorld().x - b2->COLLIDE_X / 2,
+		b2->GetPositionWorld().y - b2->COLLIDE_Y / 2,
+		b2->GetPositionWorld().z - b2->COLLIDE_Z / 2);
 
 	glm::vec3 max2 = glm::vec3(
-		b2->GetPositionWorld().x + b2->COLLIDE_X,
-		b2->GetPositionWorld().y + b2->COLLIDE_Y,
-		b2->GetPositionWorld().z + b2->COLLIDE_Z);
+		b2->GetPositionWorld().x + b2->COLLIDE_X / 2,
+		b2->GetPositionWorld().y + b2->COLLIDE_Y / 2,
+		b2->GetPositionWorld().z + b2->COLLIDE_Z / 2);
 
 	return(max1.x > min2.x &&
 		min1.x < max2.x &&

@@ -4,25 +4,20 @@
 
 Camera::Camera()
 {
-	parent = nullptr;
+	parent = NULL;
 }
 
-Camera::Camera(Entity* parentEntity)
+Camera::Camera(Entity* parent)
 {
-	parent = parentEntity;
+	this->parent = parent;
 }
 
 Camera::~Camera()
 {
-}
 
-glm::mat4 Camera::GetViewProjectionMatrix() const
-{
-	glm::mat4 viewProjection(GetProjectionMatrix()*GetViewMatrix());
-	return viewProjection;
 }
 
 glm::mat4 Camera::GetProjectionMatrix() const
 {
-	return glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.0f);
+	return glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 1000.0f);
 }

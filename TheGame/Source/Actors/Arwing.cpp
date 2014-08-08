@@ -2,30 +2,29 @@
 
 #include "Arwing.h"
 #include "WindowManager.h"
+#include <GLFW/glfw3.h>
 #define GLM_FORCE_RADIANS
 #define dtor(x) x*(3.141592f/180.0f)
 #include <glm/gtc/matrix_transform.hpp>
-#include <GLFW/glfw3.h>
-#include "WindowManager.h"
 
 Arwing::Arwing(Entity *parent) : Entity(parent)
 {
 	name = "ARWING";
-	size = glm::vec3(0.02, 0.02, 0.02);
-	shotFired = false;
+	size = glm::vec3(2.f, 2.f, 2.f);
 	shaderType = SHADER_SOLID_COLOR;
 	//shaderType = SHADER_GOURAUD;
 	objPath = "../Assets/Models/arwing.obj";
 
-	COLLIDE_X = 5.f;
-	COLLIDE_Y = 5.f;
-	COLLIDE_Z = 5.f;
+	COLLIDE_X = size.x;
+	COLLIDE_Y = size.y;
+	COLLIDE_Z = size.z;
 
 	Initialize();
 
 	rotationSpeed = 60.0f;
 	speed = 15.0f;
 	movingForwards = true;
+	shotFired = false;
 }
 
 void Arwing::Update(float dt)

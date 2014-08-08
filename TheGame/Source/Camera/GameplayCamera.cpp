@@ -16,6 +16,7 @@ GameplayCamera::GameplayCamera(float distance, Entity* parent) : Camera(parent)
 
 GameplayCamera::~GameplayCamera()
 {
+
 }
 
 void GameplayCamera::Update(float dt)
@@ -28,10 +29,5 @@ void GameplayCamera::Update(float dt)
 
 glm::mat4 GameplayCamera::GetViewMatrix() const
 {
-	// Calculate the View Matrix
-	return glm::lookAt(
-		mPosition,
-		mViewPoint,
-		glm::vec3(0.f, 1.f, 0.f)
-		);
+	return glm::lookAt(mPosition, mViewPoint, mUpVector);
 }
