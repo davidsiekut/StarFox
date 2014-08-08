@@ -36,6 +36,7 @@ protected:
 	std::string name;
 	glm::vec3 position;
 	glm::vec3 scaling;
+	glm::vec3 size; // use this instead of scaling to prevent parent-child shearing
 	glm::vec3 rotationAxis;
 	float rotationAngle; // in degrees
 

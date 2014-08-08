@@ -1,5 +1,6 @@
 //#include "Arwing.h"
 //#include "Chunk.h"
+#include "Cube.h"
 #include "Renderer.h"
 #include "Scene.h"
 #include <iostream>
@@ -7,7 +8,7 @@
 #include <glm/gtx/transform.hpp>
 
 const unsigned int Scene::TERRAIN_PRELOAD = 5;
-const unsigned int Scene::TERRAIN_LOADAHEAD = 3;
+const unsigned int Scene::TERRAIN_LOADAHEAD = 5;
 
 void Scene::Initialize()
 {
@@ -106,4 +107,13 @@ void Scene::AddChunk(glm::vec3 pos)
 	AddEntity(c);
 	chunks.push_back(c);
 	lastChunk++;
+
+	int r = rand() % 5;
+	if (r == 1)
+	{
+		printf("[Scene] Creating cube\n");
+		Cube* u = new Cube(c, glm::vec3(5.f, 5.f, 5.f));
+		u->SetPosition(glm::vec3(0.f, 5.f, 0.f));
+		AddEntity(u);
+	}
 }
