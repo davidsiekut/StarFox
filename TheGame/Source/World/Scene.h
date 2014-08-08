@@ -2,7 +2,7 @@
 
 #include "Arwing.h"
 #include "Entity.h"
-#include "../Camera/ThirdPersonCamera.h"
+#include "../Camera/Camera.h"
 
 class Entity;
 
@@ -17,7 +17,7 @@ public:
 
 private:
 	std::vector<Entity*> entities;
-	ThirdPersonCamera* camera;
+	Camera* camera;
 	//glm::vec4 lightPosition;
 	//std::vector<Light*> lights;
 	Arwing* a;

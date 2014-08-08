@@ -25,8 +25,8 @@ Arwing::Arwing(Entity *parent) : Entity(parent)
 	Initialize();
 
 	rotationSpeed = 60.0f;
-	speed = 16.0f;
-	movingForwards = false;
+	speed = 15.0f;
+	movingForwards = true;
 }
 
 void Arwing::Update(float dt)
@@ -99,10 +99,10 @@ void Arwing::Update(float dt)
 
 	// Clamp the position so the ship cannot fly offscreen.
 	position.x = glm::clamp(position.x + (direction.x * dt * speed), -15.f, 15.f);
-	position.y = glm::clamp(position.y + (direction.y * dt * speed), -15.f, 15.f);
+	position.y = glm::clamp(position.y + (direction.y * dt * speed), 0.f, 25.f);
 	if (movingForwards) // Constantly move forwards but can be stopped for cinematics or something
 	{
-		position.z += dt*speed/4.f;
+		position.z += dt*speed*2;
 	}
 	SetPosition(position);
 }

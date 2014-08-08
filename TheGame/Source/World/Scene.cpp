@@ -4,6 +4,7 @@
 #include "Renderer.h"
 #include "Scene.h"
 #include "../Camera/ThirdPersonCamera.h"
+#include "../Camera/GameplayCamera.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform.hpp>
@@ -16,10 +17,10 @@ void Scene::Initialize()
 
 	// defer loading to here
 	a = new Arwing(NULL);
-	a->SetPosition(glm::vec3(0.f, 5.f, 0.f));
+	a->SetPosition(glm::vec3(0.f, 10.f, 0.f));
 	AddEntity(a);
 
-	camera = new ThirdPersonCamera(40.f, a);
+	camera = new GameplayCamera(40.f, a);
 
 	// load initial level geometry
 	for (unsigned int i = 0; i < 20; i++)

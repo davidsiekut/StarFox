@@ -72,6 +72,9 @@
     <ClCompile Include="..\Source\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\Camera\GameplayCamera.cpp">
+      <Filter>Source Files\Camera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Util\InputManager.h">
@@ -106,6 +109,9 @@
     </ClInclude>
     <ClInclude Include="..\Source\Actors\Enemy.h">
       <Filter>Source Files\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Camera\GameplayCamera.h">
+      <Filter>Source Files\Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
