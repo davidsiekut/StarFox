@@ -36,9 +36,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Source\main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\Source\Util\InputManager.cpp">
       <Filter>Source Files\Util</Filter>
     </ClCompile>
@@ -62,14 +59,18 @@
     </ClCompile>
     <ClCompile Include="..\Source\Actors\Geometry\Chunk.cpp">
       <Filter>Source Files\Actors\Geometry</Filter>
-    <ClCompile Include="..\Source\Actors\Enemy.cpp">
-      <Filter>Source Files\Actors</Filter>
     </ClCompile>
     <ClCompile Include="..\Source\Camera\Camera.cpp">
       <Filter>Source Files\Camera</Filter>
     </ClCompile>
     <ClCompile Include="..\Source\Camera\ThirdPersonCamera.cpp">
       <Filter>Source Files\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Actors\Enemy.cpp">
+      <Filter>Source Files\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\main.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
