@@ -6,7 +6,7 @@
 class Enemy : public Entity
 {
 public:
-	Enemy(Entity *parent, EnemyFactory::Direction direction);
+	Enemy(Entity *parent, EnemyFactory::Direction direction, float horizontalAxis);
 
 	void Update(float dt);
 
@@ -14,4 +14,6 @@ protected:
 
 private:
 	EnemyFactory::Direction direction;
+	float timeElapsed;
+	float horizontalAxis;
 };

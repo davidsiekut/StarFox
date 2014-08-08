@@ -58,12 +58,12 @@ void Scene::Update(float dt)
 		enemyTimer = 8.f;
 		if (left)
 		{
-			enemyFactory->SpawnEnemies(1, EnemyFactory::Direction::LEFT, 12.5f);
+			enemyFactory->SpawnEnemies(3, EnemyFactory::Direction::LEFT, 12.5f);
 			left = !left;
 		}
 		else
 		{
-			enemyFactory->SpawnEnemies(1, EnemyFactory::Direction::RIGHT, 12.5f);
+			enemyFactory->SpawnEnemies(3, EnemyFactory::Direction::RIGHT, 12.5f);
 			left = !left;
 		}
 	}	// physics checks go here
