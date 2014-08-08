@@ -10,6 +10,7 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform.hpp>
+#include <time.h>
 
 const unsigned int Scene::TERRAIN_PRELOAD = 5;
 const unsigned int Scene::TERRAIN_LOADAHEAD = 5;
@@ -17,7 +18,8 @@ const unsigned int Scene::TERRAIN_LOADAHEAD = 5;
 void Scene::Initialize()
 {
 	printf("[Scene] Initializing...\n");
-	
+
+	srand((int)time(NULL));
 	// init any scene variable such as lights here
 
 	// defer loading to here
@@ -65,7 +67,7 @@ void Scene::Update(float dt)
 		AddChunk(glm::vec3(0.f, 0.f, lastChunk * Chunk::CHUNK_DEPTH));
 	}
 
-// Spawn one enemy every 8 seconds.
+	// Spawn one enemy every 8 seconds.
 	enemyTimer -= dt;
 	if (enemyTimer < 0)
 	{
@@ -156,9 +158,10 @@ void Scene::AddChunk(glm::vec3 pos)
 	chunks.push_back(c);
 	lastChunk++;
 
+	int s = (rand() % 40) - 20;
 	// add level geometry to this chunk
-	Cube* u = new Cube(c, glm::vec3(10.f, 1.f, 1.f));
-	u->SetPosition(glm::vec3(0.f, 5.f, 0.f));
+	Cube* u = new Cube(c, glm::vec3(5.f, 20.f, 5.f));
+	u->SetPosition(glm::vec3(s, 10.f, 0.f));
 	AddEntity(u);
 	printf("[Scene] Creating cube at (%f, %f, %f)\n", u->GetPositionWorld().x, u->GetPositionWorld().y, u->GetPositionWorld().z);
 }
