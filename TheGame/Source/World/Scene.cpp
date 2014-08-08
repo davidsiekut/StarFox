@@ -79,7 +79,7 @@ void Scene::Update(float dt)
 			// check intersection of arwing collider and entity
 			if (CheckAABBCollision(a, (*it)))
 			{
-				printf("[Physics] Arwing hit -> %s\n", (*it)->GetName());
+				printf("[Physics] Arwing hit -> %s\n", (*it)->GetName().c_str());
 			}
 		}
 	}
