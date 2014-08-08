@@ -9,7 +9,7 @@ public:
 	Arwing(Entity *parent);
 	void Update(float dt);
 
-	void SetMovingForwards(bool forwards) { movingForwards = forwards; }
+	void SetMovingForwards(bool forward) { movingForward = forward; }
 
 protected:
 
@@ -18,7 +18,9 @@ private:
 
 	float rotationAngle;
 	float rotationSpeed;
-	float speed;
-	bool movingForwards;
+	float speedX;
+	float speedY;
+	float speedZ;
+	bool movingForward;
 	bool shotFired;
 };
