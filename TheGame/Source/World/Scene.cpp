@@ -48,6 +48,11 @@ void Scene::Update(float dt)
 			delete *it;
 			it = entities.erase(it);
 		}
+		else if ((*it)->GetPositionWorld().z < a->GetPositionWorld().z - Chunk::CHUNK_DEPTH)
+		{
+			delete *it;
+			it = entities.erase(it);
+		}
 		else
 		{
 			it++;

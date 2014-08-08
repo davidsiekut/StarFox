@@ -16,6 +16,11 @@ Cube::Cube(Entity *parent, glm::vec3 size) : Entity(parent)
 	Initialize();
 }
 
+Cube::~Cube()
+{
+	printf("[Cleanup] Cube deleted\n");
+}
+
 void Cube::Update(float dt)
 {
 	//rotationAngle += 100 * dt;
