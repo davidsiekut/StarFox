@@ -1,10 +1,13 @@
-#include "Arwing.h"
-#include "Chunk.h"
+//#include "Arwing.h"
+//#include "Chunk.h"
 #include "Renderer.h"
 #include "Scene.h"
 #include <iostream>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform.hpp>
+
+const unsigned int Scene::TERRAIN_PRELOAD = 5;
+const unsigned int Scene::TERRAIN_LOADAHEAD = 3;
 
 void Scene::Initialize()
 {
@@ -18,14 +21,10 @@ void Scene::Initialize()
 	AddEntity(a);
 
 	// load initial level geometry
-	for (unsigned int i = 0; i < 20; i++)
+	for (unsigned int i = 0; i < TERRAIN_PRELOAD; i++)
 	{
-		Chunk* c = new Chunk(NULL);
-		c->SetPosition(glm::vec3(0.f, 0.f, i * Chunk::CHUNK_DEPTH));
-		AddEntity(c);
-
+		AddChunk(glm::vec3(0.f, 0.f, i * Chunk::CHUNK_DEPTH));
 	}
-	lastChunk = 10;
 }
 
 void Scene::Update(float dt)
@@ -37,20 +36,10 @@ void Scene::Update(float dt)
 	}
 
 	//update terrain
-	glm::vec3 pos = a->GetPosition();
-
-	printf("%f\n", pos.z);
-
-	if (pos.z / 10 > lastChunk)
+	if ((a->GetPosition().z / Chunk::CHUNK_DEPTH) + TERRAIN_LOADAHEAD > lastChunk)
 	{
-		printf("Creating chunk %i", lastChunk);
-		Chunk* c = new Chunk(NULL);
-		c->SetPosition(glm::vec3(0.f, 0.f, (lastChunk + 1) * Chunk::CHUNK_DEPTH));
-		AddEntity(c);
-		lastChunk++;
+		AddChunk(glm::vec3(0.f, 0.f, lastChunk * Chunk::CHUNK_DEPTH));
 	}
-
-
 
 	// physics checks go here
 }
@@ -107,4 +96,14 @@ void Scene::Draw()
 void Scene::AddEntity(Entity* entity)
 {
 	entities.push_back(entity);
+}
+
+void Scene::AddChunk(glm::vec3 pos)
+{
+	printf("[Scene] Creating chunk %i\n", lastChunk);
+	Chunk* c = new Chunk(NULL);
+	c->SetPosition(pos);
+	AddEntity(c);
+	chunks.push_back(c);
+	lastChunk++;
 }
