@@ -24,9 +24,8 @@ Arwing::Arwing(Entity *parent) : Entity(parent)
 
 	Initialize();
 
-	rotationAngle = GetRotationAngle();
-	position = GetPosition();
-	speed = 50.0f;
+	rotationSpeed = 60.0f;
+	speed = 18.0f;
 }
 
 void Arwing::Update(float dt)
@@ -73,23 +72,13 @@ void Arwing::Update(float dt)
 		if (prevRotation == rotationAxis)
 		{
 			// Force the rotation to be between 0 and 20 degrees.
-			angle = glm::clamp(angle + dt * 60, 0.f, 20.f);
+			angle = glm::clamp(angle + dt * rotationSpeed, 0.f, 20.f);
 			SetRotation(rotationAxis, angle);
 		}
 		else
 		{
-			// Lean back towards the center
-			angle = glm::clamp(angle - dt * 60, 0.f, 20.f);
-
-			// Once the center is reached, the rotation axis can be changed.
-			if (angle == 0)
-			{
-				SetRotation(rotationAxis, angle);
-			}
-			else
-			{
-				SetRotation(prevRotation, angle);
-			}
+			// Reset to the center when changing directions
+			SetRotation(rotationAxis, 0);
 		}
 	}
 	else
@@ -99,14 +88,21 @@ void Arwing::Update(float dt)
 		// Only decrease the angle up to a certain tolerance.
 		if (angle >= 0.5f)
 		{
-			angle -= 60.f * dt;
+			angle -= rotationSpeed * dt;
 			glm::vec3 rotationAxis = GetRotationAxis();
 			SetRotation(rotationAxis, angle);
 		}
 	}
 
 	glm::vec3 position = GetPosition();
-	position += direction * dt * 15.f;
+
+	// Clamp the position so the ship cannot fly offscreen.
+	position.x = glm::clamp(position.x + (direction.x * dt * speed), -15.f, 15.f);
+	position.y = glm::clamp(position.y + (direction.y * dt * speed), -15.f, 15.f);
+	if (movingForwards) // Constantly move forwards but can be stopped for cinematics or something
+	{
+		position.z += dt*speed/4.f;
+	}
 	SetPosition(position);
 }
 

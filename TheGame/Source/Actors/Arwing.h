@@ -9,6 +9,8 @@ public:
 
 	void Update(float dt);
 
+	void SetMovingForwards(bool forwards) { movingForwards = forwards; }
+
 protected:
 
 private:
@@ -16,16 +18,9 @@ private:
 	void Shoot();
 
 	bool shotFired;
-	void StrafeUp(float dt);
-	void StrafeUpRelease(float dt);
-	void StrafeDown(float dt);
-	void StrafeDownRelease(float dt);
-	void StrafeRight(float dt);
-	void StrafeRightRelease(float dt);
-	void StrafeLeft(float dt);
-	void StrafeLeftRelease(float dt);
 
 	float rotationAngle;
-	glm::vec3 position;
+	float rotationSpeed;
 	float speed;
+	bool movingForwards;
 };
