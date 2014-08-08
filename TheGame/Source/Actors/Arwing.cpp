@@ -8,19 +8,18 @@
 #include <GLFW/glfw3.h>
 #include "WindowManager.h"
 
-// TEMPORARY
-#include <time.h>
-
 Arwing::Arwing(Entity *parent) : Entity(parent)
 {
 	name = "ARWING";
+	size = glm::vec3(0.02, 0.02, 0.02);
 	shotFired = false;
-	scaling = glm::vec3(0.02, 0.02, 0.02);
-
-	//shaderType = SHADER_SOLID_COLOR;
-	shaderType = SHADER_GOURAUD;
-
+	shaderType = SHADER_SOLID_COLOR;
+	//shaderType = SHADER_GOURAUD;
 	objPath = "../Assets/Models/arwing.obj";
+
+	COLLIDE_X = 5.f;
+	COLLIDE_Y = 5.f;
+	COLLIDE_Z = 5.f;
 
 	Initialize();
 

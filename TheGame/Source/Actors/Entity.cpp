@@ -6,14 +6,15 @@
 // TEMPORARY
 #include <time.h>
 
-Entity::Entity(Entity *parent) :	name("UNNAMED"),
-									parent(parent),
+Entity::Entity(Entity *parent) :	name("UNNAMED"), 
+									parent(parent), 
 									position(0.0f, 0.0f, 0.0f), 
 									scaling(1.0f, 1.0f, 1.0f), 
+									size(1.0f, 1.0f, 1.0f), 
 									rotationAxis(0.0f, 1.0f, 0.0f), 
 									rotationAngle(0.0f), 
-									materialCoefficients(0.2f, 0.8f, 0.2f, 50.0f),
-									shaderType(ShaderType::SHADER_SOLID_COLOR),
+									materialCoefficients(0.2f, 0.8f, 0.2f, 50.0f), 
+									shaderType(ShaderType::SHADER_SOLID_COLOR), 
 									objPath("")
 {
 
@@ -46,7 +47,27 @@ void Entity::Initialize()
 
 void Entity::Update(float dt)
 {
+	printf("%f, %f, %f\n", GetPositionWorld().x, GetPositionWorld().y, GetPositionWorld().z);
 
+
+	//collider->min = parent->GetPosition() + glm::vec3(-0.5, -0.5, -0.5) * size;
+	//collider->max = parent->GetPosition() + glm::vec3(0.5, 0.5, 0.5) * size;
+}
+
+glm::vec3 Entity::GetPositionWorld()
+{
+	glm::vec3 pos(0.f);
+
+	if (parent != NULL)
+	{
+		pos = parent->GetPositionWorld() + pos;
+	}
+	else
+	{
+		pos = GetPosition();
+	}
+
+	return pos;
 }
 
 void Entity::Draw()
@@ -168,6 +189,10 @@ bool Entity::loadOBJ(std::string path, std::vector<Entity::Vertex> &buffer)
 		{
 			glm::vec3 vertex;
 			fscanf(file, "%f %f %f\n", &vertex.x, &vertex.y, &vertex.z);
+			// rescale all vertices based on predefined size
+			vertex.x = vertex.x * this->size.x;
+			vertex.y = vertex.y * this->size.y;
+			vertex.z = vertex.z * this->size.z;
 			temp_vertices.push_back(vertex);
 		}
 		else if (strcmp(lineHeader, "vt") == 0)
