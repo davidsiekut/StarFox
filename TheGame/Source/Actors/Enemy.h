@@ -6,7 +6,7 @@
 class Enemy : public Entity
 {
 public:
-	Enemy(Entity *parent, EnemyFactory::Direction direction, float horizontalAxis);
+	Enemy(Entity *parent, EnemyFactory::Direction direction, float horizontalAxis, float timeElapsed);
 
 	void Update(float dt);
 

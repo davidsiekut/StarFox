@@ -6,7 +6,7 @@
 // TEMPORARY
 #include <time.h>
 
-Enemy::Enemy(Entity *parent, EnemyFactory::Direction direction, float horizontalAxis) : Entity(parent)
+Enemy::Enemy(Entity *parent, EnemyFactory::Direction direction, float horizontalAxis, float timeElapsed) : Entity(parent)
 {
 	name = "ENEMY";
 	scaling = glm::vec3(5, 5, 2);
@@ -20,7 +20,7 @@ Enemy::Enemy(Entity *parent, EnemyFactory::Direction direction, float horizontal
 
 	this->direction = direction;
 	this->horizontalAxis = horizontalAxis;
-	timeElapsed = 0.0f;
+	this->timeElapsed = timeElapsed;
 }
 
 void Enemy::Update(float dt)
@@ -37,5 +37,5 @@ void Enemy::Update(float dt)
 	timeElapsed += dt * 5.f;
 	position.y = horizontalAxis + glm::sin(timeElapsed) * 7.f;
 
-	position.z += dt * 13.5f;
+	position.z += dt * 15.f;
 }
