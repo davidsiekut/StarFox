@@ -63,6 +63,12 @@
     <ClCompile Include="..\Source\Actors\Geometry\Chunk.cpp">
       <Filter>Source Files\Actors\Geometry</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\Camera\Camera.cpp">
+      <Filter>Source Files\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Camera\ThirdPersonCamera.cpp">
+      <Filter>Source Files\Camera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Util\InputManager.h">
@@ -88,6 +94,12 @@
     </ClInclude>
     <ClInclude Include="..\Source\Actors\Geometry\Chunk.h">
       <Filter>Source Files\Actors\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Camera\Camera.h">
+      <Filter>Source Files\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Camera\ThirdPersonCamera.h">
+      <Filter>Source Files\Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -18,6 +18,7 @@ void Scene::Initialize()
 	a = new Arwing(NULL);
 	a->SetPosition(glm::vec3(0.f, 5.f, 0.f));
 	AddEntity(a);
+
 	camera = new ThirdPersonCamera(glm::vec3(0.0f, 0.0f, -25.0f), a);
 
 	// load initial level geometry

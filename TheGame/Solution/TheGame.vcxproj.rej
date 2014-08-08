@@ -1,0 +1,17 @@
+diff a/TheGame/Solution/TheGame.vcxproj b/TheGame/Solution/TheGame.vcxproj	(rejected hunks)
+@@ -13,6 +13,7 @@
+   <ItemGroup>
+     <ClCompile Include="..\Source\Actors\Arwing.cpp" />
+     <ClCompile Include="..\Source\Actors\Entity.cpp" />
++    <ClCompile Include="..\Source\Actors\Geometry\Chunk.cpp" />
+     <ClCompile Include="..\Source\main.cpp" />
+     <ClCompile Include="..\Source\Util\GameTime.cpp" />
+     <ClCompile Include="..\Source\Util\InputManager.cpp" />
+@@ -23,6 +24,7 @@
+   <ItemGroup>
+     <ClInclude Include="..\Source\Actors\Arwing.h" />
+     <ClInclude Include="..\Source\Actors\Entity.h" />
++    <ClInclude Include="..\Source\Actors\Geometry\Chunk.h" />
+     <ClInclude Include="..\Source\Util\GameTime.h" />
+     <ClInclude Include="..\Source\Util\InputManager.h" />
+     <ClInclude Include="..\Source\Util\Renderer.h" />
