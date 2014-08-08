@@ -15,14 +15,14 @@ Arwing::Arwing(Entity *parent) : Entity(parent)
 	//shaderType = SHADER_GOURAUD;
 	objPath = "../Assets/Models/arwing.obj";
 
-	COLLIDE_X = size.x;
-	COLLIDE_Y = size.y;
-	COLLIDE_Z = size.z;
+	COLLIDE_X = 7.8f;
+	COLLIDE_Y = 1.5f;
+	COLLIDE_Z = 2.0f;
 
 	Initialize();
 
 	rotationSpeed = 60.0f;
-	speed = 15.0f;
+	speed = 30.0f;
 	movingForwards = true;
 	shotFired = false;
 }
@@ -97,7 +97,7 @@ void Arwing::Update(float dt)
 
 	// Clamp the position so the ship cannot fly offscreen.
 	position.x = glm::clamp(position.x + (direction.x * dt * speed), -15.f, 15.f);
-	position.y = glm::clamp(position.y + (direction.y * dt * speed), 0.f, 25.f);
+	position.y = glm::clamp(position.y + (direction.y * dt * speed), 1.5f, 25.f);
 	if (movingForwards) // Constantly move forwards but can be stopped for cinematics or something
 	{
 		position.z += dt*speed*2;

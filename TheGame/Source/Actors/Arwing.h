@@ -14,13 +14,11 @@ public:
 protected:
 
 private:
-
 	void Shoot();
-
-	bool shotFired;
 
 	float rotationAngle;
 	float rotationSpeed;
 	float speed;
 	bool movingForwards;
+	bool shotFired;
 };

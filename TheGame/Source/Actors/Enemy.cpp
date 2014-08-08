@@ -9,7 +9,7 @@
 Enemy::Enemy(Entity *parent, EnemyFactory::Direction direction, float horizontalAxis, float timeElapsed) : Entity(parent)
 {
 	name = "ENEMY";
-	scaling = glm::vec3(5, 5, 2);
+	size = glm::vec3(5, 5, 20);
 
 	shaderType = SHADER_SOLID_COLOR;
 	//shaderType = SHADER_GOURAUD;
@@ -22,14 +22,14 @@ Enemy::Enemy(Entity *parent, EnemyFactory::Direction direction, float horizontal
 	this->horizontalAxis = horizontalAxis;
 	this->timeElapsed = timeElapsed;
 
-	COLLIDE_X = 5;
-	COLLIDE_Y = 5;
-	COLLIDE_Z = 2;
+	COLLIDE_X = size.x;
+	COLLIDE_Y = size.y;
+	COLLIDE_Z = size.z;
 }
 
 Enemy::~Enemy()
 {
-	printf("Enemy deleted");
+	printf("[Cleanup] Enemy deleted\n");
 }
 
 void Enemy::Update(float dt)

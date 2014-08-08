@@ -1,7 +1,7 @@
 #include "Chunk.h"
 
 const float Chunk::CHUNK_DEPTH = 60.f;
-const float Chunk::CHUNK_WIDTH = 50.f;
+const float Chunk::CHUNK_WIDTH = 300.f;
 
 Chunk::Chunk(Entity *parent) : Entity(parent)
 {
@@ -13,6 +13,11 @@ Chunk::Chunk(Entity *parent) : Entity(parent)
 	objPath = "../Assets/Models/cube.obj";
 
 	Initialize();
+}
+
+Chunk::~Chunk()
+{
+
 }
 
 void Chunk::Update(float dt)
