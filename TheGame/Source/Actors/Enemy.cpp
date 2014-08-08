@@ -6,7 +6,7 @@
 // TEMPORARY
 #include <time.h>
 
-Enemy::Enemy(Entity *parent, EnemyFactory::Direction direction) : Entity(parent)
+Enemy::Enemy(Entity *parent, EnemyFactory::Direction direction, float horizontalAxis, float timeElapsed) : Entity(parent)
 {
 	name = "ENEMY";
 	scaling = glm::vec3(5, 5, 2);
@@ -19,6 +19,17 @@ Enemy::Enemy(Entity *parent, EnemyFactory::Direction direction) : Entity(parent)
 	Initialize();
 
 	this->direction = direction;
+	this->horizontalAxis = horizontalAxis;
+	this->timeElapsed = timeElapsed;
+
+	COLLIDE_X = 5;
+	COLLIDE_Y = 5;
+	COLLIDE_Z = 2;
+}
+
+Enemy::~Enemy()
+{
+	printf("Enemy deleted");
 }
 
 void Enemy::Update(float dt)
@@ -31,5 +42,14 @@ void Enemy::Update(float dt)
 	{
 		position.x += dt * 15.f;
 	}
-	position.z += dt * 10.f;
+
+	timeElapsed += dt * 5.f;
+	position.y = horizontalAxis + glm::sin(timeElapsed) * 7.f;
+
+	position.z += dt * 15.f;
+
+	if (timeElapsed > 30.f)
+	{
+		markedForDeletion = true;
+	}
 }

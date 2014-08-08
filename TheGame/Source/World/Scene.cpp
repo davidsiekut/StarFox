@@ -38,6 +38,20 @@ void Scene::Initialize()
 
 void Scene::Update(float dt)
 {
+	// Delete anything that's marked
+	for (std::vector<Entity*>::iterator it = entities.begin(); it < entities.end();)
+	{
+		if ((*it)->markedForDeletion)
+		{
+			delete *it;
+			it = entities.erase(it);
+		}
+		else
+		{
+			it++;
+		}
+	}
+
 	// update actors
 	for (std::vector<Entity*>::iterator it = entities.begin(); it < entities.end(); ++it)
 	{
@@ -58,12 +72,12 @@ void Scene::Update(float dt)
 		enemyTimer = 8.f;
 		if (left)
 		{
-			enemyFactory->SpawnEnemies(1, EnemyFactory::Direction::LEFT, 12.5f);
+			enemyFactory->SpawnEnemies(3, EnemyFactory::Direction::LEFT, 12.5f);
 			left = !left;
 		}
 		else
 		{
-			enemyFactory->SpawnEnemies(1, EnemyFactory::Direction::RIGHT, 12.5f);
+			enemyFactory->SpawnEnemies(3, EnemyFactory::Direction::RIGHT, 12.5f);
 			left = !left;
 		}
 	}	// physics checks go here
@@ -79,7 +93,7 @@ void Scene::Update(float dt)
 			// check intersection of arwing collider and entity
 			if (CheckAABBCollision(a, (*it)))
 			{
-				printf("[Physics] Arwing hit -> %s\n", (*it)->GetName());
+				printf("[Physics] Arwing hit -> %s\n", (*it)->GetName().c_str());
 			}
 		}
 	}

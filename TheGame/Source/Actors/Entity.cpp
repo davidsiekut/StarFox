@@ -6,18 +6,19 @@
 // TEMPORARY
 #include <time.h>
 
-Entity::Entity(Entity *parent) :	name("UNNAMED"), 
-									parent(parent), 
-									position(0.0f, 0.0f, 0.0f), 
-									scaling(1.0f, 1.0f, 1.0f), 
-									size(1.0f, 1.0f, 1.0f), 
-									rotationAxis(0.0f, 1.0f, 0.0f), 
-									rotationAngle(0.0f), 
-									materialCoefficients(0.2f, 0.8f, 0.2f, 50.0f), 
-									shaderType(ShaderType::SHADER_SOLID_COLOR), 
-									objPath("")
+Entity::Entity(Entity *parent) :	name("UNNAMED"),
+									parent(parent),
+									position(0.0f, 0.0f, 0.0f),
+									scaling(1.0f, 1.0f, 1.0f),
+									size(1.0f, 1.0f, 1.0f),
+									rotationAxis(0.0f, 1.0f, 0.0f),
+									rotationAngle(0.0f),
+									materialCoefficients(0.2f, 0.8f, 0.2f, 50.0f),
+									shaderType(ShaderType::SHADER_SOLID_COLOR),
+									objPath(""),
+									markedForDeletion(false)
 {
-
+	
 }
 
 Entity::~Entity()
