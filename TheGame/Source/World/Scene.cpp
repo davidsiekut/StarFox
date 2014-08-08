@@ -3,8 +3,8 @@
 #include "Chunk.h"
 #include "Renderer.h"
 #include "Scene.h"
-#include "../Camera/ThirdPersonCamera.h"
-#include "../Camera/GameplayCamera.h"
+#include "ThirdPersonCamera.h"
+#include "GameplayCamera.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform.hpp>

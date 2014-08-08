@@ -2,7 +2,7 @@
 
 #include "Arwing.h"
 #include "Entity.h"
-#include "../Camera/Camera.h"
+#include "Camera.h"
 
 class Entity;
 

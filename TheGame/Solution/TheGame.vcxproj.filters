@@ -128,4 +128,12 @@
       <Filter>Source Files\Shaders</Filter>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <Object Include="..\Assets\Models\arwing.obj">
+      <Filter>Resource Files</Filter>
+    </Object>
+    <Object Include="..\Assets\Models\cube.obj">
+      <Filter>Resource Files</Filter>
+    </Object>
+  </ItemGroup>
 </Project>

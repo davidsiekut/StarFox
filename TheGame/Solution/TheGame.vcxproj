@@ -45,6 +45,10 @@
     <None Include="..\Source\Shaders\SolidColor.frag" />
     <None Include="..\Source\Shaders\SolidColor.vert" />
   </ItemGroup>
+  <ItemGroup>
+    <Object Include="..\Assets\Models\arwing.obj" />
+    <Object Include="..\Assets\Models\cube.obj" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{4D5003D7-211D-46A3-96DD-093E78CA4943}</ProjectGuid>
     <RootNamespace>TheGame</RootNamespace>
@@ -89,7 +93,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>
       </SDLCheck>
-      <AdditionalIncludeDirectories>..\Source\Actors;..\Source\Actors\Geometry;..\Source\Util;..\Source\World;..\Source\Include\glew-1.10.0\include;..\Source\Include\glfw-3.0.4\include;..\Source\Include\glm-0.9.5.4</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Source\Camera;..\Source\Actors;..\Source\Actors\Geometry;..\Source\Util;..\Source\World;..\Source\Include\glew-1.10.0\include;..\Source\Include\glfw-3.0.4\include;..\Source\Include\glm-0.9.5.4</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
