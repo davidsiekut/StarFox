@@ -1,6 +1,4 @@
 #include "Arwing.h"
-#define GLM_FORCE_RADIANS
-#define dtor(x) x*(3.141592f/180.0f)
 #include <glm/gtc/matrix_transform.hpp>
 #include <GLFW/glfw3.h>
 #include "WindowManager.h"
@@ -17,8 +15,8 @@ Arwing::Arwing(Entity *parent) : Entity(parent)
 	name = "ARWING";
 	scaling = glm::vec3(0.02, 0.02, 0.02);
 
-	shaderType = SHADER_SOLID_COLOR;
-	//shaderType = SHADER_GOURAUD;
+	//shaderType = SHADER_SOLID_COLOR;
+	shaderType = SHADER_GOURAUD;
 
 	objPath = "../Assets/Models/arwing.obj";
 
@@ -31,6 +29,7 @@ Arwing::Arwing(Entity *parent) : Entity(parent)
 
 void Arwing::Update(float dt)
 {
+<<<<<<< HEAD
 	if (glfwGetKey(WindowManager::GetWindow(), GLFW_KEY_UP) == GLFW_PRESS || glfwGetKey(WindowManager::GetWindow(), GLFW_KEY_W) == GLFW_PRESS)
 	{
 		StrafeUp(dt);
@@ -109,3 +108,7 @@ void Arwing::StrafeDownRelease(float deltaTime)
 	SetRotation(rotationAxis, rotationAngle);
 }
 
+=======
+	position.z += 60 * dt;
+}
+>>>>>>> 7bdae7188d2aaf47581d839b868fd552b7bd98b3

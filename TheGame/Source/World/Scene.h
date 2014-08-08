@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Arwing.h"
 #include "Entity.h"
 #include "../Camera/ThirdPersonCamera.h"
 
@@ -19,4 +20,7 @@ private:
 	ThirdPersonCamera* camera;
 	//glm::vec4 lightPosition;
 	//std::vector<Light*> lights;
+	Arwing* a;
+
+	int lastChunk = 0;
 };

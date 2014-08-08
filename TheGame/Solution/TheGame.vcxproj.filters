@@ -5,6 +5,14 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
     <Filter Include="Source Files\Util">
       <UniqueIdentifier>{28787196-cd60-4eb5-8874-fd7266c9fff1}</UniqueIdentifier>
     </Filter>
@@ -14,11 +22,17 @@
     <Filter Include="Source Files\World">
       <UniqueIdentifier>{81eaebc3-c0ed-4774-9d21-9e43de021d05}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Camera">
+      <UniqueIdentifier>{aef53197-b742-442d-bd7b-6237942bf20f}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Source Files\Actors">
       <UniqueIdentifier>{78646391-3c94-4e2e-8576-7e50a684b6fc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Camera">
-      <UniqueIdentifier>{1d8035c4-0268-4906-b4f6-836e3eb78727}</UniqueIdentifier>
+    <Filter Include="Source Files\World\Geometry">
+      <UniqueIdentifier>{7772baa2-9204-47e2-9d75-5bfef8ed6e62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Actors\Geometry">
+      <UniqueIdentifier>{17ed15bd-03f2-4944-b172-60a11bac1839}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -46,11 +60,8 @@
     <ClCompile Include="..\Source\Actors\Arwing.cpp">
       <Filter>Source Files\Actors</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Camera\Camera.cpp">
-      <Filter>Source Files\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Source\Camera\ThirdPersonCamera.cpp">
-      <Filter>Source Files\Camera</Filter>
+    <ClCompile Include="..\Source\Actors\Geometry\Chunk.cpp">
+      <Filter>Source Files\Actors\Geometry</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -75,11 +86,8 @@
     <ClInclude Include="..\Source\Actors\Arwing.h">
       <Filter>Source Files\Actors</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\Camera\Camera.h">
-      <Filter>Source Files\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Camera\ThirdPersonCamera.h">
-      <Filter>Source Files\Camera</Filter>
+    <ClInclude Include="..\Source\Actors\Geometry\Chunk.h">
+      <Filter>Source Files\Actors\Geometry</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
