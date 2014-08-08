@@ -29,7 +29,6 @@ Arwing::Arwing(Entity *parent) : Entity(parent)
 
 void Arwing::Update(float dt)
 {
-<<<<<<< HEAD
 	if (glfwGetKey(WindowManager::GetWindow(), GLFW_KEY_UP) == GLFW_PRESS || glfwGetKey(WindowManager::GetWindow(), GLFW_KEY_W) == GLFW_PRESS)
 	{
 		StrafeUp(dt);
@@ -107,8 +106,3 @@ void Arwing::StrafeDownRelease(float deltaTime)
 	rotationAngle = 0.0f;
 	SetRotation(rotationAxis, rotationAngle);
 }
-
-=======
-	position.z += 60 * dt;
-}
->>>>>>> 7bdae7188d2aaf47581d839b868fd552b7bd98b3
