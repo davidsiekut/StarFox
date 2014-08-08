@@ -1,4 +1,9 @@
+#pragma once
+
 #include "Arwing.h"
+#include "WindowManager.h"
+#define GLM_FORCE_RADIANS
+#define dtor(x) x*(3.141592f/180.0f)
 #include <glm/gtc/matrix_transform.hpp>
 #include <GLFW/glfw3.h>
 #include "WindowManager.h"
@@ -9,6 +14,7 @@
 Arwing::Arwing(Entity *parent) : Entity(parent)
 {
 	name = "ARWING";
+	shotFired = false;
 	scaling = glm::vec3(0.02, 0.02, 0.02);
 
 	//shaderType = SHADER_SOLID_COLOR;
@@ -25,137 +31,89 @@ Arwing::Arwing(Entity *parent) : Entity(parent)
 
 void Arwing::Update(float dt)
 {
-	if (glfwGetKey(WindowManager::GetWindow(), GLFW_KEY_UP) == GLFW_PRESS || glfwGetKey(WindowManager::GetWindow(), GLFW_KEY_W) == GLFW_PRESS)
+	GLFWwindow* w = WindowManager::GetWindow();
+
+	// Shoot action. If the space bar is already pressed then do not create more lasers.
+	if (glfwGetKey(w, GLFW_KEY_SPACE) == GLFW_PRESS && !shotFired)
 	{
-		StrafeUp(dt);
-		if (glfwGetKey(WindowManager::GetWindow(), GLFW_KEY_UP) == GLFW_RELEASE || glfwGetKey(WindowManager::GetWindow(), GLFW_KEY_W) == GLFW_RELEASE)
+		Shoot();
+	}
+	else if (glfwGetKey(w, GLFW_KEY_SPACE) == GLFW_RELEASE)
+	{
+		shotFired = false;
+	}
+
+	// Get the directional input
+	glm::vec3 direction = glm::vec3(0, 0, 0);
+	if (glfwGetKey(w, GLFW_KEY_W) == GLFW_PRESS)
+	{
+		direction.y++;
+	}
+	if (glfwGetKey(w, GLFW_KEY_S) == GLFW_PRESS)
+	{
+		direction.y--;
+	}
+	if (glfwGetKey(w, GLFW_KEY_D) == GLFW_PRESS)
+	{
+		direction.x--;
+	}
+	if (glfwGetKey(w, GLFW_KEY_A) == GLFW_PRESS)
+	{
+		direction.x++;
+	}
+
+	// If there is no direction then align the ship back with the -z axis.
+	if (glm::length(direction) > 0)
+	{
+		// The rotation axis is defined by forwards (z-axis) crossed with the directional input
+		glm::vec3 rotationAxis = glm::cross(glm::vec3(0, 0, 1), direction);
+		glm::vec3 prevRotation = GetRotationAxis();
+		float angle = GetRotationAngle();
+
+		if (prevRotation == rotationAxis)
 		{
-			StrafeUpRelease(dt);
+			// Force the rotation to be between 0 and 20 degrees.
+			angle = glm::clamp(angle + dt * 60, 0.f, 20.f);
+			SetRotation(rotationAxis, angle);
+		}
+		else
+		{
+			// Lean back towards the center
+			angle = glm::clamp(angle - dt * 60, 0.f, 20.f);
+
+			// Once the center is reached, the rotation axis can be changed.
+			if (angle == 0)
+			{
+				SetRotation(rotationAxis, angle);
+			}
+			else
+			{
+				SetRotation(prevRotation, angle);
+			}
 		}
 	}
-	else if (glfwGetKey(WindowManager::GetWindow(), GLFW_KEY_DOWN) == GLFW_PRESS || glfwGetKey(WindowManager::GetWindow(), GLFW_KEY_S) == GLFW_PRESS)
+	else
 	{
-		StrafeDown(dt);
-		if (glfwGetKey(WindowManager::GetWindow(), GLFW_KEY_DOWN) == GLFW_RELEASE || glfwGetKey(WindowManager::GetWindow(), GLFW_KEY_S) == GLFW_RELEASE)
+		float angle = GetRotationAngle();
+
+		// Only decrease the angle up to a certain tolerance.
+		if (angle >= 0.5f)
 		{
-			StrafeDownRelease(dt);
+			angle -= 60.f * dt;
+			glm::vec3 rotationAxis = GetRotationAxis();
+			SetRotation(rotationAxis, angle);
 		}
 	}
 
-	if (glfwGetKey(WindowManager::GetWindow(), GLFW_KEY_RIGHT) == GLFW_PRESS || glfwGetKey(WindowManager::GetWindow(), GLFW_KEY_D) == GLFW_PRESS)
-	{
-		StrafeRight(dt);
-		if (glfwGetKey(WindowManager::GetWindow(), GLFW_KEY_RIGHT) == GLFW_RELEASE || glfwGetKey(WindowManager::GetWindow(), GLFW_KEY_D) == GLFW_RELEASE)
-		{
-			//StrafeRightRelease(dt);
-		}
-	}
-	else if (glfwGetKey(WindowManager::GetWindow(), GLFW_KEY_LEFT) == GLFW_PRESS || glfwGetKey(WindowManager::GetWindow(), GLFW_KEY_A) == GLFW_PRESS)
-	{
-		StrafeLeft(dt);
-		if (glfwGetKey(WindowManager::GetWindow(), GLFW_KEY_LEFT) == GLFW_RELEASE || glfwGetKey(WindowManager::GetWindow(), GLFW_KEY_A) == GLFW_RELEASE)
-		{
-			StrafeLeftRelease(dt);
-		}
-	}
+	glm::vec3 position = GetPosition();
+	position += direction * dt * 15.f;
+	SetPosition(position);
 }
 
-void Arwing::StrafeUp(float deltaTime)
+void Arwing::Shoot()
 {
-	glm::vec3 rotationAxis(1.0, 0.0, 0.0);
+	shotFired = true;
 
-	if (rotationAngle > -45.0f)
-	{
-		rotationAngle -= 5.0f;
-		SetRotation(rotationAxis, rotationAngle);
-	}
-
-	if (position.y < 11.0f)
-	{
-		position.y += 1.0f * deltaTime * speed;
-		SetPosition(glm::vec3(position.x, position.y, position.z));
-	}
-}
-
-void Arwing::StrafeUpRelease(float deltaTime)
-{
-	glm::vec3 rotationAxis(1.0, 0.0, 0.0);
-
-	rotationAngle = 0.0f;
-	SetRotation(rotationAxis, rotationAngle);
-}
-
-void Arwing::StrafeDown(float deltaTime)
-{
-	glm::vec3 rotationAxis(1.0, 0.0, 0.0);
-
-	if (rotationAngle < 45.0f)
-	{
-		rotationAngle += 5.0f;
-		SetRotation(rotationAxis, rotationAngle);
-	}
-
-	if (position.y > -10.0f)
-	{
-		position.y -= 1.0f * deltaTime * speed;
-		SetPosition(glm::vec3(position.x, position.y, position.z));
-	}
-}
-
-void Arwing::StrafeDownRelease(float deltaTime)
-{
-	glm::vec3 rotationAxis(1.0, 0.0, 0.0);
-
-	rotationAngle = 0.0f;
-	SetRotation(rotationAxis, rotationAngle);
-}
-
-void Arwing::StrafeRight(float deltaTime)
-{
-	glm::vec3 rotationAxis(0.0, 1.0, 0.0);
-
-	if (rotationAngle < -15.0f)
-	{
-		rotationAngle -= 5.0f;
-		SetRotation(rotationAxis, rotationAngle);
-	}
-
-	if (position.x > -12.0f)
-	{
-		position.x -= 1.0f * deltaTime * speed;
-		SetPosition(glm::vec3(position.x, position.y, position.z));
-	}
-}
-
-void Arwing::StrafeRightRelease(float deltaTime)
-{
-	glm::vec3 rotationAxis(0.0, 1.0, 0.0);
-
-	rotationAngle = 0.0f;
-	SetRotation(rotationAxis, rotationAngle);
-}
-
-void Arwing::StrafeLeft(float deltaTime)
-{
-	glm::vec3 rotationAxis(0.0, 1.0, 0.0);
-
-	if (rotationAngle  -15.0f)
-	{
-		rotationAngle -= 5.0f;
-		SetRotation(rotationAxis, rotationAngle);
-	}
-
-	if (position.x < 12.0f)
-	{
-		position.x += 1.0f * deltaTime * speed;
-		SetPosition(glm::vec3(position.x, position.y, position.z));
-	}
-}
-
-void Arwing::StrafeLeftRelease(float deltaTime)
-{
-	glm::vec3 rotationAxis(0.0, 1.0, 0.0);
-
-	rotationAngle = 0.0f;
-	SetRotation(rotationAxis, rotationAngle);
+	//TODO create lasers here.
+	fprintf(stdout, "pew pew");
 }

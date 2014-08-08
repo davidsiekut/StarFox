@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\Actors\Arwing.cpp" />
+    <ClCompile Include="..\Source\Actors\Enemy.cpp" />
     <ClCompile Include="..\Source\Actors\Entity.cpp" />
     <ClCompile Include="..\Source\Actors\Geometry\Chunk.cpp" />
     <ClCompile Include="..\Source\Camera\Camera.cpp" />
@@ -25,6 +26,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Actors\Arwing.h" />
+    <ClInclude Include="..\Source\Actors\Enemy.h" />
     <ClInclude Include="..\Source\Actors\Entity.h" />
     <ClInclude Include="..\Source\Actors\Geometry\Chunk.h" />
     <ClInclude Include="..\Source\Camera\Camera.h" />

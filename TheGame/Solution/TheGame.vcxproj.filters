@@ -62,6 +62,8 @@
     </ClCompile>
     <ClCompile Include="..\Source\Actors\Geometry\Chunk.cpp">
       <Filter>Source Files\Actors\Geometry</Filter>
+    <ClCompile Include="..\Source\Actors\Enemy.cpp">
+      <Filter>Source Files\Actors</Filter>
     </ClCompile>
     <ClCompile Include="..\Source\Camera\Camera.cpp">
       <Filter>Source Files\Camera</Filter>
@@ -100,6 +102,9 @@
     </ClInclude>
     <ClInclude Include="..\Source\Camera\ThirdPersonCamera.h">
       <Filter>Source Files\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Actors\Enemy.h">
+      <Filter>Source Files\Actors</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

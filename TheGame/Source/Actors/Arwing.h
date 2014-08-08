@@ -12,6 +12,10 @@ public:
 protected:
 
 private:
+
+	void Shoot();
+
+	bool shotFired;
 	void StrafeUp(float dt);
 	void StrafeUpRelease(float dt);
 	void StrafeDown(float dt);
