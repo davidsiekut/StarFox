@@ -174,7 +174,10 @@ bool Entity::loadOBJ(std::string path, std::vector<Entity::Vertex> &buffer)
 		// read the first word of the line
 		int res = fscanf(file, "%s", lineHeader);
 		if (res == EOF)
+		{
+			fclose(file);
 			break; // EOF = End Of File. Quit the loop.
+		}
 
 		// else : parse lineHeader
 		if (strcmp(lineHeader, "v") == 0)
