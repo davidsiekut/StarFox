@@ -26,7 +26,7 @@ Arwing::Arwing(Entity *parent) : Entity(parent)
 	rotationSpeed = 60.0f;
 	speedX = 20.0f;
 	speedY = 15.0f;
-	speedZ = 50.0f;
+	speedZ = 80.0f;
 	movingForward = true;
 	shotFired = false;
 }
@@ -104,7 +104,7 @@ void Arwing::Update(float dt)
 	position.y = glm::clamp(position.y + (direction.y * dt * speedY), 1.5f, 25.f);
 	if (movingForward) // Constantly move forwards but can be stopped for cinematics or something
 	{
-		position.z += dt * speedZ * 2;
+		position.z += dt * speedZ;
 	}
 	SetPosition(position);
 

@@ -48,6 +48,11 @@ void Scene::Update(float dt)
 			delete *it;
 			it = entities.erase(it);
 		}
+		else if ((*it)->GetPositionWorld().z < a->GetPositionWorld().z - Chunk::CHUNK_DEPTH)
+		{
+			delete *it;
+			it = entities.erase(it);
+		}
 		else
 		{
 			it++;
@@ -82,7 +87,9 @@ void Scene::Update(float dt)
 			enemyFactory->SpawnEnemies(3, EnemyFactory::Direction::RIGHT, 12.5f);
 			left = !left;
 		}
-	}	// physics checks go here
+	}
+	
+	// physics checks
 	for (std::vector<Entity*>::iterator it = entities.begin(); it < entities.end(); ++it)
 	{
 		std::string s1 = "ARWING";
@@ -104,8 +111,8 @@ void Scene::Update(float dt)
 void Scene::Draw()
 {
 	Renderer::BeginFrame();
-	glm::mat4 W(1.0f);
 
+	glm::mat4 W(1.0f);
 	glm::mat4 V = camera->GetViewMatrix();
 	glm::mat4 P = camera->GetProjectionMatrix();
 
