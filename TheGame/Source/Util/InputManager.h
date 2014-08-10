@@ -5,8 +5,8 @@
 class InputManager
 {
 public:
-	static void Initialize(Scene* s, Arwing* a);
-	static void Update();
+	static void Initialize(Arwing* a);
+	static void Update(float dt);
 
 	static float  mouseDeltaX;
 	static float  mouseDeltaY;
@@ -17,6 +17,5 @@ private:
 	static bool shotsFired;
 	static void Fire();
 
-	static Scene* scene;
 	static Arwing* arwing;
 };

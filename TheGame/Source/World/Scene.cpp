@@ -19,6 +19,11 @@ const unsigned int Scene::TERRAIN_LOADAHEAD = 5;
 #define MAXTEXTURES 2
 Texture textures[MAXTEXTURES];
 
+Scene::Scene()
+{
+
+}
+
 void Scene::Initialize()
 {
 	printf("[Scene] Initializing...\n");
