@@ -1,6 +1,7 @@
 #include "PewPew.h"
+#include "Arwing.h"
 
-PewPew::PewPew(Entity *parent, glm::vec3 size) : Entity(parent)
+PewPew::PewPew(Entity *parent, glm::vec3 size, Arwing *arwing) : Entity(parent), arwing(arwing)
 {
 	name = "PEWPEW";
 	this->size = size;
@@ -17,10 +18,15 @@ PewPew::PewPew(Entity *parent, glm::vec3 size) : Entity(parent)
 
 	Initialize();
 
-	pewpewSpeed = 25.0f;
+	pewpewSpeed = 25.f;
 }
 
 void PewPew::Update(float dt)
 {
-	position.z += 1.0f * dt * pewpewSpeed;
+	position.z += 5.0f * dt * pewpewSpeed;
+
+	if (position.z > arwing->GetPosition().z + 100.0f)
+	{
+		markedForDeletion = true;
+	}
 }

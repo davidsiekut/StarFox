@@ -36,7 +36,7 @@ void Arwing::Update(float dt)
 	// Shoot action. If the space bar is already pressed then do not create more lasers.
 	if (glfwGetKey(w, GLFW_KEY_SPACE) == GLFW_PRESS && !shotFired)
 	{
-		Shoot();
+		AddPewPew();
 	}
 	else if (glfwGetKey(w, GLFW_KEY_SPACE) == GLFW_RELEASE)
 	{
@@ -105,31 +105,38 @@ void Arwing::Update(float dt)
 		position.z += dt * speedZ;
 	}
 	SetPosition(position);
-
-	// Update all the pewpews currently in the Scene - Make them travel along the Z axis
-	// Until they are too far away for the camera to see in which case they get deleted.
-	for (std::vector<Entity*>::iterator it = pewpews.begin(); it < pewpews.end(); ++it)
-	{
-		// If the pew pew is too far ahead, we delete it.
-		if ((*it)->GetPosition().z > position.z + 20.0f)
-		{
-			//pewpews.pop_back();
-		}
-		// Update the rest of the pewpews
-		(*it)->Update(dt);
-	}
 }
 
-void Arwing::Shoot()
+void Arwing::AddPewPew()
 {
 	shotFired = true;
 
-	PewPew* pewpewL = new PewPew(this, glm::vec3(position.x - 0.5f, position.y, position.z));
-	PewPew* pewpewR = new PewPew(this, glm::vec3(position.x + 0.5f, position.y, position.z));
+	PewPew* pewpewL = new PewPew(NULL, glm::vec3(0.5f , 0.5f, 2.f), this);
+	PewPew* pewpewR = new PewPew(NULL, glm::vec3(0.5f, 0.5f, 2.f), this);
 
+	// Set the positions to the current location of the Arwing +- 0.25 so that it shoots from the sides
+	pewpewL->SetPosition(glm::vec3(position.x - 1.f, position.y - 0.35f, position.z));
+	pewpewR->SetPosition(glm::vec3(position.x + 1.f, position.y - 0.35f, position.z));
+
+	// Put the pewpews in the list
 	pewpews.push_back(pewpewL);
 	pewpews.push_back(pewpewR);
 
 	//TODO create lasers here.
 	fprintf(stdout, "pew pew");
+}
+
+
+void Arwing::Shoot(Scene* scene)
+{
+	// Add all the pewpews into the scene entities vector and then clear the list (so we don't add the same pewpews over and over)
+	for (unsigned int pewpewIndex = 0; pewpewIndex < pewpews.size(); pewpewIndex++)
+	{
+		scene->AddEntity(pewpews[pewpewIndex]);
+
+		if (pewpewIndex == pewpews.size() - 1)
+		{
+			pewpews.clear();
+		}
+	}
 }

@@ -105,6 +105,7 @@ void Scene::Update(float dt)
 
 	// spawn new enemies?
 	enemyFactory->SpawnCheck(dt);
+	a->Shoot(this);
 }
 
 void Scene::Draw()
@@ -123,7 +124,6 @@ void Scene::Draw()
 	quad 1 unit wide and 1/2 unit tall. You need to draw your objects larger in order to see anything useful.*/
 
 	P = camera->GetProjectionMatrix(); 
-
 	for (std::vector<Entity*>::iterator it = entities.begin(); it < entities.end(); ++it)
 	{
 		GLuint program = Renderer::GetShaderProgramID((*it)->GetShaderType());

@@ -3,21 +3,21 @@
 #include "Cube.h"
 #include "Entity.h"
 
+class Scene;
+
 class Arwing : public Entity
 {
 public:
 	Arwing(Entity *parent);
 	void Update(float dt);
-	void Draw();
-
 	void SetMovingForwards(bool forward) { movingForward = forward; }
-
-	std::vector<Entity*> pewpews;
+	void Shoot(Scene* scene);
 
 protected:
 
 private:
-	void Shoot();
+	std::vector<Entity*> pewpews;
+	void AddPewPew();
 
 	float rotationAngle;
 	float rotationSpeed;
@@ -26,5 +26,4 @@ private:
 	float speedZ;
 	bool movingForward;
 	bool shotFired;
-
 };
