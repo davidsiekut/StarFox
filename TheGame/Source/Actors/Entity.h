@@ -38,7 +38,8 @@ public:
 	float COLLIDE_Y;
 	float COLLIDE_Z;
 
-	float shield = 100.f;
+	float GetShieldAmount() { return shield; };
+	void TakeDamage(float f);
 	float invicibilityFrames = 0.f;
 	bool markedForDeletion;
 
@@ -56,6 +57,8 @@ protected:
 	std::string objPath;
 	unsigned int textureID;
 
+
+
 private:
 	unsigned int vertexArrayID;
 	unsigned int vertexBufferID;
@@ -70,4 +73,7 @@ private:
 	};
 
 	bool loadOBJ(std::string path, std::vector<Vertex> &buffer);
+
+	// gameplay stuff
+	float shield = 100.f;
 };

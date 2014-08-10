@@ -37,7 +37,7 @@ Enemy::~Enemy()
 
 void Enemy::Update(float dt)
 {
-	if (shield <= 0)
+	if (GetShieldAmount() <= 0)
 	{
 		markedForDeletion = true;
 	}
@@ -68,6 +68,6 @@ void Enemy::OnCollision(Entity* other)
 {
 	if (other->GetName() == "PEWPEW")
 	{
-		shield -= ((PewPew*)other)->damage;
+		TakeDamage(((PewPew*)other)->damage);
 	}
 }

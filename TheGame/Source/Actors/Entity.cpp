@@ -258,3 +258,8 @@ void Entity::OnCollision(Entity* other)
 {
 
 }
+
+void Entity::TakeDamage(float f)
+{
+	shield -= f;
+}

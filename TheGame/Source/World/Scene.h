@@ -1,10 +1,10 @@
 #pragma once
 
 #include "Arwing.h"
-#include "Chunk.h"
-#include "Entity.h"
 #include "Camera.h"
+#include "Chunk.h"
 #include "EnemyFactory.h"
+#include "Entity.h"
 
 class Entity;
 class EnemyFactory;

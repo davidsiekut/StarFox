@@ -30,7 +30,7 @@ Arwing::Arwing(Entity *parent) : Entity(parent)
 
 void Arwing::Update(float dt)
 {
-	if (shield <= 0)
+	if (GetShieldAmount() <= 0)
 	{
 		printf("[Player] Game over\n");
 		movingForward = false;
@@ -115,7 +115,7 @@ void Arwing::OnCollision(Entity* other)
 		if (other->GetName() == "ENEMY" ||
 			other->GetName() == "CUBE")
 		{
-			shield -= 10.f;
+			TakeDamage(10);
 			invicibilityFrames = 2.f;
 		}
 	}
