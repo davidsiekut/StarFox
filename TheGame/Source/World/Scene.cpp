@@ -38,7 +38,7 @@ void Scene::Initialize()
 	AddEntity(a);
 
 	// setup some other stuff
-	enemyFactory = new EnemyFactory(a, this);
+	enemyFactory = new EnemyFactory(a);
 	camera = new GameplayCamera(40.f, a);
 
 	// load initial level geometry
