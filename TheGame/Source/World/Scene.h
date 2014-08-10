@@ -19,6 +19,8 @@ public:
 	void AddEntity(Entity* entity);
 	void AddChunk(glm::vec3 pos);
 
+	Arwing* GetPlayer() { return a; }
+
 private:
 	std::vector<Entity*> entities;
 	std::vector<Chunk*> chunks;

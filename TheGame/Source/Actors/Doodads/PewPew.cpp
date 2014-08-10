@@ -1,31 +1,28 @@
 #include "PewPew.h"
-#include "Arwing.h"
 
-PewPew::PewPew(Entity *parent, glm::vec3 size, Arwing *arwing) : Entity(parent), arwing(arwing)
+const float PewPew::PEWPEW_LIFETIME = 0.5f;
+const float PewPew::PEWPEW_SPEED = 290.f;
+
+PewPew::PewPew() : Entity(NULL)
 {
 	name = "PEWPEW";
-	this->size = size;
-
-	shaderType = SHADER_SOLID_COLOR;
-	//shaderType = SHADER_GOURAUD;
-
-	// TODO Make this load the pewpew.obj (it's giving an error for some reason)
-	objPath = "../Assets/Models/cube.obj";
+	this->size = glm::vec3(2.f, 2.f, 10.f);
+	objPath = "../Assets/Models/pewpew.obj";
 
 	COLLIDE_X = size.x;
 	COLLIDE_Y = size.y;
 	COLLIDE_Z = size.z;
 
 	Initialize();
-
-	pewpewSpeed = 25.f;
 }
 
 void PewPew::Update(float dt)
 {
-	position.z += 5.0f * dt * pewpewSpeed;
+	position.z += dt * PEWPEW_SPEED;
 
-	if (position.z > arwing->GetPosition().z + 100.0f)
+	timeElapsed += dt;
+
+	if (timeElapsed > PEWPEW_LIFETIME)
 	{
 		markedForDeletion = true;
 	}

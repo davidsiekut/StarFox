@@ -24,7 +24,6 @@ Arwing::Arwing(Entity *parent) : Entity(parent)
 	speedY = 15.0f;
 	speedZ = 80.0f;
 	movingForward = true;
-	shotFired = false;
 
 	Initialize();
 }
@@ -32,16 +31,6 @@ Arwing::Arwing(Entity *parent) : Entity(parent)
 void Arwing::Update(float dt)
 {
 	GLFWwindow* w = WindowManager::GetWindow();
-
-	// Shoot action. If the space bar is already pressed then do not create more lasers.
-	if (glfwGetKey(w, GLFW_KEY_SPACE) == GLFW_PRESS && !shotFired)
-	{
-		AddPewPew();
-	}
-	else if (glfwGetKey(w, GLFW_KEY_SPACE) == GLFW_RELEASE)
-	{
-		shotFired = false;
-	}
 
 	// Get the directional input
 	glm::vec3 direction = glm::vec3(0, 0, 0);
@@ -104,39 +93,6 @@ void Arwing::Update(float dt)
 	{
 		position.z += dt * speedZ;
 	}
+
 	SetPosition(position);
-}
-
-void Arwing::AddPewPew()
-{
-	shotFired = true;
-
-	PewPew* pewpewL = new PewPew(NULL, glm::vec3(0.5f , 0.5f, 2.f), this);
-	PewPew* pewpewR = new PewPew(NULL, glm::vec3(0.5f, 0.5f, 2.f), this);
-
-	// Set the positions to the current location of the Arwing +- 0.25 so that it shoots from the sides
-	pewpewL->SetPosition(glm::vec3(position.x - 1.f, position.y - 0.35f, position.z));
-	pewpewR->SetPosition(glm::vec3(position.x + 1.f, position.y - 0.35f, position.z));
-
-	// Put the pewpews in the list
-	pewpews.push_back(pewpewL);
-	pewpews.push_back(pewpewR);
-
-	//TODO create lasers here.
-	fprintf(stdout, "pew pew");
-}
-
-
-void Arwing::Shoot(Scene* scene)
-{
-	// Add all the pewpews into the scene entities vector and then clear the list (so we don't add the same pewpews over and over)
-	for (unsigned int pewpewIndex = 0; pewpewIndex < pewpews.size(); pewpewIndex++)
-	{
-		scene->AddEntity(pewpews[pewpewIndex]);
-
-		if (pewpewIndex == pewpews.size() - 1)
-		{
-			pewpews.clear();
-		}
-	}
 }

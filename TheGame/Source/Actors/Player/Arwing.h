@@ -16,14 +16,10 @@ public:
 protected:
 
 private:
-	std::vector<Entity*> pewpews;
-	void AddPewPew();
-
 	float rotationAngle;
 	float rotationSpeed;
 	float speedX;
 	float speedY;
 	float speedZ;
 	bool movingForward;
-	bool shotFired;
 };

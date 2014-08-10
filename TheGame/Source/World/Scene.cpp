@@ -60,9 +60,9 @@ void Scene::Update(float dt)
 	// update camera
 	camera->Update(dt);
 
-	// deletion check
 	for (std::vector<Entity*>::iterator it = entities.begin(); it < entities.end();)
 	{
+		// deletion check
 		if ((*it)->markedForDeletion)
 		{
 			delete *it;
@@ -105,7 +105,6 @@ void Scene::Update(float dt)
 
 	// spawn new enemies?
 	enemyFactory->SpawnCheck(dt);
-	a->Shoot(this);
 }
 
 void Scene::Draw()

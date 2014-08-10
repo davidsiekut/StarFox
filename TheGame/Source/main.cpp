@@ -11,16 +11,18 @@ int main(int argc, char*argv[])
 	WindowManager::Initialize();
 	Renderer::Initialize();
 
-	Scene scene = Scene();
-	scene.Initialize();
+	Scene* scene = new Scene();
+	scene->Initialize();
+
+	InputManager::Initialize(scene, scene->GetPlayer());
 
 	do
 	{
 		InputManager::Update();
 		GameTime::Update();
 		float dt = GameTime::GetFrameTime();
-		scene.Update(dt);
-		scene.Draw();
+		scene->Update(dt);
+		scene->Draw();
 	} while (WindowManager::ExitRequested() == false);
 
 	// should prolly do cleanup here i dont know
