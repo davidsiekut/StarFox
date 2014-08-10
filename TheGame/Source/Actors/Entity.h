@@ -27,10 +27,9 @@ public:
 	glm::vec3 GetScaling() const { return scaling; }
 	glm::vec3 GetRotationAxis() const { return rotationAxis; }
 	float GetRotationAngle() const { return rotationAngle; }
-
 	glm::vec4 GetMaterialCoefficients() { return materialCoefficients; }
-
 	ShaderType GetShaderType() { return shaderType; }
+	unsigned int GetTextureID() { return textureID; }
 
 	// dimensions of box collider for this entity
 	float COLLIDE_X;
@@ -51,6 +50,7 @@ protected:
 	glm::vec4 materialCoefficients; //ka, kd, ks, n
 	ShaderType shaderType;
 	std::string objPath;
+	unsigned int textureID;
 
 private:
 	unsigned int vertexArrayID;

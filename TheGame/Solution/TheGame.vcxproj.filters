@@ -27,6 +27,18 @@
     <Filter Include="Source Files\Actors\Geometry">
       <UniqueIdentifier>{17ed15bd-03f2-4944-b172-60a11bac1839}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Graphics">
+      <UniqueIdentifier>{9ad4e223-48cd-43c7-84c4-f7cc0245834b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Actors\Player">
+      <UniqueIdentifier>{79934daa-4b9a-4ae9-8187-d49405ea46ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Actors\Doodads">
+      <UniqueIdentifier>{08c10566-98a6-4431-9a43-6ed5d5ea10d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Actors\Enemy">
+      <UniqueIdentifier>{eb0f23ec-ada4-4169-8c44-c0ce6b9940b4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\Util\InputManager.cpp">
@@ -47,9 +59,6 @@
     <ClCompile Include="..\Source\Actors\Entity.cpp">
       <Filter>Source Files\Actors</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Actors\Arwing.cpp">
-      <Filter>Source Files\Actors</Filter>
-    </ClCompile>
     <ClCompile Include="..\Source\Actors\Geometry\Chunk.cpp">
       <Filter>Source Files\Actors\Geometry</Filter>
     </ClCompile>
@@ -58,9 +67,6 @@
     </ClCompile>
     <ClCompile Include="..\Source\Camera\ThirdPersonCamera.cpp">
       <Filter>Source Files\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Source\Actors\Enemy.cpp">
-      <Filter>Source Files\Actors</Filter>
     </ClCompile>
     <ClCompile Include="..\Source\main.cpp">
       <Filter>Source Files</Filter>
@@ -74,8 +80,17 @@
     <ClCompile Include="..\Source\Actors\Geometry\Cube.cpp">
       <Filter>Source Files\Actors\Geometry</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Actors\PewPew.cpp">
-      <Filter>Source Files\Actors</Filter>
+    <ClCompile Include="..\Source\Graphics\Texture.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Actors\Doodads\PewPew.cpp">
+      <Filter>Source Files\Actors\Doodads</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Actors\Enemy\Enemy.cpp">
+      <Filter>Source Files\Actors\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Actors\Player\Arwing.cpp">
+      <Filter>Source Files\Actors\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -97,9 +112,6 @@
     <ClInclude Include="..\Source\Actors\Entity.h">
       <Filter>Source Files\Actors</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\Actors\Arwing.h">
-      <Filter>Source Files\Actors</Filter>
-    </ClInclude>
     <ClInclude Include="..\Source\Actors\Geometry\Chunk.h">
       <Filter>Source Files\Actors\Geometry</Filter>
     </ClInclude>
@@ -108,9 +120,6 @@
     </ClInclude>
     <ClInclude Include="..\Source\Camera\ThirdPersonCamera.h">
       <Filter>Source Files\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Actors\Enemy.h">
-      <Filter>Source Files\Actors</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\Camera\GameplayCamera.h">
       <Filter>Source Files\Camera</Filter>
@@ -121,8 +130,17 @@
     <ClInclude Include="..\Source\Actors\Geometry\Cube.h">
       <Filter>Source Files\Actors\Geometry</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\Actors\PewPew.h">
-      <Filter>Source Files\Actors</Filter>
+    <ClInclude Include="..\Source\Graphics\Texture.h">
+      <Filter>Source Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Actors\Doodads\PewPew.h">
+      <Filter>Source Files\Actors\Doodads</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Actors\Enemy\Enemy.h">
+      <Filter>Source Files\Actors\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Actors\Player\Arwing.h">
+      <Filter>Source Files\Actors\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -136,6 +154,12 @@
       <Filter>Source Files\Shaders</Filter>
     </None>
     <None Include="..\Source\Shaders\Gouraud.vert">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="..\Source\Shaders\Textured.frag">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="..\Source\Shaders\Textured.vert">
       <Filter>Source Files\Shaders</Filter>
     </None>
   </ItemGroup>

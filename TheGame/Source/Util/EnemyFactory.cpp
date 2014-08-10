@@ -29,3 +29,22 @@ void EnemyFactory::SpawnEnemies(int numberEnemies, Direction direction, float y)
 		scene->AddEntity(e);
 	}
 }
+
+void EnemyFactory::SpawnCheck(float dt)
+{
+	timer -= dt;
+	if (timer < 0)
+	{
+		timer = 3.f;
+		if (left)
+		{
+			SpawnEnemies(3, EnemyFactory::Direction::LEFT, 12.5f);
+			left = !left;
+		}
+		else
+		{
+			SpawnEnemies(3, EnemyFactory::Direction::RIGHT, 12.5f);
+			left = !left;
+		}
+	}
+}

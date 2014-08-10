@@ -13,14 +13,8 @@ const float Enemy::ENEMY_SPINNY_SPIN_SPEED = 250.f;
 Enemy::Enemy(Entity *parent, EnemyFactory::Direction direction, float horizontalAxis, float timeElapsed) : Entity(parent)
 {
 	name = "ENEMY";
-	size = glm::vec3(5, 5, 5);
-
-	shaderType = SHADER_SOLID_COLOR;
-	//shaderType = SHADER_GOURAUD;
-
+	size = glm::vec3(5.f, 5.f, 5.f);
 	objPath = "../Assets/Models/cube.obj";
-
-	Initialize();
 
 	this->direction = direction;
 	this->horizontalAxis = horizontalAxis;
@@ -29,11 +23,13 @@ Enemy::Enemy(Entity *parent, EnemyFactory::Direction direction, float horizontal
 	COLLIDE_X = size.x;
 	COLLIDE_Y = size.y;
 	COLLIDE_Z = size.z;
+
+	Initialize();
 }
 
 Enemy::~Enemy()
 {
-	printf("[Cleanup] Enemy deleted\n");
+	//printf("[Cleanup] Enemy deleted\n");
 }
 
 void Enemy::Update(float dt)

@@ -17,7 +17,7 @@ Chunk::Chunk(Entity *parent) : Entity(parent)
 
 Chunk::~Chunk()
 {
-	printf("[Cleanup] Chunk deleted\n");
+	//printf("[Cleanup] Chunk deleted\n");
 }
 
 void Chunk::Update(float dt)

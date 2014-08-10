@@ -31,10 +31,12 @@ void Renderer::Initialize()
 
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	glEnable(GL_DEPTH_TEST);
+	glClearDepth(1.0);
 	glDepthFunc(GL_LESS);
 
 	shaders.push_back(LoadShader("SolidColor"));
 	shaders.push_back(LoadShader("Gouraud"));
+	shaders.push_back(LoadShader("Textured"));
 }
 
 GLuint Renderer::LoadShader(std::string name)
@@ -163,6 +165,7 @@ std::string Renderer::LoadFromFile(const std::string filename)
 void Renderer::BeginFrame()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glEnable(GL_TEXTURE_2D);
 }
 
 void Renderer::EndFrame()

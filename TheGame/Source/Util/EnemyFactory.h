@@ -20,8 +20,12 @@ public:
 
 	void SpawnEnemies(int numberEnemies, Direction direction, float y);
 
-private:
+	void SpawnCheck(float dt);
 
+private:
 	Arwing* a;
 	Scene* scene;
+
+	float timer = 3.f;
+	bool left = false;
 };

@@ -13,15 +13,11 @@ Arwing::Arwing(Entity *parent) : Entity(parent)
 {
 	name = "ARWING";
 	size = glm::vec3(2.f, 2.f, 2.f);
-	shaderType = SHADER_SOLID_COLOR;
-	//shaderType = SHADER_GOURAUD;
 	objPath = "../Assets/Models/arwing.obj";
 
 	COLLIDE_X = 7.8f;
 	COLLIDE_Y = 1.5f;
 	COLLIDE_Z = 2.0f;
-
-	Initialize();
 
 	rotationSpeed = 60.0f;
 	speedX = 20.0f;
@@ -29,6 +25,8 @@ Arwing::Arwing(Entity *parent) : Entity(parent)
 	speedZ = 80.0f;
 	movingForward = true;
 	shotFired = false;
+
+	Initialize();
 }
 
 void Arwing::Update(float dt)

@@ -16,6 +16,7 @@ Entity::Entity(Entity *parent) :	name("UNNAMED"),
 									materialCoefficients(0.2f, 0.8f, 0.2f, 50.0f),
 									shaderType(ShaderType::SHADER_SOLID_COLOR),
 									objPath(""),
+									textureID(0),
 									markedForDeletion(false)
 {
 	
