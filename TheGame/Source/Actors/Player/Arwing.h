@@ -10,10 +10,8 @@ class Arwing : public Entity
 public:
 	Arwing(Entity *parent);
 	void Update(float dt);
-	void SetMovingForwards(bool forward) { movingForward = forward; }
-	void Shoot(Scene* scene);
 
-	// Movement constanst
+	// Movement constants
 	float rotationAngle;
 	float rotationSpeed;
 	float speedX;
