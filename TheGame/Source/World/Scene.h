@@ -1,10 +1,10 @@
 #pragma once
 
 #include "Arwing.h"
-#include "Chunk.h"
-#include "Entity.h"
 #include "Camera.h"
+#include "Chunk.h"
 #include "EnemyFactory.h"
+#include "Entity.h"
 
 class Entity;
 class EnemyFactory;
@@ -34,7 +34,4 @@ private:
 	static const unsigned int TERRAIN_LOADAHEAD;
 
 	void LoadTextures();
-
-	// move this into a physics class
-	bool CheckAABBCollision(Entity* b1, Entity* b2);
 };

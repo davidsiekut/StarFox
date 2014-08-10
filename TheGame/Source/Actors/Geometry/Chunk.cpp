@@ -7,9 +7,6 @@ Chunk::Chunk(Entity *parent) : Entity(parent)
 {
 	name = "CHUNK";
 	size = glm::vec3(CHUNK_WIDTH, 0.1f, CHUNK_DEPTH);
-	//shaderType = SHADER_SOLID_COLOR;
-	shaderType = SHADER_GOURAUD;
-
 	objPath = "../Assets/Models/cube.obj";
 
 	Initialize();

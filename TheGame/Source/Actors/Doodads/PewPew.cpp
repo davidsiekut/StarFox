@@ -9,11 +9,18 @@ PewPew::PewPew() : Entity(NULL)
 	this->size = glm::vec3(2.f, 2.f, 10.f);
 	objPath = "../Assets/Models/pewpew.obj";
 
+	damage = 50.f;
+
 	COLLIDE_X = size.x;
 	COLLIDE_Y = size.y;
 	COLLIDE_Z = size.z;
 
 	Initialize();
+}
+
+PewPew::~PewPew()
+{
+
 }
 
 void PewPew::Update(float dt)
@@ -23,6 +30,15 @@ void PewPew::Update(float dt)
 	timeElapsed += dt;
 
 	if (timeElapsed > PEWPEW_LIFETIME)
+	{
+		markedForDeletion = true;
+	}
+}
+
+void PewPew::OnCollision(Entity* other)
+{
+	if (other->GetName() == "ENEMY" ||
+		other->GetName() == "CUBE")
 	{
 		markedForDeletion = true;
 	}

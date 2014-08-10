@@ -15,6 +15,8 @@ public:
 	virtual void Update(float dt);
 	void Draw();
 
+	virtual void OnCollision(Entity* other);
+
 	glm::mat4 GetWorldMatrix() const;
 
 	void SetPosition(glm::vec3 position);
@@ -36,6 +38,9 @@ public:
 	float COLLIDE_Y;
 	float COLLIDE_Z;
 
+	float GetShieldAmount() { return shield; };
+	void TakeDamage(float f);
+	float invicibilityFrames = 0.f;
 	bool markedForDeletion;
 
 protected:
@@ -52,6 +57,8 @@ protected:
 	std::string objPath;
 	unsigned int textureID;
 
+
+
 private:
 	unsigned int vertexArrayID;
 	unsigned int vertexBufferID;
@@ -66,4 +73,7 @@ private:
 	};
 
 	bool loadOBJ(std::string path, std::vector<Vertex> &buffer);
+
+	// gameplay stuff
+	float shield = 100.f;
 };

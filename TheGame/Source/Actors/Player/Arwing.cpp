@@ -30,6 +30,17 @@ Arwing::Arwing(Entity *parent) : Entity(parent)
 
 void Arwing::Update(float dt)
 {
+	if (GetShieldAmount() <= 0)
+	{
+		printf("[Player] Game over\n");
+		movingForward = false;
+	}
+
+	if (invicibilityFrames > 0)
+	{
+		invicibilityFrames -= dt;
+	}
+
 	GLFWwindow* w = WindowManager::GetWindow();
 
 	// Get the directional input
@@ -88,11 +99,24 @@ void Arwing::Update(float dt)
 
 	// Clamp the position so the ship cannot fly offscreen.
 	position.x = glm::clamp(position.x + (direction.x * dt * speedX), -15.f, 15.f);
-	position.y = glm::clamp(position.y + (direction.y * dt * speedY), 1.5f, 25.f);
+	position.y = glm::clamp(position.y + (direction.y * dt * speedY), 1.f, 25.f);
 	if (movingForward) // Constantly move forwards but can be stopped for cinematics or something
 	{
 		position.z += dt * speedZ;
 	}
 
 	SetPosition(position);
+}
+
+void Arwing::OnCollision(Entity* other)
+{
+	if (invicibilityFrames <= 0)
+	{
+		if (other->GetName() == "ENEMY" ||
+			other->GetName() == "CUBE")
+		{
+			TakeDamage(10);
+			invicibilityFrames = 2.f;
+		}
+	}
 }

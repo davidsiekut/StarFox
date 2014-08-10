@@ -22,6 +22,7 @@
     <ClCompile Include="..\Source\Camera\ThirdPersonCamera.cpp" />
     <ClCompile Include="..\Source\Graphics\Texture.cpp" />
     <ClCompile Include="..\Source\main.cpp" />
+    <ClCompile Include="..\Source\Physics\Physics.cpp" />
     <ClCompile Include="..\Source\Util\EnemyFactory.cpp" />
     <ClCompile Include="..\Source\Util\GameTime.cpp" />
     <ClCompile Include="..\Source\Util\InputManager.cpp" />
@@ -40,6 +41,7 @@
     <ClInclude Include="..\Source\Camera\GameplayCamera.h" />
     <ClInclude Include="..\Source\Camera\ThirdPersonCamera.h" />
     <ClInclude Include="..\Source\Graphics\Texture.h" />
+    <ClInclude Include="..\Source\Physics\Physics.h" />
     <ClInclude Include="..\Source\Util\EnemyFactory.h" />
     <ClInclude Include="..\Source\Util\GameTime.h" />
     <ClInclude Include="..\Source\Util\InputManager.h" />
@@ -99,7 +101,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>
       </SDLCheck>
-      <AdditionalIncludeDirectories>..\Source\Actors;..\Source\Actors\Doodads;..\Source\Actors\Enemy;..\Source\Actors\Geometry;..\Source\Actors\Player;..\Source\Camera;..\Source\Graphics;..\Source\Util;..\Source\World;..\Source\Include\FreeImage\Dist;..\Source\Include\glew-1.10.0\include;..\Source\Include\glfw-3.0.4\include;..\Source\Include\glm-0.9.5.4</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Source\Actors;..\Source\Actors\Doodads;..\Source\Actors\Enemy;..\Source\Actors\Geometry;..\Source\Actors\Player;..\Source\Camera;..\Source\Graphics;..\Source\Physics;..\Source\Util;..\Source\World;..\Source\Include\FreeImage\Dist;..\Source\Include\glew-1.10.0\include;..\Source\Include\glfw-3.0.4\include;..\Source\Include\glm-0.9.5.4</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -130,7 +132,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>
       </SDLCheck>
-      <AdditionalIncludeDirectories>..\Source\Actors;..\Source\Actors\Doodads;..\Source\Actors\Enemy;..\Source\Actors\Geometry;..\Source\Actors\Player;..\Source\Camera;..\Source\Graphics;..\Source\Util;..\Source\World;..\Source\Include\FreeImage\Dist;..\Source\Include\glew-1.10.0\include;..\Source\Include\glfw-3.0.4\include;..\Source\Include\glm-0.9.5.4</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Source\Actors;..\Source\Actors\Doodads;..\Source\Actors\Enemy;..\Source\Actors\Geometry;..\Source\Actors\Player;..\Source\Camera;..\Source\Graphics;..\Source\Physics;..\Source\Util;..\Source\World;..\Source\Include\FreeImage\Dist;..\Source\Include\glew-1.10.0\include;..\Source\Include\glfw-3.0.4\include;..\Source\Include\glm-0.9.5.4</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader />

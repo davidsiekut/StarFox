@@ -8,8 +8,8 @@ class Enemy : public Entity
 public:
 	Enemy(Entity *parent, EnemyFactory::Direction direction, float horizontalAxis, float timeElapsed);
 	~Enemy();
-
 	void Update(float dt);
+	void OnCollision(Entity* other);
 
 protected:
 
