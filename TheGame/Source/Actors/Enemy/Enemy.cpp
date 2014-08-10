@@ -14,7 +14,9 @@ Enemy::Enemy(Entity *parent, EnemyFactory::Direction direction, float horizontal
 {
 	name = "ENEMY";
 	size = glm::vec3(5.f, 5.f, 5.f);
-	objPath = "../Assets/Models/cube.obj";
+	objPath = "../Assets/Models/sphere.obj";
+	shaderType = SHADER_TEXTURED;
+	textureID = 1;
 
 	this->direction = direction;
 	this->horizontalAxis = horizontalAxis;

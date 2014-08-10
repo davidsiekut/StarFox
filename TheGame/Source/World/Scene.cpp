@@ -16,7 +16,7 @@
 const unsigned int Scene::TERRAIN_PRELOAD = 5;
 const unsigned int Scene::TERRAIN_LOADAHEAD = 5;
 
-#define MAXTEXTURES 1
+#define MAXTEXTURES 2
 Texture textures[MAXTEXTURES];
 
 void Scene::Initialize()
@@ -32,6 +32,7 @@ void Scene::Initialize()
 	a->SetPosition(glm::vec3(0.f, 10.f, 0.f));
 	AddEntity(a);
 
+	// setup some other stuff
 	enemyFactory = new EnemyFactory(a, this);
 	camera = new GameplayCamera(40.f, a);
 
@@ -44,7 +45,7 @@ void Scene::Initialize()
 
 void Scene::LoadTextures()
 {
-	std::string texturesToLoad[] = { "default.jpg" };
+	std::string texturesToLoad[] = { "default.jpg", "dolan.jpg" };
 
 	for (unsigned int i = 0; i < MAXTEXTURES; i++)
 	{
