@@ -15,7 +15,7 @@ public:
 		RIGHT
 	};
 
-	EnemyFactory(Arwing* a, Scene* scene);
+	EnemyFactory(Arwing* a);
 	~EnemyFactory();
 
 	void SpawnEnemies(int numberEnemies, Direction direction, float y);
@@ -24,7 +24,6 @@ public:
 
 private:
 	Arwing* a;
-	Scene* scene;
 
 	float timer = 3.f;
 	bool left = false;

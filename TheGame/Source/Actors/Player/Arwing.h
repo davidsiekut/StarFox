@@ -15,13 +15,14 @@ public:
 	void SetMovingForwards(bool forward) { movingForward = forward; }
 	void Shoot(Scene* scene);
 
-protected:
-
-private:
+	// Movement constants
 	float rotationAngle;
 	float rotationSpeed;
 	float speedX;
 	float speedY;
 	float speedZ;
 	bool movingForward;
+protected:
+
+private:
 };

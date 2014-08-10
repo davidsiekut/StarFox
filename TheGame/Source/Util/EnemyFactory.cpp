@@ -3,14 +3,13 @@
 #include "EnemyFactory.h"
 #include "Enemy.h"
 
-EnemyFactory::EnemyFactory(Arwing* a, Scene* scene) : a(a), scene(scene)
+EnemyFactory::EnemyFactory(Arwing* a) : a(a)
 {
 }
 
 EnemyFactory::~EnemyFactory()
 {
 	a = nullptr;
-	scene = nullptr;
 }
 
 void EnemyFactory::SpawnEnemies(int numberEnemies, Direction direction, float y)
@@ -26,7 +25,7 @@ void EnemyFactory::SpawnEnemies(int numberEnemies, Direction direction, float y)
 		{
 			e->SetPosition(glm::vec3(-20.f - i * 10.f, y, a->GetPosition().z + 50.f));
 		}
-		scene->AddEntity(e);
+		Scene::GetInstance().AddEntity(e);
 	}
 }
 

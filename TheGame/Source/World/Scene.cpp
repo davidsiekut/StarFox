@@ -18,6 +18,11 @@ const unsigned int Scene::TERRAIN_LOADAHEAD = 5;
 #define MAXTEXTURES 2
 Texture textures[MAXTEXTURES];
 
+Scene::Scene()
+{
+
+}
+
 void Scene::Initialize()
 {
 	printf("[Scene] Initializing...\n");
@@ -32,7 +37,7 @@ void Scene::Initialize()
 	AddEntity(a);
 
 	// setup some other stuff
-	enemyFactory = new EnemyFactory(a, this);
+	enemyFactory = new EnemyFactory(a);
 	camera = new GameplayCamera(40.f, a);
 
 	// load initial level geometry

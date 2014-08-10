@@ -12,6 +12,12 @@ class EnemyFactory;
 class Scene
 {
 public:
+	static Scene& GetInstance()
+	{
+		static Scene instance;
+		return instance;
+	}
+
 	void Initialize();
 	void Update(float dt);
 	void Draw();
@@ -22,6 +28,10 @@ public:
 	Arwing* GetPlayer() { return a; }
 
 private:
+	// Hide constructors
+	Scene();
+	Scene(Scene& const);
+
 	std::vector<Entity*> entities;
 	std::vector<Chunk*> chunks;
 	Camera* camera;
