@@ -39,6 +39,9 @@
     <Filter Include="Source Files\Actors\Enemy">
       <UniqueIdentifier>{eb0f23ec-ada4-4169-8c44-c0ce6b9940b4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Physics">
+      <UniqueIdentifier>{80ad214f-c0ed-4e09-a385-3c8f5f7f13b3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\Util\InputManager.cpp">
@@ -92,6 +95,9 @@
     <ClCompile Include="..\Source\Actors\Player\Arwing.cpp">
       <Filter>Source Files\Actors\Player</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\Physics\Physics.cpp">
+      <Filter>Source Files\Physics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Util\InputManager.h">
@@ -141,6 +147,9 @@
     </ClInclude>
     <ClInclude Include="..\Source\Actors\Player\Arwing.h">
       <Filter>Source Files\Actors\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Physics\Physics.h">
+      <Filter>Source Files\Physics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

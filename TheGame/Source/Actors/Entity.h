@@ -15,6 +15,8 @@ public:
 	virtual void Update(float dt);
 	void Draw();
 
+	virtual void OnCollision(Entity* other);
+
 	glm::mat4 GetWorldMatrix() const;
 
 	void SetPosition(glm::vec3 position);
@@ -36,6 +38,8 @@ public:
 	float COLLIDE_Y;
 	float COLLIDE_Z;
 
+	float shield = 100.f;
+	float invicibilityFrames = 0.f;
 	bool markedForDeletion;
 
 protected:

@@ -1,4 +1,5 @@
 #include "Enemy.h"
+#include "PewPew.h"
 #define GLM_FORCE_RADIANS
 #define dtor(x) x*(3.141592f/180.0f)
 #include <glm/gtc/matrix_transform.hpp>
@@ -14,7 +15,7 @@ Enemy::Enemy(Entity *parent, EnemyFactory::Direction direction, float horizontal
 {
 	name = "ENEMY";
 	size = glm::vec3(5.f, 5.f, 5.f);
-	objPath = "../Assets/Models/sphere.obj";
+	objPath = "../Assets/Models/cube.obj";
 	shaderType = SHADER_TEXTURED;
 	textureID = 1;
 
@@ -36,6 +37,11 @@ Enemy::~Enemy()
 
 void Enemy::Update(float dt)
 {
+	if (shield <= 0)
+	{
+		markedForDeletion = true;
+	}
+
 	rotationAngle += dt * ENEMY_SPINNY_SPIN_SPEED;
 
 	if (direction == EnemyFactory::Direction::LEFT)
@@ -55,5 +61,13 @@ void Enemy::Update(float dt)
 	if (timeElapsed > ENEMY_LIFETIME)
 	{
 		markedForDeletion = true;
+	}
+}
+
+void Enemy::OnCollision(Entity* other)
+{
+	if (other->GetName() == "PEWPEW")
+	{
+		shield -= ((PewPew*)other)->damage;
 	}
 }

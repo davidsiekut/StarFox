@@ -1,14 +1,14 @@
 #include "Arwing.h"
 #include "Enemy.h"
+#include "EnemyFactory.h"
 #include "Chunk.h"
 #include "Cube.h"
+#include "GameplayCamera.h"
+#include "Physics.h"
 #include "Renderer.h"
 #include "Scene.h"
 #include "Texture.h"
 #include "ThirdPersonCamera.h"
-#include "GameplayCamera.h"
-#include "EnemyFactory.h"
-
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform.hpp>
 #include <time.h>
@@ -75,21 +75,24 @@ void Scene::Update(float dt)
 		}
 		else
 		{
-			// update actors
+			// update entity
 			(*it)->Update(dt);
 			
-			// physics check
-			std::string s1 = "ARWING";
-			std::string s2 = "CHUNK";
-			if ((*it)->GetName().compare(s1) && (*it)->GetName().compare(s2))
+			// physics check (only check things that will probably collide)
+			if ((*it)->GetName().compare("ARWING") == 0 ||
+				(*it)->GetName().compare("PEWPEW") == 0 ||
+				(*it)->GetName().compare("ENEMY") == 0 ||
+				(*it)->GetName().compare("CUBE") == 0 // buildings
+				)
 			{
-				// entity is not ARWING or CHUNK
-				//printf("Checking entity %s\n", (*it)->GetName().c_str());
-
-				// check intersection of arwing collider and entity
-				if (CheckAABBCollision(a, (*it)))
+				for (std::vector<Entity*>::iterator itt = entities.begin(); itt < entities.end();++itt)
 				{
-					printf("[Physics] Arwing hit -> %s\n", (*it)->GetName().c_str());
+					if (*it != *itt && Physics::CheckAABBCollision(*it, *itt))
+					{
+						//printf("[Physics] %s hit -> %s\n", (*it)->GetName().c_str(), (*itt)->GetName().c_str());
+						(*it)->OnCollision(*itt);
+						(*itt)->OnCollision(*it);
+					}
 				}
 			}
 			
@@ -179,34 +182,4 @@ void Scene::AddChunk(glm::vec3 pos)
 	u->SetPosition(glm::vec3(s, 10.f, 0.f));
 	AddEntity(u);
 	//printf("[Scene] Creating cube at (%f, %f, %f)\n", u->GetPositionWorld().x, u->GetPositionWorld().y, u->GetPositionWorld().z);
-}
-
-bool Scene::CheckAABBCollision(Entity* b1, Entity* b2)
-{
-	glm::vec3 min1 = glm::vec3(
-		b1->GetPositionWorld().x - b1->COLLIDE_X / 2,
-		b1->GetPositionWorld().y - b1->COLLIDE_Y / 2,
-		b1->GetPositionWorld().z - b1->COLLIDE_Z / 2);
-
-	glm::vec3 max1 = glm::vec3(
-		b1->GetPositionWorld().x + b1->COLLIDE_X / 2,
-		b1->GetPositionWorld().y + b1->COLLIDE_Y / 2,
-		b1->GetPositionWorld().z + b1->COLLIDE_Z / 2);
-
-	glm::vec3 min2 = glm::vec3(
-		b2->GetPositionWorld().x - b2->COLLIDE_X / 2,
-		b2->GetPositionWorld().y - b2->COLLIDE_Y / 2,
-		b2->GetPositionWorld().z - b2->COLLIDE_Z / 2);
-
-	glm::vec3 max2 = glm::vec3(
-		b2->GetPositionWorld().x + b2->COLLIDE_X / 2,
-		b2->GetPositionWorld().y + b2->COLLIDE_Y / 2,
-		b2->GetPositionWorld().z + b2->COLLIDE_Z / 2);
-
-	return(max1.x > min2.x &&
-		min1.x < max2.x &&
-		max1.y > min2.y &&
-		min1.y < max2.y &&
-		max1.z > min2.z &&
-		min1.z < max2.z);
 }

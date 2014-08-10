@@ -8,7 +8,11 @@ class PewPew : public Entity
 {
 public:
 	PewPew();
+	~PewPew();
 	void Update(float dt);
+	void OnCollision(Entity* other);
+
+	float damage;
 
 protected:
 

@@ -34,7 +34,4 @@ private:
 	static const unsigned int TERRAIN_LOADAHEAD;
 
 	void LoadTextures();
-
-	// move this into a physics class
-	bool CheckAABBCollision(Entity* b1, Entity* b2);
 };

@@ -253,3 +253,8 @@ bool Entity::loadOBJ(std::string path, std::vector<Entity::Vertex> &buffer)
 
 	return true;
 }
+
+void Entity::OnCollision(Entity* other)
+{
+
+}
