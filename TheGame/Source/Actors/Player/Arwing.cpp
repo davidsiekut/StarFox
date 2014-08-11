@@ -48,7 +48,7 @@ void Arwing::OnCollision(Entity* other)
 	if (invicibilityFrames <= 0)
 	{
 		if (other->GetName() == "ENEMY" ||
-			other->GetName() == "CUBE")
+			other->GetName() == "BUILDING")
 		{
 			TakeDamage(10);
 		}

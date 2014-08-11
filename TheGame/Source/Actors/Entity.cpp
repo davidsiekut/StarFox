@@ -66,6 +66,15 @@ glm::vec3 Entity::GetPositionWorld()
 
 void Entity::Draw()
 {
+	GLuint program = Renderer::GetShaderProgramID(this->shaderType);
+
+	glm::mat4 W = GetWorldMatrix();
+	GLuint WorldMatrixID = glGetUniformLocation(program, "WorldTransform");
+	glUniformMatrix4fv(WorldMatrixID, 1, GL_FALSE, &W[0][0]);
+
+	GLuint materialCoefficientsID = glGetUniformLocation(program, "materialCoefficients");
+	glUniform4f(materialCoefficientsID, materialCoefficients.x, materialCoefficients.y, materialCoefficients.z, materialCoefficients.w);
+
 	glBindVertexArray(vertexArrayID);
 
 	// position

@@ -11,6 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Source\Actors\BuildingArchitecture\Building.cpp" />
+    <ClCompile Include="..\Source\Actors\BuildingArchitecture\FilledMirroredCubes.cpp" />
+    <ClCompile Include="..\Source\Actors\BuildingArchitecture\MirroredCubes.cpp" />
     <ClCompile Include="..\Source\Actors\Doodads\PewPew.cpp" />
     <ClCompile Include="..\Source\Actors\Enemy\Enemy.cpp" />
     <ClCompile Include="..\Source\Actors\Entity.cpp" />
@@ -23,14 +26,20 @@
     <ClCompile Include="..\Source\Graphics\Texture.cpp" />
     <ClCompile Include="..\Source\main.cpp" />
     <ClCompile Include="..\Source\Physics\Physics.cpp" />
+    <ClCompile Include="..\Source\Util\BuildingFactory.cpp" />
     <ClCompile Include="..\Source\Util\EnemyFactory.cpp" />
     <ClCompile Include="..\Source\Util\GameTime.cpp" />
     <ClCompile Include="..\Source\Util\InputManager.cpp" />
+    <ClCompile Include="..\Source\Util\L-System\LSystem.cpp" />
+    <ClCompile Include="..\Source\Util\L-System\Parser.cpp" />
     <ClCompile Include="..\Source\Util\Renderer.cpp" />
     <ClCompile Include="..\Source\Util\WindowManager.cpp" />
     <ClCompile Include="..\Source\World\Scene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Source\Actors\BuildingArchitecture\Building.h" />
+    <ClInclude Include="..\Source\Actors\BuildingArchitecture\FilledMirroredCubes.h" />
+    <ClInclude Include="..\Source\Actors\BuildingArchitecture\MirroredCubes.h" />
     <ClInclude Include="..\Source\Actors\Doodads\PewPew.h" />
     <ClInclude Include="..\Source\Actors\Enemy\Enemy.h" />
     <ClInclude Include="..\Source\Actors\Entity.h" />
@@ -42,9 +51,12 @@
     <ClInclude Include="..\Source\Camera\ThirdPersonCamera.h" />
     <ClInclude Include="..\Source\Graphics\Texture.h" />
     <ClInclude Include="..\Source\Physics\Physics.h" />
+    <ClInclude Include="..\Source\Util\BuildingFactory.h" />
     <ClInclude Include="..\Source\Util\EnemyFactory.h" />
     <ClInclude Include="..\Source\Util\GameTime.h" />
     <ClInclude Include="..\Source\Util\InputManager.h" />
+    <ClInclude Include="..\Source\Util\L-System\LSystem.h" />
+    <ClInclude Include="..\Source\Util\L-System\Parser.h" />
     <ClInclude Include="..\Source\Util\Renderer.h" />
     <ClInclude Include="..\Source\Util\WindowManager.h" />
     <ClInclude Include="..\Source\World\Scene.h" />
@@ -101,7 +113,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>
       </SDLCheck>
-      <AdditionalIncludeDirectories>..\Source\Actors;..\Source\Actors\Doodads;..\Source\Actors\Enemy;..\Source\Actors\Geometry;..\Source\Actors\Player;..\Source\Camera;..\Source\Graphics;..\Source\Physics;..\Source\Util;..\Source\World;..\Source\Include\FreeImage\Dist;..\Source\Include\glew-1.10.0\include;..\Source\Include\glfw-3.0.4\include;..\Source\Include\glm-0.9.5.4</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Source\Actors;..\Source\Actors\BuildingArchitecture;..\Source\Actors\Doodads;..\Source\Actors\Enemy;..\Source\Actors\Geometry;..\Source\Actors\Player;..\Source\Camera;..\Source\Graphics;..\Source\Physics;..\Source\Util;..\Source\Util\L-System;..\Source\World;..\Source\Include\FreeImage\Dist;..\Source\Include\glew-1.10.0\include;..\Source\Include\glfw-3.0.4\include;..\Source\Include\glm-0.9.5.4</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>

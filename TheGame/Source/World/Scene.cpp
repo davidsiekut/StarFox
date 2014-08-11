@@ -1,5 +1,6 @@
 #include "Enemy.h"
 #include "EnemyFactory.h"
+#include "BuildingFactory.h"
 #include "Chunk.h"
 #include "Cube.h"
 #include "GameplayCamera.h"
@@ -90,7 +91,7 @@ void Scene::Update(float dt)
 			if ((*it)->GetName().compare("PLAYER") == 0 ||
 				(*it)->GetName().compare("PEWPEW") == 0 ||
 				(*it)->GetName().compare("ENEMY") == 0 ||
-				(*it)->GetName().compare("CUBE") == 0 // buildings
+				(*it)->GetName().compare("BUILDING") == 0
 				)
 			{
 				for (std::vector<Entity*>::iterator itt = entities.begin(); itt < entities.end();++itt)
@@ -160,29 +161,23 @@ void Scene::Draw()
 		GLuint program = Renderer::GetShaderProgramID((*it)->GetShaderType());
 		glUseProgram(program);
 
-		W = (*it)->GetWorldMatrix();
 
-		GLuint WorldMatrixID = glGetUniformLocation(program, "WorldTransform");
 		GLuint ViewMatrixID = glGetUniformLocation(program, "ViewTransform");
 		GLuint ProjMatrixID = glGetUniformLocation(program, "ProjTransform");
 
 		GLuint lPositionID = glGetUniformLocation(program, "lPosition_World");
 		GLuint lColorID = glGetUniformLocation(program, "lColor");
 		GLuint lAttenuationID = glGetUniformLocation(program, "lAttenuation");
-		GLuint materialCoefficientsID = glGetUniformLocation(program, "materialCoefficients");
 		GLuint samplerID = glGetUniformLocation(program, "sampler"); // for texture2d
 
-		glUniformMatrix4fv(WorldMatrixID, 1, GL_FALSE, &W[0][0]);
 		glUniformMatrix4fv(ViewMatrixID, 1, GL_FALSE, &V[0][0]);
 		glUniformMatrix4fv(ProjMatrixID, 1, GL_FALSE, &P[0][0]);
 
-		glm::vec4 materialCoefficients = (*it)->GetMaterialCoefficients();
 		textures[(*it)->GetTextureID()].Bind(); // for texture2d
 
 		glUniform4f(lPositionID, 0.0f, -1.0f, 0.0f, 0.0f);
 		glUniform3f(lColorID, 1.0f, 1.0f, 1.0f);
 		glUniform3f(lAttenuationID, 0.0f, 0.0f, 0.02f);
-		glUniform4f(materialCoefficientsID, materialCoefficients.x, materialCoefficients.y, materialCoefficients.z, materialCoefficients.w);
 		glUniform1i(samplerID, 0); // for texture2d
 
 		(*it)->Draw();
@@ -205,12 +200,7 @@ void Scene::AddChunk(glm::vec3 pos)
 	chunks.push_back(c);
 	lastChunk++;
 
-	int s = (rand() % 40) - 20;
-	// add level geometry to this chunk
-	Cube* u = new Cube(c, glm::vec3(5.f, 20.f, 5.f));
-	u->SetPosition(glm::vec3(s, 10.f, 0.f));
-	AddEntity(u);
-	//printf("[Scene] Creating cube at (%f, %f, %f)\n", u->GetPositionWorld().x, u->GetPositionWorld().y, u->GetPositionWorld().z);
+	BuildingFactory::GetInstance().GenerateBuilding(pos);
 }
 
 void Scene::GameOver()
