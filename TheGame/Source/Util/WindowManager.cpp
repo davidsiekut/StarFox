@@ -27,8 +27,6 @@ void WindowManager::Initialize()
 		glfwTerminate();
 		exit(-1);
 	}
-
-	//glfwSetInputMode(w, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
 bool WindowManager::ExitRequested()
