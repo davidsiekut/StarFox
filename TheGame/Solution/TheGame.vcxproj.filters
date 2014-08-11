@@ -45,6 +45,9 @@
     <Filter Include="Source Files\Actors\BuildingArchitecture">
       <UniqueIdentifier>{ad3401ea-814d-4075-8cb2-07fb39c02da0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Util\L-System">
+      <UniqueIdentifier>{992ce274-3ffe-47d5-bfee-0987bf8f0c45}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\Util\InputManager.cpp">
@@ -107,6 +110,9 @@
     <ClCompile Include="..\Source\Util\BuildingFactory.cpp">
       <Filter>Source Files\Util</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\Util\L-System\LSystem.cpp">
+      <Filter>Source Files\Util\L-System</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Util\InputManager.h">
@@ -165,6 +171,9 @@
     </ClInclude>
     <ClInclude Include="..\Source\Util\BuildingFactory.h">
       <Filter>Source Files\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Util\L-System\LSystem.h">
+      <Filter>Source Files\Util\L-System</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
