@@ -108,8 +108,8 @@ void InputManager::Update(float dt)
 
 void InputManager::Fire()
 {
-	PewPew* pewpewL = new PewPew();
-	PewPew* pewpewR = new PewPew();
+	PewPew* pewpewL = new PewPew("PLAYER");
+	PewPew* pewpewR = new PewPew("PLAYER");
 
 	// Set the positions to the current location of the Arwing +- 0.25 so that it shoots from the sides
 	pewpewL->SetPosition(glm::vec3(arwing->GetPosition().x - 1.f, arwing->GetPosition().y - 0.35f, arwing->GetPosition().z));

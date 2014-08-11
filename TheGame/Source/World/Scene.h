@@ -33,6 +33,7 @@ private:
 	Scene(Scene const&);
 
 	std::vector<Entity*> entities;
+	std::vector<Entity*> queued; // queued entities such as pewpews that need to be added
 	std::vector<Chunk*> chunks;
 	Camera* camera;
 	Arwing* a;

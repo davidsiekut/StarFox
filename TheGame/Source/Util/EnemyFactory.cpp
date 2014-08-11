@@ -12,6 +12,30 @@ EnemyFactory::~EnemyFactory()
 	a = nullptr;
 }
 
+void EnemyFactory::SpawnCheck(float dt)
+{
+	timer -= dt;
+	if (timer < 0)
+	{
+		timer = 3.f;
+		if (left)
+		{
+			SpawnEnemies(5, EnemyFactory::Direction::LEFT, 0.f);
+			SpawnEnemies(5, EnemyFactory::Direction::LEFT, 5.f);
+			SpawnEnemies(5, EnemyFactory::Direction::LEFT, 10.f);
+			SpawnEnemies(5, EnemyFactory::Direction::LEFT, 15.f);
+			SpawnEnemies(5, EnemyFactory::Direction::LEFT, 20.f);
+			
+			left = !left;
+		}
+		else
+		{
+			SpawnEnemies(5, EnemyFactory::Direction::RIGHT, 12.5f);
+			left = !left;
+		}
+	}
+}
+
 void EnemyFactory::SpawnEnemies(int numberEnemies, Direction direction, float y)
 {
 	for (int i = 0; i < numberEnemies; i++)
@@ -26,24 +50,5 @@ void EnemyFactory::SpawnEnemies(int numberEnemies, Direction direction, float y)
 			e->SetPosition(glm::vec3(-20.f - i * 10.f, y, a->GetPosition().z + 50.f));
 		}
 		Scene::GetInstance().AddEntity(e);
-	}
-}
-
-void EnemyFactory::SpawnCheck(float dt)
-{
-	timer -= dt;
-	if (timer < 0)
-	{
-		timer = 3.f;
-		if (left)
-		{
-			SpawnEnemies(3, EnemyFactory::Direction::LEFT, 12.5f);
-			left = !left;
-		}
-		else
-		{
-			SpawnEnemies(3, EnemyFactory::Direction::RIGHT, 12.5f);
-			left = !left;
-		}
 	}
 }

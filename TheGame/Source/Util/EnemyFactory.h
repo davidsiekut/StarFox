@@ -18,9 +18,8 @@ public:
 	EnemyFactory(Arwing* a);
 	~EnemyFactory();
 
-	void SpawnEnemies(int numberEnemies, Direction direction, float y);
-
 	void SpawnCheck(float dt);
+	void SpawnEnemies(int numberEnemies, Direction direction, float y);
 
 private:
 	Arwing* a;

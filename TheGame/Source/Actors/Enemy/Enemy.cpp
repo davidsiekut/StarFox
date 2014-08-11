@@ -1,5 +1,6 @@
 #include "Enemy.h"
 #include "PewPew.h"
+#include "Scene.h"
 #define GLM_FORCE_RADIANS
 #define dtor(x) x*(3.141592f/180.0f)
 #include <glm/gtc/matrix_transform.hpp>
@@ -62,11 +63,22 @@ void Enemy::Update(float dt)
 	{
 		markedForDeletion = true;
 	}
+
+	if (attackCooldown <= 0)
+	{
+		//attackCooldown = 1.f;
+		//Scene::GetInstance().Fire();
+	}
+	else
+	{
+		attackCooldown -= dt;
+	}
+
 }
 
 void Enemy::OnCollision(Entity* other)
 {
-	if (other->GetName() == "PEWPEW")
+	if (other->GetName() == "PEWPEW" && (((PewPew*)other)->owner == "PLAYER"))
 	{
 		TakeDamage(((PewPew*)other)->damage);
 	}

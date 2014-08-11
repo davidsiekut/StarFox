@@ -11,12 +11,15 @@ public:
 	void Update(float dt);
 	void OnCollision(Entity* other);
 
+	float attackCooldown = 1.f;
+
 protected:
 
 private:
 	EnemyFactory::Direction direction;
 	float timeElapsed;
 	float horizontalAxis;
+
 
 	static const float ENEMY_SPEED_X;
 	static const float ENEMY_AMPLITUDE_Y;

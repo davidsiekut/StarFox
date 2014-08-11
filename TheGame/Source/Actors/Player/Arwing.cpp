@@ -11,7 +11,7 @@
 
 Arwing::Arwing(Entity *parent) : Entity(parent)
 {
-	name = "ARWING";
+	name = "PLAYER";
 	size = glm::vec3(2.f, 2.f, 2.f);
 	objPath = "../Assets/Models/arwing.obj";
 
@@ -50,7 +50,12 @@ void Arwing::OnCollision(Entity* other)
 			other->GetName() == "CUBE")
 		{
 			TakeDamage(10);
-			invicibilityFrames = 2.f;
 		}
+		else if (other->GetName() == "PEWPEW" && (((PewPew*)other)->owner == "ENEMY"))
+		{
+			TakeDamage(((PewPew*)other)->damage);
+		}
+
+		invicibilityFrames = 2.f;
 	}
 }

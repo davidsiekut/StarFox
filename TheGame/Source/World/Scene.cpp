@@ -3,6 +3,7 @@
 #include "Chunk.h"
 #include "Cube.h"
 #include "GameplayCamera.h"
+#include "PewPew.h"
 #include "Physics.h"
 #include "Renderer.h"
 #include "Scene.h"
@@ -83,7 +84,7 @@ void Scene::Update(float dt)
 			(*it)->Update(dt);
 			
 			// physics check (only check things that will probably collide)
-			if ((*it)->GetName().compare("ARWING") == 0 ||
+			if ((*it)->GetName().compare("PLAYER") == 0 ||
 				(*it)->GetName().compare("PEWPEW") == 0 ||
 				(*it)->GetName().compare("ENEMY") == 0 ||
 				(*it)->GetName().compare("CUBE") == 0 // buildings
@@ -112,6 +113,27 @@ void Scene::Update(float dt)
 
 	// spawn new enemies?
 	enemyFactory->SpawnCheck(dt);
+
+	// if enemies can attack, do so and add pewpews to entity list
+	for (std::vector<Entity*>::iterator it = entities.begin(); it < entities.end(); ++it)
+	{
+		if ((*it)->GetName().compare("ENEMY") == 0)
+		{
+			if (((Enemy*)(*it))->attackCooldown <= 0)
+			{
+				PewPew* pewpew = new PewPew("ENEMY");
+				pewpew->SetPosition(glm::vec3((*it)->GetPosition().x, (*it)->GetPosition().y, (*it)->GetPosition().z));
+				queued.push_back(pewpew);
+				((Enemy*)(*it))->attackCooldown = 1.f;
+			}
+		}
+	}
+
+	for (std::vector<Entity*>::iterator it = queued.begin(); it < queued.end(); ++it)
+	{
+		entities.push_back(*it);
+	}
+	queued.clear();
 }
 
 void Scene::Draw()
