@@ -29,6 +29,7 @@ public:
 	glm::vec3 GetScaling() const { return scaling; }
 	glm::vec3 GetRotationAxis() const { return rotationAxis; }
 	float GetRotationAngle() const { return rotationAngle; }
+	glm::vec3 GetSize() { return size; }
 	glm::vec4 GetMaterialCoefficients() { return materialCoefficients; }
 	ShaderType GetShaderType() { return shaderType; }
 	unsigned int GetTextureID() { return textureID; }
