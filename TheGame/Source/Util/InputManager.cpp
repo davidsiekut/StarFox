@@ -10,6 +10,7 @@ float  InputManager::mouseDeltaX = 0.0f;
 float  InputManager::mouseDeltaY = 0.0f;
 
 bool InputManager::shotsFired = false;
+bool InputManager::disabled = false;
 Arwing* InputManager::arwing;
 
 void InputManager::Initialize(Arwing* a)
@@ -19,6 +20,7 @@ void InputManager::Initialize(Arwing* a)
 
 void InputManager::Update(float dt)
 {
+	
 	GLFWwindow* w = WindowManager::GetWindow();
 
 	glfwPollEvents();
@@ -29,6 +31,11 @@ void InputManager::Update(float dt)
 	mouseDeltaY = static_cast<float>(y - mouseY);
 	mouseX = x;
 	mouseY = y;
+
+	if (disabled)
+	{
+		return;
+	}
 
 	// Shoot action. If the space bar is already pressed then do not create more lasers.
 	if (glfwGetKey(w, GLFW_KEY_SPACE) == GLFW_PRESS && !shotsFired)
@@ -118,4 +125,9 @@ void InputManager::Fire()
 	// Put the pewpews in the list
 	Scene::GetInstance().AddEntity(pewpewL);
 	Scene::GetInstance().AddEntity(pewpewR);
+}
+
+void InputManager::Disable()
+{
+	disabled = true;
 }

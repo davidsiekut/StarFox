@@ -9,6 +9,7 @@
 #include "Scene.h"
 #include "Texture.h"
 #include "WindowManager.h"
+#include "InputManager.h"
 #include <GLFW/glfw3.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform.hpp>
@@ -198,5 +199,6 @@ void Scene::GameOver()
 		printf("[Player] Game over\n");
 		this->camera = new ThirdPersonCamera(20.f, a);
 		glfwSetInputMode(WindowManager::GetWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+		InputManager::Disable();
 	}
 }

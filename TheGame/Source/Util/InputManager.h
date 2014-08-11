@@ -12,9 +12,11 @@ public:
 	static float  mouseDeltaY;
 	static double mouseX;
 	static double mouseY;
+	static void Disable();
 
 private:
 	static bool shotsFired;
+	static bool disabled;
 	static void Fire();
 
 	static Arwing* arwing;
