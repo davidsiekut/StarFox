@@ -29,6 +29,8 @@ public:
 
 	void GameOver();
 
+	bool IsGameOver() { return gameOver; }
+
 private:
 	// Hide constructors
 	Scene();

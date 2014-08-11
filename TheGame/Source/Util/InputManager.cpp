@@ -48,6 +48,7 @@ void InputManager::Update(float dt)
 		shotsFired = false;
 	}
 
+
 	// Get the directional input
 	glm::vec3 direction = glm::vec3(0, 0, 0);
 	if (glfwGetKey(w, GLFW_KEY_W) == GLFW_PRESS)
@@ -65,6 +66,28 @@ void InputManager::Update(float dt)
 	if (glfwGetKey(w, GLFW_KEY_A) == GLFW_PRESS)
 	{
 		direction.x++;
+	}
+
+	glm::vec3 position = arwing->GetPosition();
+
+	// Clamp the position so the ship cannot fly offscreen.
+	position.x = glm::clamp(position.x + (direction.x * dt * arwing->speedX), -10.f, 10.f);
+	position.y = glm::clamp(position.y + (direction.y * dt * arwing->speedY), 1.5f, 20.f);
+	if (arwing->movingForward) // Constantly move forwards but can be stopped for cinematics or something
+	{
+		position.z += dt * arwing->speedZ;
+	}
+
+	arwing->SetPosition(position);
+
+	if (glfwGetKey(w, GLFW_KEY_E) == GLFW_PRESS)
+	{
+		arwing->BarrelRoll(dt);
+		return;
+	}
+	else if (glfwGetKey(w, GLFW_KEY_E) == GLFW_RELEASE)
+	{
+		arwing->BarrelRollComplete();
 	}
 
 	// If there is no direction then align the ship back with the -z axis.
@@ -100,17 +123,6 @@ void InputManager::Update(float dt)
 		}
 	}
 
-	glm::vec3 position = arwing->GetPosition();
-
-	// Clamp the position so the ship cannot fly offscreen.
-	position.x = glm::clamp(position.x + (direction.x * dt * arwing->speedX), -10.f, 10.f);
-	position.y = glm::clamp(position.y + (direction.y * dt * arwing->speedY), 1.5f, 20.f);
-	if (arwing->movingForward) // Constantly move forwards but can be stopped for cinematics or something
-	{
-		position.z += dt * arwing->speedZ;
-	}
-
-	arwing->SetPosition(position);
 }
 
 void InputManager::Fire()
@@ -127,7 +139,7 @@ void InputManager::Fire()
 	Scene::GetInstance().AddEntity(pewpewR);
 }
 
-void InputManager::Disable()
+void InputManager::SetDisabled(bool disable)
 {
-	disabled = true;
+	disabled = disable;
 }

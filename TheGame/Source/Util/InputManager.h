@@ -12,7 +12,7 @@ public:
 	static float  mouseDeltaY;
 	static double mouseX;
 	static double mouseY;
-	static void Disable();
+	static void SetDisabled(bool disable);
 
 private:
 	static bool shotsFired;

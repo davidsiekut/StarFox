@@ -2,6 +2,7 @@
 
 #include "Arwing.h"
 #include "WindowManager.h"
+#include "InputManager.h"
 #include <GLFW/glfw3.h>
 #define GLM_FORCE_RADIANS
 #define dtor(x) x*(3.141592f/180.0f)
@@ -41,6 +42,7 @@ void Arwing::Update(float dt)
 	{
 		invicibilityFrames -= dt;
 	}
+
 }
 
 void Arwing::OnCollision(Entity* other)
@@ -59,4 +61,17 @@ void Arwing::OnCollision(Entity* other)
 
 		invicibilityFrames = 2.f;
 	}
+}
+
+void Arwing::BarrelRoll(float dt)
+{
+	float rotationAngle = GetRotationAngle() + dt * rotationSpeed * 20.f;
+	rotationAxis = glm::vec3(0.f, 0.f, 1.f);
+	SetRotation(rotationAxis, rotationAngle);
+	invicibilityFrames = 0.5f;
+}
+
+void Arwing::BarrelRollComplete()
+{
+	SetRotation(rotationAxis, 0.f);
 }

@@ -14,6 +14,9 @@ public:
 
 	void SetMovingForwards(bool forward) { movingForward = forward; }
 
+	void BarrelRoll(float dt);
+	void BarrelRollComplete();
+
 	// Movement constants
 	float rotationAngle;
 	float rotationSpeed;
