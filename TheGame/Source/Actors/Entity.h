@@ -10,8 +10,6 @@ public:
 	Entity(Entity *parent);
 	virtual ~Entity();
 
-	void Initialize();
-
 	virtual void Update(float dt);
 	virtual void Draw();
 
@@ -58,13 +56,6 @@ protected:
 	std::string objPath;
 	unsigned int textureID;
 
-
-
-private:
-	unsigned int vertexArrayID;
-	unsigned int vertexBufferID;
-	unsigned int vertexBufferSize;
-
 	struct Vertex
 	{
 		glm::vec3 position;
@@ -72,6 +63,13 @@ private:
 		glm::vec3 normal;
 		glm::vec3 color;
 	};
+
+	std::vector<Vertex>* Initialize(glm::vec3 size, std::vector<Vertex>* vertices);
+
+private:
+	unsigned int vertexArrayID;
+	unsigned int vertexBufferID;
+	unsigned int vertexBufferSize;
 
 	bool loadOBJ(std::string path, std::vector<Vertex> &buffer);
 

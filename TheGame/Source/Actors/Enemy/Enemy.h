@@ -27,4 +27,6 @@ private:
 	static const float ENEMY_WAVY_WAVE_SPEED;
 	static const float ENEMY_SPINNY_SPIN_SPEED;
 	static const float ENEMY_LIFETIME;
+
+	static std::vector<Vertex>* bluePrint;
 };

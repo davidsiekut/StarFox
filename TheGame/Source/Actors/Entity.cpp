@@ -28,10 +28,22 @@ Entity::~Entity()
 	glDeleteVertexArrays(1, &vertexArrayID);
 }
 
-void Entity::Initialize()
+std::vector<Entity::Vertex>* Entity::Initialize(glm::vec3 size, std::vector<Entity::Vertex>* vertices)
 {
-	std::vector<Vertex> buffer;
-	bool res = loadOBJ(objPath, buffer);
+	std::vector<Vertex> buffer = *vertices;
+
+	if (vertices->size() == 0)
+	{
+		bool res = loadOBJ(objPath, buffer);
+		vertices = new std::vector<Vertex>(buffer);
+	}
+
+	for (std::vector<Vertex>::iterator it = buffer.begin(); it < buffer.end(); it++)
+	{
+		(*it).position.x *= size.x;
+		(*it).position.y *= size.y;
+		(*it).position.z *= size.z;
+	}
 
 	// if Vertex struct is modified, this needs to be changed also
 	vertexBufferSize = buffer.size();
@@ -45,6 +57,8 @@ void Entity::Initialize()
 	// and keep a reference to it (vertexBufferID)
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferID);
 	glBufferData(GL_ARRAY_BUFFER, buffer.size() * (3 * sizeof(glm::vec3) + sizeof(glm::vec2)), &buffer[0], GL_STATIC_DRAW);
+
+	return vertices;
 }
 
 void Entity::Update(float dt)
@@ -195,9 +209,9 @@ bool Entity::loadOBJ(std::string path, std::vector<Entity::Vertex> &buffer)
 			glm::vec3 vertex;
 			fscanf(file, "%f %f %f\n", &vertex.x, &vertex.y, &vertex.z);
 			// rescale all vertices based on predefined size
-			vertex.x = vertex.x * this->size.x;
-			vertex.y = vertex.y * this->size.y;
-			vertex.z = vertex.z * this->size.z;
+			vertex.x = vertex.x;
+			vertex.y = vertex.y;
+			vertex.z = vertex.z;
 			temp_vertices.push_back(vertex);
 		}
 		else if (strcmp(lineHeader, "vt") == 0)
