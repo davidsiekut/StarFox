@@ -90,7 +90,7 @@ void Scene::Update(float dt)
 			if ((*it)->GetName().compare("ARWING") == 0 ||
 				(*it)->GetName().compare("PEWPEW") == 0 ||
 				(*it)->GetName().compare("ENEMY") == 0 ||
-				(*it)->GetName().compare("CUBE") == 0 // buildings
+				(*it)->GetName().compare("BUILDING") == 0
 				)
 			{
 				for (std::vector<Entity*>::iterator itt = entities.begin(); itt < entities.end();++itt)

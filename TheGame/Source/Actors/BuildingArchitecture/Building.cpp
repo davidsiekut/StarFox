@@ -12,7 +12,7 @@ Building::Building(Entity* parent, std::string lSystem) : Entity(parent)
 	}
 
 	name = "BUILDING";
-	COLLIDE_X = 10.f;
+	COLLIDE_X = 5.f;
 	COLLIDE_Y = 15.f;
 	COLLIDE_Z = 5.f;
 }
