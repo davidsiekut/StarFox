@@ -139,29 +139,23 @@ void Scene::Draw()
 		GLuint program = Renderer::GetShaderProgramID((*it)->GetShaderType());
 		glUseProgram(program);
 
-		W = (*it)->GetWorldMatrix();
 
-		GLuint WorldMatrixID = glGetUniformLocation(program, "WorldTransform");
 		GLuint ViewMatrixID = glGetUniformLocation(program, "ViewTransform");
 		GLuint ProjMatrixID = glGetUniformLocation(program, "ProjTransform");
 
 		GLuint lPositionID = glGetUniformLocation(program, "lPosition_World");
 		GLuint lColorID = glGetUniformLocation(program, "lColor");
 		GLuint lAttenuationID = glGetUniformLocation(program, "lAttenuation");
-		GLuint materialCoefficientsID = glGetUniformLocation(program, "materialCoefficients");
 		GLuint samplerID = glGetUniformLocation(program, "sampler"); // for texture2d
 
-		glUniformMatrix4fv(WorldMatrixID, 1, GL_FALSE, &W[0][0]);
 		glUniformMatrix4fv(ViewMatrixID, 1, GL_FALSE, &V[0][0]);
 		glUniformMatrix4fv(ProjMatrixID, 1, GL_FALSE, &P[0][0]);
 
-		glm::vec4 materialCoefficients = (*it)->GetMaterialCoefficients();
 		textures[(*it)->GetTextureID()].Bind(); // for texture2d
 
 		glUniform4f(lPositionID, 0.0f, -1.0f, 0.0f, 0.0f);
 		glUniform3f(lColorID, 1.0f, 1.0f, 1.0f);
 		glUniform3f(lAttenuationID, 0.0f, 0.0f, 0.02f);
-		glUniform4f(materialCoefficientsID, materialCoefficients.x, materialCoefficients.y, materialCoefficients.z, materialCoefficients.w);
 		glUniform1i(samplerID, 0); // for texture2d
 
 		(*it)->Draw();

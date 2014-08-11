@@ -101,8 +101,11 @@
     <ClCompile Include="..\Source\Physics\Physics.cpp">
       <Filter>Source Files\Physics</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Actors\BuildingArchitecture\BuildingFactory.cpp">
+    <ClCompile Include="..\Source\Actors\BuildingArchitecture\MirroredCubes.cpp">
       <Filter>Source Files\Actors\BuildingArchitecture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Util\BuildingFactory.cpp">
+      <Filter>Source Files\Util</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -157,8 +160,11 @@
     <ClInclude Include="..\Source\Physics\Physics.h">
       <Filter>Source Files\Physics</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\Actors\BuildingArchitecture\BuildingFactory.h">
+    <ClInclude Include="..\Source\Actors\BuildingArchitecture\MirroredCubes.h">
       <Filter>Source Files\Actors\BuildingArchitecture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Util\BuildingFactory.h">
+      <Filter>Source Files\Util</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

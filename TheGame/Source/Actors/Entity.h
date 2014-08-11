@@ -13,7 +13,7 @@ public:
 	void Initialize();
 
 	virtual void Update(float dt);
-	void Draw();
+	virtual void Draw();
 
 	virtual void OnCollision(Entity* other);
 

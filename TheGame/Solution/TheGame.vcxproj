@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Source\Actors\BuildingArchitecture\BuildingFactory.cpp" />
+    <ClCompile Include="..\Source\Actors\BuildingArchitecture\MirroredCubes.cpp" />
     <ClCompile Include="..\Source\Actors\Doodads\PewPew.cpp" />
     <ClCompile Include="..\Source\Actors\Enemy\Enemy.cpp" />
     <ClCompile Include="..\Source\Actors\Entity.cpp" />
@@ -24,6 +24,7 @@
     <ClCompile Include="..\Source\Graphics\Texture.cpp" />
     <ClCompile Include="..\Source\main.cpp" />
     <ClCompile Include="..\Source\Physics\Physics.cpp" />
+    <ClCompile Include="..\Source\Util\BuildingFactory.cpp" />
     <ClCompile Include="..\Source\Util\EnemyFactory.cpp" />
     <ClCompile Include="..\Source\Util\GameTime.cpp" />
     <ClCompile Include="..\Source\Util\InputManager.cpp" />
@@ -32,7 +33,7 @@
     <ClCompile Include="..\Source\World\Scene.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Source\Actors\BuildingArchitecture\BuildingFactory.h" />
+    <ClInclude Include="..\Source\Actors\BuildingArchitecture\MirroredCubes.h" />
     <ClInclude Include="..\Source\Actors\Doodads\PewPew.h" />
     <ClInclude Include="..\Source\Actors\Enemy\Enemy.h" />
     <ClInclude Include="..\Source\Actors\Entity.h" />
@@ -44,6 +45,7 @@
     <ClInclude Include="..\Source\Camera\ThirdPersonCamera.h" />
     <ClInclude Include="..\Source\Graphics\Texture.h" />
     <ClInclude Include="..\Source\Physics\Physics.h" />
+    <ClInclude Include="..\Source\Util\BuildingFactory.h" />
     <ClInclude Include="..\Source\Util\EnemyFactory.h" />
     <ClInclude Include="..\Source\Util\GameTime.h" />
     <ClInclude Include="..\Source\Util\InputManager.h" />
