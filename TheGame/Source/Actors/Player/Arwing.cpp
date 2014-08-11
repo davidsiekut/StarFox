@@ -63,10 +63,18 @@ void Arwing::OnCollision(Entity* other)
 	}
 }
 
-void Arwing::BarrelRoll(float dt)
+void Arwing::BarrelRollRight(float dt)
 {
 	float rotationAngle = GetRotationAngle() + dt * rotationSpeed * 20.f;
 	rotationAxis = glm::vec3(0.f, 0.f, 1.f);
+	SetRotation(rotationAxis, rotationAngle);
+	invicibilityFrames = 0.5f;
+}
+
+void Arwing::BarrelRollLeft(float dt)
+{
+	float rotationAngle = GetRotationAngle() + dt * rotationSpeed * 20.f;
+	rotationAxis = glm::vec3(0.f, 0.f, -1.f);
 	SetRotation(rotationAxis, rotationAngle);
 	invicibilityFrames = 0.5f;
 }

@@ -80,15 +80,22 @@ void InputManager::Update(float dt)
 
 	arwing->SetPosition(position);
 
-	if (glfwGetKey(w, GLFW_KEY_E) == GLFW_PRESS)
+	if (glfwGetKey(w, GLFW_KEY_Q) == GLFW_PRESS)
 	{
-		arwing->BarrelRoll(dt);
+		arwing->BarrelRollLeft(dt);
 		return;
 	}
-	else if (glfwGetKey(w, GLFW_KEY_E) == GLFW_RELEASE)
+	else if (glfwGetKey(w, GLFW_KEY_E) == GLFW_PRESS)
+	{
+		arwing->BarrelRollRight(dt);
+		return;
+	}
+	else if (glfwGetKey(w, GLFW_KEY_E) == GLFW_RELEASE || glfwGetKey(w, GLFW_KEY_Q) == GLFW_RELEASE)
 	{
 		arwing->BarrelRollComplete();
 	}
+
+	
 
 	// If there is no direction then align the ship back with the -z axis.
 	if (glm::length(direction) > 0)
