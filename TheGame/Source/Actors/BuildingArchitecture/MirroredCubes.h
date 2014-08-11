@@ -11,8 +11,6 @@ public:
 
 	virtual void Draw();
 
-	void SetScaleOfCubes(float x, float y);
-
 private:
 	Cube left;
 	Cube right;

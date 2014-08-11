@@ -113,6 +113,9 @@
     <ClCompile Include="..\Source\Util\L-System\LSystem.cpp">
       <Filter>Source Files\Util\L-System</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\Actors\BuildingArchitecture\FilledMirroredCubes.cpp">
+      <Filter>Source Files\Actors\BuildingArchitecture</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Util\InputManager.h">
@@ -174,6 +177,9 @@
     </ClInclude>
     <ClInclude Include="..\Source\Util\L-System\LSystem.h">
       <Filter>Source Files\Util\L-System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Actors\BuildingArchitecture\FilledMirroredCubes.h">
+      <Filter>Source Files\Actors\BuildingArchitecture</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
