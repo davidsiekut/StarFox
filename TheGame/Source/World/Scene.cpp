@@ -3,13 +3,14 @@
 #include "Chunk.h"
 #include "Cube.h"
 #include "GameplayCamera.h"
+#include "InputManager.h"
 #include "PewPew.h"
 #include "Physics.h"
 #include "Renderer.h"
 #include "Scene.h"
 #include "Texture.h"
+#include "ThirdPersonCamera.h"
 #include "WindowManager.h"
-#include "InputManager.h"
 #include <GLFW/glfw3.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform.hpp>
