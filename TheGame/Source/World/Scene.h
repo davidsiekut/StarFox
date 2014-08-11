@@ -30,7 +30,7 @@ public:
 private:
 	// Hide constructors
 	Scene();
-	Scene(Scene& const);
+	Scene(Scene const&);
 
 	std::vector<Entity*> entities;
 	std::vector<Chunk*> chunks;

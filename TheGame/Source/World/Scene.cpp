@@ -38,7 +38,7 @@ void Scene::Initialize()
 
 	// setup some other stuff
 	enemyFactory = new EnemyFactory(a);
-	camera = new GameplayCamera(40.f, a);
+	camera = new GameplayCamera(25.f, a);
 
 	// load initial level geometry
 	for (unsigned int i = 0; i < TERRAIN_PRELOAD; i++)

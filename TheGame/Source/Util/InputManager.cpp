@@ -96,8 +96,8 @@ void InputManager::Update(float dt)
 	glm::vec3 position = arwing->GetPosition();
 
 	// Clamp the position so the ship cannot fly offscreen.
-	position.x = glm::clamp(position.x + (direction.x * dt * arwing->speedX), -15.f, 15.f);
-	position.y = glm::clamp(position.y + (direction.y * dt * arwing->speedY), 1.5f, 25.f);
+	position.x = glm::clamp(position.x + (direction.x * dt * arwing->speedX), -10.f, 10.f);
+	position.y = glm::clamp(position.y + (direction.y * dt * arwing->speedY), 1.5f, 20.f);
 	if (arwing->movingForward) // Constantly move forwards but can be stopped for cinematics or something
 	{
 		position.z += dt * arwing->speedZ;

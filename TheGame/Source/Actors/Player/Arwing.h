@@ -13,7 +13,6 @@ public:
 	void OnCollision(Entity* other);
 
 	void SetMovingForwards(bool forward) { movingForward = forward; }
-	void Shoot(Scene* scene);
 
 	// Movement constants
 	float rotationAngle;
