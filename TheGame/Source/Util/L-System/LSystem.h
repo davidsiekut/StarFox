@@ -9,7 +9,7 @@ public:
 	LSystem();
 	~LSystem();
 
-	std::string Parse(int iterations, std::string root);
+	std::string Run(int iterations, std::string root);
 
 	void AddRule(std::string LHS, std::string RHS);
 

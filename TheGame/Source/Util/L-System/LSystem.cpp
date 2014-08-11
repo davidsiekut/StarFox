@@ -12,9 +12,9 @@ LSystem::~LSystem()
 
 }
 
-std::string LSystem::Parse(int iterations, std::string root)
+std::string LSystem::Run(int iterations, std::string root)
 {
-	std::string finalValue = "";
+	std::string finalValue = root;
 	for (int i = 0; i < iterations; i++)
 	{
 		finalValue = "";

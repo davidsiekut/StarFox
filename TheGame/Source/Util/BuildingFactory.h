@@ -1,5 +1,7 @@
 #pragma once
 
+#include "LSystem.h"
+
 #include <glm/glm.hpp>
 
 class BuildingFactory
@@ -18,4 +20,6 @@ private:
 	// Hide constructors
 	BuildingFactory();
 	BuildingFactory(BuildingFactory const&);
+
+	LSystem grammar;
 };
