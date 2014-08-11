@@ -27,6 +27,8 @@ public:
 
 	Arwing* GetPlayer() { return a; }
 
+	void GameOver();
+
 private:
 	// Hide constructors
 	Scene();
@@ -40,9 +42,11 @@ private:
 	EnemyFactory* enemyFactory;
 
 	int lastChunk = 0;
+	bool gameOver = false;
 
 	static const unsigned int TERRAIN_PRELOAD;
 	static const unsigned int TERRAIN_LOADAHEAD;
 
 	void LoadTextures();
+
 };

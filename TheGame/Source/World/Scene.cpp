@@ -8,7 +8,9 @@
 #include "Renderer.h"
 #include "Scene.h"
 #include "Texture.h"
-#include "ThirdPersonCamera.h"
+#include "WindowManager.h"
+#include "InputManager.h"
+#include <GLFW/glfw3.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform.hpp>
 #include <time.h>
@@ -208,4 +210,16 @@ void Scene::AddChunk(glm::vec3 pos)
 	u->SetPosition(glm::vec3(s, 10.f, 0.f));
 	AddEntity(u);
 	//printf("[Scene] Creating cube at (%f, %f, %f)\n", u->GetPositionWorld().x, u->GetPositionWorld().y, u->GetPositionWorld().z);
+}
+
+void Scene::GameOver()
+{
+	if (!gameOver)
+	{
+		gameOver = true;
+		printf("[Player] Game over\n");
+		this->camera = new ThirdPersonCamera(20.f, a);
+		glfwSetInputMode(WindowManager::GetWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+		InputManager::Disable();
+	}
 }

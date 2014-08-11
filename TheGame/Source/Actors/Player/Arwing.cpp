@@ -8,6 +8,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include "PewPew.h"
 #include "Scene.h"
+#include "ThirdPersonCamera.h"
 
 Arwing::Arwing(Entity *parent) : Entity(parent)
 {
@@ -32,8 +33,8 @@ void Arwing::Update(float dt)
 {
 	if (GetShieldAmount() <= 0)
 	{
-		printf("[Player] Game over\n");
 		movingForward = false;
+		Scene::GetInstance().GameOver();
 	}
 
 	if (invicibilityFrames > 0)
