@@ -1,5 +1,6 @@
 #include "Enemy.h"
 #include "EnemyFactory.h"
+#include "BuildingFactory.h"
 #include "Chunk.h"
 #include "Cube.h"
 #include "GameplayCamera.h"
@@ -183,12 +184,7 @@ void Scene::AddChunk(glm::vec3 pos)
 	chunks.push_back(c);
 	lastChunk++;
 
-	int s = (rand() % 40) - 20;
-	// add level geometry to this chunk
-	Cube* u = new Cube(c, glm::vec3(5.f, 20.f, 5.f));
-	u->SetPosition(glm::vec3(s, 10.f, 0.f));
-	AddEntity(u);
-	//printf("[Scene] Creating cube at (%f, %f, %f)\n", u->GetPositionWorld().x, u->GetPositionWorld().y, u->GetPositionWorld().z);
+	BuildingFactory::GetInstance().GenerateBuilding(pos);
 }
 
 void Scene::GameOver()
