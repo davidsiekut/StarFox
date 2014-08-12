@@ -1,7 +1,5 @@
 #include "Cube.h"
 
-std::vector<Entity::Vertex>* Cube::bluePrint = new std::vector<Entity::Vertex>();
-
 Cube::Cube(Entity *parent, glm::vec3 size) : Entity(parent)
 {
 	name = "CUBE";
@@ -12,7 +10,7 @@ Cube::Cube(Entity *parent, glm::vec3 size) : Entity(parent)
 	COLLIDE_Y = size.y;
 	COLLIDE_Z = size.z;
 
-	bluePrint = Initialize(size, bluePrint);
+	Initialize(size);
 }
 
 Cube::~Cube()

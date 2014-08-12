@@ -6,6 +6,8 @@
 // TEMPORARY
 #include <time.h>
 
+std::map<std::string, std::vector<Entity::Vertex>*> Entity::bluePrints = std::map<std::string, std::vector<Vertex>*>();
+
 Entity::Entity(Entity *parent) :	name("UNNAMED"),
 									parent(parent),
 									position(0.0f, 0.0f, 0.0f),
@@ -28,14 +30,19 @@ Entity::~Entity()
 	glDeleteVertexArrays(1, &vertexArrayID);
 }
 
-std::vector<Entity::Vertex>* Entity::Initialize(glm::vec3 size, std::vector<Entity::Vertex>* vertices)
+void Entity::Initialize(glm::vec3 size)
 {
-	std::vector<Vertex> buffer = *vertices;
+	std::vector<Vertex> buffer;
 
-	if (vertices->size() == 0)
+	if(bluePrints.find(objPath) != bluePrints.end())
+	{
+		buffer = *bluePrints[objPath];
+	}
+	else
 	{
 		bool res = loadOBJ(objPath, buffer);
-		vertices = new std::vector<Vertex>(buffer);
+		bluePrints.insert(std::pair<std::string, std::vector<Vertex>*>(objPath, new std::vector<Vertex>(buffer)));
+		printf("[Entity] Stored %s into memory\n", objPath.c_str());
 	}
 
 	for (std::vector<Vertex>::iterator it = buffer.begin(); it < buffer.end(); it++)
@@ -57,8 +64,6 @@ std::vector<Entity::Vertex>* Entity::Initialize(glm::vec3 size, std::vector<Enti
 	// and keep a reference to it (vertexBufferID)
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferID);
 	glBufferData(GL_ARRAY_BUFFER, buffer.size() * (3 * sizeof(glm::vec3) + sizeof(glm::vec2)), &buffer[0], GL_STATIC_DRAW);
-
-	return vertices;
 }
 
 void Entity::Update(float dt)
