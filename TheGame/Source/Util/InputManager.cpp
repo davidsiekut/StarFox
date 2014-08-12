@@ -4,6 +4,13 @@
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 
+#define SHIP_CLAMP_X_NEG -10.f
+#define SHIP_CLAMP_X_POS 10.f
+#define SHIP_CLAMP_Y_NEG 1.5f
+#define SHIP_CLAMP_Y_POS 20.f
+
+#define TIMER_BARRELROLL 0.2f
+
 double InputManager::mouseX = 0.0f;
 double InputManager::mouseY = 0.0f;
 float  InputManager::mouseDeltaX = 0.0f;
@@ -13,9 +20,10 @@ bool InputManager::shotsFired = false;
 bool InputManager::disabled = false;
 Arwing* InputManager::arwing;
 
-float InputManager::doublePressTimer = 1.f;
+float InputManager::doublePressTimer = TIMER_BARRELROLL;
 bool InputManager::isTiltingLeft = false;
 bool InputManager::isTiltingRight = false;
+std::string InputManager::lastPressed = "";
 
 void InputManager::Initialize(Arwing* a)
 {
@@ -71,23 +79,18 @@ void InputManager::Update(float dt)
 	}
 
 	glm::vec3 position = arwing->GetPosition();
-
 	// Clamp the position so the ship cannot fly offscreen.
-	position.x = glm::clamp(position.x + (direction.x * dt * arwing->speedX), -10.f, 10.f);
-	position.y = glm::clamp(position.y + (direction.y * dt * arwing->speedY), 1.5f, 20.f);
+	position.x = glm::clamp(position.x + (direction.x * dt * arwing->speedX), SHIP_CLAMP_X_NEG, SHIP_CLAMP_X_POS);
+	position.y = glm::clamp(position.y + (direction.y * dt * arwing->speedY), SHIP_CLAMP_Y_NEG, SHIP_CLAMP_Y_POS);
 	if (arwing->movingForward) // Constantly move forwards but can be stopped for cinematics or something
 	{
 		position.z += dt * arwing->speedZ;
 	}
-
 	arwing->SetPosition(position);
 
-	//if (isReleased)
-		//doublePressTimer -= dt;
+	//printf("%d %d %f\n", isTiltingLeft, isTiltingRight, doublePressTimer);
 
-	printf("%d %d %f\n", isTiltingLeft, isTiltingRight, doublePressTimer);
-
-	if (doublePressTimer < 1.f)
+	if (doublePressTimer < TIMER_BARRELROLL)
 		doublePressTimer -= dt;
 
 	if (arwing->barrelRolling)
@@ -95,20 +98,19 @@ void InputManager::Update(float dt)
 
 	if (glfwGetKey(w, GLFW_KEY_Q) == GLFW_PRESS)
 	{
-
+		lastPressed = "Q";
 		if (!isTiltingLeft)
 		{
-			if (doublePressTimer != 1 && doublePressTimer > 0)
+			if (doublePressTimer != TIMER_BARRELROLL && doublePressTimer > 0 && lastPressed == "Q")
 			{
 				arwing->barrelRolling = true;
 				return;
 			}
-
 		}
 
-		if (doublePressTimer == 1.f)
+		if (doublePressTimer == TIMER_BARRELROLL)
 		{
-			doublePressTimer -= 0.01f;
+			doublePressTimer -= 0.0001f;
 		}
 
 		isTiltingLeft = true;
@@ -118,20 +120,19 @@ void InputManager::Update(float dt)
 	}
 	else if (glfwGetKey(w, GLFW_KEY_E) == GLFW_PRESS)
 	{
-
+		lastPressed = "E";
 		if (!isTiltingRight)
 		{
-			if (doublePressTimer != 1 && doublePressTimer > 0)
+			if (doublePressTimer != TIMER_BARRELROLL && doublePressTimer > 0 && lastPressed == "E")
 			{
 				arwing->barrelRolling = true;
 				return;
 			}
-
 		}
 
-		if (doublePressTimer == 1.f)
+		if (doublePressTimer == TIMER_BARRELROLL)
 		{
-			doublePressTimer -= 0.01f;
+			doublePressTimer -= 0.0001f;
 		}
 
 		isTiltingRight = true;
@@ -144,11 +145,10 @@ void InputManager::Update(float dt)
 		isTiltingLeft = isTiltingRight = false;
 		if (doublePressTimer < 0)
 		{
-			doublePressTimer = 1.f;
+			doublePressTimer = TIMER_BARRELROLL;
 		}
 
 		arwing->TiltComplete(dt);
-		//arwing->BarrelRollComplete();
 	}
 
 	// If there is no direction then align the ship back with the -z axis.

@@ -24,4 +24,5 @@ private:
 	static bool isTiltingLeft;
 	static bool isTiltingRight;
 	static float doublePressTimer;
+	static std::string lastPressed;
 };
