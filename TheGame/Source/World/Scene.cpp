@@ -185,7 +185,7 @@ void Scene::Draw()
 
 		glUniform3f(lAttenuationID, 0.0f, 0.0f, 0.02f);
 		glUniform3f(lColorID, 1.0f, 1.0f, 1.0f);
-		glUniform4f(lPositionID, a->GetPosition().x, a->GetPosition().y + 5.f, a->GetPosition().z, 1.0f);
+		glUniform4f(lPositionID, 0.f, -1.f, 0.f, 0.f);
 		glUniform1f(samplerID, 0); // for texture2d
 
 		(*it)->Draw();
