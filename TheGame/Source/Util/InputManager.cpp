@@ -88,25 +88,26 @@ void InputManager::Update(float dt)
 	}
 	arwing->SetPosition(position);
 
-	//printf("%d %d %f\n", isTiltingLeft, isTiltingRight, doublePressTimer);
+	printf("%s %d %d %f\n", lastPressed.c_str(), isTiltingLeft, isTiltingRight, doublePressTimer);
 
+	// count down the timer for doublepress input
 	if (doublePressTimer < TIMER_BARRELROLL)
 		doublePressTimer -= dt;
 
-	if (arwing->barrelRolling)
+	if (arwing->isBarrelRolling)
 		return;
 
-	if (glfwGetKey(w, GLFW_KEY_Q) == GLFW_PRESS)
+	if (glfwGetKey(w, GLFW_KEY_Q) == GLFW_PRESS && !isTiltingRight)
 	{
-		lastPressed = "Q";
 		if (!isTiltingLeft)
 		{
 			if (doublePressTimer != TIMER_BARRELROLL && doublePressTimer > 0 && lastPressed == "Q")
 			{
-				arwing->barrelRolling = true;
+				arwing->isBarrelRolling = true;
 				return;
 			}
 		}
+		lastPressed = "Q";
 
 		if (doublePressTimer == TIMER_BARRELROLL)
 		{
@@ -118,17 +119,17 @@ void InputManager::Update(float dt)
 
 		return;
 	}
-	else if (glfwGetKey(w, GLFW_KEY_E) == GLFW_PRESS)
+	else if (glfwGetKey(w, GLFW_KEY_E) == GLFW_PRESS && !isTiltingLeft)
 	{
-		lastPressed = "E";
 		if (!isTiltingRight)
 		{
 			if (doublePressTimer != TIMER_BARRELROLL && doublePressTimer > 0 && lastPressed == "E")
 			{
-				arwing->barrelRolling = true;
+				arwing->isBarrelRolling = true;
 				return;
 			}
 		}
+		lastPressed = "E";
 
 		if (doublePressTimer == TIMER_BARRELROLL)
 		{

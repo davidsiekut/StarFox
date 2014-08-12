@@ -28,7 +28,7 @@ Arwing::Arwing(Entity *parent) : Entity(parent)
 	speedY = 15.0f;
 	speedZ = 80.0f;
 	movingForward = true;
-	barrelRolling = false;
+	isBarrelRolling = false;
 	barrelRollTimer = 0.3f;
 
 	bluePrint = Initialize(size, bluePrint);
@@ -47,7 +47,7 @@ void Arwing::Update(float dt)
 		invicibilityFrames -= dt;
 	}
 
-	if (barrelRolling)
+	if (isBarrelRolling)
 	{
 		float rotationAngle = GetRotationAngle() + dt * rotationSpeed * 40.f;
 		rotationAxis = glm::vec3(0.f, 0.f, -1.f);
@@ -57,42 +57,8 @@ void Arwing::Update(float dt)
 	if (barrelRollTimer < 0)
 	{
 		barrelRollTimer = 0.3f;
-		barrelRolling = false;
+		isBarrelRolling = false;
 	}
-}
-
-void Arwing::OnCollision(Entity* other)
-{
-	if (invicibilityFrames <= 0)
-	{
-		if (other->GetName() == "ENEMY" ||
-			other->GetName() == "BUILDING")
-		{
-			TakeDamage(10);
-		}
-		else if (other->GetName() == "PEWPEW" && (((PewPew*)other)->owner == "ENEMY"))
-		{
-			TakeDamage(((PewPew*)other)->damage);
-		}
-
-		invicibilityFrames = 2.f;
-	}
-}
-
-void Arwing::BarrelRollLeft(float dt)
-{
-	float rotationAngle = GetRotationAngle() + dt * rotationSpeed * 20.f;
-	rotationAxis = glm::vec3(0.f, 0.f, -1.f);
-	SetRotation(rotationAxis, rotationAngle);
-	invicibilityFrames = 0.5f;
-}
-
-void Arwing::BarrelRollRight(float dt)
-{
-	float rotationAngle = GetRotationAngle() + dt * rotationSpeed * 20.f;
-	rotationAxis = glm::vec3(0.f, 0.f, 1.f);
-	SetRotation(rotationAxis, rotationAngle);
-	invicibilityFrames = 0.5f;
 }
 
 void Arwing::TiltLeft(float dt)
@@ -116,8 +82,20 @@ void Arwing::TiltComplete(float dt)
 	SetRotation(rotationAxis, rotationAngle);
 }
 
-
-void Arwing::BarrelRollComplete()
+void Arwing::OnCollision(Entity* other)
 {
-	SetRotation(rotationAxis, 0.f);
+	if (invicibilityFrames <= 0)
+	{
+		if (other->GetName() == "ENEMY" ||
+			other->GetName() == "BUILDING")
+		{
+			TakeDamage(10);
+		}
+		else if (other->GetName() == "PEWPEW" && (((PewPew*)other)->owner == "ENEMY"))
+		{
+			TakeDamage(((PewPew*)other)->damage);
+		}
+
+		invicibilityFrames = 2.f;
+	}
 }
