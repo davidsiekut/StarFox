@@ -8,8 +8,7 @@ Chunk::Chunk(Entity *parent) : Cube(parent, glm::vec3(CHUNK_WIDTH, 0.1f, CHUNK_D
 	name = "CHUNK";
 	size = glm::vec3(CHUNK_WIDTH, 0.1f, CHUNK_DEPTH);
 	objPath = "../Assets/Models/cube.obj";
-
-	shaderType = SHADER_TEXTURED;
+	shaderType = SHADER_PHONG_TEXTURED;
 	textureID = 3;
 
 	Initialize(size);

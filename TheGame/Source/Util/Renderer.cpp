@@ -44,6 +44,7 @@ void Renderer::Initialize()
 	shaders.push_back(LoadShader("Phong"));
 	shaders.push_back(LoadShader("Textured"));
 	shaders.push_back(LoadShader("Bloom"));
+	shaders.push_back(LoadShader("PhongTextured"));
 
 	currentShader = -1;
 }

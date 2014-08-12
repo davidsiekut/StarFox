@@ -125,10 +125,16 @@ void Scene::Update(float dt)
 		{
 			if (((Enemy*)(*it))->attackCooldown <= 0)
 			{
-				PewPew* pewpew = new PewPew("ENEMY");
+				float meetingTime = ((*it)->GetPosition().z - a->GetPosition().z) / (a->speedZ - PewPew::PEWPEW_SPEED_ENEMY);
+				glm::vec3 target = a->GetPosition();
+				target.z += meetingTime * a->speedZ;
+
+				glm::vec3 direction = glm::normalize(target - (*it)->GetPosition());
+
+				PewPew* pewpew = new PewPew("ENEMY", direction);
 				pewpew->SetPosition(glm::vec3((*it)->GetPosition().x, (*it)->GetPosition().y, (*it)->GetPosition().z));
 				queued.push_back(pewpew);
-				((Enemy*)(*it))->attackCooldown = 1.f;
+				((Enemy*)(*it))->attackCooldown = 2.f;
 			}
 		}
 	}
@@ -185,7 +191,7 @@ void Scene::Draw()
 
 		glUniform3f(lAttenuationID, 0.0f, 0.0f, 0.02f);
 		glUniform3f(lColorID, 1.0f, 1.0f, 1.0f);
-		glUniform4f(lPositionID, a->GetPosition().x, a->GetPosition().y + 5.f, a->GetPosition().z, 1.0f);
+		glUniform4f(lPositionID, 0.f, -1.f, 0.f, 0.f);
 		glUniform1f(samplerID, 0); // for texture2d
 
 		(*it)->Draw();
