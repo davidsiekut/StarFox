@@ -23,6 +23,7 @@ public:
 	void SetRotation(glm::vec3 axis, float angle);
 	void SetShaderType(ShaderType type) { shaderType = type; }
 	void SetTextureID(int id) { textureID = id; }
+	void SetTextureCoords(glm::vec2 textureCoordinates) { this->textureCoordinates = textureCoordinates; }
 
 	std::string GetName() const { return name; }
 	glm::vec3 GetPosition() const { return position; }
@@ -51,6 +52,7 @@ protected:
 	glm::vec3 position;
 	glm::vec3 scaling;
 	glm::vec3 size; // use this instead of scaling to prevent parent-child shearing
+	glm::vec2 textureCoordinates;
 	glm::vec3 rotationAxis;
 	float rotationAngle; // in degrees
 

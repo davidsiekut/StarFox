@@ -63,7 +63,9 @@ void Building::Parse(char c)
 {
 	if (c == 'B')
 	{
-		Cube* c = new Cube(this, glm::vec3(BUILDING_SIZE_X, BUILDING_SIZE_Y, BUILDING_SIZE_Z));
+		glm::vec3 size = glm::vec3(BUILDING_SIZE_X, BUILDING_SIZE_Y, BUILDING_SIZE_Z);
+		glm::vec2 textureCoords = glm::vec2(BUILDING_SIZE_X / 15, BUILDING_SIZE_Y / 15);
+		Cube* c = new Cube(this, size, textureCoords);
 		c->SetPosition(glm::vec3(0.f, BUILDING_SIZE_Y / 2.f, 0.f));
 		c->SetShaderType(SHADER_TEXTURED);
 		blocks.push_back(c);
@@ -91,7 +93,8 @@ void Building::Parse(char c)
 	}
 	else if (c == 'M')
 	{
-		FilledMirroredCubes* m = new FilledMirroredCubes(this);
+		glm::vec2 textureCoords = glm::vec2(BUILDING_SIZE_X / 15, BUILDING_SIZE_Y / 15);
+		FilledMirroredCubes* m = new FilledMirroredCubes(this, textureCoords);
 		m->SetShaderType(SHADER_TEXTURED);
 		blocks.push_back(m);
 	}

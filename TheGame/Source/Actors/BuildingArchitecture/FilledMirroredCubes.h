@@ -9,7 +9,7 @@
 class FilledMirroredCubes : public Entity
 {
 public:
-	FilledMirroredCubes(Entity* parent);
+	FilledMirroredCubes(Entity* parent, glm::vec2 textureCoords);
 
 	void SetShaderType(ShaderType shaderType);
 

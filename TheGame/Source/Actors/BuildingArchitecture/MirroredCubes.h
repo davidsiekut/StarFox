@@ -6,7 +6,7 @@
 class MirroredCubes : public Entity
 {
 public:
-	MirroredCubes(Entity* parent);
+	MirroredCubes(Entity* parent, glm::vec2 textureCoordinates);
 	virtual ~MirroredCubes();
 
 	void SetShaderType(ShaderType shaderType);

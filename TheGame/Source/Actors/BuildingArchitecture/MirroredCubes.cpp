@@ -3,9 +3,9 @@
 #include "Building.h"
 #include "MirroredCubes.h"
 
-MirroredCubes::MirroredCubes(Entity* parent) : Entity(parent),
-left(this, glm::vec3(BUILDING_SIZE_X / 5.f, BUILDING_SIZE_Y / 3.f, BUILDING_SIZE_Z / 2.f)),
-right(this, glm::vec3(BUILDING_SIZE_X / 5.f, BUILDING_SIZE_Y / 3.f, BUILDING_SIZE_Z / 2.f))
+MirroredCubes::MirroredCubes(Entity* parent, glm::vec2 textureCoordinates) : Entity(parent),
+left(this, glm::vec3(BUILDING_SIZE_X / 5.f, BUILDING_SIZE_Y / 3.f, BUILDING_SIZE_Z / 2.f), textureCoordinates),
+right(this, glm::vec3(BUILDING_SIZE_X / 5.f, BUILDING_SIZE_Y / 3.f, BUILDING_SIZE_Z / 2.f), textureCoordinates)
 {
 	name = "CUBE";
 

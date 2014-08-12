@@ -13,6 +13,7 @@ Entity::Entity(Entity *parent) :	name("UNNAMED"),
 									position(0.0f, 0.0f, 0.0f),
 									scaling(1.0f, 1.0f, 1.0f),
 									size(1.0f, 1.0f, 1.0f),
+									textureCoordinates(1.0f, 1.0f),
 									rotationAxis(0.0f, 1.0f, 0.0f),
 									rotationAngle(0.0f),
 									materialCoefficients(0.2f, 0.8f, 0.2f, 50.0f),
@@ -50,6 +51,9 @@ void Entity::Initialize(glm::vec3 size)
 		(*it).position.x *= size.x;
 		(*it).position.y *= size.y;
 		(*it).position.z *= size.z;
+
+		(*it).uv.x *= textureCoordinates.x;
+		(*it).uv.y *= textureCoordinates.y;
 	}
 
 	// if Vertex struct is modified, this needs to be changed also
