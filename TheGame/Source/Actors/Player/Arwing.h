@@ -25,6 +25,8 @@ public:
 	float speedY;
 	float speedZ;
 	bool movingForward;
+	bool isTiltingLeft;
+	bool isTiltingRight;
 	bool isBarrelRolling;
 	float barrelRollTimer;
 

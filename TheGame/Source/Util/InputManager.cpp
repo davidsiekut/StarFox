@@ -21,8 +21,6 @@ bool InputManager::disabled = false;
 Arwing* InputManager::arwing;
 
 float InputManager::doublePressTimer = TIMER_BARRELROLL;
-bool InputManager::isTiltingLeft = false;
-bool InputManager::isTiltingRight = false;
 std::string InputManager::lastPressed = "";
 
 void InputManager::Initialize(Arwing* a)
@@ -88,7 +86,11 @@ void InputManager::Update(float dt)
 	}
 	arwing->SetPosition(position);
 
-	printf("%s %d %d %f\n", lastPressed.c_str(), isTiltingLeft, isTiltingRight, doublePressTimer);
+	/*
+		BARREL ROLL CODE BEGIN
+	*/
+
+	//sprintf("%s %d %d %f\n", lastPressed.c_str(), isTiltingLeft, isTiltingRight, doublePressTimer);
 
 	// count down the timer for doublepress input
 	if (doublePressTimer < TIMER_BARRELROLL)
@@ -97,53 +99,55 @@ void InputManager::Update(float dt)
 	if (arwing->isBarrelRolling)
 		return;
 
-	if (glfwGetKey(w, GLFW_KEY_Q) == GLFW_PRESS && !isTiltingRight)
+	if (glfwGetKey(w, GLFW_KEY_Q) == GLFW_PRESS && !arwing->isTiltingRight)
 	{
-		if (!isTiltingLeft)
+		if (!arwing->isTiltingLeft)
 		{
 			if (doublePressTimer != TIMER_BARRELROLL && doublePressTimer > 0 && lastPressed == "Q")
 			{
+				arwing->isTiltingLeft = true;
 				arwing->isBarrelRolling = true;
 				return;
 			}
 		}
 		lastPressed = "Q";
+		arwing->isTiltingLeft = true;
+		arwing->TiltLeft(dt);
 
 		if (doublePressTimer == TIMER_BARRELROLL)
 		{
 			doublePressTimer -= 0.0001f;
 		}
 
-		isTiltingLeft = true;
-		arwing->TiltLeft(dt);
-
 		return;
 	}
-	else if (glfwGetKey(w, GLFW_KEY_E) == GLFW_PRESS && !isTiltingLeft)
+	else if (glfwGetKey(w, GLFW_KEY_E) == GLFW_PRESS && !arwing->isTiltingLeft)
 	{
-		if (!isTiltingRight)
+		if (!arwing->isTiltingRight)
 		{
 			if (doublePressTimer != TIMER_BARRELROLL && doublePressTimer > 0 && lastPressed == "E")
 			{
+				arwing->isTiltingRight = true;
 				arwing->isBarrelRolling = true;
 				return;
 			}
 		}
 		lastPressed = "E";
+		arwing->isTiltingRight = true;
+		arwing->TiltRight(dt);
 
 		if (doublePressTimer == TIMER_BARRELROLL)
 		{
 			doublePressTimer -= 0.0001f;
 		}
 
-		isTiltingRight = true;
-		arwing->TiltRight(dt);
-
 		return;
 	}
 	else if (glfwGetKey(w, GLFW_KEY_E) == GLFW_RELEASE || glfwGetKey(w, GLFW_KEY_Q) == GLFW_RELEASE)
 	{
-		isTiltingLeft = isTiltingRight = false;
+		arwing->isTiltingLeft = false;
+		arwing->isTiltingRight = false;
+
 		if (doublePressTimer < 0)
 		{
 			doublePressTimer = TIMER_BARRELROLL;
@@ -152,6 +156,11 @@ void InputManager::Update(float dt)
 		arwing->TiltComplete(dt);
 	}
 
+	/*
+		BARREL ROLL CODE END
+	*/
+	
+	/*
 	// If there is no direction then align the ship back with the -z axis.
 	if (glm::length(direction) > 0)
 	{
@@ -184,6 +193,7 @@ void InputManager::Update(float dt)
 			arwing->SetRotation(rotationAxis, angle);
 		}
 	}
+	*/
 }
 
 void InputManager::Fire()

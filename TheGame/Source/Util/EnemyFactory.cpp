@@ -21,10 +21,6 @@ void EnemyFactory::SpawnCheck(float dt)
 		if (left)
 		{
 			SpawnEnemies(5, EnemyFactory::Direction::LEFT, 0.f);
-			SpawnEnemies(5, EnemyFactory::Direction::LEFT, 5.f);
-			SpawnEnemies(5, EnemyFactory::Direction::LEFT, 10.f);
-			SpawnEnemies(5, EnemyFactory::Direction::LEFT, 15.f);
-			SpawnEnemies(5, EnemyFactory::Direction::LEFT, 20.f);
 			
 			left = !left;
 		}

@@ -11,6 +11,8 @@
 #include "Scene.h"
 #include "ThirdPersonCamera.h"
 
+#define BARREL_ROLL_TIME 0.3f
+
 std::vector<Entity::Vertex>* Arwing::bluePrint = new std::vector<Entity::Vertex>();
 
 Arwing::Arwing(Entity *parent) : Entity(parent)
@@ -28,8 +30,10 @@ Arwing::Arwing(Entity *parent) : Entity(parent)
 	speedY = 15.0f;
 	speedZ = 80.0f;
 	movingForward = true;
+	isTiltingLeft = false;
+	isTiltingRight = false;
 	isBarrelRolling = false;
-	barrelRollTimer = 0.3f;
+	barrelRollTimer = BARREL_ROLL_TIME;
 
 	bluePrint = Initialize(size, bluePrint);
 }
@@ -50,19 +54,28 @@ void Arwing::Update(float dt)
 	if (isBarrelRolling)
 	{
 		float rotationAngle = GetRotationAngle() + dt * rotationSpeed * 40.f;
-		rotationAxis = glm::vec3(0.f, 0.f, -1.f);
+
+		if (isTiltingLeft)
+			rotationAxis = glm::vec3(0.f, 0.f, -1.f);
+		else
+			rotationAxis = glm::vec3(0.f, 0.f, 1.f);
+
 		SetRotation(rotationAxis, rotationAngle);
 		barrelRollTimer -= dt;
 	}
 	if (barrelRollTimer < 0)
 	{
-		barrelRollTimer = 0.3f;
+		barrelRollTimer = BARREL_ROLL_TIME;
 		isBarrelRolling = false;
 	}
 }
 
 void Arwing::TiltLeft(float dt)
 {
+	COLLIDE_X = 1.5f;
+	COLLIDE_Y = 7.8f;
+	COLLIDE_Z = 2.0f;
+
 	float rotationAngle = glm::clamp(GetRotationAngle() + dt * rotationSpeed * 5.f, 0.f, 90.f);
 	rotationAxis = glm::vec3(0.f, 0.f, -1.f);
 	SetRotation(rotationAxis, rotationAngle);
@@ -70,6 +83,10 @@ void Arwing::TiltLeft(float dt)
 
 void Arwing::TiltRight(float dt)
 {
+	COLLIDE_X = 1.5f;
+	COLLIDE_Y = 7.8f;
+	COLLIDE_Z = 2.0f;
+
 	float rotationAngle = glm::clamp(GetRotationAngle() + dt * rotationSpeed * 5.f, 0.f, 90.f);
 	rotationAxis = glm::vec3(0.f, 0.f, 1.f);
 	SetRotation(rotationAxis, rotationAngle);
@@ -77,6 +94,10 @@ void Arwing::TiltRight(float dt)
 
 void Arwing::TiltComplete(float dt)
 {
+	COLLIDE_X = 7.8f;
+	COLLIDE_Y = 1.5f;
+	COLLIDE_Z = 2.0f;
+
 	float rotationAngle = glm::clamp(GetRotationAngle() - dt * rotationSpeed * 5.f, 0.f, 90.f);
 	rotationAxis = GetRotationAxis();
 	SetRotation(rotationAxis, rotationAngle);
@@ -84,16 +105,18 @@ void Arwing::TiltComplete(float dt)
 
 void Arwing::OnCollision(Entity* other)
 {
-	if (invicibilityFrames <= 0)
+	if (invicibilityFrames <= 0 && !isBarrelRolling)
 	{
 		if (other->GetName() == "ENEMY" ||
 			other->GetName() == "BUILDING")
 		{
 			TakeDamage(10);
+			printf("[Player] Shield = %f\n", GetShieldAmount());
 		}
 		else if (other->GetName() == "PEWPEW" && (((PewPew*)other)->owner == "ENEMY"))
 		{
 			TakeDamage(((PewPew*)other)->damage);
+			printf("[Player] Shield = %f\n", GetShieldAmount());
 		}
 
 		invicibilityFrames = 2.f;
