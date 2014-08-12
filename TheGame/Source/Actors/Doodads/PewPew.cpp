@@ -19,6 +19,8 @@ PewPew::PewPew(std::string owner) : Entity(NULL), owner(owner)
 	COLLIDE_Y = size.y;
 	COLLIDE_Z = size.z;
 
+	this->SetShaderType(ShaderType::SHADER_BLOOM);
+
 	Initialize(size);
 }
 

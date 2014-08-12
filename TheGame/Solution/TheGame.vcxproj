@@ -62,6 +62,8 @@
     <ClInclude Include="..\Source\World\Scene.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\Source\Shaders\Bloom.frag" />
+    <None Include="..\Source\Shaders\Bloom.vert" />
     <None Include="..\Source\Shaders\Gouraud.frag" />
     <None Include="..\Source\Shaders\Gouraud.vert" />
     <None Include="..\Source\Shaders\Phong.frag" />
