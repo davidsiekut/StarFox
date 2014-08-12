@@ -11,8 +11,6 @@
 #include "Scene.h"
 #include "ThirdPersonCamera.h"
 
-std::vector<Entity::Vertex>* Arwing::bluePrint = new std::vector<Entity::Vertex>();
-
 Arwing::Arwing(Entity *parent) : Entity(parent)
 {
 	name = "PLAYER";
@@ -31,7 +29,7 @@ Arwing::Arwing(Entity *parent) : Entity(parent)
 	barrelRolling = false;
 	barrelRollTimer = 0.3f;
 
-	bluePrint = Initialize(size, bluePrint);
+	Initialize(size);
 }
 
 void Arwing::Update(float dt)

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Renderer.h"
+#include <map>
 #include "glm/glm.hpp"
 #include <string>
 
@@ -64,7 +65,7 @@ protected:
 		glm::vec3 color;
 	};
 
-	std::vector<Vertex>* Initialize(glm::vec3 size, std::vector<Vertex>* vertices);
+	void Initialize(glm::vec3 size);
 
 private:
 	unsigned int vertexArrayID;
@@ -75,4 +76,7 @@ private:
 
 	// gameplay stuff
 	float shield = 100.f;
+
+	// Hold the blueprints of each Entity in memory once the .obj has been loaded.
+	static std::map<std::string, std::vector<Vertex>*> bluePrints;
 };

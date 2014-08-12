@@ -21,6 +21,4 @@ private:
 	static const float PEWPEW_LIFETIME;
 	static const float PEWPEW_SPEED_PLAYER;
 	static const float PEWPEW_SPEED_ENEMY;
-
-	static std::vector<Vertex>* bluePrint;
 };
