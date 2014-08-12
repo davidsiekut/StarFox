@@ -4,8 +4,6 @@ const float PewPew::PEWPEW_LIFETIME = 0.5f;
 const float PewPew::PEWPEW_SPEED_PLAYER = 290.f;
 const float PewPew::PEWPEW_SPEED_ENEMY = 20.f;
 
-std::vector<Entity::Vertex>* PewPew::bluePrint = new std::vector<Entity::Vertex>();
-
 PewPew::PewPew(std::string owner) : Entity(NULL), owner(owner)
 {
 	name = "PEWPEW";
@@ -21,7 +19,7 @@ PewPew::PewPew(std::string owner) : Entity(NULL), owner(owner)
 	COLLIDE_Y = size.y;
 	COLLIDE_Z = size.z;
 
-	bluePrint = Initialize(size, bluePrint);
+	Initialize(size);
 }
 
 PewPew::~PewPew()

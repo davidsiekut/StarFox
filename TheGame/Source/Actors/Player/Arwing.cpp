@@ -13,8 +13,6 @@
 
 #define BARREL_ROLL_TIME 0.3f
 
-std::vector<Entity::Vertex>* Arwing::bluePrint = new std::vector<Entity::Vertex>();
-
 Arwing::Arwing(Entity *parent) : Entity(parent)
 {
 	name = "PLAYER";
@@ -35,7 +33,7 @@ Arwing::Arwing(Entity *parent) : Entity(parent)
 	isBarrelRolling = false;
 	barrelRollTimer = BARREL_ROLL_TIME;
 
-	bluePrint = Initialize(size, bluePrint);
+	Initialize(size);
 }
 
 void Arwing::Update(float dt)
