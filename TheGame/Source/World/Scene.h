@@ -28,7 +28,6 @@ public:
 	Arwing* GetPlayer() { return a; }
 
 	void GameOver();
-
 	bool IsGameOver() { return gameOver; }
 
 private:
@@ -50,5 +49,4 @@ private:
 	static const unsigned int TERRAIN_LOADAHEAD;
 
 	void LoadTextures();
-
 };

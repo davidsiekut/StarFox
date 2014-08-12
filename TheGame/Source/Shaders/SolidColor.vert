@@ -19,4 +19,3 @@ void main()
 	normal = vertexNormal_modelspace;
 	v_color = vec4(vertexColor, 1.0f);
 }
-

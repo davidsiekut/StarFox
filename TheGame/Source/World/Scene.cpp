@@ -142,7 +142,7 @@ void Scene::Update(float dt)
 
 void Scene::Draw()
 {
-	Renderer::BeginFrame();
+	Renderer::GetInstance().BeginFrame();
 
 	glm::mat4 W(1.0f);
 	glm::mat4 V = camera->GetViewMatrix();
@@ -158,16 +158,20 @@ void Scene::Draw()
 	P = camera->GetProjectionMatrix(); 
 	for (std::vector<Entity*>::iterator it = entities.begin(); it < entities.end(); ++it)
 	{
-		GLuint program = Renderer::GetShaderProgramID((*it)->GetShaderType());
+		//GLuint program = Renderer::GetInstance().GetShaderProgramID(this->shaderType);
+		GLuint program;
+		if (Renderer::GetInstance().GetCurrentShader() > -1)
+			program = Renderer::GetInstance().GetShaderProgramID(Renderer::GetInstance().GetCurrentShader());
+		else
+			program = Renderer::GetInstance().GetShaderProgramID((*it)->GetShaderType());
 		glUseProgram(program);
-
 
 		GLuint ViewMatrixID = glGetUniformLocation(program, "ViewTransform");
 		GLuint ProjMatrixID = glGetUniformLocation(program, "ProjTransform");
 
-		GLuint lPositionID = glGetUniformLocation(program, "lPosition_World");
-		GLuint lColorID = glGetUniformLocation(program, "lColor");
 		GLuint lAttenuationID = glGetUniformLocation(program, "lAttenuation");
+		GLuint lColorID = glGetUniformLocation(program, "lColor");
+		GLuint lPositionID = glGetUniformLocation(program, "lPosition_World");
 		GLuint samplerID = glGetUniformLocation(program, "sampler"); // for texture2d
 
 		glUniformMatrix4fv(ViewMatrixID, 1, GL_FALSE, &V[0][0]);
@@ -175,15 +179,15 @@ void Scene::Draw()
 
 		textures[(*it)->GetTextureID()].Bind(); // for texture2d
 
-		glUniform4f(lPositionID, 0.0f, -1.0f, 0.0f, 0.0f);
-		glUniform3f(lColorID, 1.0f, 1.0f, 1.0f);
 		glUniform3f(lAttenuationID, 0.0f, 0.0f, 0.02f);
-		glUniform1i(samplerID, 0); // for texture2d
+		glUniform3f(lColorID, 1.0f, 1.0f, 1.0f);
+		glUniform4f(lPositionID, a->GetPosition().x, a->GetPosition().y + 5.f, a->GetPosition().z, 1.0f);
+		glUniform1f(samplerID, 0); // for texture2d
 
 		(*it)->Draw();
 	}
 
-	Renderer::EndFrame();
+	Renderer::GetInstance().EndFrame();
 }
 
 void Scene::AddEntity(Entity* entity)

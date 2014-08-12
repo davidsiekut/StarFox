@@ -64,6 +64,8 @@
   <ItemGroup>
     <None Include="..\Source\Shaders\Gouraud.frag" />
     <None Include="..\Source\Shaders\Gouraud.vert" />
+    <None Include="..\Source\Shaders\Phong.frag" />
+    <None Include="..\Source\Shaders\Phong.vert" />
     <None Include="..\Source\Shaders\SolidColor.frag" />
     <None Include="..\Source\Shaders\SolidColor.vert" />
     <None Include="..\Source\Shaders\Textured.frag" />

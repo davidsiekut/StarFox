@@ -1,15 +1,19 @@
 #version 330 core
 
-uniform sampler2D gSampler;
+uniform vec3 lAttenuation;
+uniform vec3 lColor;
+uniform vec4 lPosition_World; 
+uniform vec4 materialCoefficients;
+
+uniform sampler2D sampler;
 
 in vec2 tex_coord;
-in vec3 normal;
-in vec4 v_color;
+in vec3 v_normal;
 
-out vec3 color;
+out vec4 color;
 
 void main()
 {
-	vec4 vTexColor = texture2D(gSampler, tex_coord);
-	color = vTexColor.xyz;
+	vec4 tex_color = texture(sampler, tex_coord);
+	color = tex_color;
 }

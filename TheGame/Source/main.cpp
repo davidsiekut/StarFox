@@ -9,7 +9,9 @@
 int main(int argc, char*argv[])
 {
 	WindowManager::Initialize();
-	Renderer::Initialize();
+
+	Renderer& renderer = Renderer::GetInstance();
+	renderer.Initialize();
 
 	Scene& scene = Scene::GetInstance();
 	scene.Initialize();
@@ -26,7 +28,7 @@ int main(int argc, char*argv[])
 	} while (WindowManager::ExitRequested() == false);
 
 	// should prolly do cleanup here i dont know
-	Renderer::Shutdown();
+	Renderer::GetInstance().Shutdown();
 	glfwTerminate();
 
 	return 0;

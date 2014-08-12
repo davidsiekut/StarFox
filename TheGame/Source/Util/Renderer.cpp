@@ -6,8 +6,13 @@
 #include <sstream>
 #include <string>
 
-GLFWwindow* Renderer::w = NULL;
-std::vector<unsigned int> Renderer::shaders;
+//GLFWwindow* Renderer::w = NULL;
+//std::vector<unsigned int> Renderer::shaders;
+
+Renderer::Renderer()
+{
+
+}
 
 void Renderer::Initialize()
 {
@@ -36,7 +41,9 @@ void Renderer::Initialize()
 
 	shaders.push_back(LoadShader("SolidColor"));
 	shaders.push_back(LoadShader("Gouraud"));
+	shaders.push_back(LoadShader("Phong"));
 	shaders.push_back(LoadShader("Textured"));
+	currentShader = -1;
 }
 
 GLuint Renderer::LoadShader(std::string name)

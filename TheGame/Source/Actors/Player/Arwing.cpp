@@ -28,7 +28,7 @@ Arwing::Arwing(Entity *parent) : Entity(parent)
 	rotationSpeed = 60.0f;
 	speedX = 20.0f;
 	speedY = 15.0f;
-	speedZ = 80.0f;
+	speedZ = 60.0f;
 	movingForward = true;
 	isTiltingLeft = false;
 	isTiltingRight = false;

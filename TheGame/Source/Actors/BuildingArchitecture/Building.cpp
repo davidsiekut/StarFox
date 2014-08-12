@@ -11,6 +11,8 @@ Building::Building(Entity* parent, std::string lSystem) : Entity(parent)
 		Parse(lSystem.at(i));
 	}
 
+	shaderType = SHADER_PHONG;
+
 	name = "BUILDING";
 	COLLIDE_X = BUILDING_SIZE_X;
 	COLLIDE_Y = BUILDING_SIZE_Y;

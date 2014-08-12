@@ -16,6 +16,7 @@ public:
 
 private:
 	static bool shotsFired;
+	static bool P_PRESSED;
 	static bool disabled;
 	static void Fire();
 

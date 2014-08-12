@@ -80,7 +80,13 @@ glm::vec3 Entity::GetPositionWorld()
 
 void Entity::Draw()
 {
-	GLuint program = Renderer::GetShaderProgramID(this->shaderType);
+	//GLuint program = Renderer::GetInstance().GetShaderProgramID(this->shaderType);
+	GLuint program;
+	if (Renderer::GetInstance().GetCurrentShader() > -1)
+		program = Renderer::GetInstance().GetShaderProgramID(Renderer::GetInstance().GetCurrentShader());
+	else
+		program = Renderer::GetInstance().GetShaderProgramID(this->GetShaderType());
+	glUseProgram(program);
 
 	glm::mat4 W = GetWorldMatrix();
 	GLuint WorldMatrixID = glGetUniformLocation(program, "WorldTransform");
