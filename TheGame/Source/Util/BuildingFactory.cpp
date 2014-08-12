@@ -5,6 +5,8 @@
 #include "Scene.h"
 #include "Chunk.h"
 
+#define BUILD_RANGE 30
+
 BuildingFactory::BuildingFactory()
 {
 	grammar.AddRule("B", "BsM");
@@ -13,7 +15,7 @@ BuildingFactory::BuildingFactory()
 
 void BuildingFactory::GenerateBuilding(glm::vec3 position)
 {
-	int x = (rand() % 40) - 20;
+	int x = (rand() % BUILD_RANGE * 2) - BUILD_RANGE;
 	// add level geometry to this chunk
 	int iterations = rand() % 5;
 

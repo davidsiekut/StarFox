@@ -4,6 +4,10 @@
 #include "Cube.h"
 #include "FilledMirroredCubes.h"
 
+#define BUILDING_SIZE_X 10.f
+#define BUILDING_SIZE_Y 30.f
+#define BUILDING_SIZE_Z 10.f
+
 Building::Building(Entity* parent, std::string lSystem) : Entity(parent)
 {
 	for (unsigned int i = 0; i < lSystem.size(); i++)
@@ -12,9 +16,9 @@ Building::Building(Entity* parent, std::string lSystem) : Entity(parent)
 	}
 
 	name = "BUILDING";
-	COLLIDE_X = 5.f;
-	COLLIDE_Y = 15.f;
-	COLLIDE_Z = 5.f;
+	COLLIDE_X = BUILDING_SIZE_X;
+	COLLIDE_Y = BUILDING_SIZE_Y;
+	COLLIDE_Z = BUILDING_SIZE_Z;
 }
 
 void Building::Draw()
@@ -29,11 +33,10 @@ void Building::Parse(char c)
 {
 	if (c == 'B')
 	{
-		Cube* c = new Cube(this, glm::vec3(5.f, 15.f, 5.f));
-		c->SetPosition(glm::vec3(0.f, 7.5f, 0.f));
+		Cube* c = new Cube(this, glm::vec3(BUILDING_SIZE_X, BUILDING_SIZE_Y, BUILDING_SIZE_Z));
+		c->SetPosition(glm::vec3(0.f, BUILDING_SIZE_Y / 2.f, 0.f));
 		blocks.push_back(c);
 	}
-
 	else if (c == 'r')
 	{
 		for (std::vector<Entity*>::iterator it = blocks.begin(); it < blocks.end(); it++)
@@ -42,7 +45,6 @@ void Building::Parse(char c)
 			(*it)->SetRotation(glm::vec3(0.f, 1.f, 0.f), rotationAngle + 90.f);
 		}
 	}
-
 	else if (c == 's')
 	{
 		for (std::vector<Entity*>::iterator it = blocks.begin(); it < blocks.end(); it++)
@@ -52,11 +54,10 @@ void Building::Parse(char c)
 			(*it)->SetScaling(scaling);
 
 			glm::vec3 position = (*it)->GetPosition();
-			position.y = -15.f * scaling.y + 15;
+			position.y = -BUILDING_SIZE_Y * scaling.y + BUILDING_SIZE_Y;
 			(*it)->SetPosition(position);
 		}
 	}
-
 	else if (c == 'M')
 	{
 		blocks.push_back(new FilledMirroredCubes(this));

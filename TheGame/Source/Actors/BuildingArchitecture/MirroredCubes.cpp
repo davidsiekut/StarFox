@@ -2,18 +2,21 @@
 
 #include "MirroredCubes.h"
 
+#define BUILDING_SIZE_X 10.f
+#define BUILDING_SIZE_Y 30.f
+#define BUILDING_SIZE_Z 10.f
+
 MirroredCubes::MirroredCubes(Entity* parent) : Entity(parent),
-left(this, glm::vec3(1.f, 5.f, 3.f)),
-right(this, glm::vec3(1.f, 5.f, 3.f))
+left(this, glm::vec3(BUILDING_SIZE_X / 5.f, BUILDING_SIZE_Y / 3.f, BUILDING_SIZE_Z / 2.f)),
+right(this, glm::vec3(BUILDING_SIZE_X / 5.f, BUILDING_SIZE_Y / 3.f, BUILDING_SIZE_Z / 2.f))
 {
 	name = "CUBE";
 
-	float distance = 2.f;
+	float distance = BUILDING_SIZE_X / 5.f + 1.f;
 
-	left.SetPosition(glm::vec3(-distance, 2.5f, 0.f));
-	right.SetPosition(glm::vec3(distance, 2.5f, 0.f));
+	left.SetPosition(glm::vec3(-distance, BUILDING_SIZE_Y / 6.f, 0.f));
+	right.SetPosition(glm::vec3(distance, BUILDING_SIZE_Y / 6.f, 0.f));
 }
-
 
 MirroredCubes::~MirroredCubes()
 {

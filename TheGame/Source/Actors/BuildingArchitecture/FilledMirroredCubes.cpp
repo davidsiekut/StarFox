@@ -2,11 +2,15 @@
 
 #include "FilledMirroredCubes.h"
 
+#define BUILDING_SIZE_X 10.f
+#define BUILDING_SIZE_Y 30.f
+#define BUILDING_SIZE_Z 10.f
+
 FilledMirroredCubes::FilledMirroredCubes(Entity* parent) : Entity(parent),
 sides(this),
-center(this, glm::vec3(3.f, 7.5f, 5.f))
+center(this, glm::vec3(BUILDING_SIZE_X / 2.f, BUILDING_SIZE_Y / 2.f, BUILDING_SIZE_Z))
 {
-	center.SetPosition(glm::vec3(0.f, 3.75f, 0.f));
+	center.SetPosition(glm::vec3(0.f, BUILDING_SIZE_Y / 4.f, 0.f));
 }
 
 void FilledMirroredCubes::Draw()
