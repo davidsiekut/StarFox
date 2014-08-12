@@ -20,4 +20,8 @@ private:
 	static void Fire();
 
 	static Arwing* arwing;
+
+	static bool isTiltingLeft;
+	static bool isTiltingRight;
+	static float doublePressTimer;
 };

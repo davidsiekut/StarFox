@@ -26,6 +26,8 @@ Arwing::Arwing(Entity *parent) : Entity(parent)
 	speedY = 15.0f;
 	speedZ = 80.0f;
 	movingForward = true;
+	barrelRolling = false;
+	barrelRollTimer = 0.3f;
 
 	Initialize();
 }
@@ -43,6 +45,18 @@ void Arwing::Update(float dt)
 		invicibilityFrames -= dt;
 	}
 
+	if (barrelRolling)
+	{
+		float rotationAngle = GetRotationAngle() + dt * rotationSpeed * 40.f;
+		rotationAxis = glm::vec3(0.f, 0.f, -1.f);
+		SetRotation(rotationAxis, rotationAngle);
+		barrelRollTimer -= dt;
+	}
+	if (barrelRollTimer < 0)
+	{
+		barrelRollTimer = 0.3f;
+		barrelRolling = false;
+	}
 }
 
 void Arwing::OnCollision(Entity* other)
@@ -63,6 +77,14 @@ void Arwing::OnCollision(Entity* other)
 	}
 }
 
+void Arwing::BarrelRollLeft(float dt)
+{
+	float rotationAngle = GetRotationAngle() + dt * rotationSpeed * 20.f;
+	rotationAxis = glm::vec3(0.f, 0.f, -1.f);
+	SetRotation(rotationAxis, rotationAngle);
+	invicibilityFrames = 0.5f;
+}
+
 void Arwing::BarrelRollRight(float dt)
 {
 	float rotationAngle = GetRotationAngle() + dt * rotationSpeed * 20.f;
@@ -71,13 +93,27 @@ void Arwing::BarrelRollRight(float dt)
 	invicibilityFrames = 0.5f;
 }
 
-void Arwing::BarrelRollLeft(float dt)
+void Arwing::TiltLeft(float dt)
 {
-	float rotationAngle = GetRotationAngle() + dt * rotationSpeed * 20.f;
+	float rotationAngle = glm::clamp(GetRotationAngle() + dt * rotationSpeed * 5.f, 0.f, 90.f);
 	rotationAxis = glm::vec3(0.f, 0.f, -1.f);
 	SetRotation(rotationAxis, rotationAngle);
-	invicibilityFrames = 0.5f;
 }
+
+void Arwing::TiltRight(float dt)
+{
+	float rotationAngle = glm::clamp(GetRotationAngle() + dt * rotationSpeed * 5.f, 0.f, 90.f);
+	rotationAxis = glm::vec3(0.f, 0.f, 1.f);
+	SetRotation(rotationAxis, rotationAngle);
+}
+
+void Arwing::TiltComplete(float dt)
+{
+	float rotationAngle = glm::clamp(GetRotationAngle() - dt * rotationSpeed * 5.f, 0.f, 90.f);
+	rotationAxis = GetRotationAxis();
+	SetRotation(rotationAxis, rotationAngle);
+}
+
 
 void Arwing::BarrelRollComplete()
 {

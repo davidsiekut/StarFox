@@ -14,9 +14,13 @@ public:
 
 	void SetMovingForwards(bool forward) { movingForward = forward; }
 
-	void BarrelRollRight(float dt);
 	void BarrelRollLeft(float dt);
+	void BarrelRollRight(float dt);
 	void BarrelRollComplete();
+
+	void TiltLeft(float dt);
+	void TiltRight(float dt);
+	void TiltComplete(float dt);
 
 	// Movement constants
 	float rotationAngle;
@@ -25,6 +29,10 @@ public:
 	float speedY;
 	float speedZ;
 	bool movingForward;
+
+	bool barrelRolling;
+	float barrelRollTimer;
+
 protected:
 
 private:

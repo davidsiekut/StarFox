@@ -13,6 +13,10 @@ bool InputManager::shotsFired = false;
 bool InputManager::disabled = false;
 Arwing* InputManager::arwing;
 
+float InputManager::doublePressTimer = 1.f;
+bool InputManager::isTiltingLeft = false;
+bool InputManager::isTiltingRight = false;
+
 void InputManager::Initialize(Arwing* a)
 {
 	arwing = a;
@@ -20,7 +24,6 @@ void InputManager::Initialize(Arwing* a)
 
 void InputManager::Update(float dt)
 {
-	
 	GLFWwindow* w = WindowManager::GetWindow();
 
 	glfwPollEvents();
@@ -47,7 +50,6 @@ void InputManager::Update(float dt)
 	{
 		shotsFired = false;
 	}
-
 
 	// Get the directional input
 	glm::vec3 direction = glm::vec3(0, 0, 0);
@@ -80,22 +82,74 @@ void InputManager::Update(float dt)
 
 	arwing->SetPosition(position);
 
+	//if (isReleased)
+		//doublePressTimer -= dt;
+
+	printf("%d %d %f\n", isTiltingLeft, isTiltingRight, doublePressTimer);
+
+	if (doublePressTimer < 1.f)
+		doublePressTimer -= dt;
+
+	if (arwing->barrelRolling)
+		return;
+
 	if (glfwGetKey(w, GLFW_KEY_Q) == GLFW_PRESS)
 	{
-		arwing->BarrelRollLeft(dt);
+
+		if (!isTiltingLeft)
+		{
+			if (doublePressTimer != 1 && doublePressTimer > 0)
+			{
+				arwing->barrelRolling = true;
+				return;
+			}
+
+		}
+
+		if (doublePressTimer == 1.f)
+		{
+			doublePressTimer -= 0.01f;
+		}
+
+		isTiltingLeft = true;
+		arwing->TiltLeft(dt);
+
 		return;
 	}
 	else if (glfwGetKey(w, GLFW_KEY_E) == GLFW_PRESS)
 	{
-		arwing->BarrelRollRight(dt);
+
+		if (!isTiltingRight)
+		{
+			if (doublePressTimer != 1 && doublePressTimer > 0)
+			{
+				arwing->barrelRolling = true;
+				return;
+			}
+
+		}
+
+		if (doublePressTimer == 1.f)
+		{
+			doublePressTimer -= 0.01f;
+		}
+
+		isTiltingRight = true;
+		arwing->TiltRight(dt);
+
 		return;
 	}
 	else if (glfwGetKey(w, GLFW_KEY_E) == GLFW_RELEASE || glfwGetKey(w, GLFW_KEY_Q) == GLFW_RELEASE)
 	{
-		arwing->BarrelRollComplete();
-	}
+		isTiltingLeft = isTiltingRight = false;
+		if (doublePressTimer < 0)
+		{
+			doublePressTimer = 1.f;
+		}
 
-	
+		arwing->TiltComplete(dt);
+		//arwing->BarrelRollComplete();
+	}
 
 	// If there is no direction then align the ship back with the -z axis.
 	if (glm::length(direction) > 0)
@@ -129,7 +183,6 @@ void InputManager::Update(float dt)
 			arwing->SetRotation(rotationAxis, angle);
 		}
 	}
-
 }
 
 void InputManager::Fire()
@@ -137,9 +190,13 @@ void InputManager::Fire()
 	PewPew* pewpewL = new PewPew("PLAYER");
 	PewPew* pewpewR = new PewPew("PLAYER");
 
+	// TODO rotate pewpews based on player rotation
 	// Set the positions to the current location of the Arwing +- 0.25 so that it shoots from the sides
 	pewpewL->SetPosition(glm::vec3(arwing->GetPosition().x - 1.f, arwing->GetPosition().y - 0.35f, arwing->GetPosition().z));
 	pewpewR->SetPosition(glm::vec3(arwing->GetPosition().x + 1.f, arwing->GetPosition().y - 0.35f, arwing->GetPosition().z));
+
+	pewpewL->SetRotation(arwing->GetRotationAxis(), arwing->GetRotationAngle());
+	pewpewR->SetRotation(arwing->GetRotationAxis(), arwing->GetRotationAngle());
 
 	// Put the pewpews in the list
 	Scene::GetInstance().AddEntity(pewpewL);
