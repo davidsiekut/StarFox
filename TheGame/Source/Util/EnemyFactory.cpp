@@ -39,11 +39,11 @@ void EnemyFactory::SpawnEnemies(int numberEnemies, Direction direction, float y)
 		Enemy* e = new Enemy(NULL, direction, y, i * -0.5f);
 		if (direction == Direction::LEFT)
 		{
-			e->SetPosition(glm::vec3(20.f + i * 10.f, y, a->GetPosition().z + 50.f));
+			e->SetPosition(glm::vec3(20.f + i * 10.f, y, a->GetPosition().z + 80.f));
 		}
 		else
 		{
-			e->SetPosition(glm::vec3(-20.f - i * 10.f, y, a->GetPosition().z + 50.f));
+			e->SetPosition(glm::vec3(-20.f - i * 10.f, y, a->GetPosition().z + 80.f));
 		}
 		Scene::GetInstance().AddEntity(e);
 	}
