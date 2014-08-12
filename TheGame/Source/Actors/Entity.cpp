@@ -41,7 +41,7 @@ void Entity::Initialize(glm::vec3 size)
 	else
 	{
 		bool res = loadOBJ(objPath, buffer);
-		bluePrints.insert(std::pair<std::string, std::vector<Vertex>*>(objPath, &buffer));
+		bluePrints.insert(std::pair<std::string, std::vector<Vertex>*>(objPath, new std::vector<Vertex>(buffer)));
 		printf("[Entity] Stored %s into memory\n", objPath.c_str());
 	}
 
