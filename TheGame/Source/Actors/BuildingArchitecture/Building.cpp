@@ -2,6 +2,7 @@
 
 #include "Building.h"
 #include "Cube.h"
+#include "PewPew.h"
 #include "FilledMirroredCubes.h"
 
 Building::Building(Entity* parent, std::string lSystem) : Entity(parent)
@@ -18,6 +19,8 @@ Building::Building(Entity* parent, std::string lSystem) : Entity(parent)
 	COLLIDE_X = BUILDING_SIZE_X;
 	COLLIDE_Y = BUILDING_SIZE_Y;
 	COLLIDE_Z = BUILDING_SIZE_Z;
+
+	GetShieldAmount();
 }
 
 void Building::Draw()
@@ -25,6 +28,34 @@ void Building::Draw()
 	for (std::vector<Entity*>::iterator it = blocks.begin(); it < blocks.end(); it++)
 	{
 		(*it)->Draw();
+	}
+}
+
+void Building::Update(float dt)
+{
+	if (GetShieldAmount() < 0)
+	{
+		timeElapsed += dt;
+		glm::vec3 position = GetPosition();
+
+		position.x = verticalAxis + glm::sin(timeElapsed * BUILDING_SHAKE_SPEED) * BUILDING_SHAKE_AMPLITUDE;
+
+		position.y -= BUILDING_SINK_SPEED * dt;
+		SetPosition(position);
+	}
+}
+
+void Building::SetPosition(glm::vec3 position)
+{
+	Entity::SetPosition(position);
+	verticalAxis = position.x;
+}
+
+void Building::OnCollision(Entity* other)
+{
+	if (other->GetName() == "PEWPEW" && (((PewPew*)other)->owner == "PLAYER"))
+	{
+		TakeDamage(((PewPew*)other)->damage);
 	}
 }
 
