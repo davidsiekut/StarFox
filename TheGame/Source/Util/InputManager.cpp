@@ -71,19 +71,19 @@ void InputManager::Update(float dt)
 
 	// Get the directional input
 	glm::vec3 direction = glm::vec3(0, 0, 0);
-	if (glfwGetKey(w, GLFW_KEY_W) == GLFW_PRESS)
+	if (glfwGetKey(w, GLFW_KEY_W) == GLFW_PRESS || glfwGetKey(w, GLFW_KEY_UP) == GLFW_PRESS)
 	{
 		direction.y++;
 	}
-	if (glfwGetKey(w, GLFW_KEY_S) == GLFW_PRESS)
+	if (glfwGetKey(w, GLFW_KEY_S) == GLFW_PRESS || glfwGetKey(w, GLFW_KEY_DOWN) == GLFW_PRESS)
 	{
 		direction.y--;
 	}
-	if (glfwGetKey(w, GLFW_KEY_D) == GLFW_PRESS)
+	if (glfwGetKey(w, GLFW_KEY_D) == GLFW_PRESS || glfwGetKey(w, GLFW_KEY_RIGHT) == GLFW_PRESS)
 	{
 		direction.x--;
 	}
-	if (glfwGetKey(w, GLFW_KEY_A) == GLFW_PRESS)
+	if (glfwGetKey(w, GLFW_KEY_A) == GLFW_PRESS || glfwGetKey(w, GLFW_KEY_LEFT) == GLFW_PRESS)
 	{
 		direction.x++;
 	}

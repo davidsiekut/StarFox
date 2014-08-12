@@ -29,8 +29,6 @@ void main(void)
 	mat4 MV = ViewTransform * WorldTransform;
 	mat4 MVP = ProjTransform * MV;
 
-	vec2 texCoord0 = vec2(materialCoefficients.x, materialCoefficients.z);
-
     //mat3 normalMatrix;
     //normalMatrix[0] = normalize (modelview[0].xyz);
     //normalMatrix[1] = normalize (modelview[1].xyz);
@@ -43,8 +41,8 @@ void main(void)
     //vec4 vertexPos = modelview * vertex;
     //vec3 vertexEyePos = vertexPos.xyz / vertexPos.w;
 
-	vec4 vertexPos = MV * vec4(vertexPosition_modelspace, 0.f);
-	vec3 vertexEyePos = vertexPos.xyz / vertexPos.w;
+	vec4 vertexPos =  MV * vec4(vertexPosition_modelspace,1);
+	vec3 vertexEyePos = normalize(-vertexPos.xyz);
 
     // Get vector to light source
     vec3 vector_L = normalize(-(ViewTransform * lPosition_World).xyz);
@@ -58,7 +56,7 @@ void main(void)
     //vertOutFragColor.a = vertexColor.a;
 
     // Pass along the texture coordinates
-    vertOutTexCoords = texCoord0;
+    vertOutTexCoords = vec2(2.0f,10.0f);
 
     // Don't forget to transform the geometry!
     gl_Position = MVP * vec4(vertexPosition_modelspace, 0.f);

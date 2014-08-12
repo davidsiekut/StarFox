@@ -9,7 +9,7 @@ uniform float bloomLevel;
 uniform float exposure;
  
 //out vec4 outColor;
-out vec3 color;
+out vec4 color;
  
 void main(void)
 {
@@ -28,6 +28,6 @@ void main(void)
     vec4 preColor = baseImage + bloomLevel * bloom;
  
     // Apply the exposure to this texel
-    color = vec3(1.0 - exp2 (-preColor * exposure));
-    //color.a = 1.0;
+	color = 1.0 - exp2 (-preColor * exposure);
+    color.a = 1.0;
 }
