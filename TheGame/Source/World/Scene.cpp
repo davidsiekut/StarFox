@@ -125,10 +125,16 @@ void Scene::Update(float dt)
 		{
 			if (((Enemy*)(*it))->attackCooldown <= 0)
 			{
-				PewPew* pewpew = new PewPew("ENEMY");
+				float meetingTime = ((*it)->GetPosition().z - a->GetPosition().z) / (a->speedZ - PewPew::PEWPEW_SPEED_ENEMY);
+				glm::vec3 target = a->GetPosition();
+				target.z += meetingTime * a->speedZ;
+
+				glm::vec3 direction = glm::normalize(target - (*it)->GetPosition());
+
+				PewPew* pewpew = new PewPew("ENEMY", direction);
 				pewpew->SetPosition(glm::vec3((*it)->GetPosition().x, (*it)->GetPosition().y, (*it)->GetPosition().z));
 				queued.push_back(pewpew);
-				((Enemy*)(*it))->attackCooldown = 1.f;
+				((Enemy*)(*it))->attackCooldown = 2.f;
 			}
 		}
 	}
