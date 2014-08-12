@@ -15,4 +15,5 @@ public:
 protected:
 
 private:
+	static std::vector<Vertex>* bluePrint;
 };

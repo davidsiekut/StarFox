@@ -12,6 +12,8 @@ const float Enemy::ENEMY_LIFETIME = 30.f;
 const float Enemy::ENEMY_WAVY_WAVE_SPEED = 5.f;
 const float Enemy::ENEMY_SPINNY_SPIN_SPEED = 250.f;
 
+std::vector<Entity::Vertex>* Enemy::bluePrint = new std::vector<Entity::Vertex>();
+
 Enemy::Enemy(Entity *parent, EnemyFactory::Direction direction, float horizontalAxis, float timeElapsed) : Entity(parent)
 {
 	name = "ENEMY";
@@ -28,7 +30,7 @@ Enemy::Enemy(Entity *parent, EnemyFactory::Direction direction, float horizontal
 	COLLIDE_Y = size.y;
 	COLLIDE_Z = size.z;
 
-	Initialize();
+	bluePrint = Initialize(size, bluePrint);
 }
 
 Enemy::~Enemy()
