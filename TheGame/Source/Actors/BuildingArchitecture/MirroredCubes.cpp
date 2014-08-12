@@ -20,6 +20,12 @@ MirroredCubes::~MirroredCubes()
 
 }
 
+void MirroredCubes::SetShaderType(ShaderType shaderType)
+{
+	left.SetShaderType(shaderType);
+	right.SetShaderType(shaderType);
+}
+
 void MirroredCubes::Draw()
 {
 	left.Draw();

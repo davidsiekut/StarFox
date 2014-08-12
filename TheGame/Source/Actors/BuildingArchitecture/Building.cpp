@@ -11,7 +11,8 @@ Building::Building(Entity* parent, std::string lSystem) : Entity(parent)
 		Parse(lSystem.at(i));
 	}
 
-	shaderType = SHADER_PHONG;
+	shaderType = SHADER_TEXTURED;
+	textureID = 2;
 
 	name = "BUILDING";
 	COLLIDE_X = BUILDING_SIZE_X;
@@ -33,6 +34,7 @@ void Building::Parse(char c)
 	{
 		Cube* c = new Cube(this, glm::vec3(BUILDING_SIZE_X, BUILDING_SIZE_Y, BUILDING_SIZE_Z));
 		c->SetPosition(glm::vec3(0.f, BUILDING_SIZE_Y / 2.f, 0.f));
+		c->SetShaderType(SHADER_TEXTURED);
 		blocks.push_back(c);
 	}
 	else if (c == 'r')
@@ -58,6 +60,8 @@ void Building::Parse(char c)
 	}
 	else if (c == 'M')
 	{
-		blocks.push_back(new FilledMirroredCubes(this));
+		FilledMirroredCubes* m = new FilledMirroredCubes(this);
+		m->SetShaderType(SHADER_TEXTURED);
+		blocks.push_back(m);
 	}
 }

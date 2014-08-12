@@ -20,7 +20,7 @@
 const unsigned int Scene::TERRAIN_PRELOAD = 5;
 const unsigned int Scene::TERRAIN_LOADAHEAD = 5;
 
-#define MAXTEXTURES 2
+#define MAXTEXTURES 3
 Texture textures[MAXTEXTURES];
 
 Scene::Scene()
@@ -54,7 +54,7 @@ void Scene::Initialize()
 
 void Scene::LoadTextures()
 {
-	std::string texturesToLoad[] = { "default.jpg", "dolan.jpg" };
+	std::string texturesToLoad[] = { "default.jpg", "dolan.jpg", "Building.jpg" };
 
 	for (unsigned int i = 0; i < MAXTEXTURES; i++)
 	{

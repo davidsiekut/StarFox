@@ -15,3 +15,10 @@ void FilledMirroredCubes::Draw()
 	center.Draw();
 	sides.Draw();
 }
+
+void FilledMirroredCubes::SetShaderType(ShaderType shaderType)
+{
+	this->shaderType = shaderType;
+	center.SetShaderType(shaderType);
+	sides.SetShaderType(shaderType);
+}

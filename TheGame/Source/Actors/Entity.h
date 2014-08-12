@@ -21,6 +21,8 @@ public:
 	void SetPosition(glm::vec3 position);
 	void SetScaling(glm::vec3 scaling);
 	void SetRotation(glm::vec3 axis, float angle);
+	void SetShaderType(ShaderType type) { shaderType = type; }
+	void SetTextureID(int id) { textureID = id; }
 
 	std::string GetName() const { return name; }
 	glm::vec3 GetPosition() const { return position; }

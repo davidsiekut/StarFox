@@ -11,6 +11,8 @@ class FilledMirroredCubes : public Entity
 public:
 	FilledMirroredCubes(Entity* parent);
 
+	void SetShaderType(ShaderType shaderType);
+
 	virtual void Draw();
 
 private:

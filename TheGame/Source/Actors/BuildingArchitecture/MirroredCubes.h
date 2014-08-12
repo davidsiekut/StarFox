@@ -9,6 +9,8 @@ public:
 	MirroredCubes(Entity* parent);
 	virtual ~MirroredCubes();
 
+	void SetShaderType(ShaderType shaderType);
+
 	virtual void Draw();
 
 private:
