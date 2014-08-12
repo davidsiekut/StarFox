@@ -20,7 +20,7 @@ void EnemyFactory::SpawnCheck(float dt)
 		timer = 3.f;
 		if (left)
 		{
-			SpawnEnemies(5, EnemyFactory::Direction::LEFT, 0.f);
+			SpawnEnemies(5, EnemyFactory::Direction::LEFT, 12.5f);
 			
 			left = !left;
 		}
