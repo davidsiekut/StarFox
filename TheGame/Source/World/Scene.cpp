@@ -20,7 +20,7 @@
 const unsigned int Scene::TERRAIN_PRELOAD = 5;
 const unsigned int Scene::TERRAIN_LOADAHEAD = 5;
 
-#define MAXTEXTURES 3
+#define MAXTEXTURES 4
 Texture textures[MAXTEXTURES];
 
 Scene::Scene()
@@ -54,7 +54,7 @@ void Scene::Initialize()
 
 void Scene::LoadTextures()
 {
-	std::string texturesToLoad[] = { "default.jpg", "dolan.jpg", "Building.jpg" };
+	std::string texturesToLoad[] = { "default.jpg", "dolan.jpg", "building.jpg", "grass.jpg" };
 
 	for (unsigned int i = 0; i < MAXTEXTURES; i++)
 	{
@@ -161,9 +161,15 @@ void Scene::Draw()
 		//GLuint program = Renderer::GetInstance().GetShaderProgramID(this->shaderType);
 		GLuint program;
 		if (Renderer::GetInstance().GetCurrentShader() > -1)
+		{
 			program = Renderer::GetInstance().GetShaderProgramID(Renderer::GetInstance().GetCurrentShader());
+			textures[0].Bind();
+		}
 		else
+		{
 			program = Renderer::GetInstance().GetShaderProgramID((*it)->GetShaderType());
+			textures[(*it)->GetTextureID()].Bind(); // for texture2d
+		}
 		glUseProgram(program);
 
 		GLuint ViewMatrixID = glGetUniformLocation(program, "ViewTransform");
@@ -176,8 +182,6 @@ void Scene::Draw()
 
 		glUniformMatrix4fv(ViewMatrixID, 1, GL_FALSE, &V[0][0]);
 		glUniformMatrix4fv(ProjMatrixID, 1, GL_FALSE, &P[0][0]);
-
-		textures[(*it)->GetTextureID()].Bind(); // for texture2d
 
 		glUniform3f(lAttenuationID, 0.0f, 0.0f, 0.02f);
 		glUniform3f(lColorID, 1.0f, 1.0f, 1.0f);
@@ -204,7 +208,8 @@ void Scene::AddChunk(glm::vec3 pos)
 	chunks.push_back(c);
 	lastChunk++;
 
-	BuildingFactory::GetInstance().GenerateBuilding(pos);
+	if (lastChunk > 3)
+		BuildingFactory::GetInstance().GenerateBuilding(pos);
 }
 
 void Scene::GameOver()

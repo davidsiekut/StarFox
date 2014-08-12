@@ -3,11 +3,14 @@
 const float Chunk::CHUNK_DEPTH = 60.f;
 const float Chunk::CHUNK_WIDTH = 300.f;
 
-Chunk::Chunk(Entity *parent) : Entity(parent)
+Chunk::Chunk(Entity *parent) : Cube(parent, glm::vec3(CHUNK_WIDTH, 0.1f, CHUNK_DEPTH), glm::vec2(CHUNK_WIDTH / 10, CHUNK_DEPTH / 10))
 {
 	name = "CHUNK";
 	size = glm::vec3(CHUNK_WIDTH, 0.1f, CHUNK_DEPTH);
 	objPath = "../Assets/Models/cube.obj";
+
+	shaderType = SHADER_TEXTURED;
+	textureID = 3;
 
 	Initialize(size);
 }
