@@ -8,7 +8,7 @@
 const float Enemy::ENEMY_SPEED_X = 20.f;
 const float Enemy::ENEMY_AMPLITUDE_Y = 10.f;
 const float Enemy::ENEMY_SPEED_Z = 60.f;
-const float Enemy::ENEMY_LIFETIME = 30.f;
+const float Enemy::ENEMY_LIFETIME = 40.f;
 const float Enemy::ENEMY_WAVY_WAVE_SPEED = 5.f;
 const float Enemy::ENEMY_SPINNY_SPIN_SPEED = 250.f;
 
