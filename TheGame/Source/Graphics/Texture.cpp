@@ -104,4 +104,3 @@ void Texture::SetFilterType(int minif, int magnif)
 	this->minification = minif;
 	this->magnification = magnif;
 }
-

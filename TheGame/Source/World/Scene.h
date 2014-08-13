@@ -31,8 +31,6 @@ public:
 	void GameOver();
 	bool IsGameOver() { return gameOver; }
 
-	static GLuint LoadDDS(const char* path);
-
 	int score = 0;
 
 private:

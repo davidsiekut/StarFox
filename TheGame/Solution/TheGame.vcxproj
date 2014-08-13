@@ -26,6 +26,7 @@
     <ClCompile Include="..\Source\Camera\GameplayCamera.cpp" />
     <ClCompile Include="..\Source\Camera\ThirdPersonCamera.cpp" />
     <ClCompile Include="..\Source\Graphics\Texture.cpp" />
+    <ClCompile Include="..\Source\Graphics\TextureHelper.cpp" />
     <ClCompile Include="..\Source\main.cpp" />
     <ClCompile Include="..\Source\Physics\Physics.cpp" />
     <ClCompile Include="..\Source\Util\BuildingFactory.cpp" />
@@ -55,6 +56,7 @@
     <ClInclude Include="..\Source\Camera\GameplayCamera.h" />
     <ClInclude Include="..\Source\Camera\ThirdPersonCamera.h" />
     <ClInclude Include="..\Source\Graphics\Texture.h" />
+    <ClInclude Include="..\Source\Graphics\TextureHelper.h" />
     <ClInclude Include="..\Source\Physics\Physics.h" />
     <ClInclude Include="..\Source\Util\BuildingFactory.h" />
     <ClInclude Include="..\Source\Util\EnemyFactory.h" />

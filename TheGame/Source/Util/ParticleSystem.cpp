@@ -12,6 +12,7 @@
 
 #include "ParticleSystem.h"
 #include "Scene.h"
+#include "TextureHelper.h"
 
 const GLfloat ParticleSystem::SQUARE_VERTICES[] = 
 {
@@ -45,7 +46,7 @@ ParticleSystem::ParticleSystem(Entity* parent, float particleLifetime, float zSp
 
 	if (textureID == -1)
 	{
-		textureID = Scene::LoadDDS("../Assets/Textures/particle.DDS");
+		textureID = TextureHelper::LoadDDS("../Assets/Textures/particle.DDS");
 	}
 }
 
