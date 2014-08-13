@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Source Files">
@@ -47,6 +47,9 @@
     </Filter>
     <Filter Include="Source Files\Util\L-System">
       <UniqueIdentifier>{992ce274-3ffe-47d5-bfee-0987bf8f0c45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Actors\Terrain">
+      <UniqueIdentifier>{bacafa14-1571-4ab3-9839-ef98a9cea199}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -122,6 +125,9 @@
     <ClCompile Include="..\Source\Util\L-System\Parser.cpp">
       <Filter>Source Files\Util\L-System</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\Actors\Terrain\SkyBox.cpp">
+      <Filter>Source Files\Actors\Terrain</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Util\InputManager.h">
@@ -193,6 +199,9 @@
     <ClInclude Include="..\Source\Util\L-System\Parser.h">
       <Filter>Source Files\Util\L-System</Filter>
     </ClInclude>
+    <ClInclude Include="..\Source\Actors\Terrain\SkyBox.h">
+      <Filter>Source Files\Actors\Terrain</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Source\Shaders\SolidColor.frag">
@@ -218,6 +227,12 @@
     </None>
     <None Include="..\Source\Shaders\Phong.vert">
       <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="..\Source\Shaders\Bloom.frag">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="..\Source\Shaders\Bloom.vert">
+    	<Filter>Source Files\Shaders</Filter>
     </None>
     <None Include="..\Source\Shaders\PhongTextured.frag">
       <Filter>Source Files\Shaders</Filter>

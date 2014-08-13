@@ -52,6 +52,10 @@ void Arwing::Update(float dt)
 
 	if (isBarrelRolling)
 	{
+		COLLIDE_X = 7.8f;
+		COLLIDE_Y = 7.8f;
+		COLLIDE_Z = 2.0f;
+
 		float rotationAngle = GetRotationAngle() + dt * rotationSpeed * 40.f;
 
 		if (isTiltingLeft)
@@ -64,6 +68,10 @@ void Arwing::Update(float dt)
 	}
 	if (barrelRollTimer < 0)
 	{
+		COLLIDE_X = 7.8f;
+		COLLIDE_Y = 1.5f;
+		COLLIDE_Z = 2.0f;
+
 		barrelRollTimer = BARREL_ROLL_TIME;
 		isBarrelRolling = false;
 	}
