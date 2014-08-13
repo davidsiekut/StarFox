@@ -29,5 +29,5 @@ void main(void)
  
     // Apply the exposure to this texel
 	color = 1.0 - exp2 (-preColor * exposure);
-    color.a = 1.0;
+    //outColor.a = 1.0;
 }

@@ -56,7 +56,7 @@ void main(void)
     //vertOutFragColor.a = vertexColor.a;
 
     // Pass along the texture coordinates
-    vertOutTexCoords = vec2(2.0f,10.0f);
+    vertOutTexCoords = vertexUV_modelspace;
 
     // Don't forget to transform the geometry!
     gl_Position = MVP * vec4(vertexPosition_modelspace, 0.f);
