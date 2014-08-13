@@ -49,6 +49,6 @@ void main(void)
     //vertOutFragColor.rgb = color.rgb * dotProd;
     //vertOutFragColor.a = color.a;
 
-    // Pass along the texture coordinates
+    // Pass the texture coordinates
     vertOutTexCoords = vertexUV_modelspace;
 }
