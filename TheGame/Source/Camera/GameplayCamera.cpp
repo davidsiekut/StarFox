@@ -31,7 +31,6 @@ void GameplayCamera::Update(float dt)
 	//change this value in multiples of 20 for longer shaking
 	if (isShaking && timeElapsed <= CAMERA_SHAKE_TIME)
 	{
-
 		//the interval of x should be equal values above and below 0
 		//the interval of y should be equal values above and below 10
 		//changing the range will change the amplitude of the shake 

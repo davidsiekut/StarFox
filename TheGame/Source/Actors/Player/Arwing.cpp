@@ -42,8 +42,8 @@ void Arwing::Update(float dt)
 {
 	if (GetShieldAmount() <= 0)
 	{
-		movingForward = false;
 		Scene::GetInstance().GameOver();
+		return;
 	}
 
 	if (invicibilityFrames > 0)

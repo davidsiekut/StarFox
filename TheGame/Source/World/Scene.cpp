@@ -227,7 +227,7 @@ void Scene::GameOver()
 	{
 		gameOver = true;
 		printf("[Player] Game over\n");
-		this->camera = new ThirdPersonCamera(20.f, a);
+		this->camera = new ThirdPersonCamera(25.f, a);
 		glfwSetInputMode(WindowManager::GetWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 		InputManager::SetDisabled(true);
 	}

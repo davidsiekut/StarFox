@@ -12,7 +12,7 @@ public:
 
 	virtual glm::mat4 GetViewMatrix() const;
 
-	virtual void Shake();
+	void Shake();
 
 private:
 	glm::vec3 mPosition;
@@ -25,5 +25,5 @@ private:
 	float amplitudeDamping = -1.0f;
 	float xBounce = 1.f;
 	float yBounce = 1.1f;
-
+	bool isShaking = false;
 };

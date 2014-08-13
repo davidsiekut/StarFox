@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Arwing.h"
-#include "Camera.h"
+#include "GameplayCamera.h"
 #include "Chunk.h"
 #include "EnemyFactory.h"
 #include "Entity.h"
@@ -26,7 +26,7 @@ public:
 	void AddChunk(glm::vec3 pos);
 
 	Arwing* GetPlayer() { return a; }
-	Camera* GetGPCamera() { return camera; }
+	GameplayCamera* GetGPCamera() { return static_cast<GameplayCamera*>(camera); }
 
 	void GameOver();
 	bool IsGameOver() { return gameOver; }

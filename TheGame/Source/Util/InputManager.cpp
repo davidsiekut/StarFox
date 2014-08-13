@@ -44,9 +44,29 @@ void InputManager::Update(float dt)
 	mouseDeltaY = static_cast<float>(y - mouseY);
 	mouseX = x;
 	mouseY = y;
+	//printf("%f, %f\n", mouseDeltaX, mouseDeltaY);
 
 	if (disabled)
 	{
+		glm::vec3 position = arwing->GetPosition();
+		if (position.y > 1.f)
+		{
+			mouseDeltaX = -0.5f;
+			mouseDeltaY = 1.f;
+			float rotationAngle = arwing->GetRotationAngle() + dt * 80.f;
+			glm::vec3 rotationAxis = glm::vec3(0.f, 1.f, 1.f);
+			arwing->SetRotation(rotationAxis, rotationAngle);
+			position.y -= dt * 6.f;
+			position.z += dt * arwing->speedZ;
+			arwing->SetPosition(position);
+		}
+		else
+		{
+			arwing->SetScaling(glm::vec3(0.f, 0.f, 0.f));
+			// ship go boom here
+
+		}
+
 		return;
 	}
 
