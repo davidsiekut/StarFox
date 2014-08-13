@@ -5,14 +5,17 @@ smooth in vec2 vertOutTexCoords;
 uniform sampler2D origImage;
 uniform sampler2D brightImage;
  
-uniform float bloomLevel;
-uniform float exposure;
+ float bloomLevel;
+ float exposure;
  
 //out vec4 outColor;
 out vec4 color;
  
 void main(void)
 {
+	bloomLevel = 1.0f;
+	exposure = 0.75f;
+
     // Fetch from HDR texture & blur textures
     vec4 baseImage = texture (origImage, vertOutTexCoords);
  
@@ -29,5 +32,5 @@ void main(void)
  
     // Apply the exposure to this texel
 	color = 1.0 - exp2 (-preColor * exposure);
-    color.a = 1.0;
+    //outColor.a = 1.0;
 }
