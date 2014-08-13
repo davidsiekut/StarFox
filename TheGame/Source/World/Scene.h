@@ -26,6 +26,7 @@ public:
 	void AddChunk(glm::vec3 pos);
 
 	Arwing* GetPlayer() { return a; }
+	Camera* GetGPCamera() { return camera; }
 
 	void GameOver();
 	bool IsGameOver() { return gameOver; }

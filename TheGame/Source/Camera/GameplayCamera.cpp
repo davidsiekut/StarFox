@@ -29,7 +29,6 @@ void GameplayCamera::Update(float dt)
 	//change this value in multiples of 20 for longer shaking
 	if (isShaking && timeElapsed <= 20)
 	{
-		printf("%d %f %f \n", timeElapsed, mViewPoint.x, mViewPoint.y);
 
 		//the interval of x should be equal values above and below 0
 		//the interval of y should be equal values above and below 10
