@@ -25,6 +25,7 @@
     <ClCompile Include="..\Source\Camera\Camera.cpp" />
     <ClCompile Include="..\Source\Camera\GameplayCamera.cpp" />
     <ClCompile Include="..\Source\Camera\ThirdPersonCamera.cpp" />
+    <ClCompile Include="..\Source\Graphics\ParticleSystem.cpp" />
     <ClCompile Include="..\Source\Graphics\Texture.cpp" />
     <ClCompile Include="..\Source\Graphics\TextureHelper.cpp" />
     <ClCompile Include="..\Source\main.cpp" />
@@ -35,7 +36,6 @@
     <ClCompile Include="..\Source\Util\InputManager.cpp" />
     <ClCompile Include="..\Source\Util\L-System\LSystem.cpp" />
     <ClCompile Include="..\Source\Util\L-System\Parser.cpp" />
-    <ClCompile Include="..\Source\Util\ParticleSystem.cpp" />
     <ClCompile Include="..\Source\Util\Renderer.cpp" />
     <ClCompile Include="..\Source\Util\WindowManager.cpp" />
     <ClCompile Include="..\Source\World\Scene.cpp" />
@@ -55,6 +55,7 @@
     <ClInclude Include="..\Source\Camera\Camera.h" />
     <ClInclude Include="..\Source\Camera\GameplayCamera.h" />
     <ClInclude Include="..\Source\Camera\ThirdPersonCamera.h" />
+    <ClInclude Include="..\Source\Graphics\ParticleSystem.h" />
     <ClInclude Include="..\Source\Graphics\Texture.h" />
     <ClInclude Include="..\Source\Graphics\TextureHelper.h" />
     <ClInclude Include="..\Source\Physics\Physics.h" />
@@ -64,7 +65,6 @@
     <ClInclude Include="..\Source\Util\InputManager.h" />
     <ClInclude Include="..\Source\Util\L-System\LSystem.h" />
     <ClInclude Include="..\Source\Util\L-System\Parser.h" />
-    <ClInclude Include="..\Source\Util\ParticleSystem.h" />
     <ClInclude Include="..\Source\Util\Renderer.h" />
     <ClInclude Include="..\Source\Util\WindowManager.h" />
     <ClInclude Include="..\Source\World\Scene.h" />

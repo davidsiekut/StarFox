@@ -105,7 +105,6 @@ void Scene::Update(float dt)
 					{
 						(*it)->OnCollision(*itt);
 						(*itt)->OnCollision(*it);
-						
 					}
 				}
 			}
@@ -249,6 +248,21 @@ void Scene::AddChunk(glm::vec3 pos)
 
 	if (lastChunk > 3 && !bossSpawned)
 		BuildingFactory::GetInstance().GenerateBuilding(pos);
+}
+
+void Scene::AddStaticParticleSystem(glm::vec3 pos, float plife, float slife, float speed, float scale)
+{
+	ParticleSystem* p = new ParticleSystem(NULL, plife, slife, speed);
+	p->SetPosition(pos);
+	p->SetScaling(glm::vec3(scale, scale, scale));
+	AddEntity(p);
+}
+
+void Scene::AddStaticParticleSystem(glm::vec3 pos, float plife, float slife, float speed)
+{
+	ParticleSystem* p = new ParticleSystem(NULL, plife, slife, speed);
+	p->SetPosition(pos);
+	AddEntity(p);
 }
 
 void Scene::GameOver()

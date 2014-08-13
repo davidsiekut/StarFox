@@ -19,7 +19,7 @@ public:
 		}
 	};
 
-	ParticleSystem(Entity* parent, float particleLifetime, float zSpeed);
+	ParticleSystem(Entity* parent, float particleLifetime, float systemLifetime, float zSpeed);
 	~ParticleSystem();
 
 	void SortParticles();
@@ -30,6 +30,8 @@ public:
 private:
 	int lastUsed = 0;
 	float particleLifeTime;
+	float systemLifetime;
+	float currentLifetime;
 	float zSpeed;
 
 	unsigned int particleBufferID;

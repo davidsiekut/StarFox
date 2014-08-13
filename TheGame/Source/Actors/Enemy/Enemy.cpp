@@ -72,7 +72,6 @@ void Enemy::Update(float dt)
 	{
 		attackCooldown -= dt;
 	}
-
 }
 
 void Enemy::OnCollision(Entity* other)
@@ -80,5 +79,6 @@ void Enemy::OnCollision(Entity* other)
 	if (other->GetName() == "PEWPEW" && (((PewPew*)other)->owner == "PLAYER"))
 	{
 		TakeDamage(((PewPew*)other)->damage);
+		Scene::GetInstance().AddStaticParticleSystem(this->GetPosition(), 1.f, 1.f, 0.f);
 	}
 }

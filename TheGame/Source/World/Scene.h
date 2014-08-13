@@ -24,6 +24,8 @@ public:
 
 	void AddEntity(Entity* entity);
 	void AddChunk(glm::vec3 pos);
+	void AddStaticParticleSystem(glm::vec3 pos, float plife, float slife, float speed, float scale);
+	void AddStaticParticleSystem(glm::vec3 pos, float plife, float slife, float speed);
 
 	Arwing* GetPlayer() { return a; }
 	GameplayCamera* GetGPCamera() { return static_cast<GameplayCamera*>(camera); }

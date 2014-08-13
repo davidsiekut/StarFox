@@ -128,13 +128,13 @@
     <ClCompile Include="..\Source\Actors\Terrain\SkyBox.cpp">
       <Filter>Source Files\Actors\Terrain</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Util\ParticleSystem.cpp">
-      <Filter>Source Files\Util</Filter>
-    </ClCompile>
     <ClCompile Include="..\Source\Actors\Enemy\UltraBoss.cpp">
       <Filter>Source Files\Actors\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="..\Source\Graphics\TextureHelper.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Graphics\ParticleSystem.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
@@ -211,13 +211,13 @@
     <ClInclude Include="..\Source\Actors\Terrain\SkyBox.h">
       <Filter>Source Files\Actors\Terrain</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\Util\ParticleSystem.h">
-      <Filter>Source Files\Util</Filter>
-    </ClInclude>
     <ClInclude Include="..\Source\Actors\Enemy\UltraBoss.h">
       <Filter>Source Files\Actors\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\Graphics\TextureHelper.h">
+      <Filter>Source Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Graphics\ParticleSystem.h">
       <Filter>Source Files\Graphics</Filter>
     </ClInclude>
   </ItemGroup>

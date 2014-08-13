@@ -13,7 +13,7 @@
 #define INV_FRAMES_TIME 0.5f
 #define SPEED_Z 60.f
 
-Arwing::Arwing(Entity *parent) : Entity(parent), booster(this, 0.1f, SPEED_Z/1.5f)
+Arwing::Arwing(Entity *parent) : Entity(parent), booster(this, 0.1f, 0.f, SPEED_Z/1.5f)
 {
 	name = "PLAYER";
 	size = glm::vec3(2.f, 2.f, 2.f);
@@ -44,6 +44,7 @@ void Arwing::Update(float dt)
 {
 	if (GetShieldAmount() <= 0)
 	{
+		booster.~ParticleSystem();
 		Scene::GetInstance().GameOver();
 		return;
 	}
