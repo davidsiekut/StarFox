@@ -10,6 +10,7 @@ public:
 	virtual ~ThirdPersonCamera();
 
 	virtual void Update(float dt);
+	virtual void Shake();
 
 	virtual glm::mat4 GetViewMatrix() const;
 
