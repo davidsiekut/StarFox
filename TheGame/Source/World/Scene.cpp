@@ -9,6 +9,7 @@
 #include "Physics.h"
 #include "Renderer.h"
 #include "Scene.h"
+#include "SkyBox.h"
 #include "Texture.h"
 #include "ThirdPersonCamera.h"
 #include "WindowManager.h"
@@ -20,7 +21,7 @@
 const unsigned int Scene::TERRAIN_PRELOAD = 5;
 const unsigned int Scene::TERRAIN_LOADAHEAD = 5;
 
-#define MAXTEXTURES 4
+#define MAXTEXTURES 5
 Texture textures[MAXTEXTURES];
 
 Scene::Scene()
@@ -50,11 +51,13 @@ void Scene::Initialize()
 	{
 		AddChunk(glm::vec3(0.f, 0.f, i * Chunk::CHUNK_DEPTH));
 	}
+
+	AddEntity(new SkyBox(NULL, a));
 }
 
 void Scene::LoadTextures()
 {
-	std::string texturesToLoad[] = { "default.jpg", "dolan.jpg", "building.jpg", "grass.jpg" };
+	std::string texturesToLoad[] = { "default.jpg", "dolan.jpg", "building.jpg", "grass.jpg", "sky.jpg" };
 
 	for (unsigned int i = 0; i < MAXTEXTURES; i++)
 	{
