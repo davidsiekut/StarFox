@@ -20,6 +20,7 @@ uniform mat4 ViewTransform;
 uniform mat4 ProjTransform;
 uniform vec4 lPosition_World;
 uniform vec4 materialCoefficients;
+uniform vec4 color;
  
 smooth out vec4 vertOutFragColor;
 smooth out vec2 vertOutTexCoords;

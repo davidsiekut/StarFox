@@ -44,7 +44,7 @@ void PewPew::Init()
 	COLLIDE_Z = size.z;
 
 	shaderType = SHADER_BLOOM;
-	//this->textureID = 1;
+	this->textureID = 2;
 
 	Entity::Initialize(size);
 }

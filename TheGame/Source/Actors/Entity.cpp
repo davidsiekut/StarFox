@@ -105,6 +105,22 @@ void Entity::Draw()
 
 	glBindVertexArray(vertexArrayID);
 
+	// If we are using a Bloom shader
+	if (shaderType == SHADER_BLOOM)
+	{
+		//glEnable(GL_BLEND);
+
+		GLuint origImageID = glGetUniformLocation(program, "origImage");
+		GLuint brightImageID = glGetUniformLocation(program, "brightImage");
+
+		glUniform1i(origImageID, glIsSampler(GL_SAMPLER));
+		glUniform1i(brightImageID, glIsSampler(GL_SAMPLER));
+
+		//texture 0, first texture
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, textureID);
+	}
+
 	// position
 	glEnableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferID);
