@@ -35,6 +35,9 @@ void InputManager::Update(float dt)
 
 	glfwPollEvents();
 
+	glm::vec3 prevRotation = arwing->GetRotationAxis();
+	float angle = arwing->GetRotationAngle();
+
 	double x, y;
 	glfwGetCursorPos(WindowManager::GetWindow(), &x, &y);
 	mouseDeltaX = static_cast<float>(x - mouseX);
@@ -172,14 +175,12 @@ void InputManager::Update(float dt)
 		BARREL ROLL CODE END
 	*/
 	
-	/*
 	// If there is no direction then align the ship back with the -z axis.
 	if (glm::length(direction) > 0)
 	{
 		// The rotation axis is defined by forwards (z-axis) crossed with the directional input
 		glm::vec3 rotationAxis = glm::cross(glm::vec3(0, 0, 1), direction);
-		glm::vec3 prevRotation = arwing->GetRotationAxis();
-		float angle = arwing->GetRotationAngle();
+
 
 		if (prevRotation == rotationAxis)
 		{
@@ -205,7 +206,6 @@ void InputManager::Update(float dt)
 			arwing->SetRotation(rotationAxis, angle);
 		}
 	}
-	*/
 }
 
 void InputManager::Fire()
