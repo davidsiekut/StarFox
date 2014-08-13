@@ -20,7 +20,7 @@ void BuildingFactory::GenerateBuilding(glm::vec3 position)
 
 	for (int i = -BUILD_RANGE + (rand() % 30); i < BUILD_RANGE; i += 40)
 	{
-		if (i > 2 | i < -2)
+		if (i > 2 || i < -2)
 		{
 			int iterations = rand() % 5;
 			std::string system = grammar.Run(iterations, "B");

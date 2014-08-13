@@ -21,9 +21,11 @@ const GLfloat ParticleSystem::SQUARE_VERTICES[] =
 	0.5f, 0.5f, 0.0f
 };
 
-ParticleSystem::ParticleSystem(Entity* parent) : Entity(parent)
+ParticleSystem::ParticleSystem(Entity* parent, float particleLifetime, float zSpeed) : Entity(parent)
 {
 	this->shaderType = SHADER_PARTICLES;
+	this->particleLifeTime = particleLifetime;
+	this->zSpeed = zSpeed;
 
 	// Create buffers on GPU for square vertices
 	glGenBuffers(1, &squareBufferID);
@@ -57,15 +59,19 @@ void ParticleSystem::SortParticles()
 int ParticleSystem::FindUnusedParticle()
 {
 
-	for (int i = lastUsed; i < maxParticles; i++){
-		if (Container[i].lifeRemaining < 0){
+	for (int i = lastUsed; i < maxParticles; i++)
+	{
+		if (Container[i].lifeRemaining < 0)
+		{
 			lastUsed = i;
 			return i;
 		}
 	}
 
-	for (int i = 0; i < lastUsed; i++){
-		if (Container[i].lifeRemaining < 0){
+	for (int i = 0; i < lastUsed; i++)
+	{
+		if (Container[i].lifeRemaining < 0)
+		{
 			lastUsed = i;
 			return i;
 		}
@@ -87,12 +93,12 @@ void ParticleSystem::Update(float dt)
 
 	for (int i = 0; i < newparticles; i++) {
 		int index = FindUnusedParticle();
-		Container[index].lifeRemaining = 3.0f; //Lives for 3 seconds. Can be changed to longer
+		Container[index].lifeRemaining = particleLifeTime; //Lives for 3 seconds. Can be changed to longer
 		Container[index].position = GetPositionWorld();
 
 		// The spread between each particle, can be changed if needed
 		float particleSpread = 2.0f;
-		glm::vec3 mainDirection = glm::vec3(0.0f, 0.0f, 0.0f); // No original speed in particles on creation
+		glm::vec3 mainDirection = glm::vec3(0.0f, 0.0f, zSpeed); // No original speed in particles on creation
 
 		//VERY STRAIGHTFORWARD WAY TO GENERATE A DIRECTION FOR EACH PARTICLE CHANGE IF YOU CAN
 		glm::vec3 randomDirection = glm::vec3(

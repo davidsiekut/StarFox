@@ -12,8 +12,9 @@
 #include "ThirdPersonCamera.h"
 
 #define BARREL_ROLL_TIME 0.3f
+#define SPEED_Z 60.f
 
-Arwing::Arwing(Entity *parent) : Entity(parent)
+Arwing::Arwing(Entity *parent) : Entity(parent), booster(this, 0.1f, SPEED_Z/1.5f)
 {
 	name = "PLAYER";
 	size = glm::vec3(2.f, 2.f, 2.f);
@@ -27,7 +28,7 @@ Arwing::Arwing(Entity *parent) : Entity(parent)
 	rotationSpeed = 60.0f;
 	speedX = 20.0f;
 	speedY = 15.0f;
-	speedZ = 60.0f;
+	speedZ = SPEED_Z;
 	movingForward = true;
 	isTiltingLeft = false;
 	isTiltingRight = false;
@@ -35,6 +36,9 @@ Arwing::Arwing(Entity *parent) : Entity(parent)
 	barrelRollTimer = BARREL_ROLL_TIME;
 
 	Initialize(size);
+
+	booster.SetPosition(glm::vec3(0.f, -0.4f, -3.f));
+	Scene::GetInstance().AddEntity(&booster);
 }
 
 void Arwing::Update(float dt)

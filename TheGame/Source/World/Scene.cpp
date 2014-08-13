@@ -43,9 +43,6 @@ void Scene::Initialize()
 	a->SetPosition(glm::vec3(0.f, 10.f, 0.f));
 	AddEntity(a);
 
-	ParticleSystem* p = new ParticleSystem(a);
-	AddEntity(p);
-
 	// setup some other stuff
 	enemyFactory = new EnemyFactory(a);
 	camera = new GameplayCamera(25.f, a);
