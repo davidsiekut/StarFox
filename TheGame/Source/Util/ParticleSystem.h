@@ -2,7 +2,7 @@
 
 #include "Entity.h"
 
-#define maxParticles 1000
+#define maxParticles 100
 
 class ParticleSystem : public Entity
 {
@@ -47,4 +47,5 @@ private:
 	};
 
 	static const GLfloat SQUARE_VERTICES[];
+	static int textureID;
 };

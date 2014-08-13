@@ -37,7 +37,7 @@ Arwing::Arwing(Entity *parent) : Entity(parent), booster(this, 0.1f, SPEED_Z/1.5
 
 	Initialize(size);
 
-	booster.SetPosition(glm::vec3(0.f, -0.4f, -3.f));
+	booster.SetPosition(glm::vec3(0.f, -0.4f, -3.5f));
 	Scene::GetInstance().AddEntity(&booster);
 }
 

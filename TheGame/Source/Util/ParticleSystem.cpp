@@ -21,6 +21,8 @@ const GLfloat ParticleSystem::SQUARE_VERTICES[] =
 	0.5f, 0.5f, 0.0f
 };
 
+int ParticleSystem::textureID = -1;
+
 ParticleSystem::ParticleSystem(Entity* parent, float particleLifetime, float zSpeed) : Entity(parent)
 {
 	this->shaderType = SHADER_PARTICLES;
@@ -40,6 +42,11 @@ ParticleSystem::ParticleSystem(Entity* parent, float particleLifetime, float zSp
 	glGenBuffers(1, &particleBufferID);
 	glBindBuffer(GL_ARRAY_BUFFER, particleBufferID);
 	glBufferData(GL_ARRAY_BUFFER, particleBufferSize, NULL, GL_STREAM_DRAW);
+
+	if (textureID == -1)
+	{
+		textureID = Scene::LoadDDS("../Assets/Textures/particle.DDS");
+	}
 }
 
 ParticleSystem::~ParticleSystem()
@@ -97,7 +104,7 @@ void ParticleSystem::Update(float dt)
 		Container[index].position = GetPositionWorld();
 
 		// The spread between each particle, can be changed if needed
-		float particleSpread = 2.0f;
+		float particleSpread = 4.0f;
 		glm::vec3 mainDirection = glm::vec3(0.0f, 0.0f, zSpeed); // No original speed in particles on creation
 
 		//VERY STRAIGHTFORWARD WAY TO GENERATE A DIRECTION FOR EACH PARTICLE CHANGE IF YOU CAN
@@ -110,10 +117,10 @@ void ParticleSystem::Update(float dt)
 		Container[index].speed = mainDirection + randomDirection*particleSpread;
 
 		// Each particle starts as white and SHOULD turn orange... will need to be changed if lifeRemaining is changed
-		Container[index].r = 256;
-		Container[index].g = 256 - 30 * dt;
-		Container[index].b = 256 - 85 * dt;
-		Container[index].a = 1 - 0.15f * dt;
+		Container[index].r = 1;
+		Container[index].g = 1 - (1/(3*particleLifeTime) * dt);
+		Container[index].b = 1 - (1/particleLifeTime * dt);
+		Container[index].a = 1 - (9/(20*particleLifeTime) * dt);
 
 		// Random size for each particle
 		Container[index].size = (rand() % 1000) / 2000.0f + 0.1f;
@@ -162,6 +169,9 @@ void ParticleSystem::Update(float dt)
 
 void ParticleSystem::Draw()
 {
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_DST_ALPHA);
+
 	//GLuint program = Renderer::GetInstance().GetShaderProgramID(this->shaderType);
 	GLuint program;
 	if (Renderer::GetInstance().GetCurrentShader() > -1)
@@ -183,6 +193,12 @@ void ParticleSystem::Draw()
 	glm::mat4 ViewMatrix = Scene::GetInstance().GetGPCamera()->GetViewMatrix();
 	glUniform3f(CameraRight_worldspace_ID, ViewMatrix[0][0], ViewMatrix[1][0], ViewMatrix[2][0]);
 	glUniform3f(CameraUp_worldspace_ID, ViewMatrix[0][1], ViewMatrix[1][1], ViewMatrix[2][1]);
+
+	GLuint TextureSamplerID = glGetUniformLocation(program, "myTextureSampler");
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, textureID);
+	// Set our "myTextureSampler" sampler to user Texture Unit 0
+	glUniform1i(TextureSamplerID, 0);
 
 	glBindVertexArray(particleBufferID);
 
@@ -228,4 +244,6 @@ void ParticleSystem::Draw()
 	glDisableVertexAttribArray(2);
 	glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(0);
+
+	glDisable(GL_BLEND);
 }
