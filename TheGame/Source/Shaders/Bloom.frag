@@ -5,21 +5,21 @@ smooth in vec2 vertOutTexCoords;
 uniform sampler2D origImage;
 uniform sampler2D brightImage;
  
- float bloomLevel;
- float exposure;
- 
-//out vec4 outColor;
+float bloomLevel;
+float exposure;
+
 out vec4 color;
  
 void main(void)
 {
+	// Bloom intensity and exposure
 	bloomLevel = 1.0f;
 	exposure = 0.75f;
 
-    // Fetch from HDR texture & blur textures
+    // Texture and Blur
     vec4 baseImage = texture (origImage, vertOutTexCoords);
  
-    // Four LoD levels are used from the mipmap
+    // Blurring
     vec4 brightPass = textureLod (brightImage, vertOutTexCoords, 0);
     vec4 blurColor1 = textureLod (brightImage, vertOutTexCoords, 1);
     vec4 blurColor2 = textureLod (brightImage, vertOutTexCoords, 2);
@@ -30,7 +30,7 @@ void main(void)
  
     vec4 preColor = baseImage + bloomLevel * bloom;
  
-    // Apply the exposure to this texel
+    // Apply exposure
 	color = 1.0 - exp2 (-preColor * exposure);
     //outColor.a = 1.0;
 }

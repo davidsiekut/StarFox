@@ -26,25 +26,28 @@ smooth out vec2 vertOutTexCoords;
  
 void main(void)
 {
+	// Get transformation matrices
 	mat4 MV = ViewTransform * WorldTransform;
 	mat4 MVP = ProjTransform * MV;
+
+	// Get the position of the model
 	gl_Position =  MVP * vec4(vertexPosition_modelspace,1);
 
+	// Get the normal of the model
 	vec3 vector_N = normalize((transpose(inverse(MV)) * vec4(vertexNormal_modelspace,0)).xyz);
  
+	// Find the eye and model position in View space
 	vec4 vertexPos =  MV * vec4(vertexPosition_modelspace,1);
 	vec3 vertexEyePos = normalize(-vertexPos.xyz);
 
-    // Get vector to light source
+    // Get the Light vector
     vec3 vector_L = normalize(-(ViewTransform * lPosition_World).xyz);
 
     float dotProd = max (0.f, dot(vector_N, vector_L));
- 
+	
+	// We don't need any fragment colors at the moment
     //vertOutFragColor.rgb = color.rgb * dotProd;
     //vertOutFragColor.a = color.a;
- 
-	vertOutFragColor.rgb = vertexColor.rgb * dotProd;
-    //vertOutFragColor.a = vertexColor.a;
 
     // Pass along the texture coordinates
     vertOutTexCoords = vertexUV_modelspace;
