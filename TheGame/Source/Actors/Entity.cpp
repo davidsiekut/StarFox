@@ -2,7 +2,6 @@
 #define GLM_FORCE_RADIANS
 #define dtor(x) x*(3.141592f/180.0f)
 #include <glm/gtc/matrix_transform.hpp>
-
 // TEMPORARY
 #include <time.h>
 

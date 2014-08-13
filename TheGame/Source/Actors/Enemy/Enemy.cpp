@@ -1,8 +1,6 @@
 #include "Enemy.h"
 #include "PewPew.h"
 #include "Scene.h"
-#define GLM_FORCE_RADIANS
-#define dtor(x) x*(3.141592f/180.0f)
 #include <glm/gtc/matrix_transform.hpp>
 
 const float Enemy::ENEMY_SPEED_X = 20.f;

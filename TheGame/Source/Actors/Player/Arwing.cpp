@@ -4,8 +4,6 @@
 #include "WindowManager.h"
 #include "InputManager.h"
 #include <GLFW/glfw3.h>
-#define GLM_FORCE_RADIANS
-#define dtor(x) x*(3.141592f/180.0f)
 #include <glm/gtc/matrix_transform.hpp>
 #include "PewPew.h"
 #include "Scene.h"
