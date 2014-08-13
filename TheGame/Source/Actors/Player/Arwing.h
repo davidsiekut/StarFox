@@ -33,4 +33,5 @@ public:
 protected:
 
 private:
+	void resolveHit(float damage);
 };

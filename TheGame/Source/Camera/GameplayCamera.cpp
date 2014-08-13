@@ -3,6 +3,8 @@
 #include <GLM/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
+#define CAMERA_SHAKE_TIME 0.5f
+
 GameplayCamera::GameplayCamera(float distance, Entity* parent) : Camera(parent)
 {
 	this->distance = distance;
@@ -27,7 +29,7 @@ void GameplayCamera::Update(float dt)
 	mViewPoint.z = parentPosition.z;
 
 	//change this value in multiples of 20 for longer shaking
-	if (isShaking && timeElapsed <= 20)
+	if (isShaking && timeElapsed <= CAMERA_SHAKE_TIME)
 	{
 
 		//the interval of x should be equal values above and below 0
@@ -43,7 +45,6 @@ void GameplayCamera::Update(float dt)
 			yBounce = -.55f;
 		}
 
-		
 		if (mViewPoint.x <= -1.25)
 		{
 			xBounce = .125f;
@@ -56,7 +57,7 @@ void GameplayCamera::Update(float dt)
 		mViewPoint.x += xBounce; 
 		mViewPoint.y += yBounce;
 
-		timeElapsed++;
+		timeElapsed += dt;
 	}
 	else //End shaking
 	{
@@ -64,8 +65,6 @@ void GameplayCamera::Update(float dt)
 		timeElapsed = 0;
 		isShaking = false;
 	}
-
-
 }
 
 glm::mat4 GameplayCamera::GetViewMatrix() const

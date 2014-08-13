@@ -12,6 +12,7 @@
 #include "ThirdPersonCamera.h"
 
 #define BARREL_ROLL_TIME 0.3f
+#define INV_FRAMES_TIME 0.5f
 
 Arwing::Arwing(Entity *parent) : Entity(parent)
 {
@@ -117,19 +118,19 @@ void Arwing::OnCollision(Entity* other)
 		if (other->GetName() == "ENEMY" ||
 			other->GetName() == "BUILDING")
 		{
-			TakeDamage(10);
-			printf("[Player] Shield = %f\n", GetShieldAmount());
-			Scene::GetInstance().GetGPCamera()->Shake();
+			resolveHit(5);
 		}
 		else if (other->GetName() == "PEWPEW" && (((PewPew*)other)->owner == "ENEMY"))
 		{
-			TakeDamage(((PewPew*)other)->damage);
-			printf("[Player] Shield = %f\n", GetShieldAmount());
-			Scene::GetInstance().GetGPCamera()->Shake();
+			resolveHit(((PewPew*)other)->damage);
 		}
-
-		invicibilityFrames = 2.f;
 	}
+}
 
-	
+void Arwing::resolveHit(float damage)
+{
+	TakeDamage(damage);
+	Scene::GetInstance().GetGPCamera()->Shake();
+	invicibilityFrames = INV_FRAMES_TIME;
+	printf("[Player] Shield = %f\n", GetShieldAmount());
 }

@@ -20,7 +20,7 @@ private:
 	glm::vec3 mUpVector;
 
 	float distance;
-	int timeElapsed = 0.0f;
+	float timeElapsed = 0.0f;
 	float amplitude = 10.0f;
 	float amplitudeDamping = -1.0f;
 	float xBounce = 1.f;
