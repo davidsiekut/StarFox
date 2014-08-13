@@ -48,6 +48,9 @@
     <Filter Include="Source Files\Util\L-System">
       <UniqueIdentifier>{992ce274-3ffe-47d5-bfee-0987bf8f0c45}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Actors\Terrain">
+      <UniqueIdentifier>{bacafa14-1571-4ab3-9839-ef98a9cea199}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\Util\InputManager.cpp">
@@ -122,6 +125,9 @@
     <ClCompile Include="..\Source\Util\L-System\Parser.cpp">
       <Filter>Source Files\Util\L-System</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\Actors\Terrain\SkyBox.cpp">
+      <Filter>Source Files\Actors\Terrain</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Util\InputManager.h">
@@ -192,6 +198,9 @@
     </ClInclude>
     <ClInclude Include="..\Source\Util\L-System\Parser.h">
       <Filter>Source Files\Util\L-System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Actors\Terrain\SkyBox.h">
+      <Filter>Source Files\Actors\Terrain</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
