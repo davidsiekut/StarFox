@@ -13,31 +13,14 @@
 #include "GameTime.h"
 #include "Camera.h"
 
-using namespace glm;
-
-struct Particle{
-	glm::vec3 position, speed;
-	unsigned char r, g, b, a; // Color
-	float size, angle, weight;
-	float lifeRemaining;
-	float distToCamera;
-
-	bool operator<(const Particle& that) const {
-		return this->distToCamera > that.distToCamera; // Far are drawn first
-	}
-};
-
-int lastUsed;
 const int maxParticles = 1000;
 
-Particle Container[maxParticles];
-
-void SortParticles()
+void ParticleSystem::SortParticles()
 {
 	std::sort(&Container[0], &Container[maxParticles]);
 }
 
-int FindUnusedParticle(){
+int ParticleSystem::FindUnusedParticle(){
 
 	for (int i = lastUsed; i < maxParticles; i++){
 		if (Container[i].lifeRemaining < 0){

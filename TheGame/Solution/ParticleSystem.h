@@ -15,11 +15,12 @@ class ParticleSystem
 	};
 
 public:
-	static void SortParticles();
-	static int FindUnusedParticle() { return unusedParticle; }
-	static void Update(float dt);
+	void SortParticles();
+	int FindUnusedParticle() { return unusedParticle; }
+	void Update(float dt);
 
 private:
 	int lastUsed = 0;
-	static int unusedParticle;
+	int unusedParticle;
+	Particle Container[maxParticles];
 };
