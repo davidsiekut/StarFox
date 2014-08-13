@@ -6,17 +6,20 @@ class ParticleSystem
 	{
 		glm::vec3 position, speed;
 		unsigned char r, g, b, a; // Color
-		float size, angle, weight, lifeRemaining, distanceFromCamera;
+		float size, angle, weight, lifeRemaining, distToCamera;
 
 		bool operator<(const Particle& that) const
 		{
-			return this->distanceFromCamera > that.distanceFromCamera; // Draws farthest from camera first
+			return this->distToCamera > that.distToCamera; // Draws farthest from camera first
 		}
 	};
 
 public:
-	int lastUsed = 0;
+	static void SortParticles();
+	static int FindUnusedParticle() { return unusedParticle; }
+	static void Update(float dt);
 
 private:
-	void SortParticles();
+	int lastUsed = 0;
+	static int unusedParticle;
 };
