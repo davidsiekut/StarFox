@@ -105,7 +105,7 @@ void ParticleSystem::Update(float dt)
 		Container[index].position = GetPositionWorld();
 
 		// The spread between each particle, can be changed if needed
-		float particleSpread = 4.0f;
+		float particleSpread = 3.0f;
 		glm::vec3 mainDirection = glm::vec3(0.0f, 0.0f, zSpeed); // No original speed in particles on creation
 
 		//VERY STRAIGHTFORWARD WAY TO GENERATE A DIRECTION FOR EACH PARTICLE CHANGE IF YOU CAN
@@ -119,9 +119,10 @@ void ParticleSystem::Update(float dt)
 
 		// Each particle starts as white and SHOULD turn orange... will need to be changed if lifeRemaining is changed
 		Container[index].r = 1;
-		Container[index].g = 1 - (1/(3*particleLifeTime) * dt);
-		Container[index].b = 1 - (1/particleLifeTime * dt);
-		Container[index].a = 1 - (9/(20*particleLifeTime) * dt);
+		Container[index].g = 1;
+		Container[index].b = 1;
+		Container[index].a = 1;
+		
 
 		// Random size for each particle
 		Container[index].size = (rand() % 1000) / 2000.0f + 0.1f;
@@ -147,6 +148,11 @@ void ParticleSystem::Update(float dt)
 				p.position += p.speed * dt;
 				p.distToCamera = glm::length2(p.position - Scene::GetInstance().GetGPCamera()->GetPosition());
 
+				// Update the colors from white to orange
+				p.g -= (1 / (3 * particleLifeTime) * dt);
+				p.b -= (1 / particleLifeTime * dt);
+				p.a -= (9 / (20 * particleLifeTime) * dt);
+
 				// Fill the GPU buffer
 				particleBuffer[partCount].xyzs = glm::vec4(p.position.x, p.position.y, p.position.z, p.size);
 				particleBuffer[partCount].color = glm::vec4(p.r, p.g, p.b, p.a);
@@ -171,14 +177,10 @@ void ParticleSystem::Update(float dt)
 void ParticleSystem::Draw()
 {
 	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_DST_ALPHA);
+	glBlendFunc(GL_SRC_ALPHA, GL_SRC_ALPHA);
 
 	//GLuint program = Renderer::GetInstance().GetShaderProgramID(this->shaderType);
-	GLuint program;
-	if (Renderer::GetInstance().GetCurrentShader() > -1)
-		program = Renderer::GetInstance().GetShaderProgramID(Renderer::GetInstance().GetCurrentShader());
-	else
-		program = Renderer::GetInstance().GetShaderProgramID(this->GetShaderType());
+	GLuint program = Renderer::GetInstance().GetShaderProgramID(this->GetShaderType());
 	glUseProgram(program);
 
 	glm::mat4 W = GetWorldMatrix();
