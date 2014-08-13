@@ -2,8 +2,7 @@
 
 #include "Cube.h"
 #include "Entity.h"
-
-class Scene;
+#include "ParticleSystem.h"
 
 class Arwing : public Entity
 {
@@ -33,5 +32,6 @@ public:
 protected:
 
 private:
+	ParticleSystem booster;
 	void resolveHit(float damage);
 };

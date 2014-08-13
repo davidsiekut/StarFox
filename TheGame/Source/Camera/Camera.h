@@ -11,6 +11,7 @@ public:
 	virtual ~Camera();
 
 	virtual void Update(float dt) = 0;
+	virtual glm::vec3 GetPosition() = 0;
 
 	virtual glm::mat4 GetViewMatrix() const = 0;
 	virtual glm::mat4 GetProjectionMatrix() const;

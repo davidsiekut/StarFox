@@ -61,3 +61,8 @@ glm::mat4 ThirdPersonCamera::GetViewMatrix() const
 		glm::vec3(0.f, 1.f, 0.f)
 		);
 }
+
+glm::vec3 ThirdPersonCamera::GetPosition()
+{
+	return mPosition;
+}

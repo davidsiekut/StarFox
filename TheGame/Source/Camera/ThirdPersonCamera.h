@@ -8,6 +8,7 @@ class ThirdPersonCamera : public Camera
 public:
 	ThirdPersonCamera(float radiusLength, Entity* parentEntity);
 	virtual ~ThirdPersonCamera();
+	virtual glm::vec3 GetPosition();
 
 	virtual void Update(float dt);
 

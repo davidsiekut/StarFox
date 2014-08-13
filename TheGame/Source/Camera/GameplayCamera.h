@@ -7,6 +7,7 @@ class GameplayCamera : public Camera
 public:
 	GameplayCamera(float distance, Entity* parent);
 	virtual ~GameplayCamera();
+	virtual glm::vec3 GetPosition();
 
 	virtual void Update(float dt);
 

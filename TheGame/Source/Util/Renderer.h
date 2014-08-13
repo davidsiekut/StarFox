@@ -12,8 +12,9 @@ enum ShaderType
 	SHADER_GOURAUD,
 	SHADER_PHONG,
 	SHADER_TEXTURED,
-	SHADER_BLOOM,
 	SHADER_PHONG_TEXTURED,
+	SHADER_BLOOM,
+	SHADER_PARTICLES,
 	NUM_SHADERS
 };
 
@@ -30,7 +31,7 @@ public:
 	void BeginFrame();
 	void EndFrame();
 	void Shutdown();
-	int GetCurrentShader() { return currentShader; }
+	int GetCurrentShader() { if (currentShader < 5) return currentShader; else return -1; }
 	unsigned int GetShaderProgramID(int type) { return shaders[type]; }
 	unsigned int GetShaderProgramID(ShaderType type) { return shaders[static_cast<int>(type)]; }
 	void NextShader() { if (++currentShader >= NUM_SHADERS) currentShader = -1; };
