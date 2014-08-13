@@ -11,10 +11,12 @@ public:
 	virtual ~Camera();
 
 	virtual void Update(float dt) = 0;
+	virtual void Shake() = 0;
 
 	virtual glm::mat4 GetViewMatrix() const = 0;
 	virtual glm::mat4 GetProjectionMatrix() const;
 
 protected:
 	Entity* parent;	// camera will follow this entity
+	bool isShaking = false;
 };

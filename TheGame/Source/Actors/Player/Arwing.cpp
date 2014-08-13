@@ -120,4 +120,6 @@ void Arwing::OnCollision(Entity* other)
 
 		invicibilityFrames = 2.f;
 	}
+
+	
 }
