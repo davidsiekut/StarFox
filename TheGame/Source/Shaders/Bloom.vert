@@ -28,19 +28,10 @@ void main(void)
 {
 	mat4 MV = ViewTransform * WorldTransform;
 	mat4 MVP = ProjTransform * MV;
+	gl_Position =  MVP * vec4(vertexPosition_modelspace,1);
 
-    //mat3 normalMatrix;
-    //normalMatrix[0] = normalize (modelview[0].xyz);
-    //normalMatrix[1] = normalize (modelview[1].xyz);
-    //normalMatrix[2] = normalize (modelview[2].xyz);
- 
-    //vec3 N = normalize (normalMatrix * normal);
 	vec3 vector_N = normalize((transpose(inverse(MV)) * vec4(vertexNormal_modelspace,0)).xyz);
  
-    // Get vertex position in eye coordinates
-    //vec4 vertexPos = modelview * vertex;
-    //vec3 vertexEyePos = vertexPos.xyz / vertexPos.w;
-
 	vec4 vertexPos =  MV * vec4(vertexPosition_modelspace,1);
 	vec3 vertexEyePos = normalize(-vertexPos.xyz);
 
@@ -57,7 +48,4 @@ void main(void)
 
     // Pass along the texture coordinates
     vertOutTexCoords = vertexUV_modelspace;
-
-    // Don't forget to transform the geometry!
-    gl_Position = MVP * vec4(vertexPosition_modelspace, 0.f);
 }
