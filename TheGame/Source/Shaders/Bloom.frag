@@ -25,12 +25,18 @@ void main(void)
     vec4 blurColor2 = textureLod (brightImage, vertOutTexCoords, 2);
     vec4 blurColor3 = textureLod (brightImage, vertOutTexCoords, 3);
     vec4 blurColor4 = textureLod (brightImage, vertOutTexCoords, 4);
+	vec4 blurColor5 = textureLod (brightImage, vertOutTexCoords, 5);
+	vec4 blurColor6 = textureLod (brightImage, vertOutTexCoords, 6);
+	vec4 blurColor7 = textureLod (brightImage, vertOutTexCoords, 7);
+	vec4 blurColor8 = textureLod (brightImage, vertOutTexCoords, 8);
+	vec4 blurColor9 = textureLod (brightImage, vertOutTexCoords, 9);
+	vec4 blurColor10 = textureLod (brightImage, vertOutTexCoords, 10);
  
-    vec4 bloom = (brightPass + blurColor1 + blurColor2 + blurColor3 + blurColor4);
+    vec4 bloom = (brightPass + blurColor1 + blurColor2 + blurColor3 + blurColor4 + blurColor5 + blurColor6 + blurColor7 + blurColor8 + blurColor9 + blurColor10);
  
     vec4 preColor = baseImage + bloomLevel * bloom;
 
     // Apply exposure
 	color = (1.0 - exp2 (-preColor * exposure));
-    //outColor.a = 1.0;
+    color.a = 1.0;
 }
