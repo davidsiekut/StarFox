@@ -15,13 +15,15 @@ public:
 		RIGHT
 	};
 
-	EnemyFactory(Arwing* a, Scene* scene);
+	EnemyFactory(Arwing* a);
 	~EnemyFactory();
 
+	void SpawnCheck(float dt);
 	void SpawnEnemies(int numberEnemies, Direction direction, float y);
 
 private:
-
 	Arwing* a;
-	Scene* scene;
+
+	float timer = 3.f;
+	bool left = false;
 };

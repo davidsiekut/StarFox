@@ -6,16 +6,20 @@
 // TEMPORARY
 #include <time.h>
 
+std::map<std::string, std::vector<Entity::Vertex>*> Entity::bluePrints = std::map<std::string, std::vector<Vertex>*>();
+
 Entity::Entity(Entity *parent) :	name("UNNAMED"),
 									parent(parent),
 									position(0.0f, 0.0f, 0.0f),
 									scaling(1.0f, 1.0f, 1.0f),
 									size(1.0f, 1.0f, 1.0f),
+									textureCoordinates(1.0f, 1.0f),
 									rotationAxis(0.0f, 1.0f, 0.0f),
 									rotationAngle(0.0f),
 									materialCoefficients(0.2f, 0.8f, 0.2f, 50.0f),
 									shaderType(ShaderType::SHADER_SOLID_COLOR),
 									objPath(""),
+									textureID(0),
 									markedForDeletion(false)
 {
 	
@@ -27,10 +31,30 @@ Entity::~Entity()
 	glDeleteVertexArrays(1, &vertexArrayID);
 }
 
-void Entity::Initialize()
+void Entity::Initialize(glm::vec3 size)
 {
 	std::vector<Vertex> buffer;
-	bool res = loadOBJ(objPath, buffer);
+
+	if(bluePrints.find(objPath) != bluePrints.end())
+	{
+		buffer = *bluePrints[objPath];
+	}
+	else
+	{
+		bool res = loadOBJ(objPath, buffer);
+		bluePrints.insert(std::pair<std::string, std::vector<Vertex>*>(objPath, new std::vector<Vertex>(buffer)));
+		printf("[Entity] Stored %s into memory\n", objPath.c_str());
+	}
+
+	for (std::vector<Vertex>::iterator it = buffer.begin(); it < buffer.end(); it++)
+	{
+		(*it).position.x *= size.x;
+		(*it).position.y *= size.y;
+		(*it).position.z *= size.z;
+
+		(*it).uv.x *= textureCoordinates.x;
+		(*it).uv.y *= textureCoordinates.y;
+	}
 
 	// if Vertex struct is modified, this needs to be changed also
 	vertexBufferSize = buffer.size();
@@ -65,6 +89,21 @@ glm::vec3 Entity::GetPositionWorld()
 
 void Entity::Draw()
 {
+	//GLuint program = Renderer::GetInstance().GetShaderProgramID(this->shaderType);
+	GLuint program;
+	if (Renderer::GetInstance().GetCurrentShader() > -1)
+		program = Renderer::GetInstance().GetShaderProgramID(Renderer::GetInstance().GetCurrentShader());
+	else
+		program = Renderer::GetInstance().GetShaderProgramID(this->GetShaderType());
+	glUseProgram(program);
+
+	glm::mat4 W = GetWorldMatrix();
+	GLuint WorldMatrixID = glGetUniformLocation(program, "WorldTransform");
+	glUniformMatrix4fv(WorldMatrixID, 1, GL_FALSE, &W[0][0]);
+
+	GLuint materialCoefficientsID = glGetUniformLocation(program, "materialCoefficients");
+	glUniform4f(materialCoefficientsID, materialCoefficients.x, materialCoefficients.y, materialCoefficients.z, materialCoefficients.w);
+
 	glBindVertexArray(vertexArrayID);
 
 	// position
@@ -185,9 +224,9 @@ bool Entity::loadOBJ(std::string path, std::vector<Entity::Vertex> &buffer)
 			glm::vec3 vertex;
 			fscanf(file, "%f %f %f\n", &vertex.x, &vertex.y, &vertex.z);
 			// rescale all vertices based on predefined size
-			vertex.x = vertex.x * this->size.x;
-			vertex.y = vertex.y * this->size.y;
-			vertex.z = vertex.z * this->size.z;
+			vertex.x = vertex.x;
+			vertex.y = vertex.y;
+			vertex.z = vertex.z;
 			temp_vertices.push_back(vertex);
 		}
 		else if (strcmp(lineHeader, "vt") == 0)
@@ -251,4 +290,14 @@ bool Entity::loadOBJ(std::string path, std::vector<Entity::Vertex> &buffer)
 	}
 
 	return true;
+}
+
+void Entity::OnCollision(Entity* other)
+{
+
+}
+
+void Entity::TakeDamage(float f)
+{
+	shield -= f;
 }

@@ -3,14 +3,33 @@
 #include "EnemyFactory.h"
 #include "Enemy.h"
 
-EnemyFactory::EnemyFactory(Arwing* a, Scene* scene) : a(a), scene(scene)
+EnemyFactory::EnemyFactory(Arwing* a) : a(a)
 {
 }
 
 EnemyFactory::~EnemyFactory()
 {
 	a = nullptr;
-	scene = nullptr;
+}
+
+void EnemyFactory::SpawnCheck(float dt)
+{
+	timer -= dt;
+	if (timer < 0)
+	{
+		timer = 3.f;
+		if (left)
+		{
+			SpawnEnemies(5, EnemyFactory::Direction::LEFT, 12.5f);
+			
+			left = !left;
+		}
+		else
+		{
+			SpawnEnemies(5, EnemyFactory::Direction::RIGHT, 12.5f);
+			left = !left;
+		}
+	}
 }
 
 void EnemyFactory::SpawnEnemies(int numberEnemies, Direction direction, float y)
@@ -20,12 +39,12 @@ void EnemyFactory::SpawnEnemies(int numberEnemies, Direction direction, float y)
 		Enemy* e = new Enemy(NULL, direction, y, i * -0.5f);
 		if (direction == Direction::LEFT)
 		{
-			e->SetPosition(glm::vec3(20.f + i * 10.f, y, a->GetPosition().z + 50.f));
+			e->SetPosition(glm::vec3(50.f + i * 10.f, y, a->GetPosition().z + 80.f));
 		}
 		else
 		{
-			e->SetPosition(glm::vec3(-20.f - i * 10.f, y, a->GetPosition().z + 50.f));
+			e->SetPosition(glm::vec3(-50.f - i * 10.f, y, a->GetPosition().z + 80.f));
 		}
-		scene->AddEntity(e);
+		Scene::GetInstance().AddEntity(e);
 	}
 }

@@ -6,8 +6,13 @@
 #include <sstream>
 #include <string>
 
-GLFWwindow* Renderer::w = NULL;
-std::vector<unsigned int> Renderer::shaders;
+//GLFWwindow* Renderer::w = NULL;
+//std::vector<unsigned int> Renderer::shaders;
+
+Renderer::Renderer()
+{
+
+}
 
 void Renderer::Initialize()
 {
@@ -31,10 +36,17 @@ void Renderer::Initialize()
 
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	glEnable(GL_DEPTH_TEST);
+	glClearDepth(1.0);
 	glDepthFunc(GL_LESS);
 
 	shaders.push_back(LoadShader("SolidColor"));
 	shaders.push_back(LoadShader("Gouraud"));
+	shaders.push_back(LoadShader("Phong"));
+	shaders.push_back(LoadShader("Textured"));
+	shaders.push_back(LoadShader("Bloom"));
+	shaders.push_back(LoadShader("PhongTextured"));
+
+	currentShader = -1;
 }
 
 GLuint Renderer::LoadShader(std::string name)
@@ -126,7 +138,7 @@ GLuint Renderer::LoadShader(std::string name)
 		glDeleteShader(fragmentShader);
 
 		//Use the infoLog as you see fit.
-
+		
 		//In this simple program, we'll just leave
 		//return;
 		getchar();
@@ -163,6 +175,7 @@ std::string Renderer::LoadFromFile(const std::string filename)
 void Renderer::BeginFrame()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glEnable(GL_TEXTURE_2D);
 }
 
 void Renderer::EndFrame()

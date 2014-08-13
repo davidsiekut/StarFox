@@ -1,26 +1,20 @@
 #version 330 core
 
-// Input vertex data, different for all executions of this shader.
-layout(location = 0) in vec3 vertexPosition_modelspace;
-layout(location = 1) in vec3 vertexNormal_modelspace;  // You will need this when you do lighting
-layout(location = 2) in vec3 vertexColor; 
-
-// output to Fragment Shader
-out vec3 v_color;
-
-// Uniform
-// Values that stay constant for the whole mesh.
 uniform mat4 WorldTransform;
 uniform mat4 ViewTransform;
 uniform mat4 ProjTransform;
 
-
-// Light and Material Uniform Variables
-uniform vec4 lPosition_World; // if w = 1: Point light, if w = 0: directional light
-uniform vec4 materialCoefficients; // x: ambient   y: diffuse   z: specular   w: specular exponent
-
+uniform vec3 lAttenuation;
 uniform vec3 lColor;
-uniform vec3 lAttenuation; // x: kC  y: kL  z: kQ
+uniform vec4 lPosition_World; 
+uniform vec4 materialCoefficients;
+
+layout(location = 0) in vec3 vertexPosition_modelspace;
+layout(location = 1) in vec2 vertexUV_modelspace; 
+layout(location = 2) in vec3 vertexNormal_modelspace;
+layout(location = 3) in vec3 vertexColor;
+
+out vec3 v_color;
 
 void main()
 {

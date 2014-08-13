@@ -10,22 +10,40 @@ enum ShaderType
 {
 	SHADER_SOLID_COLOR,
 	SHADER_GOURAUD,
+	SHADER_PHONG,
+	SHADER_TEXTURED,
+	SHADER_BLOOM,
+	SHADER_PHONG_TEXTURED,
 	NUM_SHADERS
 };
 
 class Renderer
 {
 public:
-	static void Initialize();
-	static void BeginFrame();
-	static void EndFrame();
-	static void Shutdown();
-	static unsigned int GetShaderProgramID(ShaderType type) { return shaders[static_cast<int>(type)]; }
+	static Renderer& GetInstance()
+	{
+		static Renderer instance;
+		return instance;
+	}
+
+	void Initialize();
+	void BeginFrame();
+	void EndFrame();
+	void Shutdown();
+	int GetCurrentShader() { return currentShader; }
+	unsigned int GetShaderProgramID(int type) { return shaders[type]; }
+	unsigned int GetShaderProgramID(ShaderType type) { return shaders[static_cast<int>(type)]; }
+	void NextShader() { if (++currentShader >= NUM_SHADERS) currentShader = -1; };
 
 private:
-	static GLuint LoadShader(std::string name);
-	static std::string LoadFromFile(const std::string filename);
+	// Hide constructors
+	Renderer();
+	Renderer(Renderer const&);
 
-	static GLFWwindow* w;
-	static std::vector<unsigned int> shaders;
+	GLuint LoadShader(std::string name);
+	std::string LoadFromFile(const std::string filename);
+
+	GLFWwindow* w;
+	std::vector<unsigned int> shaders;
+	int currentShader;
 };

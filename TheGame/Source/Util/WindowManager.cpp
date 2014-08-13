@@ -13,12 +13,14 @@ void WindowManager::Initialize()
 		exit(-1);
 	}
 
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3); // major ver
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3); // minor ver
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); // core
-	glfwWindowHint(GLFW_RESIZABLE, 0);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2); // major ver
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1); // minor ver
+	//glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); // core
+	glfwWindowHint(GLFW_RESIZABLE, 1);
 	glfwWindowHint(GLFW_SAMPLES, 4); // 4x antialiasing
 
+	GLFWmonitor* primary = glfwGetPrimaryMonitor();
+	//w = glfwCreateWindow(800, 600, "", primary, NULL); // use this for fullscreen
 	w = glfwCreateWindow(800, 600, "", NULL, NULL);
 
 	if (w == NULL)
@@ -27,8 +29,6 @@ void WindowManager::Initialize()
 		glfwTerminate();
 		exit(-1);
 	}
-
-	//glfwSetInputMode(w, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
 bool WindowManager::ExitRequested()

@@ -1,13 +1,19 @@
-#include "Arwing.h"
 #include "Enemy.h"
+#include "EnemyFactory.h"
+#include "BuildingFactory.h"
 #include "Chunk.h"
 #include "Cube.h"
+#include "GameplayCamera.h"
+#include "InputManager.h"
+#include "PewPew.h"
+#include "Physics.h"
 #include "Renderer.h"
 #include "Scene.h"
+#include "SkyBox.h"
+#include "Texture.h"
 #include "ThirdPersonCamera.h"
-#include "GameplayCamera.h"
-#include "EnemyFactory.h"
-
+#include "WindowManager.h"
+#include <GLFW/glfw3.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform.hpp>
 #include <time.h>
@@ -15,34 +21,60 @@
 const unsigned int Scene::TERRAIN_PRELOAD = 5;
 const unsigned int Scene::TERRAIN_LOADAHEAD = 5;
 
+#define MAXTEXTURES 5
+Texture textures[MAXTEXTURES];
+
+Scene::Scene()
+{
+
+}
+
 void Scene::Initialize()
 {
 	printf("[Scene] Initializing...\n");
 
 	srand((int)time(NULL));
-	// init any scene variable such as lights here
 
-	// defer loading to here
+	LoadTextures();
+
+	// player setup
 	a = new Arwing(NULL);
 	a->SetPosition(glm::vec3(0.f, 10.f, 0.f));
 	AddEntity(a);
 
-	enemyFactory = new EnemyFactory(a, this);
-
-	camera = new GameplayCamera(40.f, a);
+	// setup some other stuff
+	enemyFactory = new EnemyFactory(a);
+	camera = new GameplayCamera(25.f, a);
 
 	// load initial level geometry
 	for (unsigned int i = 0; i < TERRAIN_PRELOAD; i++)
 	{
 		AddChunk(glm::vec3(0.f, 0.f, i * Chunk::CHUNK_DEPTH));
 	}
+
+	AddEntity(new SkyBox(NULL, a));
+}
+
+void Scene::LoadTextures()
+{
+	std::string texturesToLoad[] = { "default.jpg", "dolan.jpg", "building.jpg", "grass.jpg", "sky.jpg" };
+
+	for (unsigned int i = 0; i < MAXTEXTURES; i++)
+	{
+		printf("[Scene] Loading texture %s\n", texturesToLoad[i].c_str());
+		textures[i].LoadTexture("../Assets/Textures/" + texturesToLoad[i], true);
+		textures[i].SetFilterType(FILTER_MIN_LINEAR_MIPMAP_LINEAR, FILTER_MAG_NEAREST);
+	}
 }
 
 void Scene::Update(float dt)
 {
-	// Delete anything that's marked
+	// update camera
+	camera->Update(dt);
+
 	for (std::vector<Entity*>::iterator it = entities.begin(); it < entities.end();)
 	{
+		// deletion check
 		if ((*it)->markedForDeletion)
 		{
 			delete *it;
@@ -55,16 +87,37 @@ void Scene::Update(float dt)
 		}
 		else
 		{
+			// update entity
+			(*it)->Update(dt);
+			
+			// physics check (only check things that will probably collide)
+			if ((*it)->GetName().compare("PLAYER") == 0 ||
+				(*it)->GetName().compare("PEWPEW") == 0 ||
+				(*it)->GetName().compare("ENEMY") == 0 ||
+				(*it)->GetName().compare("BUILDING") == 0
+				)
+			{
+				for (std::vector<Entity*>::iterator itt = entities.begin(); itt < entities.end();++itt)
+				{
+					if (*it != *itt && Physics::CheckAABBCollision(*it, *itt))
+					{
+						//printf("[Physics] %s hit -> %s\n", (*it)->GetName().c_str(), (*itt)->GetName().c_str());
+						(*it)->OnCollision(*itt);
+						(*itt)->OnCollision(*it);
+
+						PewPew *p = dynamic_cast<PewPew*>(*itt);
+
+						if ((*it) == a && (p == NULL || (*p).owner != "PLAYER"))
+						{
+							camera->Shake();
+						}
+					}
+				}
+			}
+			
 			it++;
 		}
 	}
-
-	// update actors
-	for (std::vector<Entity*>::iterator it = entities.begin(); it < entities.end(); ++it)
-	{
-		(*it)->Update(dt);
-	}
-	camera->Update(dt);
 
 	// update terrain
 	if ((a->GetPosition().z / Chunk::CHUNK_DEPTH) + TERRAIN_LOADAHEAD > lastChunk)
@@ -72,91 +125,89 @@ void Scene::Update(float dt)
 		AddChunk(glm::vec3(0.f, 0.f, lastChunk * Chunk::CHUNK_DEPTH));
 	}
 
-	// Spawn one enemy every 8 seconds.
-	enemyTimer -= dt;
-	if (enemyTimer < 0)
-	{
-		enemyTimer = 8.f;
-		if (left)
-		{
-			enemyFactory->SpawnEnemies(3, EnemyFactory::Direction::LEFT, 12.5f);
-			left = !left;
-		}
-		else
-		{
-			enemyFactory->SpawnEnemies(3, EnemyFactory::Direction::RIGHT, 12.5f);
-			left = !left;
-		}
-	}
-	
-	// physics checks
+	// spawn new enemies?
+	enemyFactory->SpawnCheck(dt);
+
+	// if enemies can attack, do so and add pewpews to entity list
 	for (std::vector<Entity*>::iterator it = entities.begin(); it < entities.end(); ++it)
 	{
-		std::string s1 = "ARWING";
-		std::string s2 = "CHUNK";
-		if ((*it)->GetName().compare(s1) && (*it)->GetName().compare(s2))
+		if ((*it)->GetName().compare("ENEMY") == 0)
 		{
-			// entity is not ARWING or CHUNK
-			//printf("Checking entity %s\n", (*it)->GetName().c_str());
-
-			// check intersection of arwing collider and entity
-			if (CheckAABBCollision(a, (*it)))
+			if (((Enemy*)(*it))->attackCooldown <= 0)
 			{
-				printf("[Physics] Arwing hit -> %s\n", (*it)->GetName().c_str());
+				float meetingTime = ((*it)->GetPosition().z - a->GetPosition().z) / (a->speedZ - PewPew::PEWPEW_SPEED_ENEMY);
+				glm::vec3 target = a->GetPosition();
+				target.z += meetingTime * a->speedZ;
+
+				glm::vec3 direction = glm::normalize(target - (*it)->GetPosition());
+
+				PewPew* pewpew = new PewPew("ENEMY", direction);
+				pewpew->SetPosition(glm::vec3((*it)->GetPosition().x, (*it)->GetPosition().y, (*it)->GetPosition().z));
+				queued.push_back(pewpew);
+				((Enemy*)(*it))->attackCooldown = 2.f;
 			}
 		}
 	}
+
+	for (std::vector<Entity*>::iterator it = queued.begin(); it < queued.end(); ++it)
+	{
+		entities.push_back(*it);
+	}
+	queued.clear();
 }
 
 void Scene::Draw()
 {
-	Renderer::BeginFrame();
+	Renderer::GetInstance().BeginFrame();
 
 	glm::mat4 W(1.0f);
 	glm::mat4 V = camera->GetViewMatrix();
-	glm::mat4 P = camera->GetProjectionMatrix();
 
-	// Push all the pewpews into the entities list so they can be drawn
-	for (std::vector<Entity*>::iterator it = a->pewpews.begin(); it < a->pewpews.end(); ++it)
-	{
-		// Commented out because it breaks the game :( --> I'll fix when I unhide.
-		//entities.push_back(*it);
-	}
+	// draw ui
+	glm::mat4 P = glm::ortho(0.f, (float)800, (float)600, 0.f, 0.1f, 1000.f);
 
+	/*Note that if you are using an orthographic projection that is windowwidth by windowheight in size, 
+	then drawing a quad as small as you are drawing will pretty much just draw a single pixel or two, 
+	since the viewport is now windowwidth units wide and windowheight units tall, and you are drawing a 
+	quad 1 unit wide and 1/2 unit tall. You need to draw your objects larger in order to see anything useful.*/
 
+	P = camera->GetProjectionMatrix(); 
 	for (std::vector<Entity*>::iterator it = entities.begin(); it < entities.end(); ++it)
 	{
-		// check it out
-		GLuint program = Renderer::GetShaderProgramID((*it)->GetShaderType());
+		//GLuint program = Renderer::GetInstance().GetShaderProgramID(this->shaderType);
+		GLuint program;
+		if (Renderer::GetInstance().GetCurrentShader() > -1)
+		{
+			program = Renderer::GetInstance().GetShaderProgramID(Renderer::GetInstance().GetCurrentShader());
+			textures[0].Bind();
+		}
+		else
+		{
+			program = Renderer::GetInstance().GetShaderProgramID((*it)->GetShaderType());
+			textures[(*it)->GetTextureID()].Bind(); // for texture2d
+		}
 		glUseProgram(program);
 
-		W = (*it)->GetWorldMatrix();
-
-		GLuint WorldMatrixID = glGetUniformLocation(program, "WorldTransform");
 		GLuint ViewMatrixID = glGetUniformLocation(program, "ViewTransform");
 		GLuint ProjMatrixID = glGetUniformLocation(program, "ProjTransform");
 
-		GLuint lPositionID = glGetUniformLocation(program, "lPosition_World");
-		GLuint lColorID = glGetUniformLocation(program, "lColor");
 		GLuint lAttenuationID = glGetUniformLocation(program, "lAttenuation");
-		GLuint materialCoefficientsID = glGetUniformLocation(program, "materialCoefficients");
+		GLuint lColorID = glGetUniformLocation(program, "lColor");
+		GLuint lPositionID = glGetUniformLocation(program, "lPosition_World");
+		GLuint samplerID = glGetUniformLocation(program, "sampler"); // for texture2d
 
-		// amp it up!
-		glUniformMatrix4fv(WorldMatrixID, 1, GL_FALSE, &W[0][0]);
 		glUniformMatrix4fv(ViewMatrixID, 1, GL_FALSE, &V[0][0]);
 		glUniformMatrix4fv(ProjMatrixID, 1, GL_FALSE, &P[0][0]);
 
-		glm::vec4 materialCoefficients = (*it)->GetMaterialCoefficients();
-
-		glUniform4f(lPositionID, 0.0f, -1.0f, 0.0f, 0.0f);
-		glUniform3f(lColorID, 1.0f, 1.0f, 1.0f);
 		glUniform3f(lAttenuationID, 0.0f, 0.0f, 0.02f);
-		glUniform4f(materialCoefficientsID, materialCoefficients.x, materialCoefficients.y, materialCoefficients.z, materialCoefficients.w);
+		glUniform3f(lColorID, 1.0f, 1.0f, 1.0f);
+		glUniform4f(lPositionID, 0.f, -1.f, 0.f, 0.f);
+		glUniform1f(samplerID, 0); // for texture2d
 
 		(*it)->Draw();
 	}
 
-	Renderer::EndFrame();
+	Renderer::GetInstance().EndFrame();
 }
 
 void Scene::AddEntity(Entity* entity)
@@ -166,47 +217,25 @@ void Scene::AddEntity(Entity* entity)
 
 void Scene::AddChunk(glm::vec3 pos)
 {
-	printf("[Scene] Creating chunk %i\n", lastChunk);
+	//printf("[Scene] Creating chunk %i\n", lastChunk);
 	Chunk* c = new Chunk(NULL);
 	c->SetPosition(pos);
 	AddEntity(c);
 	chunks.push_back(c);
 	lastChunk++;
 
-	int s = (rand() % 40) - 20;
-	// add level geometry to this chunk
-	Cube* u = new Cube(c, glm::vec3(5.f, 20.f, 5.f));
-	u->SetPosition(glm::vec3(s, 10.f, 0.f));
-	AddEntity(u);
-	printf("[Scene] Creating cube at (%f, %f, %f)\n", u->GetPositionWorld().x, u->GetPositionWorld().y, u->GetPositionWorld().z);
+	if (lastChunk > 3)
+		BuildingFactory::GetInstance().GenerateBuilding(pos);
 }
 
-bool Scene::CheckAABBCollision(Entity* b1, Entity* b2)
+void Scene::GameOver()
 {
-	glm::vec3 min1 = glm::vec3(
-		b1->GetPositionWorld().x - b1->COLLIDE_X / 2,
-		b1->GetPositionWorld().y - b1->COLLIDE_Y / 2,
-		b1->GetPositionWorld().z - b1->COLLIDE_Z / 2);
-
-	glm::vec3 max1 = glm::vec3(
-		b1->GetPositionWorld().x + b1->COLLIDE_X / 2,
-		b1->GetPositionWorld().y + b1->COLLIDE_Y / 2,
-		b1->GetPositionWorld().z + b1->COLLIDE_Z / 2);
-
-	glm::vec3 min2 = glm::vec3(
-		b2->GetPositionWorld().x - b2->COLLIDE_X / 2,
-		b2->GetPositionWorld().y - b2->COLLIDE_Y / 2,
-		b2->GetPositionWorld().z - b2->COLLIDE_Z / 2);
-
-	glm::vec3 max2 = glm::vec3(
-		b2->GetPositionWorld().x + b2->COLLIDE_X / 2,
-		b2->GetPositionWorld().y + b2->COLLIDE_Y / 2,
-		b2->GetPositionWorld().z + b2->COLLIDE_Z / 2);
-
-	return(max1.x > min2.x &&
-		min1.x < max2.x &&
-		max1.y > min2.y &&
-		min1.y < max2.y &&
-		max1.z > min2.z &&
-		min1.z < max2.z);
+	if (!gameOver)
+	{
+		gameOver = true;
+		printf("[Player] Game over\n");
+		this->camera = new ThirdPersonCamera(20.f, a);
+		glfwSetInputMode(WindowManager::GetWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+		InputManager::SetDisabled(true);
+	}
 }

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Source Files">
@@ -27,6 +27,30 @@
     <Filter Include="Source Files\Actors\Geometry">
       <UniqueIdentifier>{17ed15bd-03f2-4944-b172-60a11bac1839}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Graphics">
+      <UniqueIdentifier>{9ad4e223-48cd-43c7-84c4-f7cc0245834b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Actors\Player">
+      <UniqueIdentifier>{79934daa-4b9a-4ae9-8187-d49405ea46ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Actors\Doodads">
+      <UniqueIdentifier>{08c10566-98a6-4431-9a43-6ed5d5ea10d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Actors\Enemy">
+      <UniqueIdentifier>{eb0f23ec-ada4-4169-8c44-c0ce6b9940b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Physics">
+      <UniqueIdentifier>{80ad214f-c0ed-4e09-a385-3c8f5f7f13b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Actors\BuildingArchitecture">
+      <UniqueIdentifier>{ad3401ea-814d-4075-8cb2-07fb39c02da0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Util\L-System">
+      <UniqueIdentifier>{992ce274-3ffe-47d5-bfee-0987bf8f0c45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Actors\Terrain">
+      <UniqueIdentifier>{bacafa14-1571-4ab3-9839-ef98a9cea199}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\Util\InputManager.cpp">
@@ -47,9 +71,6 @@
     <ClCompile Include="..\Source\Actors\Entity.cpp">
       <Filter>Source Files\Actors</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Actors\Arwing.cpp">
-      <Filter>Source Files\Actors</Filter>
-    </ClCompile>
     <ClCompile Include="..\Source\Actors\Geometry\Chunk.cpp">
       <Filter>Source Files\Actors\Geometry</Filter>
     </ClCompile>
@@ -58,9 +79,6 @@
     </ClCompile>
     <ClCompile Include="..\Source\Camera\ThirdPersonCamera.cpp">
       <Filter>Source Files\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Source\Actors\Enemy.cpp">
-      <Filter>Source Files\Actors</Filter>
     </ClCompile>
     <ClCompile Include="..\Source\main.cpp">
       <Filter>Source Files</Filter>
@@ -74,8 +92,41 @@
     <ClCompile Include="..\Source\Actors\Geometry\Cube.cpp">
       <Filter>Source Files\Actors\Geometry</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Actors\PewPew.cpp">
-      <Filter>Source Files\Actors</Filter>
+    <ClCompile Include="..\Source\Graphics\Texture.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Actors\Doodads\PewPew.cpp">
+      <Filter>Source Files\Actors\Doodads</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Actors\Enemy\Enemy.cpp">
+      <Filter>Source Files\Actors\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Actors\Player\Arwing.cpp">
+      <Filter>Source Files\Actors\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Physics\Physics.cpp">
+      <Filter>Source Files\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Actors\BuildingArchitecture\MirroredCubes.cpp">
+      <Filter>Source Files\Actors\BuildingArchitecture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Util\BuildingFactory.cpp">
+      <Filter>Source Files\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Util\L-System\LSystem.cpp">
+      <Filter>Source Files\Util\L-System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Actors\BuildingArchitecture\FilledMirroredCubes.cpp">
+      <Filter>Source Files\Actors\BuildingArchitecture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Actors\BuildingArchitecture\Building.cpp">
+      <Filter>Source Files\Actors\BuildingArchitecture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Util\L-System\Parser.cpp">
+      <Filter>Source Files\Util\L-System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Actors\Terrain\SkyBox.cpp">
+      <Filter>Source Files\Actors\Terrain</Filter>
     </ClCompile>
     <ClCompile Include="ParticleSystem.cpp">
       <Filter>Source Files\Util</Filter>
@@ -100,9 +151,6 @@
     <ClInclude Include="..\Source\Actors\Entity.h">
       <Filter>Source Files\Actors</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\Actors\Arwing.h">
-      <Filter>Source Files\Actors</Filter>
-    </ClInclude>
     <ClInclude Include="..\Source\Actors\Geometry\Chunk.h">
       <Filter>Source Files\Actors\Geometry</Filter>
     </ClInclude>
@@ -111,9 +159,6 @@
     </ClInclude>
     <ClInclude Include="..\Source\Camera\ThirdPersonCamera.h">
       <Filter>Source Files\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Actors\Enemy.h">
-      <Filter>Source Files\Actors</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\Camera\GameplayCamera.h">
       <Filter>Source Files\Camera</Filter>
@@ -124,8 +169,41 @@
     <ClInclude Include="..\Source\Actors\Geometry\Cube.h">
       <Filter>Source Files\Actors\Geometry</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\Actors\PewPew.h">
-      <Filter>Source Files\Actors</Filter>
+    <ClInclude Include="..\Source\Graphics\Texture.h">
+      <Filter>Source Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Actors\Doodads\PewPew.h">
+      <Filter>Source Files\Actors\Doodads</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Actors\Enemy\Enemy.h">
+      <Filter>Source Files\Actors\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Actors\Player\Arwing.h">
+      <Filter>Source Files\Actors\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Physics\Physics.h">
+      <Filter>Source Files\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Actors\BuildingArchitecture\MirroredCubes.h">
+      <Filter>Source Files\Actors\BuildingArchitecture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Util\BuildingFactory.h">
+      <Filter>Source Files\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Util\L-System\LSystem.h">
+      <Filter>Source Files\Util\L-System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Actors\BuildingArchitecture\FilledMirroredCubes.h">
+      <Filter>Source Files\Actors\BuildingArchitecture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Actors\BuildingArchitecture\Building.h">
+      <Filter>Source Files\Actors\BuildingArchitecture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Util\L-System\Parser.h">
+      <Filter>Source Files\Util\L-System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Actors\Terrain\SkyBox.h">
+      <Filter>Source Files\Actors\Terrain</Filter>
     </ClInclude>
     <ClInclude Include="ParticleSystem.h">
       <Filter>Source Files\Util</Filter>
@@ -142,6 +220,30 @@
       <Filter>Source Files\Shaders</Filter>
     </None>
     <None Include="..\Source\Shaders\Gouraud.vert">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="..\Source\Shaders\Textured.frag">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="..\Source\Shaders\Textured.vert">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="..\Source\Shaders\Phong.frag">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="..\Source\Shaders\Phong.vert">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="..\Source\Shaders\Bloom.frag">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="..\Source\Shaders\Bloom.vert">
+    	<Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="..\Source\Shaders\PhongTextured.frag">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="..\Source\Shaders\PhongTextured.vert">
       <Filter>Source Files\Shaders</Filter>
     </None>
   </ItemGroup>

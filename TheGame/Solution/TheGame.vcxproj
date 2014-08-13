@@ -11,47 +11,73 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Source\Actors\Arwing.cpp" />
-    <ClCompile Include="..\Source\Actors\Enemy.cpp" />
+    <ClCompile Include="..\Source\Actors\BuildingArchitecture\Building.cpp" />
+    <ClCompile Include="..\Source\Actors\BuildingArchitecture\FilledMirroredCubes.cpp" />
+    <ClCompile Include="..\Source\Actors\BuildingArchitecture\MirroredCubes.cpp" />
+    <ClCompile Include="..\Source\Actors\Doodads\PewPew.cpp" />
+    <ClCompile Include="..\Source\Actors\Enemy\Enemy.cpp" />
     <ClCompile Include="..\Source\Actors\Entity.cpp" />
     <ClCompile Include="..\Source\Actors\Geometry\Chunk.cpp" />
     <ClCompile Include="..\Source\Actors\Geometry\Cube.cpp" />
-    <ClCompile Include="..\Source\Actors\PewPew.cpp" />
+    <ClCompile Include="..\Source\Actors\Player\Arwing.cpp" />
+    <ClCompile Include="..\Source\Actors\Terrain\SkyBox.cpp" />
     <ClCompile Include="..\Source\Camera\Camera.cpp" />
     <ClCompile Include="..\Source\Camera\GameplayCamera.cpp" />
     <ClCompile Include="..\Source\Camera\ThirdPersonCamera.cpp" />
+    <ClCompile Include="..\Source\Graphics\Texture.cpp" />
     <ClCompile Include="..\Source\main.cpp" />
+    <ClCompile Include="..\Source\Physics\Physics.cpp" />
+    <ClCompile Include="..\Source\Util\BuildingFactory.cpp" />
     <ClCompile Include="..\Source\Util\EnemyFactory.cpp" />
     <ClCompile Include="..\Source\Util\GameTime.cpp" />
     <ClCompile Include="..\Source\Util\InputManager.cpp" />
+    <ClCompile Include="..\Source\Util\L-System\LSystem.cpp" />
+    <ClCompile Include="..\Source\Util\L-System\Parser.cpp" />
     <ClCompile Include="..\Source\Util\Renderer.cpp" />
     <ClCompile Include="..\Source\Util\WindowManager.cpp" />
     <ClCompile Include="..\Source\World\Scene.cpp" />
     <ClCompile Include="ParticleSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Source\Actors\Arwing.h" />
-    <ClInclude Include="..\Source\Actors\Enemy.h" />
+    <ClInclude Include="..\Source\Actors\BuildingArchitecture\Building.h" />
+    <ClInclude Include="..\Source\Actors\BuildingArchitecture\FilledMirroredCubes.h" />
+    <ClInclude Include="..\Source\Actors\BuildingArchitecture\MirroredCubes.h" />
+    <ClInclude Include="..\Source\Actors\Doodads\PewPew.h" />
+    <ClInclude Include="..\Source\Actors\Enemy\Enemy.h" />
     <ClInclude Include="..\Source\Actors\Entity.h" />
     <ClInclude Include="..\Source\Actors\Geometry\Chunk.h" />
     <ClInclude Include="..\Source\Actors\Geometry\Cube.h" />
-    <ClInclude Include="..\Source\Actors\PewPew.h" />
+    <ClInclude Include="..\Source\Actors\Player\Arwing.h" />
+    <ClInclude Include="..\Source\Actors\Terrain\SkyBox.h" />
     <ClInclude Include="..\Source\Camera\Camera.h" />
     <ClInclude Include="..\Source\Camera\GameplayCamera.h" />
     <ClInclude Include="..\Source\Camera\ThirdPersonCamera.h" />
+    <ClInclude Include="..\Source\Graphics\Texture.h" />
+    <ClInclude Include="..\Source\Physics\Physics.h" />
+    <ClInclude Include="..\Source\Util\BuildingFactory.h" />
     <ClInclude Include="..\Source\Util\EnemyFactory.h" />
     <ClInclude Include="..\Source\Util\GameTime.h" />
     <ClInclude Include="..\Source\Util\InputManager.h" />
+    <ClInclude Include="..\Source\Util\L-System\LSystem.h" />
+    <ClInclude Include="..\Source\Util\L-System\Parser.h" />
     <ClInclude Include="..\Source\Util\Renderer.h" />
     <ClInclude Include="..\Source\Util\WindowManager.h" />
     <ClInclude Include="..\Source\World\Scene.h" />
     <ClInclude Include="ParticleSystem.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\Source\Shaders\Bloom.frag" />
+    <None Include="..\Source\Shaders\Bloom.vert" />
     <None Include="..\Source\Shaders\Gouraud.frag" />
     <None Include="..\Source\Shaders\Gouraud.vert" />
+    <None Include="..\Source\Shaders\Phong.frag" />
+    <None Include="..\Source\Shaders\Phong.vert" />
+    <None Include="..\Source\Shaders\PhongTextured.frag" />
+    <None Include="..\Source\Shaders\PhongTextured.vert" />
     <None Include="..\Source\Shaders\SolidColor.frag" />
     <None Include="..\Source\Shaders\SolidColor.vert" />
+    <None Include="..\Source\Shaders\Textured.frag" />
+    <None Include="..\Source\Shaders\Textured.vert" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{4D5003D7-211D-46A3-96DD-093E78CA4943}</ProjectGuid>
@@ -97,7 +123,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>
       </SDLCheck>
-      <AdditionalIncludeDirectories>..\Source\Actors;..\Source\Actors\Geometry;..\Source\Camera;..\Source\Util;..\Source\World;..\Source\Include\glew-1.10.0\include;..\Source\Include\glfw-3.0.4\include;..\Source\Include\glm-0.9.5.4</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Source\Actors;..\Source\Actors\BuildingArchitecture;..\Source\Actors\Doodads;..\Source\Actors\Enemy;..\Source\Actors\Geometry;..\Source\Actors\Player;..\Source\Actors\Terrain;..\Source\Camera;..\Source\Graphics;..\Source\Physics;..\Source\Util;..\Source\Util\L-System;..\Source\World;..\Source\Include\FreeImage\Dist;..\Source\Include\glew-1.10.0\include;..\Source\Include\glfw-3.0.4\include;..\Source\Include\glm-0.9.5.4</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -109,8 +135,8 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\Source\Include\glew-1.10.0\lib\Release\Win32;..\Source\Include\glfw-3.0.4\lib-msvc120;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\Source\Include\FreeImage\Dist;..\Source\Include\glew-1.10.0\lib\Release\Win32;..\Source\Include\glfw-3.0.4\lib-msvc120;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>FreeImage.lib;glew32s.lib;glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>
       </IgnoreAllDefaultLibraries>
       <IgnoreSpecificDefaultLibraries>LIBCMT;MSVCRT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
@@ -128,7 +154,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>
       </SDLCheck>
-      <AdditionalIncludeDirectories>..\Source\Actors;..\Source\Util;..\Source\World;..\Source\Include\glew-1.10.0\include;..\Source\Include\glfw-3.0.4\include;..\Source\Include\glm-0.9.5.4</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Source\Actors;..\Source\Actors\BuildingArchitecture;..\Source\Actors\Doodads;..\Source\Actors\Enemy;..\Source\Actors\Geometry;..\Source\Actors\Player;..\Source\Actors\Terrain;..\Source\Camera;..\Source\Graphics;..\Source\Physics;..\Source\Util;..\Source\Util\L-System;..\Source\World;..\Source\Include\FreeImage\Dist;..\Source\Include\glew-1.10.0\include;..\Source\Include\glfw-3.0.4\include;..\Source\Include\glm-0.9.5.4</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader />
@@ -138,8 +164,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\Source\Include\glew-1.10.0\lib\Release\Win32;..\Source\Include\glfw-3.0.4\lib-msvc120;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>FreeImage.lib;glew32s.lib;glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\Source\Include\FreeImage\Dist;..\Source\Include\glew-1.10.0\lib\Release\Win32;..\Source\Include\glfw-3.0.4\lib-msvc120;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>
       </IgnoreAllDefaultLibraries>
       <IgnoreSpecificDefaultLibraries>LIBCMT;MSVCRT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>

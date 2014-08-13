@@ -9,22 +9,26 @@
 int main(int argc, char*argv[])
 {
 	WindowManager::Initialize();
-	Renderer::Initialize();
 
-	Scene scene = Scene();
+	Renderer& renderer = Renderer::GetInstance();
+	renderer.Initialize();
+
+	Scene& scene = Scene::GetInstance();
 	scene.Initialize();
+
+	InputManager::Initialize(scene.GetPlayer());
 
 	do
 	{
-		InputManager::Update();
 		GameTime::Update();
 		float dt = GameTime::GetFrameTime();
+		InputManager::Update(dt);
 		scene.Update(dt);
 		scene.Draw();
 	} while (WindowManager::ExitRequested() == false);
 
 	// should prolly do cleanup here i dont know
-	Renderer::Shutdown();
+	Renderer::GetInstance().Shutdown();
 	glfwTerminate();
 
 	return 0;
