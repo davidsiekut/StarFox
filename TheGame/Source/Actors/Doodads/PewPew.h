@@ -18,6 +18,7 @@ public:
 	static const float PEWPEW_LIFETIME;
 	static const float PEWPEW_SPEED_PLAYER;
 	static const float PEWPEW_SPEED_ENEMY;
+
 protected:
 
 private:

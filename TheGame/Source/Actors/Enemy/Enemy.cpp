@@ -41,6 +41,7 @@ void Enemy::Update(float dt)
 	if (GetShieldAmount() <= 0)
 	{
 		markedForDeletion = true;
+		Scene::GetInstance().score += 111;
 	}
 
 	rotationAngle += dt * ENEMY_SPINNY_SPIN_SPEED;

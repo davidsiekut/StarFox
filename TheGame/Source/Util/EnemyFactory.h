@@ -20,6 +20,7 @@ public:
 
 	void SpawnCheck(float dt);
 	void SpawnEnemies(int numberEnemies, Direction direction, float y);
+	void SpawnUltraBoss();
 
 private:
 	Arwing* a;

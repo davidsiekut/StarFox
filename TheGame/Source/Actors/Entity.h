@@ -71,15 +71,15 @@ protected:
 
 	void Initialize(glm::vec3 size);
 
+	// gameplay stuff
+	float shield = 100.f;
+
 private:
 	unsigned int vertexArrayID;
 	unsigned int vertexBufferID;
 	unsigned int vertexBufferSize;
 
 	bool loadOBJ(std::string path, std::vector<Vertex> &buffer);
-
-	// gameplay stuff
-	float shield = 100.f;
 
 	// Hold the blueprints of each Entity in memory once the .obj has been loaded.
 	static std::map<std::string, std::vector<Vertex>*> bluePrints;

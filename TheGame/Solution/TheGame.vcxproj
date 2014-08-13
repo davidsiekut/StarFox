@@ -16,6 +16,7 @@
     <ClCompile Include="..\Source\Actors\BuildingArchitecture\MirroredCubes.cpp" />
     <ClCompile Include="..\Source\Actors\Doodads\PewPew.cpp" />
     <ClCompile Include="..\Source\Actors\Enemy\Enemy.cpp" />
+    <ClCompile Include="..\Source\Actors\Enemy\UltraBoss.cpp" />
     <ClCompile Include="..\Source\Actors\Entity.cpp" />
     <ClCompile Include="..\Source\Actors\Geometry\Chunk.cpp" />
     <ClCompile Include="..\Source\Actors\Geometry\Cube.cpp" />
@@ -43,6 +44,7 @@
     <ClInclude Include="..\Source\Actors\BuildingArchitecture\MirroredCubes.h" />
     <ClInclude Include="..\Source\Actors\Doodads\PewPew.h" />
     <ClInclude Include="..\Source\Actors\Enemy\Enemy.h" />
+    <ClInclude Include="..\Source\Actors\Enemy\UltraBoss.h" />
     <ClInclude Include="..\Source\Actors\Entity.h" />
     <ClInclude Include="..\Source\Actors\Geometry\Chunk.h" />
     <ClInclude Include="..\Source\Actors\Geometry\Cube.h" />

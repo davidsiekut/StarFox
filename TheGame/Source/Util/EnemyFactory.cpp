@@ -2,6 +2,7 @@
 
 #include "EnemyFactory.h"
 #include "Enemy.h"
+#include "UltraBoss.h"
 
 EnemyFactory::EnemyFactory(Arwing* a) : a(a)
 {
@@ -47,4 +48,11 @@ void EnemyFactory::SpawnEnemies(int numberEnemies, Direction direction, float y)
 		}
 		Scene::GetInstance().AddEntity(e);
 	}
+}
+
+void EnemyFactory::SpawnUltraBoss()
+{
+	UltraBoss* u = new UltraBoss(NULL);
+	u->SetPosition(glm::vec3(0.f, 500.f, a->GetPosition().z + 100.f));
+	Scene::GetInstance().AddEntity(u);
 }

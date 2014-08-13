@@ -31,6 +31,8 @@ public:
 	void GameOver();
 	bool IsGameOver() { return gameOver; }
 
+	int score = 0;
+
 private:
 	// Hide constructors
 	Scene();
@@ -45,6 +47,7 @@ private:
 
 	int lastChunk = 0;
 	bool gameOver = false;
+	bool bossSpawned = false;
 
 	static const unsigned int TERRAIN_PRELOAD;
 	static const unsigned int TERRAIN_LOADAHEAD;

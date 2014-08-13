@@ -12,6 +12,7 @@
 #include "SkyBox.h"
 #include "Texture.h"
 #include "ThirdPersonCamera.h"
+#include "UltraBoss.h"
 #include "WindowManager.h"
 #include <GLFW/glfw3.h>
 #include <glm/gtc/matrix_transform.hpp>
@@ -21,7 +22,7 @@
 const unsigned int Scene::TERRAIN_PRELOAD = 5;
 const unsigned int Scene::TERRAIN_LOADAHEAD = 5;
 
-#define MAXTEXTURES 5
+#define MAXTEXTURES 6
 Texture textures[MAXTEXTURES];
 
 Scene::Scene()
@@ -57,7 +58,7 @@ void Scene::Initialize()
 
 void Scene::LoadTextures()
 {
-	std::string texturesToLoad[] = { "default.jpg", "dolan.jpg", "building.jpg", "grass.jpg", "sky.jpg" };
+	std::string texturesToLoad[] = { "default.jpg", "dolan.jpg", "building.jpg", "grass.jpg", "sky.jpg", "dolan_ultra.jpg" };
 
 	for (unsigned int i = 0; i < MAXTEXTURES; i++)
 	{
@@ -118,8 +119,16 @@ void Scene::Update(float dt)
 		AddChunk(glm::vec3(0.f, 0.f, lastChunk * Chunk::CHUNK_DEPTH));
 	}
 
-	// spawn new enemies?
-	enemyFactory->SpawnCheck(dt);
+	if (score < 1000)
+	{
+		// spawn new enemies?
+		enemyFactory->SpawnCheck(dt);
+	}
+	else if (!bossSpawned)
+	{
+		bossSpawned = true;
+		enemyFactory->SpawnUltraBoss();
+	}
 
 	// if enemies can attack, do so and add pewpews to entity list
 	for (std::vector<Entity*>::iterator it = entities.begin(); it < entities.end(); ++it)
@@ -138,6 +147,26 @@ void Scene::Update(float dt)
 				pewpew->SetPosition(glm::vec3((*it)->GetPosition().x, (*it)->GetPosition().y, (*it)->GetPosition().z));
 				queued.push_back(pewpew);
 				((Enemy*)(*it))->attackCooldown = 2.f;
+			}
+		}
+		else if ((*it)->GetName().compare("BOSS") == 0)
+		{
+			if (((Enemy*)(*it))->attackCooldown <= 0)
+			{
+				glm::vec3 target = a->GetPosition();
+				target.x += (rand() % 150 * 2) - 150; // spread range
+				target.y += (rand() % 150 * 2) - 150;
+
+				glm::vec3 directionL = glm::normalize(target - (*it)->GetPosition());
+				glm::vec3 directionR = glm::normalize(target - (*it)->GetPosition());
+
+				PewPew* pewpewL = new PewPew("ENEMY", directionL);
+				PewPew* pewpewR = new PewPew("ENEMY", directionR);
+				pewpewL->SetPosition(glm::vec3((*it)->GetPosition().x - 17, (*it)->GetPosition().y - 5, (*it)->GetPosition().z));
+				pewpewR->SetPosition(glm::vec3((*it)->GetPosition().x + 17, (*it)->GetPosition().y - 5, (*it)->GetPosition().z));
+				queued.push_back(pewpewL);
+				queued.push_back(pewpewR);
+				((Enemy*)(*it))->attackCooldown = UltraBoss::BOSS_ATTACK_CD;
 			}
 		}
 	}
@@ -217,7 +246,7 @@ void Scene::AddChunk(glm::vec3 pos)
 	chunks.push_back(c);
 	lastChunk++;
 
-	if (lastChunk > 3)
+	if (lastChunk > 3 && !bossSpawned)
 		BuildingFactory::GetInstance().GenerateBuilding(pos);
 }
 
