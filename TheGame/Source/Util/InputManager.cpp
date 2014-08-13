@@ -215,11 +215,18 @@ void InputManager::Fire()
 
 	// TODO rotate pewpews based on player rotation
 	// Set the positions to the current location of the Arwing +- 0.25 so that it shoots from the sides
-	pewpewL->SetPosition(glm::vec3(arwing->GetPosition().x - 1.f, arwing->GetPosition().y - 0.35f, arwing->GetPosition().z));
-	pewpewR->SetPosition(glm::vec3(arwing->GetPosition().x + 1.f, arwing->GetPosition().y - 0.35f, arwing->GetPosition().z));
 
-	pewpewL->SetRotation(arwing->GetRotationAxis(), arwing->GetRotationAngle());
-	pewpewR->SetRotation(arwing->GetRotationAxis(), arwing->GetRotationAngle());
+
+	if (arwing->isTiltingLeft || arwing->isTiltingRight)
+	{
+		pewpewL->SetPosition(glm::vec3(arwing->GetPosition().x, arwing->GetPosition().y - 1.f, arwing->GetPosition().z));
+		pewpewR->SetPosition(glm::vec3(arwing->GetPosition().x, arwing->GetPosition().y + 1.f, arwing->GetPosition().z));
+	}
+	else
+	{
+		pewpewL->SetPosition(glm::vec3(arwing->GetPosition().x + 1.f, arwing->GetPosition().y - 1.f, arwing->GetPosition().z) + 1.f);
+		pewpewR->SetPosition(glm::vec3(arwing->GetPosition().x - 3.f, arwing->GetPosition().y - 1.f, arwing->GetPosition().z) + 1.f);
+	}
 
 	// Put the pewpews in the list
 	Scene::GetInstance().AddEntity(pewpewL);
