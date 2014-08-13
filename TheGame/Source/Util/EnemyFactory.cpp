@@ -15,6 +15,11 @@ EnemyFactory::~EnemyFactory()
 
 void EnemyFactory::SpawnCheck(float dt)
 {
+	if (Scene::GetInstance().IsGameOver())
+	{
+		return;
+	}
+
 	timer -= dt;
 	if (timer < 0)
 	{

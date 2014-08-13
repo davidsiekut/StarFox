@@ -1,4 +1,5 @@
 #include "PewPew.h"
+#include "Scene.h"
 
 const float PewPew::PEWPEW_LIFETIME = 0.5f;
 const float PewPew::PEWPEW_SPEED_PLAYER = 290.f;
@@ -64,7 +65,7 @@ void PewPew::Update(float dt)
 	timeElapsed += dt;
 
 	// Player pewpews have a lifetime. Enemy pewpews will be deleted when they go behind the player.
-	if (timeElapsed > PEWPEW_LIFETIME && owner == "PLAYER")
+	if ((timeElapsed > PEWPEW_LIFETIME && owner == "PLAYER") || Scene::GetInstance().IsGameOver())
 	{
 		markedForDeletion = true;
 	}
