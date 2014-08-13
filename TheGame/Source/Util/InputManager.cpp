@@ -224,8 +224,8 @@ void InputManager::Fire()
 	}
 	else
 	{
-		pewpewL->SetPosition(glm::vec3(arwing->GetPosition().x - 1.f, arwing->GetPosition().y - 0.35f, arwing->GetPosition().z));
-		pewpewR->SetPosition(glm::vec3(arwing->GetPosition().x + 1.f, arwing->GetPosition().y - 0.35f, arwing->GetPosition().z));
+		pewpewL->SetPosition(glm::vec3(arwing->GetPosition().x + 1.f, arwing->GetPosition().y - 1.f, arwing->GetPosition().z) + 1.f);
+		pewpewR->SetPosition(glm::vec3(arwing->GetPosition().x - 3.f, arwing->GetPosition().y - 1.f, arwing->GetPosition().z) + 1.f);
 	}
 
 	// Put the pewpews in the list
