@@ -77,3 +77,8 @@ void GameplayCamera::Shake()
 {
 	isShaking = true;
 }
+
+glm::vec3 GameplayCamera::GetPosition()
+{
+	return mPosition;
+}

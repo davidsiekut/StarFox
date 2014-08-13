@@ -66,3 +66,8 @@ void ThirdPersonCamera::Shake()
 {
 	isShaking = true;
 }
+
+glm::vec3 ThirdPersonCamera::GetPosition()
+{
+	return mPosition;
+}

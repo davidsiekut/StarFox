@@ -1,5 +1,3 @@
-#include <GLFW/glfw3.h>
-
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
@@ -9,18 +7,31 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/norm.hpp>
 
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+
 #include "ParticleSystem.h"
 #include "GameTime.h"
-#include "Camera.h"
+#include "Scene.h"
 
-const int maxParticles = 1000;
+ParticleSystem::ParticleSystem() : Entity(NULL)
+{
+	this->shaderType = SHADER_PARTICLES;
+}
+
+ParticleSystem::~ParticleSystem()
+{
+	glDeleteBuffers(1, &particleBufferID);
+	glDeleteVertexArrays(1, &particleBufferID);
+}
 
 void ParticleSystem::SortParticles()
 {
 	std::sort(&Container[0], &Container[maxParticles]);
 }
 
-int ParticleSystem::FindUnusedParticle(){
+int ParticleSystem::FindUnusedParticle()
+{
 
 	for (int i = lastUsed; i < maxParticles; i++){
 		if (Container[i].lifeRemaining < 0){
@@ -53,7 +64,7 @@ void ParticleSystem::Update(float dt)
 	for (int i = 0; i < newparticles; i++) {
 		int index = FindUnusedParticle();
 		Container[index].lifeRemaining = 3.0f; //Lives for 3 seconds. Can be changed to longer
-		Container[index].position = glm::vec3(0, 0, -20.0f);
+		Container[index].position = GetPositionWorld();
 
 		// The spread between each particle, can be changed if needed
 		float particleSpread = 2.0f;
@@ -81,6 +92,8 @@ void ParticleSystem::Update(float dt)
 
 	int partCount = 0;
 
+	Vertex particleBuffer[maxParticles];
+
 	for (int i = 0; i < maxParticles; i++){
 
 		Particle& p = Container[i]; // shortcut
@@ -94,20 +107,11 @@ void ParticleSystem::Update(float dt)
 				// Particles fly in all directions with no collision between each other
 				p.speed += glm::vec3((rand() % 3 - 1)*3.0f, (rand() % 3 - 1)*3.0f, (rand() % 3 - 1)*3.0f) * dt * 0.5f;
 				p.position += p.speed * dt;
-				p.distToCamera = glm::length2(p.position - CameraPosition);
+				p.distToCamera = glm::length2(p.position - Scene::GetInstance().GetGPCamera()->GetPosition());
 
 				// Fill the GPU buffer
-				g_particule_position_size_data[4 * partCount + 0] = p.position.x;
-				g_particule_position_size_data[4 * partCount + 1] = p.position.y;
-				g_particule_position_size_data[4 * partCount + 2] = p.position.z;
-
-				g_particule_position_size_data[4 * partCount + 3] = p.size;
-
-				g_particule_color_data[4 * partCount + 0] = p.r;
-				g_particule_color_data[4 * partCount + 1] = p.g;
-				g_particule_color_data[4 * partCount + 2] = p.b;
-				g_particule_color_data[4 * partCount + 3] = p.a;
-
+				particleBuffer[partCount].xyzs = glm::vec4(p.position.x, p.position.y, p.position.z, p.size);
+				particleBuffer[partCount].color = glm::vec4(p.r, p.g, p.b, p.a);
 			}
 			else
 			{
@@ -120,4 +124,74 @@ void ParticleSystem::Update(float dt)
 	}
 
 	SortParticles();
+
+	particleBufferSize = sizeof(particleBuffer);
+
+	// create vertex array
+	glGenVertexArrays(1, &particleBufferID);
+
+	// upload vertexbuffer to the GPU
+	glGenBuffers(1, &particleBufferID);
+	// and keep a reference to it (vertexBufferID)
+	glBindBuffer(GL_ARRAY_BUFFER, particleBufferID);
+	glBufferData(GL_ARRAY_BUFFER, particleBufferSize, &particleBuffer[0], GL_STATIC_DRAW);
+}
+
+void ParticleSystem::Draw()
+{
+	//GLuint program = Renderer::GetInstance().GetShaderProgramID(this->shaderType);
+	GLuint program;
+	if (Renderer::GetInstance().GetCurrentShader() > -1)
+		program = Renderer::GetInstance().GetShaderProgramID(Renderer::GetInstance().GetCurrentShader());
+	else
+		program = Renderer::GetInstance().GetShaderProgramID(this->GetShaderType());
+	glUseProgram(program);
+
+	glm::mat4 W = GetWorldMatrix();
+	GLuint WorldMatrixID = glGetUniformLocation(program, "WorldTransform");
+	glUniformMatrix4fv(WorldMatrixID, 1, GL_FALSE, &W[0][0]);
+
+	GLuint materialCoefficientsID = glGetUniformLocation(program, "materialCoefficients");
+	glUniform4f(materialCoefficientsID, materialCoefficients.x, materialCoefficients.y, materialCoefficients.z, materialCoefficients.w);
+
+	glBindVertexArray(particleBufferID);
+
+	// Square Vertices
+	glEnableVertexAttribArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, particleBufferID);
+	glVertexAttribPointer(0,    // attribute. No particular reason for 0, but must match the layout in the shader.
+		3,                      // size
+		GL_FLOAT,               // type
+		GL_FALSE,               // normalized?
+		sizeof(Vertex),         // stride
+		(void*)0                // array buffer offset
+		);
+
+	// Position of the center of the particule and size of the square
+	glEnableVertexAttribArray(1);
+	glBindBuffer(GL_ARRAY_BUFFER, particleBufferID);
+	glVertexAttribPointer(1,
+		2,
+		GL_FLOAT,
+		GL_FALSE,
+		sizeof(Vertex),
+		(void*)sizeof(glm::vec3) // offset
+		);
+
+	// Position of the center of the particule and size of the square
+	glEnableVertexAttribArray(2);
+	glBindBuffer(GL_ARRAY_BUFFER, particleBufferID);
+	glVertexAttribPointer(2,
+		3,
+		GL_FLOAT,
+		GL_FALSE,
+		sizeof(Vertex),
+		(void*)(sizeof(glm::vec3) + sizeof(glm::vec4)) // offset
+		);
+
+	glDrawArrays(GL_TRIANGLES, 0, particleBufferSize);
+
+	glDisableVertexAttribArray(2);
+	glDisableVertexAttribArray(1);
+	glDisableVertexAttribArray(0);
 }

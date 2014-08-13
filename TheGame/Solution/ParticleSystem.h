@@ -1,7 +1,12 @@
 #pragma once
 
-class ParticleSystem
+#include "Entity.h"
+
+#define maxParticles 10000
+
+class ParticleSystem : public Entity
 {
+public:
 	struct Particle
 	{
 		glm::vec3 position, speed;
@@ -14,13 +19,23 @@ class ParticleSystem
 		}
 	};
 
-public:
+	ParticleSystem();
+	~ParticleSystem();
+
 	void SortParticles();
-	int FindUnusedParticle() { return unusedParticle; }
-	void Update(float dt);
+	int FindUnusedParticle();
+	virtual void Update(float dt);
+	virtual void Draw();
 
 private:
 	int lastUsed = 0;
-	int unusedParticle;
+	unsigned int particleBufferID;
+	unsigned int particleBufferSize;
 	Particle Container[maxParticles];
+
+	struct Vertex
+	{
+		glm::vec4 xyzs;
+		glm::vec4 color;
+	};
 };
