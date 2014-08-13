@@ -11,16 +11,40 @@
 #include <GLFW/glfw3.h>
 
 #include "ParticleSystem.h"
-#include "GameTime.h"
 #include "Scene.h"
 
-ParticleSystem::ParticleSystem() : Entity(NULL)
+const GLfloat ParticleSystem::SQUARE_VERTICES[] = 
+{
+	-0.5f, -0.5f, 0.0f,
+	0.5f, -0.5f, 0.0f,
+	-0.5f, 0.5f, 0.0f,
+	0.5f, 0.5f, 0.0f
+};
+
+ParticleSystem::ParticleSystem(Entity* parent) : Entity(parent)
 {
 	this->shaderType = SHADER_PARTICLES;
+
+	// Create buffers on GPU for square vertices
+	glGenBuffers(1, &squareBufferID);
+	glBindBuffer(GL_ARRAY_BUFFER, squareBufferID);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(SQUARE_VERTICES), SQUARE_VERTICES, GL_STATIC_DRAW);
+
+
+	// Pre calculate size of particle buffer
+	particleBufferSize = maxParticles * (2 * sizeof(glm::vec4));
+
+	// Create buffers on GPU for particles
+	glGenBuffers(1, &particleBufferID);
+	glBindBuffer(GL_ARRAY_BUFFER, particleBufferID);
+	glBufferData(GL_ARRAY_BUFFER, particleBufferSize, NULL, GL_STREAM_DRAW);
 }
 
 ParticleSystem::~ParticleSystem()
 {
+	glDeleteBuffers(1, &squareBufferID);
+	glDeleteVertexArrays(1, &squareBufferID);
+
 	glDeleteBuffers(1, &particleBufferID);
 	glDeleteVertexArrays(1, &particleBufferID);
 }
@@ -125,16 +149,9 @@ void ParticleSystem::Update(float dt)
 
 	SortParticles();
 
-	particleBufferSize = sizeof(particleBuffer);
-
-	// create vertex array
-	glGenVertexArrays(1, &particleBufferID);
-
-	// upload vertexbuffer to the GPU
-	glGenBuffers(1, &particleBufferID);
-	// and keep a reference to it (vertexBufferID)
 	glBindBuffer(GL_ARRAY_BUFFER, particleBufferID);
-	glBufferData(GL_ARRAY_BUFFER, particleBufferSize, &particleBuffer[0], GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, particleBufferSize, NULL, GL_STREAM_DRAW);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, particleBufferSize, particleBuffer);
 }
 
 void ParticleSystem::Draw()
@@ -154,16 +171,23 @@ void ParticleSystem::Draw()
 	GLuint materialCoefficientsID = glGetUniformLocation(program, "materialCoefficients");
 	glUniform4f(materialCoefficientsID, materialCoefficients.x, materialCoefficients.y, materialCoefficients.z, materialCoefficients.w);
 
+	GLuint CameraRight_worldspace_ID = glGetUniformLocation(program, "CameraRight_worldspace");
+	GLuint CameraUp_worldspace_ID = glGetUniformLocation(program, "CameraUp_worldspace");
+
+	glm::mat4 ViewMatrix = Scene::GetInstance().GetGPCamera()->GetViewMatrix();
+	glUniform3f(CameraRight_worldspace_ID, ViewMatrix[0][0], ViewMatrix[1][0], ViewMatrix[2][0]);
+	glUniform3f(CameraUp_worldspace_ID, ViewMatrix[0][1], ViewMatrix[1][1], ViewMatrix[2][1]);
+
 	glBindVertexArray(particleBufferID);
 
 	// Square Vertices
 	glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, particleBufferID);
+	glBindBuffer(GL_ARRAY_BUFFER, squareBufferID);
 	glVertexAttribPointer(0,    // attribute. No particular reason for 0, but must match the layout in the shader.
 		3,                      // size
 		GL_FLOAT,               // type
 		GL_FALSE,               // normalized?
-		sizeof(Vertex),         // stride
+		0,						// stride
 		(void*)0                // array buffer offset
 		);
 
@@ -175,7 +199,7 @@ void ParticleSystem::Draw()
 		GL_FLOAT,
 		GL_FALSE,
 		sizeof(Vertex),
-		(void*)sizeof(glm::vec3) // offset
+		(void*)0 // offset
 		);
 
 	// Position of the center of the particule and size of the square
@@ -186,7 +210,7 @@ void ParticleSystem::Draw()
 		GL_FLOAT,
 		GL_FALSE,
 		sizeof(Vertex),
-		(void*)(sizeof(glm::vec3) + sizeof(glm::vec4)) // offset
+		(void*)(sizeof(glm::vec4)) // offset
 		);
 
 	glVertexAttribDivisor(0, 0);

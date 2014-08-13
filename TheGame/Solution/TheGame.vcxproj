@@ -33,10 +33,10 @@
     <ClCompile Include="..\Source\Util\InputManager.cpp" />
     <ClCompile Include="..\Source\Util\L-System\LSystem.cpp" />
     <ClCompile Include="..\Source\Util\L-System\Parser.cpp" />
+    <ClCompile Include="..\Source\Util\ParticleSystem.cpp" />
     <ClCompile Include="..\Source\Util\Renderer.cpp" />
     <ClCompile Include="..\Source\Util\WindowManager.cpp" />
     <ClCompile Include="..\Source\World\Scene.cpp" />
-    <ClCompile Include="ParticleSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Actors\BuildingArchitecture\Building.h" />
@@ -60,10 +60,10 @@
     <ClInclude Include="..\Source\Util\InputManager.h" />
     <ClInclude Include="..\Source\Util\L-System\LSystem.h" />
     <ClInclude Include="..\Source\Util\L-System\Parser.h" />
+    <ClInclude Include="..\Source\Util\ParticleSystem.h" />
     <ClInclude Include="..\Source\Util\Renderer.h" />
     <ClInclude Include="..\Source\Util\WindowManager.h" />
     <ClInclude Include="..\Source\World\Scene.h" />
-    <ClInclude Include="ParticleSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Source\Shaders\Bloom.frag" />

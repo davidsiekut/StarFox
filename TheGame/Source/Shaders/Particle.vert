@@ -23,7 +23,7 @@ void main()
 	float particleSize = xyzs.w; // because we encoded it this way.
 	vec3 particleCenter_wordspace = xyzs.xyz;
 	
-	vec3 vertexPosition_worldspace = (WorldTransform * vec4(xyzs.xyz,1)).xyz;
+	vec3 vertexPosition_worldspace =
 		particleCenter_wordspace
 		+ CameraRight_worldspace * squareVertices.x * particleSize
 		+ CameraUp_worldspace * squareVertices.y * particleSize;

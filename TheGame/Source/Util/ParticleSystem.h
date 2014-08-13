@@ -2,7 +2,7 @@
 
 #include "Entity.h"
 
-#define maxParticles 10000
+#define maxParticles 1000
 
 class ParticleSystem : public Entity
 {
@@ -10,7 +10,7 @@ public:
 	struct Particle
 	{
 		glm::vec3 position, speed;
-		unsigned char r, g, b, a; // Color
+		float r, g, b, a; // Color
 		float size, angle, weight, lifeRemaining, distToCamera;
 
 		bool operator<(const Particle& that) const
@@ -19,7 +19,7 @@ public:
 		}
 	};
 
-	ParticleSystem();
+	ParticleSystem(Entity* parent);
 	~ParticleSystem();
 
 	void SortParticles();
@@ -29,14 +29,20 @@ public:
 
 private:
 	int lastUsed = 0;
+
 	unsigned int particleBufferID;
 	unsigned int particleBufferSize;
+
+	unsigned int squareBufferID;
+	unsigned int squareBufferSize;
+
 	Particle Container[maxParticles];
 
 	struct Vertex
 	{
-		glm::vec3 squareVertices;
 		glm::vec4 xyzs;
 		glm::vec4 color;
 	};
+
+	static const GLfloat SQUARE_VERTICES[];
 };

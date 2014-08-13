@@ -128,7 +128,7 @@
     <ClCompile Include="..\Source\Actors\Terrain\SkyBox.cpp">
       <Filter>Source Files\Actors\Terrain</Filter>
     </ClCompile>
-    <ClCompile Include="ParticleSystem.cpp">
+    <ClCompile Include="..\Source\Util\ParticleSystem.cpp">
       <Filter>Source Files\Util</Filter>
     </ClCompile>
   </ItemGroup>
@@ -205,7 +205,7 @@
     <ClInclude Include="..\Source\Actors\Terrain\SkyBox.h">
       <Filter>Source Files\Actors\Terrain</Filter>
     </ClInclude>
-    <ClInclude Include="ParticleSystem.h">
+    <ClInclude Include="..\Source\Util\ParticleSystem.h">
       <Filter>Source Files\Util</Filter>
     </ClInclude>
   </ItemGroup>

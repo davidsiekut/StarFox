@@ -13,6 +13,7 @@
 #include "Texture.h"
 #include "ThirdPersonCamera.h"
 #include "WindowManager.h"
+#include "ParticleSystem.h"
 #include <GLFW/glfw3.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform.hpp>
@@ -41,6 +42,9 @@ void Scene::Initialize()
 	a = new Arwing(NULL);
 	a->SetPosition(glm::vec3(0.f, 10.f, 0.f));
 	AddEntity(a);
+
+	ParticleSystem* p = new ParticleSystem(a);
+	AddEntity(p);
 
 	// setup some other stuff
 	enemyFactory = new EnemyFactory(a);
