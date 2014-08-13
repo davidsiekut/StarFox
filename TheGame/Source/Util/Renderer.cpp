@@ -43,7 +43,9 @@ void Renderer::Initialize()
 	shaders.push_back(LoadShader("Gouraud"));
 	shaders.push_back(LoadShader("Phong"));
 	shaders.push_back(LoadShader("Textured"));
+	shaders.push_back(LoadShader("Bloom"));
 	shaders.push_back(LoadShader("PhongTextured"));
+
 	currentShader = -1;
 }
 
@@ -136,7 +138,7 @@ GLuint Renderer::LoadShader(std::string name)
 		glDeleteShader(fragmentShader);
 
 		//Use the infoLog as you see fit.
-
+		
 		//In this simple program, we'll just leave
 		//return;
 		getchar();
