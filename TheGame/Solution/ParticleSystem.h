@@ -35,6 +35,7 @@ private:
 
 	struct Vertex
 	{
+		glm::vec3 squareVertices;
 		glm::vec4 xyzs;
 		glm::vec4 color;
 	};

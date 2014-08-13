@@ -171,7 +171,7 @@ void ParticleSystem::Draw()
 	glEnableVertexAttribArray(1);
 	glBindBuffer(GL_ARRAY_BUFFER, particleBufferID);
 	glVertexAttribPointer(1,
-		2,
+		4,
 		GL_FLOAT,
 		GL_FALSE,
 		sizeof(Vertex),
@@ -182,14 +182,18 @@ void ParticleSystem::Draw()
 	glEnableVertexAttribArray(2);
 	glBindBuffer(GL_ARRAY_BUFFER, particleBufferID);
 	glVertexAttribPointer(2,
-		3,
+		4,
 		GL_FLOAT,
 		GL_FALSE,
 		sizeof(Vertex),
 		(void*)(sizeof(glm::vec3) + sizeof(glm::vec4)) // offset
 		);
 
-	glDrawArrays(GL_TRIANGLES, 0, particleBufferSize);
+	glVertexAttribDivisor(0, 0);
+	glVertexAttribDivisor(1, 1);
+	glVertexAttribDivisor(2, 1);
+
+	glDrawArraysInstanced(GL_TRIANGLE_STRIP, 0, 4, maxParticles);
 
 	glDisableVertexAttribArray(2);
 	glDisableVertexAttribArray(1);
