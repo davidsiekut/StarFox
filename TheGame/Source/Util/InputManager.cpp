@@ -9,7 +9,7 @@
 #define SHIP_CLAMP_Y_NEG 1.5f
 #define SHIP_CLAMP_Y_POS 20.f
 
-#define TIMER_BARRELROLL 0.2f
+#define TIMER_BARRELROLL 0.3f
 
 double InputManager::mouseX = 0.0f;
 double InputManager::mouseY = 0.0f;
