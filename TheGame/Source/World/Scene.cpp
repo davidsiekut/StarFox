@@ -105,7 +105,9 @@ void Scene::Update(float dt)
 						(*it)->OnCollision(*itt);
 						(*itt)->OnCollision(*it);
 
-						if ((*it) == a && dynamic_cast<PewPew*>(*itt) == NULL)
+						PewPew *p = dynamic_cast<PewPew*>(*itt);
+
+						if ((*it) == a && (p == NULL || (*p).owner != "PLAYER"))
 						{
 							camera->Shake();
 						}
