@@ -12,6 +12,7 @@ out vec4 color;
  
 void main(void)
 {
+/*
 	// Bloom intensity and exposure
 	bloomLevel = 1.0f;
 	exposure = 0.75f;
@@ -35,4 +36,5 @@ void main(void)
     // Apply exposure
 	color = (1.0 - exp2 (-preColor * exposure)) * v_color;
     //outColor.a = 1.0;
+*/
 }
