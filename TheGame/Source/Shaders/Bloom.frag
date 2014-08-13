@@ -30,7 +30,9 @@ void main(void)
  
     vec4 preColor = baseImage + bloomLevel * bloom;
  
+	vec3 v_color = vec3(124.0f,238.f,255.f);
+
     // Apply exposure
-	color = 1.0 - exp2 (-preColor * exposure);
+	color = (1.0 - exp2 (-preColor * exposure)) * v_color;
     //outColor.a = 1.0;
 }
