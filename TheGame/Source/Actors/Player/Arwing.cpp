@@ -119,11 +119,13 @@ void Arwing::OnCollision(Entity* other)
 		{
 			TakeDamage(10);
 			printf("[Player] Shield = %f\n", GetShieldAmount());
+			Scene::GetInstance().GetGPCamera()->Shake();
 		}
 		else if (other->GetName() == "PEWPEW" && (((PewPew*)other)->owner == "ENEMY"))
 		{
 			TakeDamage(((PewPew*)other)->damage);
 			printf("[Player] Shield = %f\n", GetShieldAmount());
+			Scene::GetInstance().GetGPCamera()->Shake();
 		}
 
 		invicibilityFrames = 2.f;

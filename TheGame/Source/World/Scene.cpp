@@ -101,16 +101,9 @@ void Scene::Update(float dt)
 				{
 					if (*it != *itt && Physics::CheckAABBCollision(*it, *itt))
 					{
-						//printf("[Physics] %s hit -> %s\n", (*it)->GetName().c_str(), (*itt)->GetName().c_str());
 						(*it)->OnCollision(*itt);
 						(*itt)->OnCollision(*it);
-
-						PewPew *p = dynamic_cast<PewPew*>(*itt);
-
-						if ((*it) == a && (p == NULL || (*p).owner != "PLAYER"))
-						{
-							camera->Shake();
-						}
+						
 					}
 				}
 			}
