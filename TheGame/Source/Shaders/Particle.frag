@@ -7,10 +7,11 @@ in vec4 particlecolor;
 // Ouput data
 out vec4 color;
 
-uniform sampler2D myTextureSampler;
+uniform sampler2D TextureSampler;
 
-void main(){
+void main()
+{
 	// Output color = color of the texture at the specified UV
-	color = texture2D( myTextureSampler, UV ) * particlecolor;
+	color = texture2D( TextureSampler, UV ) * particlecolor;
 
 }

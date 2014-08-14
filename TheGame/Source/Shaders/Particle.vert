@@ -16,13 +16,13 @@ uniform vec3 CameraUp_worldspace;
 // Transform matrices
 uniform mat4 ProjTransform;
 uniform mat4 ViewTransform;
-uniform mat4 WorldTransform;
 
 void main()
 {
 	float particleSize = xyzs.w; // because we encoded it this way.
 	vec3 particleCenter_wordspace = xyzs.xyz;
 	
+	// Billboard that always faces the camera
 	vec3 vertexPosition_worldspace =
 		particleCenter_wordspace
 		+ CameraRight_worldspace * squareVertices.x * particleSize
@@ -31,7 +31,7 @@ void main()
 	// Output position of the vertex
 	gl_Position = ProjTransform * ViewTransform * vec4(vertexPosition_worldspace, 1.0f);
 
-	// UV of the vertex. No special space for this one.
+	// UV of the vertex.
 	UV = squareVertices.xy + vec2(0.5, 0.5);
 	particlecolor = color;
 }

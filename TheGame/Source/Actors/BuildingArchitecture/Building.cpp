@@ -23,7 +23,15 @@ Building::Building(Entity* parent, std::string lSystem) : Entity(parent)
 	COLLIDE_Y = BUILDING_SIZE_Y;
 	COLLIDE_Z = BUILDING_SIZE_Z;
 
-	GetShieldAmount();
+	dustSystem = nullptr;
+}
+
+Building::~Building()
+{
+	if (dustSystem != nullptr)
+	{
+		dustSystem->markedForDeletion = true;
+	}
 }
 
 void Building::Draw()
@@ -38,6 +46,23 @@ void Building::Update(float dt)
 {
 	if (GetShieldAmount() < 0)
 	{
+		if (dustSystem == nullptr)
+		{
+			dustSystem = new ParticleSystem(this, 2.f, -1.f, 0.f);
+			dustSystem->SetInitialColor(glm::vec3(150.f / 255.f, 75.f / 255.f, 0.f));
+			dustSystem->SetParticleSize(5.f);
+			dustSystem->SetRedInterPolation([](float red, float dt, float lifetime) -> float { return red; });
+			dustSystem->SetGreenInterPolation([](float green, float dt, float lifetime) -> float {
+				green += ((75.f/255.f) / lifetime) * dt;
+				return green;
+			});
+			dustSystem->SetBlueInterPolation([](float blue, float dt, float lifetime) -> float {
+				blue += (1.f / lifetime) * dt;
+				return blue;
+			});
+			Scene::GetInstance().AddEntity(dustSystem);
+		}
+
 		timeElapsed += dt;
 		glm::vec3 position = GetPosition();
 

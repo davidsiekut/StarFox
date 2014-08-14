@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Entity.h"
+#include <functional>
 
 #define maxParticles 100
 
@@ -22,17 +23,31 @@ public:
 	ParticleSystem(Entity* parent, float particleLifetime, float systemLifetime, float zSpeed);
 	~ParticleSystem();
 
-	void SortParticles();
-	int FindUnusedParticle();
 	virtual void Update(float dt);
 	virtual void Draw();
 
+	void SetParticleSize(float particleSize) { this->particleSize = particleSize; }
+	void SetRedInterPolation(std::function<float(float, float, float)> f) { this->RedInterpolation = f; }
+	void SetGreenInterPolation(std::function<float(float, float, float)> f) { this->GreenInterpolation = f; }
+	void SetBlueInterPolation(std::function<float(float, float, float)> f) { this->BlueInterpolation = f; }
+	void SetInitialColor(glm::vec3 initialColor) { this->initialColor = initialColor; }
+
 private:
+
+	static const GLfloat SQUARE_VERTICES[];
+	static int textureID;
+
 	int lastUsed = 0;
 	float particleLifeTime;
 	float systemLifetime;
 	float currentLifetime;
 	float zSpeed;
+	float particleSize;
+	glm::vec3 initialColor;
+
+	std::function<float(float, float, float)> RedInterpolation;
+	std::function<float(float, float, float)> GreenInterpolation;
+	std::function<float(float, float, float)> BlueInterpolation;
 
 	unsigned int particleBufferID;
 	unsigned int particleBufferSize;
@@ -48,6 +63,6 @@ private:
 		glm::vec4 color;
 	};
 
-	static const GLfloat SQUARE_VERTICES[];
-	static int textureID;
+	void SortParticles();
+	int FindUnusedParticle();
 };

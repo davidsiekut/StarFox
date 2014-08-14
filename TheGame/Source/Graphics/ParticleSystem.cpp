@@ -31,6 +31,10 @@ ParticleSystem::ParticleSystem(Entity* parent, float particleLifetime, float sys
 	this->systemLifetime = systemLifetime;
 	this->zSpeed = zSpeed;
 	this->currentLifetime = systemLifetime;
+	this->particleSize = 1.f;
+	
+	// Start as white particles by default
+	this->initialColor = glm::vec3(1.f, 1.f, 1.f);
 
 	// Create buffers on GPU for square vertices
 	glGenBuffers(1, &squareBufferID);
@@ -50,6 +54,11 @@ ParticleSystem::ParticleSystem(Entity* parent, float particleLifetime, float sys
 	{
 		textureID = TextureHelper::LoadDDS("../Assets/Textures/particle.DDS");
 	}
+	
+	// By default particles go from white to orange
+	RedInterpolation = [](float red, float dt, float particleLifeTime) -> float { return red; };
+	GreenInterpolation = [](float green, float dt, float particleLifeTime) -> float { return green - ((1 / (3 * particleLifeTime)) * dt); };
+	BlueInterpolation = [](float blue, float dt, float particleLifeTime) -> float { return blue - ((1 / particleLifeTime) * dt); };
 }
 
 ParticleSystem::~ParticleSystem()
@@ -132,13 +141,13 @@ void ParticleSystem::Update(float dt)
 		Container[index].speed = mainDirection + randomDirection*particleSpread;
 
 		// Each particle starts as white and SHOULD turn orange... will need to be changed if lifeRemaining is changed
-		Container[index].r = 1;
-		Container[index].g = 1 - (1/(3*particleLifeTime) * dt);
-		Container[index].b = 1 - (1/particleLifeTime * dt);
-		Container[index].a = 1 - (9/(20*particleLifeTime) * dt);
+		Container[index].r = initialColor.r;
+		Container[index].g = initialColor.g;
+		Container[index].b = initialColor.b;
+		Container[index].a = 1;
 
 		// Random size for each particle
-		Container[index].size = (rand() % 1000) / 2000.0f + 0.1f;
+		Container[index].size = ((rand() % 1000) / 2000.0f + 0.1f) * particleSize;
 	}
 		
 
@@ -160,6 +169,12 @@ void ParticleSystem::Update(float dt)
 				p.speed += glm::vec3((rand() % 3 - 1)*3.0f, (rand() % 3 - 1)*3.0f, (rand() % 3 - 1)*3.0f) * dt * 0.5f;
 				p.position += p.speed * dt;
 				p.distToCamera = glm::length2(p.position - Scene::GetInstance().GetGPCamera()->GetPosition());
+
+				// Turn particles from white to orange
+				p.r = RedInterpolation(p.r, dt, particleLifeTime);
+				p.g = GreenInterpolation(p.g, dt, particleLifeTime);
+				p.b = BlueInterpolation(p.b, dt, particleLifeTime);
+				p.a -= (9 / (20 * particleLifeTime)) * dt;
 
 				// Fill the GPU buffer
 				particleBuffer[partCount].xyzs = glm::vec4(p.position.x, p.position.y, p.position.z, p.size);
@@ -188,19 +203,8 @@ void ParticleSystem::Draw()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	//GLuint program = Renderer::GetInstance().GetShaderProgramID(this->shaderType);
-	GLuint program;
-	if (Renderer::GetInstance().GetCurrentShader() > -1)
-		program = Renderer::GetInstance().GetShaderProgramID(Renderer::GetInstance().GetCurrentShader());
-	else
-		program = Renderer::GetInstance().GetShaderProgramID(this->GetShaderType());
+	GLuint program = Renderer::GetInstance().GetShaderProgramID(this->GetShaderType());
 	glUseProgram(program);
-
-	glm::mat4 W = GetWorldMatrix();
-	GLuint WorldMatrixID = glGetUniformLocation(program, "WorldTransform");
-	glUniformMatrix4fv(WorldMatrixID, 1, GL_FALSE, &W[0][0]);
-
-	GLuint materialCoefficientsID = glGetUniformLocation(program, "materialCoefficients");
-	glUniform4f(materialCoefficientsID, materialCoefficients.x, materialCoefficients.y, materialCoefficients.z, materialCoefficients.w);
 
 	GLuint CameraRight_worldspace_ID = glGetUniformLocation(program, "CameraRight_worldspace");
 	GLuint CameraUp_worldspace_ID = glGetUniformLocation(program, "CameraUp_worldspace");
@@ -209,10 +213,10 @@ void ParticleSystem::Draw()
 	glUniform3f(CameraRight_worldspace_ID, ViewMatrix[0][0], ViewMatrix[1][0], ViewMatrix[2][0]);
 	glUniform3f(CameraUp_worldspace_ID, ViewMatrix[0][1], ViewMatrix[1][1], ViewMatrix[2][1]);
 
-	GLuint TextureSamplerID = glGetUniformLocation(program, "myTextureSampler");
+	GLuint TextureSamplerID = glGetUniformLocation(program, "TextureSampler");
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, textureID);
-	// Set our "myTextureSampler" sampler to user Texture Unit 0
+	// Set sampler to user Texture Unit 0
 	glUniform1i(TextureSamplerID, 0);
 
 	glBindVertexArray(particleBufferID);
@@ -260,6 +264,7 @@ void ParticleSystem::Draw()
 	glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(0);
 
+	// Reset openGL states to regular values after drawing particles.
 	glDisable(GL_BLEND);
 
 	glVertexAttribDivisor(0, 0);
