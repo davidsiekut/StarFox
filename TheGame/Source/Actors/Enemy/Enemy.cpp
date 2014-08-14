@@ -28,22 +28,39 @@ Enemy::Enemy(Entity *parent, EnemyFactory::Direction direction, float horizontal
 	COLLIDE_Y = size.y;
 	COLLIDE_Z = size.z;
 
+	poofSystem = nullptr;
+
 	Initialize(size);
 }
 
 Enemy::~Enemy()
 {
 	//printf("[Cleanup] Enemy deleted\n");
+	if (poofSystem != nullptr)
+	{
+		poofSystem->markedForDeletion = true;
+	}
 }
 
 void Enemy::Update(float dt)
 {
+	if (timeElapsed > ENEMY_LIFETIME)
+	{
+		markedForDeletion = true;
+	}
+
 	if (GetShieldAmount() <= 0)
 	{
-		Scene::GetInstance().AddStaticParticleSystem(this->GetPosition(), 1.f, 1.f, 0.f);
+		if (poofSystem == nullptr)
+		{
+			Scene::GetInstance().score += 111;
 
-		markedForDeletion = true;
-		Scene::GetInstance().score += 111;
+			poofSystem = new ParticleSystem(this, 1.5f, -1.f, 0.f);
+			Scene::GetInstance().AddEntity(poofSystem);
+		}
+		this->SetScaling(glm::vec3(0.f));
+		//markedForDeletion = true;
+		return;
 	}
 
 	rotationAngle += dt * ENEMY_SPINNY_SPIN_SPEED;
@@ -62,17 +79,7 @@ void Enemy::Update(float dt)
 	position.y = horizontalAxis + glm::sin(timeElapsed) * ENEMY_AMPLITUDE_Y;
 	position.z += dt * ENEMY_SPEED_Z;
 
-	if (timeElapsed > ENEMY_LIFETIME)
-	{
-		markedForDeletion = true;
-	}
-
-	if (attackCooldown <= 0)
-	{
-		//attackCooldown = 1.f;
-		//Scene::GetInstance().Fire();
-	}
-	else
+	if (attackCooldown > 0)
 	{
 		attackCooldown -= dt;
 	}
@@ -82,7 +89,6 @@ void Enemy::OnCollision(Entity* other)
 {
 	if (other->GetName() == "PEWPEW" && (((PewPew*)other)->owner == "PLAYER"))
 	{
-		Scene::GetInstance().AddStaticParticleSystem(this->GetPosition(), 0.2f, 0.2f, 0.f);
 		TakeDamage(((PewPew*)other)->damage);
 	}
 }

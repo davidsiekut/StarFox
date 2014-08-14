@@ -24,8 +24,6 @@ public:
 
 	void AddEntity(Entity* entity);
 	void AddChunk(glm::vec3 pos);
-	void AddStaticParticleSystem(glm::vec3 pos, float plife, float slife, float speed, float scale);
-	void AddStaticParticleSystem(glm::vec3 pos, float plife, float slife, float speed);
 
 	int ChangeLightingMode() { ++lightingMode > 1 ? lightingMode = 0 : lightingMode = 1; return lightingMode; };
 

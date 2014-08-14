@@ -19,7 +19,7 @@ private:
 	EnemyFactory::Direction direction;
 	float timeElapsed;
 	float horizontalAxis;
-
+	ParticleSystem* poofSystem;
 
 	static const float ENEMY_SPEED_X;
 	static const float ENEMY_AMPLITUDE_Y;
