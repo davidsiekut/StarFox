@@ -2,8 +2,8 @@
 
 smooth in vec2 vertOutTexCoords;
  
-uniform sampler2D origImage;
-uniform sampler2D brightImage;
+uniform sampler2D sampler;
+//uniform sampler2D brightImage;
  
 float bloomLevel;
 float exposure;
@@ -17,16 +17,16 @@ void main(void)
 	exposure = 0.5f;
 
     // Texture and Blur
-    vec4 baseImage = texture (origImage, vertOutTexCoords);
+    vec4 baseImage = texture (sampler, vertOutTexCoords);
  
     // Blurring
-    vec4 brightPass = textureLod (brightImage, vertOutTexCoords, 0);
-    vec4 blurColor1 = textureLod (brightImage, vertOutTexCoords, 1);
-    vec4 blurColor2 = textureLod (brightImage, vertOutTexCoords, 2);
-    vec4 blurColor3 = textureLod (brightImage, vertOutTexCoords, 3);
-    vec4 blurColor4 = textureLod (brightImage, vertOutTexCoords, 4);
-	vec4 blurColor5 = textureLod (brightImage, vertOutTexCoords, 5);
-	vec4 blurColor6 = textureLod (brightImage, vertOutTexCoords, 6);
+    vec4 brightPass = textureLod (sampler, vertOutTexCoords, 0);
+    vec4 blurColor1 = textureLod (sampler, vertOutTexCoords, 1);
+    vec4 blurColor2 = textureLod (sampler, vertOutTexCoords, 2);
+    vec4 blurColor3 = textureLod (sampler, vertOutTexCoords, 3);
+    vec4 blurColor4 = textureLod (sampler, vertOutTexCoords, 4);
+	vec4 blurColor5 = textureLod (sampler, vertOutTexCoords, 5);
+	vec4 blurColor6 = textureLod (sampler, vertOutTexCoords, 6);
  
     vec4 bloom = (brightPass + blurColor1 + blurColor2 + blurColor3 + blurColor4 + blurColor5 + blurColor6);
  

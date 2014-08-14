@@ -72,6 +72,10 @@
   <ItemGroup>
     <None Include="..\Source\Shaders\Bloom.frag" />
     <None Include="..\Source\Shaders\Bloom.vert" />
+    <None Include="..\Source\Shaders\BlurHeight.frag" />
+    <None Include="..\Source\Shaders\BlurHeight.vert" />
+    <None Include="..\Source\Shaders\BlurWidth.frag" />
+    <None Include="..\Source\Shaders\BlurWidth.vert" />
     <None Include="..\Source\Shaders\Gouraud.frag" />
     <None Include="..\Source\Shaders\Gouraud.vert" />
     <None Include="..\Source\Shaders\Particle.frag" />

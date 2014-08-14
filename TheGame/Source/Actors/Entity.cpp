@@ -88,6 +88,32 @@ glm::vec3 Entity::GetPositionWorld()
 
 void Entity::Draw()
 {
+	if (shaderType == SHADER_BLURWIDTH)
+	{
+		this->SetScaling(glm::vec3(3.0f, 1.0f, 1.0f));
+	}
+
+	if (shaderType == SHADER_BLURHEIGHT)
+	{
+		this->SetScaling(glm::vec3(1.0f, 3.0f, 1.0f));
+	}
+
+	// If we are using a Bloom shader
+	if (shaderType == SHADER_BLOOM)
+	{
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+		this->SetShaderType(ShaderType::SHADER_BLURHEIGHT);
+		this->Draw();
+
+		this->SetShaderType(ShaderType::SHADER_BLURWIDTH);
+		this->Draw();
+
+		this->SetScaling(glm::vec3(1.0f, 1.0f, 1.0f));
+		this->SetShaderType(ShaderType::SHADER_BLOOM);	
+	}
+
 	//GLuint program = Renderer::GetInstance().GetShaderProgramID(this->shaderType);
 	GLuint program;
 	if (Renderer::GetInstance().GetCurrentShader() > -1)
@@ -104,22 +130,6 @@ void Entity::Draw()
 	glUniform4f(materialCoefficientsID, materialCoefficients.x, materialCoefficients.y, materialCoefficients.z, materialCoefficients.w);
 
 	glBindVertexArray(vertexArrayID);
-
-	// If we are using a Bloom shader
-	if (shaderType == SHADER_BLOOM)
-	{
-		//glEnable(GL_BLEND);
-
-		GLuint origImageID = glGetUniformLocation(program, "origImage");
-		GLuint brightImageID = glGetUniformLocation(program, "brightImage");
-
-		glUniform1i(origImageID, glIsSampler(GL_SAMPLER));
-		glUniform1i(brightImageID, glIsSampler(GL_SAMPLER));
-
-		//texture 0, first texture
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, textureID);
-	}
 
 	// position
 	glEnableVertexAttribArray(0);
@@ -172,6 +182,11 @@ void Entity::Draw()
 	glDisableVertexAttribArray(2);
 	glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(0);
+
+	if (shaderType == SHADER_BLURWIDTH || shaderType == SHADER_BLURHEIGHT)
+	{
+		glDisable(GL_BLEND);
+	}
 }
 
 glm::mat4 Entity::GetWorldMatrix() const
