@@ -3,8 +3,8 @@
 smooth in vec2 vertOutTexCoords;
 uniform sampler2D sampler;
 
-const vec2 gaussFilter[7] = 
-{ 
+const vec2 gaussFilter[7] = vec2[]
+( 
 	vec2(-3.0,	0.015625),
 	vec2(-2.0,	0.09375),
 	vec2(-1.0,	0.234375),
@@ -12,7 +12,7 @@ const vec2 gaussFilter[7] =
 	vec2(1.0,	0.234375),
 	vec2(2.0,	0.09375),
 	vec2(3.0,	0.015625)
-};
+);
 
 const vec2 scaleW = vec2(0.f, 1.0/10);
 
