@@ -17,7 +17,7 @@ Building::Building(Entity* parent, std::string lSystem) : Entity(parent)
 	shaderType = SHADER_PHONG_TEXTURED;
 	textureID = 2;
 
-	shield = 500;
+	shield = 100;
 
 	COLLIDE_X = BUILDING_SIZE_X;
 	COLLIDE_Y = BUILDING_SIZE_Y;

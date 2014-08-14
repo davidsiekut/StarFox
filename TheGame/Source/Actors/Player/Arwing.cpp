@@ -38,12 +38,29 @@ Arwing::Arwing(Entity *parent) : Entity(parent), booster(this, 0.1f, 0.f, SPEED_
 
 	booster.SetPosition(glm::vec3(0.f, -0.3f, -3.f));
 	Scene::GetInstance().AddEntity(&booster);
+	burnBabyBurn = nullptr;
 }
 
 void Arwing::Update(float dt)
 {
 	if (GetShieldAmount() <= 0)
 	{
+		if (burnBabyBurn == nullptr)
+		{
+			burnBabyBurn = new ParticleSystem(this, 5.f, -1.f, 0.f);
+			burnBabyBurn->SetInitialColor(glm::vec3(150.f / 255.f, 75.f / 255.f, 0.f));
+			burnBabyBurn->SetParticleSize(5.f);
+			burnBabyBurn->SetRedInterPolation([](float red, float dt, float lifetime) -> float { return red; });
+			burnBabyBurn->SetGreenInterPolation([](float green, float dt, float lifetime) -> float {
+				green += ((75.f / 255.f) / lifetime) * dt;
+				return green;
+			});
+			burnBabyBurn->SetBlueInterPolation([](float blue, float dt, float lifetime) -> float {
+				blue += (1.f / lifetime) * dt;
+				return blue;
+			});
+			Scene::GetInstance().AddEntity(burnBabyBurn);
+		}
 		booster.~ParticleSystem();
 		Scene::GetInstance().GameOver();
 		return;

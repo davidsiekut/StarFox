@@ -60,12 +60,10 @@ void InputManager::Update(float dt)
 			position.y -= dt * 6.f;
 			position.z += dt * arwing->speedZ;
 			arwing->SetPosition(position);
-			Scene::GetInstance().AddStaticParticleSystem(position, 1.f, 3.f, 0.f);
 		}
 		else
 		{
-			arwing->SetScaling(glm::vec3(0.f, 0.f, 0.f));
-			Scene::GetInstance().AddStaticParticleSystem(position, 5.f, 3.f, 0.f, 10.f);
+			//arwing->SetScaling(glm::vec3(0.f, 0.f, 0.f));
 		}
 
 		return;
