@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Entity.h"
+#include "ParticleSystem.h"
 
 #define BUILDING_SIZE_X 10.f
 #define BUILDING_SIZE_Y 60.f
@@ -13,6 +14,7 @@ class Building : public Entity
 {
 public:
 	Building(Entity* parent, std::string lSystem);
+	~Building();
 
 	virtual void Draw();
 	virtual void Update(float dt);
@@ -26,4 +28,6 @@ private:
 	float timeElapsed = 0.f;
 	float verticalAxis;
 	std::vector<Entity*> blocks;
+
+	ParticleSystem* dustSystem;
 };
