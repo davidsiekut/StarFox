@@ -43,6 +43,7 @@ private:
 	Scene(Scene const&);
 
 	std::vector<Entity*> entities;
+	std::vector<Entity*> transparentEntities; // Particle systems should be drawn after always.
 	std::vector<Entity*> queued; // queued entities such as pewpews that need to be added
 	std::vector<Chunk*> chunks;
 	Camera* camera;
@@ -58,4 +59,6 @@ private:
 	static const unsigned int TERRAIN_LOADAHEAD;
 
 	void LoadTextures();
+	void UpdateEntities(std::vector<Entity*> &entities, float dt);
+	void DrawEntities(std::vector<Entity*> &entities);
 };

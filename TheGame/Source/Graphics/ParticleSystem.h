@@ -34,6 +34,8 @@ public:
 	void SetSpread(float spread) { this->spread = spread; }
 	void SetMaxParticles(unsigned int maxParticles) { this->maxParticles = maxParticles; }
 
+	virtual bool IsOpaque() { return false; }
+
 private:
 
 	static const GLfloat SQUARE_VERTICES[];
