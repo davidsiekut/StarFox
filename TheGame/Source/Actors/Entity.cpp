@@ -30,11 +30,11 @@ Entity::~Entity()
 	glDeleteVertexArrays(1, &vertexArrayID);
 }
 
-void Entity::Initialize(glm::vec3 size)
+std::vector<Entity::Vertex> Entity::LoadVertices()
 {
 	std::vector<Vertex> buffer;
 
-	if(bluePrints.find(objPath) != bluePrints.end())
+	if (bluePrints.find(objPath) != bluePrints.end())
 	{
 		buffer = *bluePrints[objPath];
 	}
@@ -44,6 +44,13 @@ void Entity::Initialize(glm::vec3 size)
 		bluePrints.insert(std::pair<std::string, std::vector<Vertex>*>(objPath, new std::vector<Vertex>(buffer)));
 		printf("[Entity] Stored %s into memory\n", objPath.c_str());
 	}
+
+	return buffer;
+}
+
+void Entity::Initialize(glm::vec3 size)
+{
+	std::vector<Vertex> buffer = LoadVertices();
 
 	for (std::vector<Vertex>::iterator it = buffer.begin(); it < buffer.end(); it++)
 	{

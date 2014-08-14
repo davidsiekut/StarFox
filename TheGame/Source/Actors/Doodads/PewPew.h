@@ -9,7 +9,9 @@ public:
 	PewPew(std::string owner);
 	PewPew(std::string owner, glm::vec3 direction);
 	~PewPew();
+
 	void Update(float dt);
+	virtual void Draw();
 	void OnCollision(Entity* other);
 
 	float damage;
@@ -24,6 +26,12 @@ protected:
 private:
 	float timeElapsed = 0.f;
 	glm::vec3 direction;
+
+	unsigned int heightBlurBufferID;
+	unsigned int heightBlurBufferSize;
+
+	unsigned int widthBlurBufferID;
+	unsigned int widthBlurBufferSize;
 
 	void Init();
 };

@@ -75,6 +75,8 @@ protected:
 	// gameplay stuff
 	float shield = 100.f;
 
+	std::vector<Vertex> LoadVertices();
+
 private:
 	unsigned int vertexArrayID;
 	unsigned int vertexBufferID;

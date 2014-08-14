@@ -48,11 +48,40 @@ void PewPew::Init()
 	this->textureID = 1;
 
 	Entity::Initialize(size);
+
+	std::vector<Vertex> buffer = Entity::LoadVertices();
+
+	// create vertex array
+	glGenVertexArrays(1, &heightBlurBufferID);
+
+	// upload vertexbuffer to the GPU
+	glGenBuffers(1, &heightBlurBufferID);
+	// and keep a reference to it (vertexBufferID)
+	glBindBuffer(GL_ARRAY_BUFFER, heightBlurBufferID);
+	glBufferData(GL_ARRAY_BUFFER, buffer.size() * (3 * sizeof(glm::vec3) + sizeof(glm::vec2)), &buffer[0], GL_STATIC_DRAW);
+
+	// create vertex array
+	glGenVertexArrays(1, &widthBlurBufferID);
+
+	// upload vertexbuffer to the GPU
+	glGenBuffers(1, &widthBlurBufferID);
+	// and keep a reference to it (vertexBufferID)
+	glBindBuffer(GL_ARRAY_BUFFER, widthBlurBufferID);
+	glBufferData(GL_ARRAY_BUFFER, buffer.size() * (3 * sizeof(glm::vec3) + sizeof(glm::vec2)), &buffer[0], GL_STATIC_DRAW);
 }
 
 PewPew::~PewPew()
 {
+	glDeleteBuffers(1, &heightBlurBufferID);
+	glDeleteVertexArrays(1, &heightBlurBufferID);
 
+	glDeleteBuffers(1, &widthBlurBufferID);
+	glDeleteVertexArrays(1, &widthBlurBufferID);
+}
+
+void PewPew::Draw()
+{
+	Entity::Draw();
 }
 
 void PewPew::Update(float dt)
