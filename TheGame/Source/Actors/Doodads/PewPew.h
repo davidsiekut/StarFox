@@ -35,6 +35,10 @@ private:
 	unsigned int widthBlurBufferID;
 	unsigned int widthBlurBufferSize;
 
+	unsigned int diagonalBlurArrayID;
+	unsigned int diagonalBlurBufferID;
+	unsigned int diagonalBlurBufferSize;
+
 	void Init();
 	void BindBuffers(ShaderType shaderType, int arrayID, int bufferID, int bufferSize);
 };

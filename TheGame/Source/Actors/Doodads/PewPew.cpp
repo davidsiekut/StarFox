@@ -45,7 +45,7 @@ void PewPew::Init()
 	COLLIDE_Z = size.z;
 
 	shaderType = SHADER_BLOOM;
-	this->textureID = 1;
+	this->textureID = 6;
 
 	Entity::Initialize(size);
 
@@ -80,6 +80,15 @@ void PewPew::Init()
 	// and keep a reference to it (vertexBufferID)
 	glBindBuffer(GL_ARRAY_BUFFER, widthBlurBufferID);
 	glBufferData(GL_ARRAY_BUFFER, buffer.size() * (3 * sizeof(glm::vec3) + sizeof(glm::vec2)), &buffer[0], GL_STATIC_DRAW);
+
+	// create vertex array
+	glGenVertexArrays(1, &diagonalBlurArrayID);
+
+	// upload vertexbuffer to the GPU
+	glGenBuffers(1, &diagonalBlurBufferID);
+	// and keep a reference to it (vertexBufferID)
+	glBindBuffer(GL_ARRAY_BUFFER, diagonalBlurBufferID);
+	glBufferData(GL_ARRAY_BUFFER, buffer.size() * (3 * sizeof(glm::vec3) + sizeof(glm::vec2)), &buffer[0], GL_STATIC_DRAW);
 }
 
 PewPew::~PewPew()
@@ -99,11 +108,14 @@ void PewPew::Draw()
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	this->SetScaling(glm::vec3(scale.x * 3, scale.y, scale.z));
+	this->SetScaling(glm::vec3(scale.x * 1.2f, scale.y, scale.z));
 	BindBuffers(SHADER_BLURWIDTH, widthBlurArrayID, widthBlurBufferID, widthBlurBufferSize);
 
-	this->SetScaling(glm::vec3(scale.x, scale.y*3, scale.z));
+	this->SetScaling(glm::vec3(scale.x, scale.y * 1.2f, scale.z));
 	BindBuffers(SHADER_BLURHEIGHT, heightBlurArrayID, heightBlurBufferID, heightBlurBufferSize);
+
+	this->SetScaling(glm::vec3(scale.x * 1.2f, scale.y * 1.2f, scale.z * 1.2f));
+	BindBuffers(SHADER_BLOOM, diagonalBlurArrayID, diagonalBlurBufferID, diagonalBlurBufferSize);
 
 	glDisable(GL_BLEND);
 

@@ -27,8 +27,9 @@ void main(void)
     vec4 blurColor4 = textureLod (sampler, vertOutTexCoords, 4);
 	vec4 blurColor5 = textureLod (sampler, vertOutTexCoords, 5);
 	vec4 blurColor6 = textureLod (sampler, vertOutTexCoords, 6);
+	vec4 blurColor7 = textureLod (sampler, vertOutTexCoords, 7);
  
-    vec4 bloom = (brightPass + blurColor1 + blurColor2 + blurColor3 + blurColor4 + blurColor5 + blurColor6);
+    vec4 bloom = (brightPass + blurColor1 + blurColor2 + blurColor3 + blurColor4 + blurColor5 + blurColor6 + blurColor7);
  
     vec4 preColor = baseImage + bloomLevel * bloom;
 
