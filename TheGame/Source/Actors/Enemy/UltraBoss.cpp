@@ -46,7 +46,7 @@ void UltraBoss::Update(float dt)
 		attackCooldown -= dt;
 	}
 
-	if (position.y > size.y) // descend from thy heavens, o mighty dolan
+	if (position.y > size.y + 5) // descend from thy heavens, o mighty dolan
 		position.y -= dt * 50.f;
 
 	position.z += dt * BOSS_SPEED_Z;
