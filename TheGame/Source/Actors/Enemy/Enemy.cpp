@@ -18,6 +18,8 @@ Enemy::Enemy(Entity *parent, EnemyFactory::Direction direction, float horizontal
 	shaderType = SHADER_PHONG_TEXTURED;
 	textureID = 1;
 
+	shield = 150;
+
 	this->direction = direction;
 	this->horizontalAxis = horizontalAxis;
 	this->timeElapsed = timeElapsed;
@@ -38,6 +40,8 @@ void Enemy::Update(float dt)
 {
 	if (GetShieldAmount() <= 0)
 	{
+		Scene::GetInstance().AddStaticParticleSystem(this->GetPosition(), 1.f, 1.f, 0.f);
+
 		markedForDeletion = true;
 		Scene::GetInstance().score += 111;
 	}
@@ -78,7 +82,7 @@ void Enemy::OnCollision(Entity* other)
 {
 	if (other->GetName() == "PEWPEW" && (((PewPew*)other)->owner == "PLAYER"))
 	{
+		Scene::GetInstance().AddStaticParticleSystem(this->GetPosition(), 0.2f, 0.2f, 0.f);
 		TakeDamage(((PewPew*)other)->damage);
-		Scene::GetInstance().AddStaticParticleSystem(this->GetPosition(), 1.f, 1.f, 0.f);
 	}
 }

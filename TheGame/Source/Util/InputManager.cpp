@@ -17,6 +17,7 @@ float  InputManager::mouseDeltaX = 0.0f;
 float  InputManager::mouseDeltaY = 0.0f;
 
 bool InputManager::shotsFired = false;
+bool InputManager::L_PRESSED = false;
 bool InputManager::P_PRESSED = false;
 bool InputManager::disabled = false;
 Arwing* InputManager::arwing;
@@ -70,15 +71,25 @@ void InputManager::Update(float dt)
 		return;
 	}
 
-	if (glfwGetKey(w, GLFW_KEY_P) == GLFW_PRESS  && !P_PRESSED)
+	if (glfwGetKey(w, GLFW_KEY_P) == GLFW_PRESS && !P_PRESSED)
 	{
 		P_PRESSED = true;
 		Renderer::GetInstance().NextShader();
-		//printf("%i\n", Renderer::GetInstance().GetCurrentShader());
+		printf("[Renderer] Current shader: %i\n", Renderer::GetInstance().GetCurrentShader());
 	}
 	else if (glfwGetKey(w, GLFW_KEY_P) == GLFW_RELEASE)
 	{
 		P_PRESSED = false;
+	}
+	if (glfwGetKey(w, GLFW_KEY_L) == GLFW_PRESS && !L_PRESSED)
+	{
+		L_PRESSED = true;
+		printf("[Lighting] Current mode: %i\n", Scene::GetInstance().ChangeLightingMode());
+		
+	}
+	else if (glfwGetKey(w, GLFW_KEY_L) == GLFW_RELEASE)
+	{
+		L_PRESSED = false;
 	}
 
 	// Shoot action. If the space bar is already pressed then do not create more lasers.

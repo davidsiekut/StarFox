@@ -27,6 +27,8 @@ public:
 	void AddStaticParticleSystem(glm::vec3 pos, float plife, float slife, float speed, float scale);
 	void AddStaticParticleSystem(glm::vec3 pos, float plife, float slife, float speed);
 
+	int ChangeLightingMode() { ++lightingMode > 1 ? lightingMode = 0 : lightingMode = 1; return lightingMode; };
+
 	Arwing* GetPlayer() { return a; }
 	GameplayCamera* GetGPCamera() { return static_cast<GameplayCamera*>(camera); }
 
@@ -47,6 +49,7 @@ private:
 	Arwing* a;
 	EnemyFactory* enemyFactory;
 
+	int lightingMode = 0; // 0 or 1
 	int lastChunk = 0;
 	bool gameOver = false;
 	bool bossSpawned = false;

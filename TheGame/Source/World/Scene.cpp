@@ -21,8 +21,9 @@
 
 const unsigned int Scene::TERRAIN_PRELOAD = 5;
 const unsigned int Scene::TERRAIN_LOADAHEAD = 5;
+#define SCORE_SPAWN_BOSS 5000
 
-#define MAXTEXTURES 6
+#define MAXTEXTURES 7
 Texture textures[MAXTEXTURES];
 
 Scene::Scene()
@@ -58,7 +59,7 @@ void Scene::Initialize()
 
 void Scene::LoadTextures()
 {
-	std::string texturesToLoad[] = { "default.jpg", "dolan.jpg", "building.jpg", "grass.jpg", "sky.jpg", "dolan_ultra.jpg" };
+	std::string texturesToLoad[] = { "default.jpg", "dolan.jpg", "building.jpg", "grass.jpg", "sky.jpg", "dolan_ultra.jpg", "pewpew.jpg" };
 
 	for (unsigned int i = 0; i < MAXTEXTURES; i++)
 	{
@@ -119,7 +120,7 @@ void Scene::Update(float dt)
 		AddChunk(glm::vec3(0.f, 0.f, lastChunk * Chunk::CHUNK_DEPTH));
 	}
 
-	if (score < 1000)
+	if (score < SCORE_SPAWN_BOSS)
 	{
 		// spawn new enemies?
 		enemyFactory->SpawnCheck(dt);
@@ -221,9 +222,26 @@ void Scene::Draw()
 		glUniformMatrix4fv(ViewMatrixID, 1, GL_FALSE, &V[0][0]);
 		glUniformMatrix4fv(ProjMatrixID, 1, GL_FALSE, &P[0][0]);
 
-		glUniform3f(lAttenuationID, 0.0f, 0.0f, 0.02f);
-		glUniform3f(lColorID, 1.0f, 1.0f, 1.0f);
-		glUniform4f(lPositionID, 0.f, -1.f, 0.f, 0.f);
+		if (lightingMode == 0)
+		{
+			glUniform3f(lAttenuationID, 0.0f, 0.0f, 0.02f);
+			glUniform3f(lColorID, 1.0f, 1.0f, 1.0f);
+			glUniform4f(lPositionID, a->GetPosition().x, a->GetPosition().y - 0.3f, a->GetPosition().z - 3.f, 1.f);
+		}
+		else if (lightingMode == 1)
+		{
+			glUniform3f(lAttenuationID, 0.0f, 0.0f, 0.02f);
+			glUniform3f(lColorID, 1.0f, 1.0f, 1.0f);
+			glUniform4f(lPositionID, 0.f, -1.f, 0.f, 0.f);
+		}
+		else
+		{
+			// failsafe fallback
+			glUniform3f(lAttenuationID, 0.0f, 0.0f, 0.02f);
+			glUniform3f(lColorID, 1.0f, 1.0f, 1.0f);
+			glUniform4f(lPositionID, 0.f, -1.f, 0.f, 0.f);
+		}
+
 		glUniform1f(samplerID, 0); // for texture2d
 
 		(*it)->Draw();
