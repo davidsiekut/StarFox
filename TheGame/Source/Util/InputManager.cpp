@@ -20,6 +20,8 @@ bool InputManager::shotsFired = false;
 bool InputManager::L_PRESSED = false;
 bool InputManager::P_PRESSED = false;
 bool InputManager::disabled = false;
+bool InputManager::gottaGoFast = false;
+bool InputManager::youreTooSlow = false;
 Arwing* InputManager::arwing;
 
 float InputManager::doublePressTimer = TIMER_BARRELROLL;
@@ -121,6 +123,16 @@ void InputManager::Update(float dt)
 	{
 		direction.x++;
 	}
+
+	if (glfwGetKey(w, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+	{
+		arwing->speedZ = 175.0f;
+	}
+	if (glfwGetKey(w, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
+	{
+		arwing->speedZ = 30.0f;
+	}
+
 
 	glm::vec3 position = arwing->GetPosition();
 	// Clamp the position so the ship cannot fly offscreen.
