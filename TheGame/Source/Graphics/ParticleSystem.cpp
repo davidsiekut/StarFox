@@ -188,19 +188,12 @@ void ParticleSystem::Draw()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	//GLuint program = Renderer::GetInstance().GetShaderProgramID(this->shaderType);
-	GLuint program;
-	if (Renderer::GetInstance().GetCurrentShader() > -1)
-		program = Renderer::GetInstance().GetShaderProgramID(Renderer::GetInstance().GetCurrentShader());
-	else
-		program = Renderer::GetInstance().GetShaderProgramID(this->GetShaderType());
+	GLuint program = Renderer::GetInstance().GetShaderProgramID(this->GetShaderType());
 	glUseProgram(program);
 
 	glm::mat4 W = GetWorldMatrix();
 	GLuint WorldMatrixID = glGetUniformLocation(program, "WorldTransform");
 	glUniformMatrix4fv(WorldMatrixID, 1, GL_FALSE, &W[0][0]);
-
-	GLuint materialCoefficientsID = glGetUniformLocation(program, "materialCoefficients");
-	glUniform4f(materialCoefficientsID, materialCoefficients.x, materialCoefficients.y, materialCoefficients.z, materialCoefficients.w);
 
 	GLuint CameraRight_worldspace_ID = glGetUniformLocation(program, "CameraRight_worldspace");
 	GLuint CameraUp_worldspace_ID = glGetUniformLocation(program, "CameraUp_worldspace");
@@ -209,10 +202,10 @@ void ParticleSystem::Draw()
 	glUniform3f(CameraRight_worldspace_ID, ViewMatrix[0][0], ViewMatrix[1][0], ViewMatrix[2][0]);
 	glUniform3f(CameraUp_worldspace_ID, ViewMatrix[0][1], ViewMatrix[1][1], ViewMatrix[2][1]);
 
-	GLuint TextureSamplerID = glGetUniformLocation(program, "myTextureSampler");
+	GLuint TextureSamplerID = glGetUniformLocation(program, "TextureSampler");
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, textureID);
-	// Set our "myTextureSampler" sampler to user Texture Unit 0
+	// Set sampler to user Texture Unit 0
 	glUniform1i(TextureSamplerID, 0);
 
 	glBindVertexArray(particleBufferID);
@@ -260,6 +253,7 @@ void ParticleSystem::Draw()
 	glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(0);
 
+	// Reset openGL states to regular values after drawing particles.
 	glDisable(GL_BLEND);
 
 	glVertexAttribDivisor(0, 0);
