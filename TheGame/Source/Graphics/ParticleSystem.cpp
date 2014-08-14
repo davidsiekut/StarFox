@@ -161,6 +161,12 @@ void ParticleSystem::Update(float dt)
 				p.position += p.speed * dt;
 				p.distToCamera = glm::length2(p.position - Scene::GetInstance().GetGPCamera()->GetPosition());
 
+				// Turn particles from white to orange
+				p.r -= 0;
+				p.g -= (1 / (3 * particleLifeTime)) * dt;
+				p.b -= (1 / particleLifeTime) * dt;
+				p.a -= (9 / (20 * particleLifeTime)) * dt;
+
 				// Fill the GPU buffer
 				particleBuffer[partCount].xyzs = glm::vec4(p.position.x, p.position.y, p.position.z, p.size);
 				particleBuffer[partCount].color = glm::vec4(p.r, p.g, p.b, p.a);
