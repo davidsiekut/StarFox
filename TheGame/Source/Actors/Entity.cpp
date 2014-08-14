@@ -163,11 +163,6 @@ void Entity::Draw()
 	glDisableVertexAttribArray(2);
 	glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(0);
-
-	if (shaderType == SHADER_BLURWIDTH || shaderType == SHADER_BLURHEIGHT)
-	{
-		glDisable(GL_BLEND);
-	}
 }
 
 glm::mat4 Entity::GetWorldMatrix() const

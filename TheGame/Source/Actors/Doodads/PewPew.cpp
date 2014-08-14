@@ -94,7 +94,10 @@ PewPew::~PewPew()
 void PewPew::Draw()
 {
 	glm::vec3 scale = GetScaling();
-	//Entity::Draw();
+	Entity::Draw();
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	this->SetScaling(glm::vec3(scale.x * 3, scale.y, scale.z));
 	BindBuffers(SHADER_BLURWIDTH, widthBlurArrayID, widthBlurBufferID, widthBlurBufferSize);
@@ -102,17 +105,26 @@ void PewPew::Draw()
 	this->SetScaling(glm::vec3(scale.x, scale.y*3, scale.z));
 	BindBuffers(SHADER_BLURHEIGHT, heightBlurArrayID, heightBlurBufferID, heightBlurBufferSize);
 
+	glDisable(GL_BLEND);
+
 	this->SetScaling(scale);
 }
 
 void PewPew::BindBuffers(ShaderType shaderType, int arrayID, int bufferID, int bufferSize)
 {
+	glm::mat4 P = Scene::GetInstance().GetGPCamera()->GetProjectionMatrix();
+	glm::mat4 V = Scene::GetInstance().GetGPCamera()->GetViewMatrix();
+	glm::mat4 W = GetWorldMatrix();
+
 	GLuint program = Renderer::GetInstance().GetShaderProgramID(shaderType);
 	glUseProgram(program);
 
-	glm::mat4 W = GetWorldMatrix();
+	GLuint ViewMatrixID = glGetUniformLocation(program, "ViewTransform");
+	GLuint ProjMatrixID = glGetUniformLocation(program, "ProjTransform");
 	GLuint WorldMatrixID = glGetUniformLocation(program, "WorldTransform");
 	glUniformMatrix4fv(WorldMatrixID, 1, GL_FALSE, &W[0][0]);
+	glUniformMatrix4fv(ViewMatrixID, 1, GL_FALSE, &V[0][0]);
+	glUniformMatrix4fv(ProjMatrixID, 1, GL_FALSE, &P[0][0]);
 
 	GLuint materialCoefficientsID = glGetUniformLocation(program, "materialCoefficients");
 	glUniform4f(materialCoefficientsID, materialCoefficients.x, materialCoefficients.y, materialCoefficients.z, materialCoefficients.w);
@@ -170,6 +182,7 @@ void PewPew::BindBuffers(ShaderType shaderType, int arrayID, int bufferID, int b
 	glDisableVertexAttribArray(2);
 	glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(0);
+
 }
 
 void PewPew::Update(float dt)
