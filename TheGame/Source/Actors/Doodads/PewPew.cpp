@@ -50,9 +50,21 @@ void PewPew::Init()
 	Entity::Initialize(size);
 
 	std::vector<Vertex> buffer = Entity::LoadVertices();
+	for (std::vector<Vertex>::iterator it = buffer.begin(); it < buffer.end(); it++)
+	{
+		(*it).position.x *= size.x;
+		(*it).position.y *= size.y;
+		(*it).position.z *= size.z;
+
+		(*it).uv.x *= textureCoordinates.x;
+		(*it).uv.y *= textureCoordinates.y;
+	}
+
+	heightBlurBufferSize = buffer.size();
+	widthBlurBufferSize = buffer.size();
 
 	// create vertex array
-	glGenVertexArrays(1, &heightBlurBufferID);
+	glGenVertexArrays(1, &heightBlurArrayID);
 
 	// upload vertexbuffer to the GPU
 	glGenBuffers(1, &heightBlurBufferID);
@@ -61,7 +73,7 @@ void PewPew::Init()
 	glBufferData(GL_ARRAY_BUFFER, buffer.size() * (3 * sizeof(glm::vec3) + sizeof(glm::vec2)), &buffer[0], GL_STATIC_DRAW);
 
 	// create vertex array
-	glGenVertexArrays(1, &widthBlurBufferID);
+	glGenVertexArrays(1, &widthBlurArrayID);
 
 	// upload vertexbuffer to the GPU
 	glGenBuffers(1, &widthBlurBufferID);
@@ -81,7 +93,83 @@ PewPew::~PewPew()
 
 void PewPew::Draw()
 {
-	Entity::Draw();
+	glm::vec3 scale = GetScaling();
+	//Entity::Draw();
+
+	this->SetScaling(glm::vec3(scale.x * 3, scale.y, scale.z));
+	BindBuffers(SHADER_BLURWIDTH, widthBlurArrayID, widthBlurBufferID, widthBlurBufferSize);
+
+	this->SetScaling(glm::vec3(scale.x, scale.y*3, scale.z));
+	BindBuffers(SHADER_BLURHEIGHT, heightBlurArrayID, heightBlurBufferID, heightBlurBufferSize);
+
+	this->SetScaling(scale);
+}
+
+void PewPew::BindBuffers(ShaderType shaderType, int arrayID, int bufferID, int bufferSize)
+{
+	GLuint program = Renderer::GetInstance().GetShaderProgramID(shaderType);
+	glUseProgram(program);
+
+	glm::mat4 W = GetWorldMatrix();
+	GLuint WorldMatrixID = glGetUniformLocation(program, "WorldTransform");
+	glUniformMatrix4fv(WorldMatrixID, 1, GL_FALSE, &W[0][0]);
+
+	GLuint materialCoefficientsID = glGetUniformLocation(program, "materialCoefficients");
+	glUniform4f(materialCoefficientsID, materialCoefficients.x, materialCoefficients.y, materialCoefficients.z, materialCoefficients.w);
+
+	glBindVertexArray(arrayID);
+
+	// position
+	glEnableVertexAttribArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, bufferID);
+	glVertexAttribPointer(0,    // attribute. No particular reason for 0, but must match the layout in the shader.
+		3,                      // size
+		GL_FLOAT,               // type
+		GL_FALSE,               // normalized?
+		sizeof(Vertex),         // stride
+		(void*)0                // array buffer offset
+		);
+
+	// uv
+	glEnableVertexAttribArray(1);
+	glBindBuffer(GL_ARRAY_BUFFER, bufferID);
+	glVertexAttribPointer(1,
+		2,
+		GL_FLOAT,
+		GL_FALSE,
+		sizeof(Vertex),
+		(void*)sizeof(glm::vec3) // offset
+		);
+
+	// normal
+	glEnableVertexAttribArray(2);
+	glBindBuffer(GL_ARRAY_BUFFER, bufferID);
+	glVertexAttribPointer(2,
+		3,
+		GL_FLOAT,
+		GL_FALSE,
+		sizeof(Vertex),
+		(void*)(sizeof(glm::vec3) + sizeof(glm::vec2)) // offset
+		);
+
+
+	// color
+	glEnableVertexAttribArray(3);
+	glBindBuffer(GL_ARRAY_BUFFER, bufferID);
+	glVertexAttribPointer(3,
+		3,
+		GL_FLOAT,
+		GL_FALSE,
+		sizeof(Vertex),
+		(void*)(2 * sizeof(glm::vec3) + sizeof(glm::vec2)) // offset
+		);
+
+	glDrawArrays(GL_TRIANGLES, 0, bufferSize);
+
+	glDisableVertexAttribArray(3);
+	glDisableVertexAttribArray(2);
+	glDisableVertexAttribArray(1);
+	glDisableVertexAttribArray(0);
 }
 
 void PewPew::Update(float dt)

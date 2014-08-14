@@ -27,11 +27,14 @@ private:
 	float timeElapsed = 0.f;
 	glm::vec3 direction;
 
+	unsigned int heightBlurArrayID;
 	unsigned int heightBlurBufferID;
 	unsigned int heightBlurBufferSize;
 
+	unsigned int widthBlurArrayID;
 	unsigned int widthBlurBufferID;
 	unsigned int widthBlurBufferSize;
 
 	void Init();
+	void BindBuffers(ShaderType shaderType, int arrayID, int bufferID, int bufferSize);
 };
