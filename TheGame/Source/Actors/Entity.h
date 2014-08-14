@@ -80,6 +80,12 @@ private:
 	unsigned int vertexBufferID;
 	unsigned int vertexBufferSize;
 
+	unsigned int vertexArrayBloomID;
+	unsigned int vertexBufferBloomID;
+
+	unsigned int currentVertexArrayID;
+	unsigned int currentVertexBufferID;
+
 	bool loadOBJ(std::string path, std::vector<Vertex> &buffer);
 
 	// Hold the blueprints of each Entity in memory once the .obj has been loaded.

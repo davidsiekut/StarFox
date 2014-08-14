@@ -111,7 +111,7 @@ void Entity::Draw()
 		this->Draw();
 
 		this->SetScaling(glm::vec3(1.0f, 1.0f, 1.0f));
-		this->SetShaderType(ShaderType::SHADER_BLOOM);	
+		this->SetShaderType(ShaderType::SHADER_BLOOM);
 	}
 
 	//GLuint program = Renderer::GetInstance().GetShaderProgramID(this->shaderType);
