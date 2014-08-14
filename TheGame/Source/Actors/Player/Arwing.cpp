@@ -36,22 +36,15 @@ Arwing::Arwing(Entity *parent) : Entity(parent)
 
 	Initialize(size);
 
-	booster = nullptr;
+	booster = new ParticleSystem(this, 0.2f, 0.f, SPEED_Z / 1.3f);
+	booster->SetPosition(glm::vec3(0.f, -0.25f, -3.f));
+	booster->SetMaxParticles(10);
+	Scene::GetInstance().AddEntity(booster);
 	burnBabyBurn = nullptr;
 }
 
 void Arwing::Update(float dt)
 {
-	// Initialize the booster in Update since initializing before causes the alpha to not know
-	// that there are things behind the particles or something
-	if (booster == nullptr)
-	{
-		booster = new ParticleSystem(this, 0.2f, 0.f, SPEED_Z / 1.3f);
-		booster->SetPosition(glm::vec3(0.f, -0.25f, -3.f));
-		booster->SetMaxParticles(10);
-		Scene::GetInstance().AddEntity(booster);
-	}
-
 	if (GetShieldAmount() <= 0)
 	{
 		if (burnBabyBurn == nullptr)
