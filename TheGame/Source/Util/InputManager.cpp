@@ -17,6 +17,7 @@ float  InputManager::mouseDeltaX = 0.0f;
 float  InputManager::mouseDeltaY = 0.0f;
 
 bool InputManager::shotsFired = false;
+bool InputManager::G_PRESSED = false;
 bool InputManager::L_PRESSED = false;
 bool InputManager::P_PRESSED = false;
 bool InputManager::disabled = false;
@@ -79,6 +80,7 @@ void InputManager::Update(float dt)
 	{
 		P_PRESSED = false;
 	}
+
 	if (glfwGetKey(w, GLFW_KEY_L) == GLFW_PRESS && !L_PRESSED)
 	{
 		L_PRESSED = true;
@@ -88,6 +90,17 @@ void InputManager::Update(float dt)
 	else if (glfwGetKey(w, GLFW_KEY_L) == GLFW_RELEASE)
 	{
 		L_PRESSED = false;
+	}
+
+	if (glfwGetKey(w, GLFW_KEY_G) == GLFW_PRESS && !G_PRESSED)
+	{
+		G_PRESSED = true;
+		Scene::GetInstance().GetPlayer()->iddqd = !Scene::GetInstance().GetPlayer()->iddqd;
+		printf("[Player] IDDQD: %d\n", Scene::GetInstance().GetPlayer()->iddqd);
+	}
+	else if (glfwGetKey(w, GLFW_KEY_G) == GLFW_RELEASE)
+	{
+		G_PRESSED = false;
 	}
 
 	// Shoot action. If the space bar is already pressed then do not create more lasers.

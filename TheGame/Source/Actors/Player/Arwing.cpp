@@ -33,6 +33,7 @@ Arwing::Arwing(Entity *parent) : Entity(parent), booster(this, 0.1f, 0.f, SPEED_
 	isTiltingRight = false;
 	isBarrelRolling = false;
 	barrelRollTimer = BARREL_ROLL_TIME;
+	iddqd = false;
 
 	Initialize(size);
 
@@ -149,7 +150,10 @@ void Arwing::OnCollision(Entity* other)
 
 void Arwing::resolveHit(float damage)
 {
-	TakeDamage(damage);
+	if (!iddqd)
+	{
+		TakeDamage(damage);
+	}
 	Scene::GetInstance().GetGPCamera()->Shake();
 	invicibilityFrames = INV_FRAMES_TIME;
 	printf("[Player] Shield = %f\n", GetShieldAmount());

@@ -28,6 +28,7 @@ public:
 	bool isTiltingRight;
 	bool isBarrelRolling;
 	float barrelRollTimer;
+	bool iddqd;
 
 protected:
 
