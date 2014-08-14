@@ -54,7 +54,9 @@ void Scene::Initialize()
 		AddChunk(glm::vec3(0.f, 0.f, i * Chunk::CHUNK_DEPTH));
 	}
 
-	AddEntity(new SkyBox(NULL, a));
+	SkyBox* skybox = new SkyBox(NULL, a);
+	skybox->SetPosition(glm::vec3(0, 200, a->GetPosition().z + 500));
+	AddEntity(skybox);
 }
 
 void Scene::LoadTextures()
