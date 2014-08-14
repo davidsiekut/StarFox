@@ -32,6 +32,7 @@ ParticleSystem::ParticleSystem(Entity* parent, float particleLifetime, float sys
 	this->zSpeed = zSpeed;
 	this->currentLifetime = systemLifetime;
 	this->particleSize = 1.f;
+	this->spread = 3.f;
 	
 	// Start as white particles by default
 	this->initialColor = glm::vec3(1.f, 1.f, 1.f);
@@ -127,8 +128,6 @@ void ParticleSystem::Update(float dt)
 		Container[index].lifeRemaining = particleLifeTime; //Lives for 3 seconds. Can be changed to longer
 		Container[index].position = GetPositionWorld();
 
-		// The spread between each particle, can be changed if needed
-		float particleSpread = 4.0f;
 		glm::vec3 mainDirection = glm::vec3(0.0f, 0.0f, zSpeed); // No original speed in particles on creation
 
 		//VERY STRAIGHTFORWARD WAY TO GENERATE A DIRECTION FOR EACH PARTICLE CHANGE IF YOU CAN
@@ -138,7 +137,7 @@ void ParticleSystem::Update(float dt)
 			(rand() % 2000 - 1000.0f) / 1000.0f
 			);
 
-		Container[index].speed = mainDirection + randomDirection*particleSpread;
+		Container[index].speed = mainDirection + randomDirection*spread;
 
 		// Each particle starts as white and SHOULD turn orange... will need to be changed if lifeRemaining is changed
 		Container[index].r = initialColor.r;

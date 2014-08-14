@@ -33,5 +33,6 @@ protected:
 
 private:
 	ParticleSystem booster;
+	ParticleSystem* burnBabyBurn;
 	void resolveHit(float damage);
 };

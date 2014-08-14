@@ -17,7 +17,7 @@ Building::Building(Entity* parent, std::string lSystem) : Entity(parent)
 	shaderType = SHADER_PHONG_TEXTURED;
 	textureID = 2;
 
-	shield = 500;
+	shield = 100;
 
 	COLLIDE_X = BUILDING_SIZE_X;
 	COLLIDE_Y = BUILDING_SIZE_Y;
@@ -48,16 +48,17 @@ void Building::Update(float dt)
 	{
 		if (dustSystem == nullptr)
 		{
-			dustSystem = new ParticleSystem(this, 2.f, -1.f, 0.f);
+			dustSystem = new ParticleSystem(this, 1.5f, -1.f, 0.f);
 			dustSystem->SetInitialColor(glm::vec3(150.f / 255.f, 75.f / 255.f, 0.f));
-			dustSystem->SetParticleSize(5.f);
+			dustSystem->SetParticleSize(7.f);
+			dustSystem->SetSpread(6.f);
 			dustSystem->SetRedInterPolation([](float red, float dt, float lifetime) -> float { return red; });
 			dustSystem->SetGreenInterPolation([](float green, float dt, float lifetime) -> float {
 				green += ((75.f/255.f) / lifetime) * dt;
 				return green;
 			});
 			dustSystem->SetBlueInterPolation([](float blue, float dt, float lifetime) -> float {
-				blue += (1.f / lifetime) * dt;
+				blue += (150.f/255.f / lifetime) * dt;
 				return blue;
 			});
 			Scene::GetInstance().AddEntity(dustSystem);
