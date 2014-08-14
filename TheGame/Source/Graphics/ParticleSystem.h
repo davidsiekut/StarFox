@@ -31,6 +31,7 @@ public:
 	void SetGreenInterPolation(std::function<float(float, float, float)> f) { this->GreenInterpolation = f; }
 	void SetBlueInterPolation(std::function<float(float, float, float)> f) { this->BlueInterpolation = f; }
 	void SetInitialColor(glm::vec3 initialColor) { this->initialColor = initialColor; }
+	void SetSpread(float spread) { this->spread = spread; }
 
 private:
 
@@ -44,6 +45,7 @@ private:
 	float zSpeed;
 	float particleSize;
 	glm::vec3 initialColor;
+	float spread;
 
 	std::function<float(float, float, float)> RedInterpolation;
 	std::function<float(float, float, float)> GreenInterpolation;
