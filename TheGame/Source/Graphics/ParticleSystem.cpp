@@ -31,6 +31,10 @@ ParticleSystem::ParticleSystem(Entity* parent, float particleLifetime, float sys
 	this->systemLifetime = systemLifetime;
 	this->zSpeed = zSpeed;
 	this->currentLifetime = systemLifetime;
+	this->particleSize = 1.f;
+	
+	// Start as white particles by default
+	this->initialColor = glm::vec3(1.f, 1.f, 1.f);
 
 	// Create buffers on GPU for square vertices
 	glGenBuffers(1, &squareBufferID);
@@ -50,6 +54,11 @@ ParticleSystem::ParticleSystem(Entity* parent, float particleLifetime, float sys
 	{
 		textureID = TextureHelper::LoadDDS("../Assets/Textures/particle.DDS");
 	}
+	
+	// By default particles go from white to orange
+	RedInterpolation = [](float red, float dt, float particleLifeTime) -> float { return red; };
+	GreenInterpolation = [](float green, float dt, float particleLifeTime) -> float { return green - ((1 / (3 * particleLifeTime)) * dt); };
+	BlueInterpolation = [](float blue, float dt, float particleLifeTime) -> float { return blue - ((1 / particleLifeTime) * dt); };
 }
 
 ParticleSystem::~ParticleSystem()
@@ -132,13 +141,13 @@ void ParticleSystem::Update(float dt)
 		Container[index].speed = mainDirection + randomDirection*particleSpread;
 
 		// Each particle starts as white and SHOULD turn orange... will need to be changed if lifeRemaining is changed
-		Container[index].r = 1;
-		Container[index].g = 1 - (1/(3*particleLifeTime) * dt);
-		Container[index].b = 1 - (1/particleLifeTime * dt);
-		Container[index].a = 1 - (9/(20*particleLifeTime) * dt);
+		Container[index].r = initialColor.r;
+		Container[index].g = initialColor.g;
+		Container[index].b = initialColor.b;
+		Container[index].a = 1;
 
 		// Random size for each particle
-		Container[index].size = (rand() % 1000) / 2000.0f + 0.1f;
+		Container[index].size = ((rand() % 1000) / 2000.0f + 0.1f) * particleSize;
 	}
 		
 
@@ -162,9 +171,9 @@ void ParticleSystem::Update(float dt)
 				p.distToCamera = glm::length2(p.position - Scene::GetInstance().GetGPCamera()->GetPosition());
 
 				// Turn particles from white to orange
-				p.r -= 0;
-				p.g -= (1 / (3 * particleLifeTime)) * dt;
-				p.b -= (1 / particleLifeTime) * dt;
+				p.r = RedInterpolation(p.r, dt, particleLifeTime);
+				p.g = GreenInterpolation(p.g, dt, particleLifeTime);
+				p.b = BlueInterpolation(p.b, dt, particleLifeTime);
 				p.a -= (9 / (20 * particleLifeTime)) * dt;
 
 				// Fill the GPU buffer
@@ -196,10 +205,6 @@ void ParticleSystem::Draw()
 	//GLuint program = Renderer::GetInstance().GetShaderProgramID(this->shaderType);
 	GLuint program = Renderer::GetInstance().GetShaderProgramID(this->GetShaderType());
 	glUseProgram(program);
-
-	glm::mat4 W = GetWorldMatrix();
-	GLuint WorldMatrixID = glGetUniformLocation(program, "WorldTransform");
-	glUniformMatrix4fv(WorldMatrixID, 1, GL_FALSE, &W[0][0]);
 
 	GLuint CameraRight_worldspace_ID = glGetUniformLocation(program, "CameraRight_worldspace");
 	GLuint CameraUp_worldspace_ID = glGetUniformLocation(program, "CameraUp_worldspace");
