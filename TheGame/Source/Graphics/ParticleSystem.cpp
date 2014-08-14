@@ -29,11 +29,11 @@ ParticleSystem::ParticleSystem(Entity* parent, float particleLifetime, float sys
 	this->shaderType = SHADER_PARTICLES;
 	this->particleLifeTime = particleLifetime;
 	this->systemLifetime = systemLifetime;
-	this->zSpeed = zSpeed;
 	this->currentLifetime = systemLifetime;
 	this->particleSize = 1.f;
 	this->spread = 3.f;
 	this->maxParticles = 100;
+	this->mainDirection = glm::vec3(0, 0, zSpeed);
 	
 	// Start as white particles by default
 	this->initialColor = glm::vec3(1.f, 1.f, 1.f);
@@ -128,8 +128,6 @@ void ParticleSystem::Update(float dt)
 		int index = FindUnusedParticle();
 		Container[index].lifeRemaining = particleLifeTime; //Lives for 3 seconds. Can be changed to longer
 		Container[index].position = GetPositionWorld();
-
-		glm::vec3 mainDirection = glm::vec3(0.0f, 0.0f, zSpeed); // No original speed in particles on creation
 
 		//VERY STRAIGHTFORWARD WAY TO GENERATE A DIRECTION FOR EACH PARTICLE CHANGE IF YOU CAN
 		glm::vec3 randomDirection = glm::vec3(

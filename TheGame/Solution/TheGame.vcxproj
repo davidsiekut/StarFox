@@ -35,7 +35,6 @@
     <ClCompile Include="..\Source\Util\GameTime.cpp" />
     <ClCompile Include="..\Source\Util\InputManager.cpp" />
     <ClCompile Include="..\Source\Util\L-System\LSystem.cpp" />
-    <ClCompile Include="..\Source\Util\L-System\Parser.cpp" />
     <ClCompile Include="..\Source\Util\Renderer.cpp" />
     <ClCompile Include="..\Source\Util\WindowManager.cpp" />
     <ClCompile Include="..\Source\World\Scene.cpp" />
@@ -64,7 +63,6 @@
     <ClInclude Include="..\Source\Util\GameTime.h" />
     <ClInclude Include="..\Source\Util\InputManager.h" />
     <ClInclude Include="..\Source\Util\L-System\LSystem.h" />
-    <ClInclude Include="..\Source\Util\L-System\Parser.h" />
     <ClInclude Include="..\Source\Util\Renderer.h" />
     <ClInclude Include="..\Source\Util\WindowManager.h" />
     <ClInclude Include="..\Source\World\Scene.h" />

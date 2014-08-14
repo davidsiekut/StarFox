@@ -33,6 +33,7 @@ public:
 	void SetInitialColor(glm::vec3 initialColor) { this->initialColor = initialColor; }
 	void SetSpread(float spread) { this->spread = spread; }
 	void SetMaxParticles(unsigned int maxParticles) { this->maxParticles = maxParticles; }
+	void SetMainDirection(glm::vec3 mainDirection) { this->mainDirection = mainDirection; }
 
 	virtual bool IsOpaque() { return false; }
 
@@ -45,11 +46,11 @@ private:
 	float particleLifeTime;
 	float systemLifetime;
 	float currentLifetime;
-	float zSpeed;
 	float particleSize;
 	glm::vec3 initialColor;
 	float spread;
 	unsigned int maxParticles;
+	glm::vec3 mainDirection;
 
 	std::function<float(float, float, float)> RedInterpolation;
 	std::function<float(float, float, float)> GreenInterpolation;

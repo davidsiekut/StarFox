@@ -59,9 +59,10 @@ void Arwing::Update(float dt)
 				return green;
 			});
 			burnBabyBurn->SetBlueInterPolation([](float blue, float dt, float lifetime) -> float {
-				blue += (1.f / lifetime) * dt;
+				blue += ((150.f/255.f) / lifetime) * dt;
 				return blue;
 			});
+			burnBabyBurn->SetMainDirection(glm::vec3(0.f, 3.f, 0.f));
 			Scene::GetInstance().AddEntity(burnBabyBurn);
 			booster->markedForDeletion = true;
 		}
