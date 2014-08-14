@@ -3,7 +3,7 @@
 #include "Entity.h"
 #include <functional>
 
-#define maxParticles 100
+#define MAXIMUM_PARTICLES 100
 
 class ParticleSystem : public Entity
 {
@@ -32,6 +32,7 @@ public:
 	void SetBlueInterPolation(std::function<float(float, float, float)> f) { this->BlueInterpolation = f; }
 	void SetInitialColor(glm::vec3 initialColor) { this->initialColor = initialColor; }
 	void SetSpread(float spread) { this->spread = spread; }
+	void SetMaxParticles(unsigned int maxParticles) { this->maxParticles = maxParticles; }
 
 private:
 
@@ -46,6 +47,7 @@ private:
 	float particleSize;
 	glm::vec3 initialColor;
 	float spread;
+	unsigned int maxParticles;
 
 	std::function<float(float, float, float)> RedInterpolation;
 	std::function<float(float, float, float)> GreenInterpolation;
@@ -57,7 +59,7 @@ private:
 	unsigned int squareBufferID;
 	unsigned int squareBufferSize;
 
-	Particle Container[maxParticles];
+	Particle Container[MAXIMUM_PARTICLES];
 
 	struct Vertex
 	{

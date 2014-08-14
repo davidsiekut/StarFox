@@ -32,7 +32,7 @@ public:
 protected:
 
 private:
-	ParticleSystem booster;
+	ParticleSystem* booster;
 	ParticleSystem* burnBabyBurn;
 	void resolveHit(float damage);
 };
