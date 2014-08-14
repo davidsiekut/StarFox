@@ -35,6 +35,7 @@ public:
 	glm::vec4 GetMaterialCoefficients() { return materialCoefficients; }
 	ShaderType GetShaderType() { return shaderType; }
 	unsigned int GetTextureID() { return textureID; }
+	virtual bool IsOpaque() { return true; }
 
 	// dimensions of box collider for this entity
 	float COLLIDE_X;

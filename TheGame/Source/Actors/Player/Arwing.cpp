@@ -13,7 +13,7 @@
 #define INV_FRAMES_TIME 0.5f
 #define SPEED_Z 60.f
 
-Arwing::Arwing(Entity *parent) : Entity(parent), booster(this, 0.1f, 0.f, SPEED_Z/1.5f)
+Arwing::Arwing(Entity *parent) : Entity(parent)
 {
 	name = "PLAYER";
 	size = glm::vec3(2.f, 2.f, 2.f);
@@ -37,8 +37,10 @@ Arwing::Arwing(Entity *parent) : Entity(parent), booster(this, 0.1f, 0.f, SPEED_
 
 	Initialize(size);
 
-	booster.SetPosition(glm::vec3(0.f, -0.3f, -3.f));
-	Scene::GetInstance().AddEntity(&booster);
+	booster = new ParticleSystem(this, 0.2f, 0.f, SPEED_Z / 1.3f);
+	booster->SetPosition(glm::vec3(0.f, -0.25f, -3.f));
+	booster->SetMaxParticles(10);
+	Scene::GetInstance().AddEntity(booster);
 	burnBabyBurn = nullptr;
 }
 
@@ -61,8 +63,8 @@ void Arwing::Update(float dt)
 				return blue;
 			});
 			Scene::GetInstance().AddEntity(burnBabyBurn);
+			booster->markedForDeletion = true;
 		}
-		booster.~ParticleSystem();
 		Scene::GetInstance().GameOver();
 		return;
 	}

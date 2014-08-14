@@ -39,6 +39,9 @@ void Renderer::Initialize()
 	glClearDepth(1.0);
 	glDepthFunc(GL_LESS);
 
+	// back face culling
+	glEnable(GL_CULL_FACE);
+
 	shaders.push_back(LoadShader("SolidColor"));
 	shaders.push_back(LoadShader("Gouraud"));
 	shaders.push_back(LoadShader("Phong"));

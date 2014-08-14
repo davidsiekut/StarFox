@@ -33,6 +33,7 @@ ParticleSystem::ParticleSystem(Entity* parent, float particleLifetime, float sys
 	this->currentLifetime = systemLifetime;
 	this->particleSize = 1.f;
 	this->spread = 3.f;
+	this->maxParticles = 100;
 	
 	// Start as white particles by default
 	this->initialColor = glm::vec3(1.f, 1.f, 1.f);
@@ -79,7 +80,7 @@ void ParticleSystem::SortParticles()
 
 int ParticleSystem::FindUnusedParticle()
 {
-	for (int i = lastUsed; i < maxParticles; i++)
+	for (unsigned int i = lastUsed; i < maxParticles; i++)
 	{
 		if (Container[i].lifeRemaining < 0)
 		{
@@ -114,10 +115,10 @@ void ParticleSystem::Update(float dt)
 		}
 	}
 
-	// Generate 10 new particle each millisecond,
+	// Generate new particles each millisecond based on the max particles,
 	// but limit this to 16 ms (60 fps), or if you have 1 long frame (1sec),
 	// newparticles will be huge and the next frame even longer.
-	int newparticles = (int)(dt*10000.0);
+	int newparticles = (int)(dt*maxParticles*10);
 	if (newparticles > (int)(0.016f*10000.0))
 	{
 		newparticles = (int)(0.016f*10000.0);
@@ -152,9 +153,9 @@ void ParticleSystem::Update(float dt)
 
 	int partCount = 0;
 
-	Vertex particleBuffer[maxParticles];
+	Vertex particleBuffer[MAXIMUM_PARTICLES];
 
-	for (int i = 0; i < maxParticles; i++){
+	for (unsigned int i = 0; i < maxParticles; i++){
 
 		Particle& p = Container[i]; // shortcut
 

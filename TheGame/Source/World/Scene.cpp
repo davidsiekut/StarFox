@@ -75,44 +75,8 @@ void Scene::Update(float dt)
 	// update camera
 	camera->Update(dt);
 
-	for (std::vector<Entity*>::iterator it = entities.begin(); it < entities.end();)
-	{
-		// deletion check
-		if ((*it)->markedForDeletion)
-		{
-			delete *it;
-			it = entities.erase(it);
-		}
-		else if ((*it)->GetPositionWorld().z < a->GetPositionWorld().z - Chunk::CHUNK_DEPTH)
-		{
-			delete *it;
-			it = entities.erase(it);
-		}
-		else
-		{
-			// update entity
-			(*it)->Update(dt);
-			
-			// physics check (only check things that will probably collide)
-			if ((*it)->GetName().compare("PLAYER") == 0 ||
-				(*it)->GetName().compare("PEWPEW") == 0 ||
-				(*it)->GetName().compare("ENEMY") == 0 ||
-				(*it)->GetName().compare("BUILDING") == 0
-				)
-			{
-				for (std::vector<Entity*>::iterator itt = entities.begin(); itt < entities.end();++itt)
-				{
-					if (*it != *itt && Physics::CheckAABBCollision(*it, *itt))
-					{
-						(*it)->OnCollision(*itt);
-						(*itt)->OnCollision(*it);
-					}
-				}
-			}
-			
-			it++;
-		}
-	}
+	UpdateEntities(entities, dt);
+	UpdateEntities(transparentEntities, dt);
 
 	// update terrain
 	if ((a->GetPosition().z / Chunk::CHUNK_DEPTH) + TERRAIN_LOADAHEAD > lastChunk)
@@ -183,7 +147,6 @@ void Scene::Draw()
 {
 	Renderer::GetInstance().BeginFrame();
 
-	glm::mat4 W(1.0f);
 	glm::mat4 V = camera->GetViewMatrix();
 
 	// draw ui
@@ -194,7 +157,96 @@ void Scene::Draw()
 	since the viewport is now windowwidth units wide and windowheight units tall, and you are drawing a 
 	quad 1 unit wide and 1/2 unit tall. You need to draw your objects larger in order to see anything useful.*/
 
-	P = camera->GetProjectionMatrix(); 
+	DrawEntities(entities);
+	DrawEntities(transparentEntities);
+
+	Renderer::GetInstance().EndFrame();
+}
+
+void Scene::AddEntity(Entity* entity)
+{
+	if (entity->IsOpaque())
+	{
+		entities.push_back(entity);
+	}
+	else
+	{
+		transparentEntities.push_back(entity);
+	}
+}
+
+void Scene::AddChunk(glm::vec3 pos)
+{
+	//printf("[Scene] Creating chunk %i\n", lastChunk);
+	Chunk* c = new Chunk(NULL);
+	c->SetPosition(pos);
+	AddEntity(c);
+	chunks.push_back(c);
+	lastChunk++;
+
+	if (lastChunk > 3 && !bossSpawned)
+		BuildingFactory::GetInstance().GenerateBuilding(pos);
+}
+
+void Scene::GameOver()
+{
+	if (!gameOver)
+	{
+		gameOver = true;
+		printf("[Player] Game over\n");
+		this->camera = new ThirdPersonCamera(25.f, a);
+		glfwSetInputMode(WindowManager::GetWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+		InputManager::SetDisabled(true);
+	}
+}
+
+void Scene::UpdateEntities(std::vector<Entity*> &entities, float dt)
+{
+	for (std::vector<Entity*>::iterator it = entities.begin(); it < entities.end();)
+	{
+		// deletion check
+		if ((*it)->markedForDeletion)
+		{
+			delete *it;
+			it = entities.erase(it);
+		}
+		else if ((*it)->GetPositionWorld().z < a->GetPositionWorld().z - Chunk::CHUNK_DEPTH)
+		{
+			delete *it;
+			it = entities.erase(it);
+		}
+		else
+		{
+			// update entity
+			(*it)->Update(dt);
+
+			// physics check (only check things that will probably collide)
+			if ((*it)->GetName().compare("PLAYER") == 0 ||
+				(*it)->GetName().compare("PEWPEW") == 0 ||
+				(*it)->GetName().compare("ENEMY") == 0 ||
+				(*it)->GetName().compare("BUILDING") == 0
+				)
+			{
+				for (std::vector<Entity*>::iterator itt = entities.begin(); itt < entities.end(); ++itt)
+				{
+					if (*it != *itt && Physics::CheckAABBCollision(*it, *itt))
+					{
+						(*it)->OnCollision(*itt);
+						(*itt)->OnCollision(*it);
+					}
+				}
+			}
+
+			it++;
+		}
+	}
+}
+
+void Scene::DrawEntities(std::vector<Entity*> &entities)
+{
+	glm::mat4 V = camera->GetViewMatrix();
+	glm::mat4 P = camera->GetProjectionMatrix();
+
 	for (std::vector<Entity*>::iterator it = entities.begin(); it < entities.end(); ++it)
 	{
 		//GLuint program = Renderer::GetInstance().GetShaderProgramID(this->shaderType);
@@ -248,34 +300,4 @@ void Scene::Draw()
 	}
 
 	Renderer::GetInstance().EndFrame();
-}
-
-void Scene::AddEntity(Entity* entity)
-{
-	entities.push_back(entity);
-}
-
-void Scene::AddChunk(glm::vec3 pos)
-{
-	//printf("[Scene] Creating chunk %i\n", lastChunk);
-	Chunk* c = new Chunk(NULL);
-	c->SetPosition(pos);
-	AddEntity(c);
-	chunks.push_back(c);
-	lastChunk++;
-
-	if (lastChunk > 3 && !bossSpawned)
-		BuildingFactory::GetInstance().GenerateBuilding(pos);
-}
-
-void Scene::GameOver()
-{
-	if (!gameOver)
-	{
-		gameOver = true;
-		printf("[Player] Game over\n");
-		this->camera = new ThirdPersonCamera(25.f, a);
-		glfwSetInputMode(WindowManager::GetWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-		InputManager::SetDisabled(true);
-	}
 }
