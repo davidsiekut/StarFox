@@ -145,18 +145,18 @@ void InputManager::Update(float dt)
 	if (arwing->isBarrelRolling)
 		return;
 
-	if (glfwGetKey(w, GLFW_KEY_Q) == GLFW_PRESS && !arwing->isTiltingRight)
+	if (glfwGetKey(w, GLFW_KEY_E) == GLFW_PRESS && !arwing->isTiltingRight)
 	{
 		if (!arwing->isTiltingLeft)
 		{
-			if (doublePressTimer != TIMER_BARRELROLL && doublePressTimer > 0 && lastPressed == "Q")
+			if (doublePressTimer != TIMER_BARRELROLL && doublePressTimer > 0 && lastPressed == "E")
 			{
 				arwing->isTiltingLeft = true;
 				arwing->isBarrelRolling = true;
 				return;
 			}
 		}
-		lastPressed = "Q";
+		lastPressed = "E";
 		arwing->isTiltingLeft = true;
 		arwing->TiltLeft(dt);
 
@@ -167,18 +167,18 @@ void InputManager::Update(float dt)
 
 		return;
 	}
-	else if (glfwGetKey(w, GLFW_KEY_E) == GLFW_PRESS && !arwing->isTiltingLeft)
+	else if (glfwGetKey(w, GLFW_KEY_Q) == GLFW_PRESS && !arwing->isTiltingLeft)
 	{
 		if (!arwing->isTiltingRight)
 		{
-			if (doublePressTimer != TIMER_BARRELROLL && doublePressTimer > 0 && lastPressed == "E")
+			if (doublePressTimer != TIMER_BARRELROLL && doublePressTimer > 0 && lastPressed == "Q")
 			{
 				arwing->isTiltingRight = true;
 				arwing->isBarrelRolling = true;
 				return;
 			}
 		}
-		lastPressed = "E";
+		lastPressed = "Q";
 		arwing->isTiltingRight = true;
 		arwing->TiltRight(dt);
 
