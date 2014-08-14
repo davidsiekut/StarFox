@@ -4,6 +4,7 @@
 #include "Cube.h"
 #include "PewPew.h"
 #include "FilledMirroredCubes.h"
+#include "Scene.h"
 
 Building::Building(Entity* parent, std::string lSystem) : Entity(parent)
 {
@@ -15,6 +16,8 @@ Building::Building(Entity* parent, std::string lSystem) : Entity(parent)
 	name = "BUILDING";
 	shaderType = SHADER_PHONG_TEXTURED;
 	textureID = 2;
+
+	shield = 500;
 
 	COLLIDE_X = BUILDING_SIZE_X;
 	COLLIDE_Y = BUILDING_SIZE_Y;
@@ -49,14 +52,6 @@ void Building::SetPosition(glm::vec3 position)
 {
 	Entity::SetPosition(position);
 	verticalAxis = position.x;
-}
-
-void Building::OnCollision(Entity* other)
-{
-	if (other->GetName() == "PEWPEW" && (((PewPew*)other)->owner == "PLAYER"))
-	{
-		TakeDamage(((PewPew*)other)->damage);
-	}
 }
 
 void Building::Parse(char c)
@@ -97,5 +92,17 @@ void Building::Parse(char c)
 		FilledMirroredCubes* m = new FilledMirroredCubes(this, textureCoords);
 		m->SetShaderType(SHADER_PHONG_TEXTURED);
 		blocks.push_back(m);
+	}
+}
+
+void Building::OnCollision(Entity* other)
+{
+	if (other->GetName() == "PEWPEW" && (((PewPew*)other)->owner == "PLAYER"))
+	{
+		TakeDamage(((PewPew*)other)->damage);
+	}
+	if (other->GetName() == "PLAYER")
+	{
+		TakeDamage(9999);
 	}
 }
