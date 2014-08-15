@@ -87,8 +87,11 @@ void PewPew::Draw()
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	this->SetScaling(glm::vec3(scale.x * 1.15f, scale.y * 1.15f, scale.z));
-	BindBuffers(SHADER_BLUR, blurArrayID, blurBufferID, blurBufferSize);
+	this->SetScaling(glm::vec3(scale.x * 1.15f, scale.y, scale.z));
+	BindBuffers(SHADER_BLUR_HORIZONTAL, blurArrayID, blurBufferID, blurBufferSize);
+
+	this->SetScaling(glm::vec3(scale.x, scale.y * 1.15f, scale.z));
+	BindBuffers(SHADER_BLUR_VERTICAL, blurArrayID, blurBufferID, blurBufferSize);
 
 	glDisable(GL_BLEND);
 
