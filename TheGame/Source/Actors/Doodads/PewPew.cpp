@@ -32,12 +32,14 @@ void PewPew::Init()
 		this->size = glm::vec3(2.f, 2.f, 10.f);
 		objPath = "../Assets/Models/pewpew.obj";
 		damage = 50.f;
+		this->textureID = 6;
 	}
 	else
 	{
 		this->size = glm::vec3(0.5f, 0.5f, 0.5f);
 		objPath = "../Assets/Models/sphere.obj";
 		damage = 10.f;
+		this->textureID = 1;
 	}
 
 	COLLIDE_X = size.x;
@@ -45,7 +47,6 @@ void PewPew::Init()
 	COLLIDE_Z = size.z;
 
 	shaderType = SHADER_BLOOM;
-	this->textureID = 6;
 
 	Entity::Initialize(size);
 

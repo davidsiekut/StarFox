@@ -31,6 +31,6 @@ void main(void)
 	blurColor += texture2D(sampler, vec2(vertOutTexCoords.x+gaussFilter[5].x*blurSize, vertOutTexCoords.y))*gaussFilter[5].y;
 	blurColor += texture2D(sampler, vec2(vertOutTexCoords.x+gaussFilter[6].x*blurSize, vertOutTexCoords.y))*gaussFilter[6].y;
 
-	blurColor.a = 0.8;
+	blurColor.a = 0.3;
 	color = blurColor;
 }
