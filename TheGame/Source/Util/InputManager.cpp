@@ -11,12 +11,14 @@
 
 #define TIMER_BARRELROLL 0.3f
 
+#define FIRE_REPEAT_RATE 0.1f
+float InputManager::fireRepeatRate = FIRE_REPEAT_RATE;
+
 double InputManager::mouseX = 0.0f;
 double InputManager::mouseY = 0.0f;
 float  InputManager::mouseDeltaX = 0.0f;
 float  InputManager::mouseDeltaY = 0.0f;
 
-bool InputManager::shotsFired = false;
 bool InputManager::G_PRESSED = false;
 bool InputManager::L_PRESSED = false;
 bool InputManager::P_PRESSED = false;
@@ -111,15 +113,23 @@ void InputManager::Update(float dt)
 	}
 
 	// Shoot action. If the space bar is already pressed then do not create more lasers.
-	if (glfwGetKey(w, GLFW_KEY_SPACE) == GLFW_PRESS && !shotsFired)
+	if (glfwGetKey(w, GLFW_KEY_SPACE) == GLFW_PRESS)
 	{
-		shotsFired = true;
-		Fire();
+		if (fireRepeatRate < 0)
+		{
+			Fire();
+			fireRepeatRate = FIRE_REPEAT_RATE;
+		}
+		else
+		{
+			fireRepeatRate -= dt;
+		}
 	}
 	else if (glfwGetKey(w, GLFW_KEY_SPACE) == GLFW_RELEASE)
 	{
-		shotsFired = false;
+		fireRepeatRate = 0.0001;
 	}
+
 
 	// Get the directional input
 	glm::vec3 direction = glm::vec3(0, 0, 0);
@@ -212,7 +222,7 @@ void InputManager::Update(float dt)
 	if (arwing->isBarrelRolling)
 		return;
 
-	if (glfwGetKey(w, GLFW_KEY_Q) == GLFW_PRESS && !arwing->isTiltingRight)
+	if (glfwGetKey(w, GLFW_KEY_E) == GLFW_PRESS && !arwing->isTiltingRight)
 	{
 		if (!arwing->isTiltingLeft)
 		{
@@ -234,7 +244,7 @@ void InputManager::Update(float dt)
 
 		return;
 	}
-	else if (glfwGetKey(w, GLFW_KEY_E) == GLFW_PRESS && !arwing->isTiltingLeft)
+	else if (glfwGetKey(w, GLFW_KEY_Q) == GLFW_PRESS && !arwing->isTiltingLeft)
 	{
 		if (!arwing->isTiltingRight)
 		{

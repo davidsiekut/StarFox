@@ -21,7 +21,7 @@
 
 const unsigned int Scene::TERRAIN_PRELOAD = 5;
 const unsigned int Scene::TERRAIN_LOADAHEAD = 5;
-#define SCORE_SPAWN_BOSS 2000
+#define SCORE_SPAWN_BOSS 1000
 
 #define MAXTEXTURES 7
 Texture textures[MAXTEXTURES];

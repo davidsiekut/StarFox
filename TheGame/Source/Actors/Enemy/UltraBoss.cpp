@@ -2,7 +2,6 @@
 #include "PewPew.h"
 #include "Scene.h"
 
-const float UltraBoss::BOSS_SPEED_Z = 60.f; // this needs to be the same speed as player or there will be problems
 const float UltraBoss::BOSS_ATTACK_CD = 0.01f;
 
 UltraBoss::UltraBoss(Entity *parent) : Entity(parent)
@@ -14,7 +13,7 @@ UltraBoss::UltraBoss(Entity *parent) : Entity(parent)
 	shaderType = SHADER_PHONG_TEXTURED;
 	textureID = 5;
 
-	this->shield = 999999.f; // ultra boss, ultra shield
+	this->shield = 500.f; // ultra boss, ultra shield
 
 	// ultra colliders
 	COLLIDE_X = size.x;
@@ -49,7 +48,7 @@ void UltraBoss::Update(float dt)
 	if (position.y > size.y + 5) // descend from thy heavens, o mighty dolan
 		position.y -= dt * 50.f;
 
-	position.z += dt * BOSS_SPEED_Z;
+	position.z += dt * Scene::GetInstance().GetPlayer()->speedZ;
 
 }
 
