@@ -258,16 +258,10 @@
     <None Include="..\Source\Shaders\Particle.vert">
       <Filter>Source Files\Shaders</Filter>
     </None>
-    <None Include="..\Source\Shaders\BlurHeight.frag">
+    <None Include="..\Source\Shaders\Blur.frag">
       <Filter>Source Files\Shaders</Filter>
     </None>
-    <None Include="..\Source\Shaders\BlurHeight.vert">
-      <Filter>Source Files\Shaders</Filter>
-    </None>
-    <None Include="..\Source\Shaders\BlurWidth.frag">
-      <Filter>Source Files\Shaders</Filter>
-    </None>
-    <None Include="..\Source\Shaders\BlurWidth.vert">
+    <None Include="..\Source\Shaders\Blur.vert">
       <Filter>Source Files\Shaders</Filter>
     </None>
   </ItemGroup>
