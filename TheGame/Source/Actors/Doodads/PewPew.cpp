@@ -50,17 +50,37 @@ void PewPew::Init()
 	Entity::Initialize(size);
 
 	std::vector<Vertex> buffer = Entity::LoadVertices();
+
+	// Get the maximum x and y to create a billboard.
+	float max_x, max_y;
 	for (std::vector<Vertex>::iterator it = buffer.begin(); it < buffer.end(); it++)
 	{
-		(*it).position.x *= size.x;
-		(*it).position.y *= size.y;
-		(*it).position.z *= size.z;
-
-		(*it).uv.x *= textureCoordinates.x;
-		(*it).uv.y *= textureCoordinates.y;
+		if (it == buffer.begin())
+		{
+			max_x = (*it).position.x * size.x;
+			max_y = (*it).position.y * size.y;
+		}
+		else
+		{
+			if ((*it).position.x * size.x > max_x)
+			{
+				max_x = (*it).position.x * size.x;
+			}
+			if ((*it).position.y * size.y > max_y)
+			{
+				max_y = (*it).position.y * size.y;
+			}
+		}
 	}
 
-	blurBufferSize = buffer.size();
+	// Create vertices for the square buffer
+	GLfloat squareVertices[] = 
+	{
+		-0.5f * max_x, -0.5f * max_y, 0.0f,
+		0.5f * max_x, -0.5f * max_y, 0.0f,
+		-0.5f * max_x, 0.5f * max_y, 0.0f,
+		0.5f * max_x, 0.5f * max_y, 0.0f
+	};
 
 	// create vertex array
 	glGenVertexArrays(1, &blurArrayID);
@@ -69,7 +89,7 @@ void PewPew::Init()
 	glGenBuffers(1, &blurBufferID);
 	// and keep a reference to it (vertexBufferID)
 	glBindBuffer(GL_ARRAY_BUFFER, blurBufferID);
-	glBufferData(GL_ARRAY_BUFFER, buffer.size() * (3 * sizeof(glm::vec3) + sizeof(glm::vec2)), &buffer[0], GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(squareVertices), &squareVertices[0], GL_STATIC_DRAW);
 }
 
 PewPew::~PewPew()
