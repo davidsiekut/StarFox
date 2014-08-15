@@ -210,7 +210,7 @@ void InputManager::Update(float dt)
 	if (arwing->isBarrelRolling)
 		return;
 
-	if (glfwGetKey(w, GLFW_KEY_E) == GLFW_PRESS && !arwing->isTiltingRight)
+	if (glfwGetKey(w, GLFW_KEY_Q) == GLFW_PRESS && !arwing->isTiltingRight)
 	{
 		if (!arwing->isTiltingLeft)
 		{
@@ -232,7 +232,7 @@ void InputManager::Update(float dt)
 
 		return;
 	}
-	else if (glfwGetKey(w, GLFW_KEY_Q) == GLFW_PRESS && !arwing->isTiltingLeft)
+	else if (glfwGetKey(w, GLFW_KEY_E) == GLFW_PRESS && !arwing->isTiltingLeft)
 	{
 		if (!arwing->isTiltingRight)
 		{
