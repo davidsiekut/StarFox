@@ -23,6 +23,9 @@ bool InputManager::P_PRESSED = false;
 bool InputManager::disabled = false;
 bool InputManager::gottaGoFast = false;
 bool InputManager::youreTooSlow = false;
+
+float boostTimer = 3.0f;
+
 Arwing* InputManager::arwing;
 
 float InputManager::doublePressTimer = TIMER_BARRELROLL;
@@ -135,13 +138,52 @@ void InputManager::Update(float dt)
 		direction.x++;
 	}
 
-	if (glfwGetKey(w, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+	//Boost
+	if (glfwGetKey(w, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS && boostTimer == 3.0f)
 	{
-		arwing->speedZ = 175.0f;
+		gottaGoFast = true;
 	}
-	if (glfwGetKey(w, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
+	if (gottaGoFast == true)
 	{
-		arwing->speedZ = 30.0f;
+		boostTimer -= dt;
+		arwing->speedZ = 150.0f;
+	}
+
+	//Brake
+	if (glfwGetKey(w, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS && boostTimer == 3.0f)
+	{
+		youreTooSlow = true;
+	}
+	if (youreTooSlow == true)
+	{
+		boostTimer -= dt;
+		arwing->speedZ = 20.0f;
+	}
+
+	//Normal speed
+	if (boostTimer <= 0.0f)
+	{
+		arwing->speedZ = 60.0f;
+
+		if (gottaGoFast == true)
+		{
+			gottaGoFast == false;
+		}
+		if (youreTooSlow == true)
+		{
+			youreTooSlow == false;
+		}
+	}
+
+	//Refill boostTimer
+	if (gottaGoFast == false && youreTooSlow == false)
+	{
+		boostTimer += dt;
+	}
+
+	if (boostTimer >= 3.0f)
+	{
+		boostTimer = 3.0f;
 	}
 
 
