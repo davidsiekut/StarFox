@@ -32,7 +32,7 @@ ParticleSystem::ParticleSystem(Entity* parent, float particleLifetime, float sys
 	this->currentLifetime = systemLifetime;
 	this->particleSize = 1.f;
 	this->spread = 3.f;
-	this->maxParticles = 100;
+	this->maxParticles = MAXIMUM_PARTICLES;
 	this->mainDirection = glm::vec3(0, 0, zSpeed);
 	
 	// Start as white particles by default
@@ -80,7 +80,7 @@ void ParticleSystem::SortParticles()
 
 int ParticleSystem::FindUnusedParticle()
 {
-	for (unsigned int i = lastUsed; i < MAXIMUM_PARTICLES; i++)
+	for (unsigned int i = lastUsed; i < maxParticles; i++)
 	{
 		if (Container[i].lifeRemaining < 0)
 		{
