@@ -98,6 +98,9 @@ PewPew::~PewPew()
 
 	glDeleteBuffers(1, &widthBlurBufferID);
 	glDeleteVertexArrays(1, &widthBlurBufferID);
+
+	glDeleteBuffers(1, &diagonalBlurBufferID);
+	glDeleteVertexArrays(1, &diagonalBlurBufferID);
 }
 
 void PewPew::Draw()
@@ -105,6 +108,7 @@ void PewPew::Draw()
 	glm::vec3 scale = GetScaling();
 	Entity::Draw();
 
+	// Draw the blur effect after
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -137,9 +141,6 @@ void PewPew::BindBuffers(ShaderType shaderType, int arrayID, int bufferID, int b
 	glUniformMatrix4fv(WorldMatrixID, 1, GL_FALSE, &W[0][0]);
 	glUniformMatrix4fv(ViewMatrixID, 1, GL_FALSE, &V[0][0]);
 	glUniformMatrix4fv(ProjMatrixID, 1, GL_FALSE, &P[0][0]);
-
-	GLuint materialCoefficientsID = glGetUniformLocation(program, "materialCoefficients");
-	glUniform4f(materialCoefficientsID, materialCoefficients.x, materialCoefficients.y, materialCoefficients.z, materialCoefficients.w);
 
 	glBindVertexArray(arrayID);
 
