@@ -30,6 +30,8 @@
     <ClCompile Include="..\Source\Graphics\TextureHelper.cpp" />
     <ClCompile Include="..\Source\main.cpp" />
     <ClCompile Include="..\Source\Physics\Physics.cpp" />
+    <ClCompile Include="..\Source\UI\HealthBar.cpp" />
+    <ClCompile Include="..\Source\UI\UIElement.cpp" />
     <ClCompile Include="..\Source\Util\BuildingFactory.cpp" />
     <ClCompile Include="..\Source\Util\EnemyFactory.cpp" />
     <ClCompile Include="..\Source\Util\GameTime.cpp" />
@@ -58,6 +60,8 @@
     <ClInclude Include="..\Source\Graphics\Texture.h" />
     <ClInclude Include="..\Source\Graphics\TextureHelper.h" />
     <ClInclude Include="..\Source\Physics\Physics.h" />
+    <ClInclude Include="..\Source\UI\HealthBar.h" />
+    <ClInclude Include="..\Source\UI\UIElement.h" />
     <ClInclude Include="..\Source\Util\BuildingFactory.h" />
     <ClInclude Include="..\Source\Util\EnemyFactory.h" />
     <ClInclude Include="..\Source\Util\GameTime.h" />
@@ -132,7 +136,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>
       </SDLCheck>
-      <AdditionalIncludeDirectories>..\Source\Actors;..\Source\Actors\BuildingArchitecture;..\Source\Actors\Doodads;..\Source\Actors\Enemy;..\Source\Actors\Geometry;..\Source\Actors\Player;..\Source\Actors\Terrain;..\Source\Camera;..\Source\Graphics;..\Source\Physics;..\Source\Util;..\Source\Util\L-System;..\Source\World;..\Source\Include\FreeImage\Dist;..\Source\Include\glew-1.10.0\include;..\Source\Include\glfw-3.0.4\include;..\Source\Include\glm-0.9.5.4</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Source\UI;..\Source\Actors;..\Source\Actors\BuildingArchitecture;..\Source\Actors\Doodads;..\Source\Actors\Enemy;..\Source\Actors\Geometry;..\Source\Actors\Player;..\Source\Actors\Terrain;..\Source\Camera;..\Source\Graphics;..\Source\Physics;..\Source\Util;..\Source\Util\L-System;..\Source\World;..\Source\Include\FreeImage\Dist;..\Source\Include\glew-1.10.0\include;..\Source\Include\glfw-3.0.4\include;..\Source\Include\glm-0.9.5.4</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -164,7 +168,7 @@
       <IntrinsicFunctions>false</IntrinsicFunctions>
       <SDLCheck>
       </SDLCheck>
-      <AdditionalIncludeDirectories>..\Source\Actors;..\Source\Actors\BuildingArchitecture;..\Source\Actors\Doodads;..\Source\Actors\Enemy;..\Source\Actors\Geometry;..\Source\Actors\Player;..\Source\Actors\Terrain;..\Source\Camera;..\Source\Graphics;..\Source\Physics;..\Source\Util;..\Source\Util\L-System;..\Source\World;..\Source\Include\FreeImage\Dist;..\Source\Include\glew-1.10.0\include;..\Source\Include\glfw-3.0.4\include;..\Source\Include\glm-0.9.5.4</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Source\UI;..\Source\Actors;..\Source\Actors\BuildingArchitecture;..\Source\Actors\Doodads;..\Source\Actors\Enemy;..\Source\Actors\Geometry;..\Source\Actors\Player;..\Source\Actors\Terrain;..\Source\Camera;..\Source\Graphics;..\Source\Physics;..\Source\Util;..\Source\Util\L-System;..\Source\World;..\Source\Include\FreeImage\Dist;..\Source\Include\glew-1.10.0\include;..\Source\Include\glfw-3.0.4\include;..\Source\Include\glm-0.9.5.4</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader />

@@ -51,6 +51,9 @@
     <Filter Include="Source Files\Actors\Terrain">
       <UniqueIdentifier>{bacafa14-1571-4ab3-9839-ef98a9cea199}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\UI">
+      <UniqueIdentifier>{76ab3f16-990a-443d-b264-b1a46794f3f1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\Util\InputManager.cpp">
@@ -134,6 +137,12 @@
     <ClCompile Include="..\Source\Graphics\ParticleSystem.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\UI\UIElement.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\UI\HealthBar.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Util\InputManager.h">
@@ -213,6 +222,12 @@
     </ClInclude>
     <ClInclude Include="..\Source\Graphics\ParticleSystem.h">
       <Filter>Source Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\UI\UIElement.h">
+      <Filter>Source Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\UI\HealthBar.h">
+      <Filter>Source Files\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

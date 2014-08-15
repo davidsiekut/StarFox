@@ -5,6 +5,7 @@
 #include "Chunk.h"
 #include "EnemyFactory.h"
 #include "Entity.h"
+#include "UIElement.h"
 
 class Entity;
 class EnemyFactory;
@@ -44,6 +45,7 @@ private:
 	std::vector<Entity*> transparentEntities; // Particle systems should be drawn after always.
 	std::vector<Entity*> queued; // queued entities such as pewpews that need to be added
 	std::vector<Chunk*> chunks;
+	std::vector<UIElement*> uiElements;
 	Camera* camera;
 	Arwing* a;
 	EnemyFactory* enemyFactory;
@@ -59,4 +61,5 @@ private:
 	void LoadTextures();
 	void UpdateEntities(std::vector<Entity*> &entities, float dt);
 	void DrawEntities(std::vector<Entity*> &entities);
+	void DrawUI(std::vector<UIElement*> &uielem);
 };

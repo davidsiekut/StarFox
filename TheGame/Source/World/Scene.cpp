@@ -18,6 +18,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform.hpp>
 #include <time.h>
+#include <UIElement.h>
+#include <HealthBar.h>
 
 const unsigned int Scene::TERRAIN_PRELOAD = 5;
 const unsigned int Scene::TERRAIN_LOADAHEAD = 5;
@@ -57,6 +59,10 @@ void Scene::Initialize()
 	SkyBox* skybox = new SkyBox(NULL, a);
 	skybox->SetPosition(glm::vec3(0, 200, a->GetPosition().z + 500));
 	AddEntity(skybox);
+
+	HealthBar* ui_healthBar = new HealthBar(glm::vec3(50, 50, 0), glm::vec3(100, 50, 1));
+	uiElements.push_back(ui_healthBar);
+
 }
 
 void Scene::LoadTextures()
@@ -74,6 +80,11 @@ void Scene::LoadTextures()
 
 void Scene::Update(float dt)
 {
+	for (std::vector<UIElement*>::iterator it = uiElements.begin(); it < uiElements.end(); ++it)
+	{
+		(*it)->Update(dt);
+	}
+
 	// update camera
 	camera->Update(dt);
 
@@ -149,20 +160,41 @@ void Scene::Draw()
 {
 	Renderer::GetInstance().BeginFrame();
 
-	glm::mat4 V = camera->GetViewMatrix();
-
-	// draw ui
-	glm::mat4 P = glm::ortho(0.f, (float)800, (float)600, 0.f, 0.1f, 1000.f);
-
-	/*Note that if you are using an orthographic projection that is windowwidth by windowheight in size, 
-	then drawing a quad as small as you are drawing will pretty much just draw a single pixel or two, 
-	since the viewport is now windowwidth units wide and windowheight units tall, and you are drawing a 
-	quad 1 unit wide and 1/2 unit tall. You need to draw your objects larger in order to see anything useful.*/
-
+	DrawUI(uiElements);
 	DrawEntities(entities);
 	DrawEntities(transparentEntities);
 
 	Renderer::GetInstance().EndFrame();
+}
+
+void Scene::DrawUI(std::vector<UIElement*> &uielem)
+{
+	glm::mat4 V = glm::mat4(1.0);
+	glm::mat4 P = glm::ortho(0.f, (float)800, (float)0, 600.f, 0.1f, 1000.f);
+
+	//glDisable(GL_DEPTH_TEST);
+	//glDepthFunc(GL_ALWAYS);
+	for (std::vector<UIElement*>::iterator it = uiElements.begin(); it < uiElements.end(); ++it)
+	{
+		GLuint program = Renderer::GetInstance().GetShaderProgramID((*it)->GetShaderType());
+		glUseProgram(program);
+
+		GLuint WorldMatrixID = glGetUniformLocation(program, "WorldTransform");
+		GLuint ViewMatrixID = glGetUniformLocation(program, "ViewTransform");
+		GLuint ProjMatrixID = glGetUniformLocation(program, "ProjTransform");
+		GLuint samplerID = glGetUniformLocation(program, "sampler"); // for texture2d
+
+		//glUniformMatrix4fv(WorldMatrixID, 1, GL_FALSE, &W[0][0]);
+		glUniformMatrix4fv(ViewMatrixID, 1, GL_FALSE, &V[0][0]);
+		glUniformMatrix4fv(ProjMatrixID, 1, GL_FALSE, &P[0][0]);
+		glUniform1i(samplerID, 0); // for texture2d
+
+		textures[(*it)->GetTextureID()].Bind(); // for texture2d
+
+		(*it)->Draw();
+	}
+	//glEnable(GL_DEPTH_TEST);
+	//glDepthFunc(GL_LESS);
 }
 
 void Scene::AddEntity(Entity* entity)
