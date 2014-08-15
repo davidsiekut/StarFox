@@ -1,9 +1,21 @@
 #include "PewPew.h"
 #include "Scene.h"
+#include "TextureHelper.h"
 
 const float PewPew::PEWPEW_LIFETIME = 0.5f;
 const float PewPew::PEWPEW_SPEED_PLAYER = 290.f;
 const float PewPew::PEWPEW_SPEED_ENEMY = 25.f;
+
+// Create vertices for the square buffer
+const GLfloat squareVertices[] =
+{
+	-0.5f, -0.5f, 0.0f,
+	0.5f, -0.5f, 0.0f,
+	-0.5f, 0.5f, 0.0f,
+	0.5f, 0.5f, 0.0f
+};
+
+int PewPew::ddsTextureID = -1;
 
 PewPew::PewPew(std::string owner) : Entity(NULL), owner(owner)
 {
@@ -52,50 +64,45 @@ void PewPew::Init()
 	std::vector<Vertex> buffer = Entity::LoadVertices();
 
 	// Get the maximum x and y to create a billboard.
-	float max_x, max_y;
 	for (std::vector<Vertex>::iterator it = buffer.begin(); it < buffer.end(); it++)
 	{
 		if (it == buffer.begin())
 		{
-			max_x = (*it).position.x * size.x;
-			max_y = (*it).position.y * size.y;
+			size_x = (*it).position.x * size.x;
+			size_y = (*it).position.y * size.y;
 		}
 		else
 		{
-			if ((*it).position.x * size.x > max_x)
+			if ((*it).position.x * size.x > size_x)
 			{
-				max_x = (*it).position.x * size.x;
+				this->size_x = (*it).position.x * size.x;
 			}
-			if ((*it).position.y * size.y > max_y)
+			if ((*it).position.y * size.y > size_y)
 			{
-				max_y = (*it).position.y * size.y;
+				this->size_y = (*it).position.y * size.y;
 			}
 		}
 	}
 
-	// Create vertices for the square buffer
-	GLfloat squareVertices[] = 
+	if (ddsTextureID == -1)
 	{
-		-0.5f * max_x, -0.5f * max_y, 0.0f,
-		0.5f * max_x, -0.5f * max_y, 0.0f,
-		-0.5f * max_x, 0.5f * max_y, 0.0f,
-		0.5f * max_x, 0.5f * max_y, 0.0f
-	};
+		ddsTextureID = TextureHelper::LoadDDS("../Assets/Textures/particle.DDS");
+	}
 
 	// create vertex array
-	glGenVertexArrays(1, &blurArrayID);
+	glGenVertexArrays(1, &squareArrayID);
 
 	// upload vertexbuffer to the GPU
-	glGenBuffers(1, &blurBufferID);
+	glGenBuffers(1, &squareBufferID);
 	// and keep a reference to it (vertexBufferID)
-	glBindBuffer(GL_ARRAY_BUFFER, blurBufferID);
+	glBindBuffer(GL_ARRAY_BUFFER, squareBufferID);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(squareVertices), &squareVertices[0], GL_STATIC_DRAW);
 }
 
 PewPew::~PewPew()
 {
-	glDeleteBuffers(1, &blurBufferID);
-	glDeleteVertexArrays(1, &blurBufferID);
+	glDeleteBuffers(1, &squareBufferID);
+	glDeleteVertexArrays(1, &squareBufferID);
 }
 
 void PewPew::Draw()
@@ -107,90 +114,61 @@ void PewPew::Draw()
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	this->SetScaling(glm::vec3(scale.x * 1.15f, scale.y, scale.z));
-	BindBuffers(SHADER_BLUR_HORIZONTAL, blurArrayID, blurBufferID, blurBufferSize);
+	BindBuffers(SHADER_BLUR_HORIZONTAL);
 
-	this->SetScaling(glm::vec3(scale.x, scale.y * 1.15f, scale.z));
-	BindBuffers(SHADER_BLUR_VERTICAL, blurArrayID, blurBufferID, blurBufferSize);
+	//this->SetScaling(glm::vec3(scale.x, scale.y * 1.15f, scale.z));
+	//BindBuffers(SHADER_BLUR_VERTICAL);
 
 	glDisable(GL_BLEND);
 
 	this->SetScaling(scale);
 }
 
-void PewPew::BindBuffers(ShaderType shaderType, int arrayID, int bufferID, int bufferSize)
+void PewPew::BindBuffers(ShaderType shaderType)
 {
-	glm::mat4 P = Scene::GetInstance().GetGPCamera()->GetProjectionMatrix();
-	glm::mat4 V = Scene::GetInstance().GetGPCamera()->GetViewMatrix();
-	glm::mat4 W = GetWorldMatrix();
-
 	GLuint program = Renderer::GetInstance().GetShaderProgramID(shaderType);
 	glUseProgram(program);
 
+	glm::mat4 P = Scene::GetInstance().GetGPCamera()->GetProjectionMatrix();
+	glm::mat4 V = Scene::GetInstance().GetGPCamera()->GetViewMatrix();
+	glm::vec3 position = GetPosition();
+
+	GLuint TextureSamplerID = glGetUniformLocation(program, "MyTextureSampler");
+	GLuint CenterPositionID = glGetUniformLocation(program, "center_worldspace");
+	GLuint SizeID = glGetUniformLocation(program, "size");
 	GLuint ViewMatrixID = glGetUniformLocation(program, "ViewTransform");
 	GLuint ProjMatrixID = glGetUniformLocation(program, "ProjTransform");
-	GLuint WorldMatrixID = glGetUniformLocation(program, "WorldTransform");
-	glUniformMatrix4fv(WorldMatrixID, 1, GL_FALSE, &W[0][0]);
+	GLuint CameraRight_worldspace_ID = glGetUniformLocation(program, "CameraRight_worldspace");
+	GLuint CameraUp_worldspace_ID = glGetUniformLocation(program, "CameraUp_worldspace");
+
+	glUniform3f(CenterPositionID, position.x, position.y, position.z);
+	glUniform2f(SizeID, size_x*2.5f, size_y*2.5f);
 	glUniformMatrix4fv(ViewMatrixID, 1, GL_FALSE, &V[0][0]);
 	glUniformMatrix4fv(ProjMatrixID, 1, GL_FALSE, &P[0][0]);
+	glUniform3f(CameraRight_worldspace_ID, V[0][0], V[1][0], V[2][0]);
+	glUniform3f(CameraUp_worldspace_ID, V[0][1], V[1][1], V[2][1]);
 
-	GLuint ScaleID = glGetUniformLocation(program, "scale");
-	glUniform2f(ScaleID, 1.0f/10.f, 1.0f/10.f);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, ddsTextureID);
+	// Set sampler to user Texture Unit 0
+	glUniform1i(TextureSamplerID, 0);
 
-	glBindVertexArray(arrayID);
+	glBindVertexArray(squareArrayID);
 
-	// position
+	// Square vertices
 	glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, bufferID);
+	glBindBuffer(GL_ARRAY_BUFFER, squareBufferID);
 	glVertexAttribPointer(0,    // attribute. No particular reason for 0, but must match the layout in the shader.
 		3,                      // size
 		GL_FLOAT,               // type
 		GL_FALSE,               // normalized?
-		sizeof(Vertex),         // stride
+		0,         // stride
 		(void*)0                // array buffer offset
-		);
+	);
 
-	// uv
-	glEnableVertexAttribArray(1);
-	glBindBuffer(GL_ARRAY_BUFFER, bufferID);
-	glVertexAttribPointer(1,
-		2,
-		GL_FLOAT,
-		GL_FALSE,
-		sizeof(Vertex),
-		(void*)sizeof(glm::vec3) // offset
-		);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
-	// normal
-	glEnableVertexAttribArray(2);
-	glBindBuffer(GL_ARRAY_BUFFER, bufferID);
-	glVertexAttribPointer(2,
-		3,
-		GL_FLOAT,
-		GL_FALSE,
-		sizeof(Vertex),
-		(void*)(sizeof(glm::vec3) + sizeof(glm::vec2)) // offset
-		);
-
-
-	// color
-	glEnableVertexAttribArray(3);
-	glBindBuffer(GL_ARRAY_BUFFER, bufferID);
-	glVertexAttribPointer(3,
-		3,
-		GL_FLOAT,
-		GL_FALSE,
-		sizeof(Vertex),
-		(void*)(2 * sizeof(glm::vec3) + sizeof(glm::vec2)) // offset
-		);
-
-	glDrawArrays(GL_TRIANGLES, 0, bufferSize);
-
-	glDisableVertexAttribArray(3);
-	glDisableVertexAttribArray(2);
-	glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(0);
-
 }
 
 void PewPew::Update(float dt)

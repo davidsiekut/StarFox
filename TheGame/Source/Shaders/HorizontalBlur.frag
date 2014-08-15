@@ -16,7 +16,7 @@ const vec2 gaussFilter[NUM_PASSES] = vec2[]
 	vec2(3.0,	0.015625)
 );
 
-const float blurSize = 10.0f/512.f;
+const float blurSize = 1.0f/512.f;
 
 out vec4 color;
  
@@ -31,6 +31,5 @@ void main(void)
 	blurColor += texture2D(sampler, vec2(vertOutTexCoords.x+gaussFilter[5].x*blurSize, vertOutTexCoords.y))*gaussFilter[5].y;
 	blurColor += texture2D(sampler, vec2(vertOutTexCoords.x+gaussFilter[6].x*blurSize, vertOutTexCoords.y))*gaussFilter[6].y;
 
-	blurColor.a = 0.8;
 	color = blurColor;
 }

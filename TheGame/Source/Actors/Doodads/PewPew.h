@@ -27,10 +27,15 @@ private:
 	float timeElapsed = 0.f;
 	glm::vec3 direction;
 
-	unsigned int blurArrayID;
-	unsigned int blurBufferID;
-	unsigned int blurBufferSize;
+	unsigned int squareArrayID;
+	unsigned int squareBufferID;
+	unsigned int squareBufferSize;
+
+	float size_x;
+	float size_y;
+
+	static int ddsTextureID;
 
 	void Init();
-	void BindBuffers(ShaderType shaderType, int arrayID, int bufferID, int bufferSize);
+	void BindBuffers(ShaderType shaderType);
 };
