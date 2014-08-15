@@ -158,7 +158,7 @@ void InputManager::Update(float dt)
 	if (gottaGoFast == true)
 	{
 		boostTimer -= dt;
-		arwing->speedZ = 150.0f;
+		arwing->speedZ = 110.0f;
 	}
 
 	//Brake

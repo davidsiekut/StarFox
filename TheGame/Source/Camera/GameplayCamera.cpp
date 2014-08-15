@@ -37,20 +37,20 @@ void GameplayCamera::Update(float dt)
 		//changing the value of the bounces will change the speed of the shake
 		if (mViewPoint.y <= 9)
 		{
-			yBounce = .55f;
+			yBounce = .45f;
 		}
 		else if (mViewPoint.y >= 11)
 		{
-			yBounce = -.55f;
+			yBounce = -.45f;
 		}
 
 		if (mViewPoint.x <= -1.25)
 		{
-			xBounce = .125f;
+			xBounce = 0.0f;
 		}
 		else if (mViewPoint.x >= 1.25)
 		{
-			xBounce = -.125f;
+			xBounce = 0.0f;
 		}
 
 		mViewPoint.x += xBounce; 
