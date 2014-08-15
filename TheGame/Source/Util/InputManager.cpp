@@ -21,8 +21,10 @@ bool InputManager::G_PRESSED = false;
 bool InputManager::L_PRESSED = false;
 bool InputManager::P_PRESSED = false;
 bool InputManager::disabled = false;
-bool InputManager::gottaGoFast = false;
-bool InputManager::youreTooSlow = false;
+
+bool gottaGoFast = false;
+bool youreTooSlow = false;
+bool normalSpeed = true;
 
 float boostTimer = 3.0f;
 
@@ -167,11 +169,11 @@ void InputManager::Update(float dt)
 
 		if (gottaGoFast == true)
 		{
-			gottaGoFast == false;
+			gottaGoFast = false;
 		}
 		if (youreTooSlow == true)
 		{
-			youreTooSlow == false;
+			youreTooSlow = false;
 		}
 	}
 

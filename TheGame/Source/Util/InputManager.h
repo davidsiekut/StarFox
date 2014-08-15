@@ -20,8 +20,6 @@ private:
 	static bool L_PRESSED;
 	static bool P_PRESSED;
 	static bool disabled;
-	static bool gottaGoFast;
-	static bool youreTooSlow;
 	static void Fire();
 
 	static Arwing* arwing;
