@@ -49,8 +49,7 @@ void Renderer::Initialize()
 	shaders.push_back(LoadShader("PhongTextured"));
 	shaders.push_back(LoadShader("Bloom"));
 	shaders.push_back(LoadShader("Particle"));
-	shaders.push_back(LoadShader("BlurHeight"));
-	shaders.push_back(LoadShader("BlurWidth"));
+	shaders.push_back(LoadShader("Blur"));
 
 	currentShader = -1;
 }
