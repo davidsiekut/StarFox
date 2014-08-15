@@ -45,7 +45,7 @@ ParticleSystem::ParticleSystem(Entity* parent, float particleLifetime, float sys
 
 
 	// Pre calculate size of particle buffer
-	particleBufferSize = maxParticles * (2 * sizeof(glm::vec4));
+	particleBufferSize = MAXIMUM_PARTICLES * (2 * sizeof(glm::vec4));
 
 	// Create buffers on GPU for particles
 	glGenBuffers(1, &particleBufferID);
@@ -75,12 +75,12 @@ ParticleSystem::~ParticleSystem()
 
 void ParticleSystem::SortParticles()
 {
-	std::sort(&Container[0], &Container[maxParticles]);
+	std::sort(&Container[0], &Container[MAXIMUM_PARTICLES]);
 }
 
 int ParticleSystem::FindUnusedParticle()
 {
-	for (unsigned int i = lastUsed; i < maxParticles; i++)
+	for (unsigned int i = lastUsed; i < MAXIMUM_PARTICLES; i++)
 	{
 		if (Container[i].lifeRemaining < 0)
 		{
@@ -138,7 +138,6 @@ void ParticleSystem::Update(float dt)
 
 		Container[index].speed = mainDirection + randomDirection*spread;
 
-		// Each particle starts as white and SHOULD turn orange... will need to be changed if lifeRemaining is changed
 		Container[index].r = initialColor.r;
 		Container[index].g = initialColor.g;
 		Container[index].b = initialColor.b;
@@ -172,7 +171,7 @@ void ParticleSystem::Update(float dt)
 				p.r = RedInterpolation(p.r, dt, particleLifeTime);
 				p.g = GreenInterpolation(p.g, dt, particleLifeTime);
 				p.b = BlueInterpolation(p.b, dt, particleLifeTime);
-				p.a -= (9 / (20 * particleLifeTime)) * dt;
+				p.a -= (0.5f / particleLifeTime) * dt;
 
 				// Fill the GPU buffer
 				particleBuffer[partCount].xyzs = glm::vec4(p.position.x, p.position.y, p.position.z, p.size);
@@ -200,8 +199,7 @@ void ParticleSystem::Draw()
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	//GLuint program = Renderer::GetInstance().GetShaderProgramID(this->shaderType);
-	GLuint program = Renderer::GetInstance().GetShaderProgramID(this->GetShaderType());
+	GLuint program = Renderer::GetInstance().GetShaderProgramID(SHADER_PARTICLES);
 	glUseProgram(program);
 
 	GLuint CameraRight_worldspace_ID = glGetUniformLocation(program, "CameraRight_worldspace");

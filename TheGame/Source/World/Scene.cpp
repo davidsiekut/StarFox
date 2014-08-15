@@ -302,6 +302,4 @@ void Scene::DrawEntities(std::vector<Entity*> &entities)
 
 		(*it)->Draw();
 	}
-
-	Renderer::GetInstance().EndFrame();
 }
