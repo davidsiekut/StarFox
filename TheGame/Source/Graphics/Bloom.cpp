@@ -81,11 +81,11 @@ void Bloom::BindBuffers(ShaderType shaderType)
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, ddsTextureID);
 	// Set sampler to user Texture Unit 0
-	glUniform1i(BloomSamplerID, 0);
+	glUniform1f(BloomSamplerID, 0);
 
-	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, parent->GetTextureID());
-	glUniform1i(OriginalSamplerID, 1);
+	glActiveTexture(GL_TEXTURE2);
+	glBindTexture(GL_TEXTURE_2D, parent->GetTextureID() + 1); // texture id starts at 1 for opengl
+	glUniform1i(OriginalSamplerID, 2);
 
 	glBindVertexArray(squareArrayID);
 

@@ -5,7 +5,7 @@
 const float PewPew::PEWPEW_LIFETIME = 0.5f;
 const float PewPew::PEWPEW_SPEED_PLAYER = 290.f;
 const float PewPew::PEWPEW_SPEED_ENEMY = 25.f;
-const float PewPew::BLOOM_SCALE = 2.25f;
+const float PewPew::BLOOM_SCALE = 2.75f;
 
 PewPew::PewPew(std::string owner) : Entity(NULL), owner(owner)
 {
@@ -75,13 +75,19 @@ void PewPew::Init()
 		}
 	}
 
-	bloom = new Bloom(*this, size_x * BLOOM_SCALE, size_y * BLOOM_SCALE);
-	Scene::GetInstance().AddEntity(bloom);
+	if (owner == "ENEMY")
+	{
+		bloom = new Bloom(*this, size_x * BLOOM_SCALE, size_y * BLOOM_SCALE);
+		Scene::GetInstance().AddEntity(bloom);
+	}
 }
 
 PewPew::~PewPew()
 {
-	Scene::GetInstance().RemoveEntity(bloom);
+	if (bloom != nullptr)
+	{
+		Scene::GetInstance().RemoveEntity(bloom);
+	}
 }
 
 void PewPew::Update(float dt)
