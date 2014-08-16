@@ -25,6 +25,7 @@
     <ClCompile Include="..\Source\Camera\Camera.cpp" />
     <ClCompile Include="..\Source\Camera\GameplayCamera.cpp" />
     <ClCompile Include="..\Source\Camera\ThirdPersonCamera.cpp" />
+    <ClCompile Include="..\Source\Graphics\Bloom.cpp" />
     <ClCompile Include="..\Source\Graphics\ParticleSystem.cpp" />
     <ClCompile Include="..\Source\Graphics\Texture.cpp" />
     <ClCompile Include="..\Source\Graphics\TextureHelper.cpp" />
@@ -54,6 +55,7 @@
     <ClInclude Include="..\Source\Camera\Camera.h" />
     <ClInclude Include="..\Source\Camera\GameplayCamera.h" />
     <ClInclude Include="..\Source\Camera\ThirdPersonCamera.h" />
+    <ClInclude Include="..\Source\Graphics\Bloom.h" />
     <ClInclude Include="..\Source\Graphics\ParticleSystem.h" />
     <ClInclude Include="..\Source\Graphics\Texture.h" />
     <ClInclude Include="..\Source\Graphics\TextureHelper.h" />

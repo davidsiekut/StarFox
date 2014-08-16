@@ -3,7 +3,8 @@
 #define NUM_PASSES 7
 
 smooth in vec2 vertOutTexCoords;
-uniform sampler2D sampler;
+uniform sampler2D bloomSampler;
+uniform sampler2D originalSampler;
 
 const vec2 gaussFilter[NUM_PASSES] = vec2[]
 (
@@ -16,22 +17,17 @@ const vec2 gaussFilter[NUM_PASSES] = vec2[]
 	vec2(3.0,	0.015625)
 );
 
-const float blurSize = 10.0f/512.0f;
+const float blurSize = 1.0f/512.0f;
 
 out vec4 color;
  
 void main(void)
 {
-	vec4 blurColor = vec4(0.f, 0.f, 0.f, 0.f);
+	vec4 blurColor = vec4(0.f);
+	for(int i = 0; i < NUM_PASSES; i++)
+	{
+		blurColor += texture2D(bloomSampler, vec2(vertOutTexCoords.x, vertOutTexCoords.y+gaussFilter[i].x*blurSize) )*gaussFilter[i].y;
+	}
 
-	blurColor += texture2D(sampler, vec2(vertOutTexCoords.x, vertOutTexCoords.y+gaussFilter[0].x*blurSize) )*gaussFilter[0].y;
-	blurColor += texture2D(sampler, vec2(vertOutTexCoords.x, vertOutTexCoords.y+gaussFilter[1].x*blurSize) )*gaussFilter[1].y;
-	blurColor += texture2D(sampler, vec2(vertOutTexCoords.x, vertOutTexCoords.y+gaussFilter[2].x*blurSize) )*gaussFilter[2].y;
-	blurColor += texture2D(sampler, vec2(vertOutTexCoords.x, vertOutTexCoords.y+gaussFilter[3].x*blurSize) )*gaussFilter[3].y;
-	blurColor += texture2D(sampler, vec2(vertOutTexCoords.x, vertOutTexCoords.y+gaussFilter[4].x*blurSize) )*gaussFilter[4].y;
-	blurColor += texture2D(sampler, vec2(vertOutTexCoords.x, vertOutTexCoords.y+gaussFilter[5].x*blurSize) )*gaussFilter[5].y;
-	blurColor += texture2D(sampler, vec2(vertOutTexCoords.x, vertOutTexCoords.y+gaussFilter[6].x*blurSize) )*gaussFilter[6].y;
-
-	blurColor.a = 0.8;
-	color = blurColor;
+	color = blurColor * texture2D(originalSampler, vertOutTexCoords);
 }

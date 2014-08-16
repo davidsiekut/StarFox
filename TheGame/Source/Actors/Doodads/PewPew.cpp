@@ -5,17 +5,7 @@
 const float PewPew::PEWPEW_LIFETIME = 0.5f;
 const float PewPew::PEWPEW_SPEED_PLAYER = 290.f;
 const float PewPew::PEWPEW_SPEED_ENEMY = 25.f;
-
-// Create vertices for the square buffer
-const GLfloat squareVertices[] =
-{
-	-0.5f, -0.5f, 0.0f,
-	0.5f, -0.5f, 0.0f,
-	-0.5f, 0.5f, 0.0f,
-	0.5f, 0.5f, 0.0f
-};
-
-int PewPew::ddsTextureID = -1;
+const float PewPew::BLOOM_SCALE = 2.25f;
 
 PewPew::PewPew(std::string owner) : Entity(NULL), owner(owner)
 {
@@ -64,6 +54,7 @@ void PewPew::Init()
 	std::vector<Vertex> buffer = Entity::LoadVertices();
 
 	// Get the maximum x and y to create a billboard.
+	float size_x, size_y;
 	for (std::vector<Vertex>::iterator it = buffer.begin(); it < buffer.end(); it++)
 	{
 		if (it == buffer.begin())
@@ -75,100 +66,22 @@ void PewPew::Init()
 		{
 			if ((*it).position.x * size.x > size_x)
 			{
-				this->size_x = (*it).position.x * size.x;
+				size_x = (*it).position.x * size.x;
 			}
 			if ((*it).position.y * size.y > size_y)
 			{
-				this->size_y = (*it).position.y * size.y;
+				size_y = (*it).position.y * size.y;
 			}
 		}
 	}
 
-	if (ddsTextureID == -1)
-	{
-		ddsTextureID = TextureHelper::LoadDDS("../Assets/Textures/particle.DDS");
-	}
-
-	// create vertex array
-	glGenVertexArrays(1, &squareArrayID);
-
-	// upload vertexbuffer to the GPU
-	glGenBuffers(1, &squareBufferID);
-	// and keep a reference to it (vertexBufferID)
-	glBindBuffer(GL_ARRAY_BUFFER, squareBufferID);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(squareVertices), &squareVertices[0], GL_STATIC_DRAW);
+	bloom = new Bloom(*this, size_x * BLOOM_SCALE, size_y * BLOOM_SCALE);
+	Scene::GetInstance().AddEntity(bloom);
 }
 
 PewPew::~PewPew()
 {
-	glDeleteBuffers(1, &squareBufferID);
-	glDeleteVertexArrays(1, &squareBufferID);
-}
-
-void PewPew::Draw()
-{
-	glm::vec3 scale = GetScaling();
-	Entity::Draw();
-
-	// Draw the blur effect after
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-	BindBuffers(SHADER_BLUR_HORIZONTAL);
-
-	//this->SetScaling(glm::vec3(scale.x, scale.y * 1.15f, scale.z));
-	//BindBuffers(SHADER_BLUR_VERTICAL);
-
-	glDisable(GL_BLEND);
-
-	this->SetScaling(scale);
-}
-
-void PewPew::BindBuffers(ShaderType shaderType)
-{
-	GLuint program = Renderer::GetInstance().GetShaderProgramID(shaderType);
-	glUseProgram(program);
-
-	glm::mat4 P = Scene::GetInstance().GetGPCamera()->GetProjectionMatrix();
-	glm::mat4 V = Scene::GetInstance().GetGPCamera()->GetViewMatrix();
-	glm::vec3 position = GetPosition();
-
-	GLuint TextureSamplerID = glGetUniformLocation(program, "MyTextureSampler");
-	GLuint CenterPositionID = glGetUniformLocation(program, "center_worldspace");
-	GLuint SizeID = glGetUniformLocation(program, "size");
-	GLuint ViewMatrixID = glGetUniformLocation(program, "ViewTransform");
-	GLuint ProjMatrixID = glGetUniformLocation(program, "ProjTransform");
-	GLuint CameraRight_worldspace_ID = glGetUniformLocation(program, "CameraRight_worldspace");
-	GLuint CameraUp_worldspace_ID = glGetUniformLocation(program, "CameraUp_worldspace");
-
-	glUniform3f(CenterPositionID, position.x, position.y, position.z);
-	glUniform2f(SizeID, size_x*2.5f, size_y*2.5f);
-	glUniformMatrix4fv(ViewMatrixID, 1, GL_FALSE, &V[0][0]);
-	glUniformMatrix4fv(ProjMatrixID, 1, GL_FALSE, &P[0][0]);
-	glUniform3f(CameraRight_worldspace_ID, V[0][0], V[1][0], V[2][0]);
-	glUniform3f(CameraUp_worldspace_ID, V[0][1], V[1][1], V[2][1]);
-
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, ddsTextureID);
-	// Set sampler to user Texture Unit 0
-	glUniform1i(TextureSamplerID, 0);
-
-	glBindVertexArray(squareArrayID);
-
-	// Square vertices
-	glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, squareBufferID);
-	glVertexAttribPointer(0,    // attribute. No particular reason for 0, but must match the layout in the shader.
-		3,                      // size
-		GL_FLOAT,               // type
-		GL_FALSE,               // normalized?
-		0,         // stride
-		(void*)0                // array buffer offset
-	);
-
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-
-	glDisableVertexAttribArray(0);
+	Scene::GetInstance().RemoveEntity(bloom);
 }
 
 void PewPew::Update(float dt)

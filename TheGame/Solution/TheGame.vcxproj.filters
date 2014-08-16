@@ -134,6 +134,9 @@
     <ClCompile Include="..\Source\Graphics\ParticleSystem.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\Graphics\Bloom.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Util\InputManager.h">
@@ -212,6 +215,9 @@
       <Filter>Source Files\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\Graphics\ParticleSystem.h">
+      <Filter>Source Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Graphics\Bloom.h">
       <Filter>Source Files\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
