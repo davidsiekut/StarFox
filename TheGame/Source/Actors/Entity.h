@@ -46,6 +46,7 @@ public:
 	void TakeDamage(float f);
 	float invicibilityFrames = 0.f;
 	bool markedForDeletion;
+	bool isFlashing;
 
 protected:
 	Entity *parent;
