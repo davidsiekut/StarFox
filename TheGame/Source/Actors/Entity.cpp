@@ -96,7 +96,6 @@ glm::vec3 Entity::GetPositionWorld()
 
 void Entity::Draw()
 {
-
 	if (!isFlashing)
 	{
 		//GLuint program = Renderer::GetInstance().GetShaderProgramID(this->shaderType);
