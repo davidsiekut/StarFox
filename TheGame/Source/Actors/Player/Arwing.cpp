@@ -32,6 +32,7 @@ Arwing::Arwing(Entity *parent) : Entity(parent)
 	isTiltingLeft = false;
 	isTiltingRight = false;
 	isBarrelRolling = false;
+	isFlashing = false;
 	barrelRollTimer = BARREL_ROLL_TIME;
 	iddqd = false;
 
@@ -59,7 +60,7 @@ void Arwing::Update(float dt)
 				return green;
 			});
 			burnBabyBurn->SetBlueInterPolation([](float blue, float dt, float lifetime) -> float {
-				blue += ((150.f/255.f) / lifetime) * dt;
+				blue += ((150.f / 255.f) / lifetime) * dt;
 				return blue;
 			});
 			burnBabyBurn->SetMainDirection(glm::vec3(0.f, 3.f, 0.f));
@@ -73,6 +74,16 @@ void Arwing::Update(float dt)
 	if (invicibilityFrames > 0)
 	{
 		invicibilityFrames -= dt;
+		printf("%f\n", round(invicibilityFrames * 100));
+
+		if ((int)(invicibilityFrames * 100) % 5 == 0)
+		{
+			Flash();
+		}
+	}
+	else
+	{
+		isFlashing = false;
 	}
 
 	if (isBarrelRolling)
