@@ -4,7 +4,6 @@
 
 smooth in vec2 vertOutTexCoords;
 uniform sampler2D bloomSampler;
-uniform sampler2D originalSampler;
 
 const vec2 gaussFilter[NUM_PASSES] = vec2[]
 ( 
@@ -29,5 +28,5 @@ void main(void)
 		blurColor += texture2D(bloomSampler, vec2(vertOutTexCoords.x+gaussFilter[i].x*blurSize, vertOutTexCoords.y))*gaussFilter[i].y;
 	}
 
-	color = blurColor * texture2D(originalSampler, vertOutTexCoords);
+	color = blurColor;// * texture2D(originalSampler, vertOutTexCoords);
 }

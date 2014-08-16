@@ -63,7 +63,6 @@ void Bloom::BindBuffers(ShaderType shaderType)
 	glm::vec3 position = GetPositionWorld();
 
 	GLuint BloomSamplerID = glGetUniformLocation(program, "bloomSampler");
-	GLuint OriginalSamplerID = glGetUniformLocation(program, "originalSampler");
 	GLuint CenterPositionID = glGetUniformLocation(program, "center_worldspace");
 	GLuint SizeID = glGetUniformLocation(program, "size");
 	GLuint ViewMatrixID = glGetUniformLocation(program, "ViewTransform");
@@ -82,10 +81,6 @@ void Bloom::BindBuffers(ShaderType shaderType)
 	glBindTexture(GL_TEXTURE_2D, ddsTextureID);
 	// Set sampler to user Texture Unit 0
 	glUniform1f(BloomSamplerID, 0);
-
-	glActiveTexture(GL_TEXTURE2);
-	glBindTexture(GL_TEXTURE_2D, parent->GetTextureID() + 1); // texture id starts at 1 for opengl
-	glUniform1i(OriginalSamplerID, 2);
 
 	glBindVertexArray(squareArrayID);
 
