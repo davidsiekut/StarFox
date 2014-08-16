@@ -1,9 +1,11 @@
 #include "PewPew.h"
 #include "Scene.h"
+#include "TextureHelper.h"
 
 const float PewPew::PEWPEW_LIFETIME = 0.5f;
 const float PewPew::PEWPEW_SPEED_PLAYER = 290.f;
 const float PewPew::PEWPEW_SPEED_ENEMY = 25.f;
+const float PewPew::BLOOM_SCALE = 2.75f;
 
 PewPew::PewPew(std::string owner) : Entity(NULL), owner(owner)
 {
@@ -51,127 +53,42 @@ void PewPew::Init()
 	Entity::Initialize(size);
 
 	std::vector<Vertex> buffer = Entity::LoadVertices();
+
+	// Get the maximum x and y to create a billboard.
+	float size_x, size_y;
 	for (std::vector<Vertex>::iterator it = buffer.begin(); it < buffer.end(); it++)
 	{
-		(*it).position.x *= size.x;
-		(*it).position.y *= size.y;
-		(*it).position.z *= size.z;
-
-		(*it).uv.x *= textureCoordinates.x;
-		(*it).uv.y *= textureCoordinates.y;
+		if (it == buffer.begin())
+		{
+			size_x = (*it).position.x * size.x;
+			size_y = (*it).position.y * size.y;
+		}
+		else
+		{
+			if ((*it).position.x * size.x > size_x)
+			{
+				size_x = (*it).position.x * size.x;
+			}
+			if ((*it).position.y * size.y > size_y)
+			{
+				size_y = (*it).position.y * size.y;
+			}
+		}
 	}
 
-	blurBufferSize = buffer.size();
-
-	// create vertex array
-	glGenVertexArrays(1, &blurArrayID);
-
-	// upload vertexbuffer to the GPU
-	glGenBuffers(1, &blurBufferID);
-	// and keep a reference to it (vertexBufferID)
-	glBindBuffer(GL_ARRAY_BUFFER, blurBufferID);
-	glBufferData(GL_ARRAY_BUFFER, buffer.size() * (3 * sizeof(glm::vec3) + sizeof(glm::vec2)), &buffer[0], GL_STATIC_DRAW);
+	if (owner == "ENEMY")
+	{
+		bloom = new Bloom(*this, size_x * BLOOM_SCALE, size_y * BLOOM_SCALE);
+		Scene::GetInstance().AddEntity(bloom);
+	}
 }
 
 PewPew::~PewPew()
 {
-	glDeleteBuffers(1, &blurBufferID);
-	glDeleteVertexArrays(1, &blurBufferID);
-}
-
-void PewPew::Draw()
-{
-	glm::vec3 scale = GetScaling();
-	Entity::Draw();
-
-	// Draw the blur effect after
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-	this->SetScaling(glm::vec3(scale.x * 1.15f, scale.y, scale.z));
-	BindBuffers(SHADER_BLUR_HORIZONTAL, blurArrayID, blurBufferID, blurBufferSize);
-
-	this->SetScaling(glm::vec3(scale.x, scale.y * 1.15f, scale.z));
-	BindBuffers(SHADER_BLUR_VERTICAL, blurArrayID, blurBufferID, blurBufferSize);
-
-	glDisable(GL_BLEND);
-
-	this->SetScaling(scale);
-}
-
-void PewPew::BindBuffers(ShaderType shaderType, int arrayID, int bufferID, int bufferSize)
-{
-	glm::mat4 P = Scene::GetInstance().GetGPCamera()->GetProjectionMatrix();
-	glm::mat4 V = Scene::GetInstance().GetGPCamera()->GetViewMatrix();
-	glm::mat4 W = GetWorldMatrix();
-
-	GLuint program = Renderer::GetInstance().GetShaderProgramID(shaderType);
-	glUseProgram(program);
-
-	GLuint ViewMatrixID = glGetUniformLocation(program, "ViewTransform");
-	GLuint ProjMatrixID = glGetUniformLocation(program, "ProjTransform");
-	GLuint WorldMatrixID = glGetUniformLocation(program, "WorldTransform");
-	glUniformMatrix4fv(WorldMatrixID, 1, GL_FALSE, &W[0][0]);
-	glUniformMatrix4fv(ViewMatrixID, 1, GL_FALSE, &V[0][0]);
-	glUniformMatrix4fv(ProjMatrixID, 1, GL_FALSE, &P[0][0]);
-
-	GLuint ScaleID = glGetUniformLocation(program, "scale");
-	glUniform2f(ScaleID, 1.0f/10.f, 1.0f/10.f);
-
-	glBindVertexArray(arrayID);
-
-	// position
-	glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, bufferID);
-	glVertexAttribPointer(0,    // attribute. No particular reason for 0, but must match the layout in the shader.
-		3,                      // size
-		GL_FLOAT,               // type
-		GL_FALSE,               // normalized?
-		sizeof(Vertex),         // stride
-		(void*)0                // array buffer offset
-		);
-
-	// uv
-	glEnableVertexAttribArray(1);
-	glBindBuffer(GL_ARRAY_BUFFER, bufferID);
-	glVertexAttribPointer(1,
-		2,
-		GL_FLOAT,
-		GL_FALSE,
-		sizeof(Vertex),
-		(void*)sizeof(glm::vec3) // offset
-		);
-
-	// normal
-	glEnableVertexAttribArray(2);
-	glBindBuffer(GL_ARRAY_BUFFER, bufferID);
-	glVertexAttribPointer(2,
-		3,
-		GL_FLOAT,
-		GL_FALSE,
-		sizeof(Vertex),
-		(void*)(sizeof(glm::vec3) + sizeof(glm::vec2)) // offset
-		);
-
-
-	// color
-	glEnableVertexAttribArray(3);
-	glBindBuffer(GL_ARRAY_BUFFER, bufferID);
-	glVertexAttribPointer(3,
-		3,
-		GL_FLOAT,
-		GL_FALSE,
-		sizeof(Vertex),
-		(void*)(2 * sizeof(glm::vec3) + sizeof(glm::vec2)) // offset
-		);
-
-	glDrawArrays(GL_TRIANGLES, 0, bufferSize);
-
-	glDisableVertexAttribArray(3);
-	glDisableVertexAttribArray(2);
-	glDisableVertexAttribArray(1);
-	glDisableVertexAttribArray(0);
-
+	if (bloom != nullptr)
+	{
+		Scene::GetInstance().RemoveEntity(bloom);
+	}
 }
 
 void PewPew::Update(float dt)

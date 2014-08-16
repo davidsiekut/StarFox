@@ -23,6 +23,7 @@ public:
 	void Draw();
 
 	void AddEntity(Entity* entity);
+	void RemoveEntity(Entity* entity);
 	void AddChunk(glm::vec3 pos);
 
 	int ChangeLightingMode() { ++lightingMode > 1 ? lightingMode = 0 : lightingMode = 1; return lightingMode; };

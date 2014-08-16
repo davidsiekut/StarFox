@@ -2,6 +2,7 @@
 
 #include "Arwing.h"
 #include "Entity.h"
+#include "Bloom.h"
 
 class PewPew : public Entity
 {
@@ -11,7 +12,6 @@ public:
 	~PewPew();
 
 	void Update(float dt);
-	virtual void Draw();
 	void OnCollision(Entity* other);
 
 	float damage;
@@ -20,6 +20,7 @@ public:
 	static const float PEWPEW_LIFETIME;
 	static const float PEWPEW_SPEED_PLAYER;
 	static const float PEWPEW_SPEED_ENEMY;
+	static const float BLOOM_SCALE;
 
 protected:
 
@@ -27,10 +28,7 @@ private:
 	float timeElapsed = 0.f;
 	glm::vec3 direction;
 
-	unsigned int blurArrayID;
-	unsigned int blurBufferID;
-	unsigned int blurBufferSize;
+	Bloom* bloom;
 
 	void Init();
-	void BindBuffers(ShaderType shaderType, int arrayID, int bufferID, int bufferSize);
 };

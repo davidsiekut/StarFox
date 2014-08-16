@@ -177,6 +177,25 @@ void Scene::AddEntity(Entity* entity)
 	}
 }
 
+void Scene::RemoveEntity(Entity* entity)
+{
+	std::vector<Entity*>::iterator it = std::find(entities.begin(), entities.end(), entity);
+	if (it != entities.end())
+	{
+		delete *it;
+		it = entities.erase(it);
+	}
+	else
+	{
+		it = std::find(transparentEntities.begin(), transparentEntities.end(), entity);
+		if (it != transparentEntities.end())
+		{
+			delete *it;
+			transparentEntities.erase(it);
+		}
+	}
+}
+
 void Scene::AddChunk(glm::vec3 pos)
 {
 	//printf("[Scene] Creating chunk %i\n", lastChunk);
