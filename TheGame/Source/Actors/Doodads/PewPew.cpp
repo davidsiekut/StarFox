@@ -177,9 +177,9 @@ void PewPew::BindBuffers(ShaderType shaderType, int arrayID, int bufferID, int b
 void PewPew::Update(float dt)
 {
 	if (owner == "PLAYER")
-		position += direction * dt * PEWPEW_SPEED_PLAYER;
+		this->SetPosition(position + direction * dt * PEWPEW_SPEED_PLAYER);
 	else
-		position += direction * dt * PEWPEW_SPEED_ENEMY;
+		this->SetPosition(position + direction * dt * PEWPEW_SPEED_ENEMY);
 
 	timeElapsed += dt;
 
@@ -192,8 +192,10 @@ void PewPew::Update(float dt)
 
 void PewPew::OnCollision(Entity* other)
 {
-	if (other->GetName() != owner && other->GetName() != "PEWPEW")
+	if (other->GetName() != owner && other->GetName() != "PEWPEW" && other->GetName() != "CHUNK")
 	{
+		//printf("[Physics] Player position %f, %f, %f\n", other->GetPosition().x, other->GetPosition().y, other->GetPosition().z);
+		//printf("[Physics] Pewpew position %f, %f, %f\n", GetPosition().x, GetPosition().y, GetPosition().z);
 		markedForDeletion = true;
 	}
 }

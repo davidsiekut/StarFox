@@ -17,6 +17,7 @@ Arwing::Arwing(Entity *parent) : Entity(parent)
 {
 	name = "PLAYER";
 	size = glm::vec3(2.f, 2.f, 2.f);
+	obb.c = glm::vec3(7.8f, 1.5f, 2.0f);
 	objPath = "../Assets/Models/arwing.obj";
 	shaderType = SHADER_PHONG;
 
@@ -142,10 +143,14 @@ void Arwing::OnCollision(Entity* other)
 		if (other->GetName() == "ENEMY" ||
 			other->GetName() == "BUILDING")
 		{
+			printf("[Physics] Player position %f, %f, %f\n", position.x, position.y, position.z);
+			printf("[Physics] Player hit building at %f, %f, %f\n", other->GetPosition().x, other->GetPosition().y, other->GetPosition().z);
 			resolveHit(5);
 		}
 		else if (other->GetName() == "PEWPEW" && (((PewPew*)other)->owner == "ENEMY"))
 		{
+			printf("[Physics] Player position %f, %f, %f\n", position.x, position.y, position.z);
+			printf("[Physics] Player hit by pewpew at %f, %f, %f\n", other->GetPosition().x, other->GetPosition().y, other->GetPosition().z);
 			resolveHit(((PewPew*)other)->damage);
 		}
 	}

@@ -65,19 +65,23 @@ void Enemy::Update(float dt)
 
 	rotationAngle += dt * ENEMY_SPINNY_SPIN_SPEED;
 
+	glm::vec3 pos = this->GetPosition();
+
 	if (direction == EnemyFactory::Direction::LEFT)
 	{
-		position.x -= dt * ENEMY_SPEED_X;
+		pos.x -= dt * ENEMY_SPEED_X;
 	}
 	else
 	{
-		position.x += dt * ENEMY_SPEED_X;
+		pos.x += dt * ENEMY_SPEED_X;
 	}
 
 	timeElapsed += dt * ENEMY_WAVY_WAVE_SPEED;
 
-	position.y = horizontalAxis + glm::sin(timeElapsed) * ENEMY_AMPLITUDE_Y;
-	position.z += dt * ENEMY_SPEED_Z;
+	pos.y = horizontalAxis + glm::sin(timeElapsed) * ENEMY_AMPLITUDE_Y;
+	pos.z += dt * ENEMY_SPEED_Z;
+
+	this->SetPosition(pos);
 
 	if (attackCooldown > 0)
 	{

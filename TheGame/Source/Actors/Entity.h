@@ -5,6 +5,13 @@
 #include "glm/glm.hpp"
 #include <string>
 
+struct OBB
+{
+	glm::vec3 c; // center point (also position)
+	glm::vec3 u[3]; // local x y z axes
+	glm::vec3 e; // extents (half width) of the OBB along each axis (xyz)
+};
+
 class Entity
 {
 public:
@@ -20,6 +27,7 @@ public:
 
 	void SetPosition(glm::vec3 position);
 	void SetScaling(glm::vec3 scaling);
+	void SetSize(glm::vec3 size) { this->size = size; }
 	void SetRotation(glm::vec3 axis, float angle);
 	void SetShaderType(ShaderType type) { shaderType = type; }
 	void SetTextureID(int id) { textureID = id; }
@@ -41,6 +49,8 @@ public:
 	float COLLIDE_X;
 	float COLLIDE_Y;
 	float COLLIDE_Z;
+	// obb for obb<->obb collision detection
+	OBB obb;
 
 	float GetShieldAmount() { return shield; };
 	void TakeDamage(float f);
@@ -48,6 +58,8 @@ public:
 	bool markedForDeletion;
 
 protected:
+	void Initialize(glm::vec3 size);
+
 	Entity *parent;
 	std::string name;
 	glm::vec3 position;
@@ -69,8 +81,6 @@ protected:
 		glm::vec3 normal;
 		glm::vec3 color;
 	};
-
-	void Initialize(glm::vec3 size);
 
 	// gameplay stuff
 	float shield = 100.f;

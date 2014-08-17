@@ -21,7 +21,13 @@ Entity::Entity(Entity *parent) :	name("UNNAMED"),
 									textureID(0),
 									markedForDeletion(false)
 {
-	
+	obb = OBB();
+	this->parent = parent;
+	if (parent != nullptr) obb.c = position + this->parent->GetPosition();
+	obb.e = size;
+	obb.u[0] = glm::vec3(-1.f, 0.f, 0.f);
+	obb.u[1] = glm::vec3(0.f, 1.f, 0.f);
+	obb.u[2] = glm::vec3(0.f, 0.f, 1.f);
 }
 
 Entity::~Entity()
@@ -50,6 +56,8 @@ std::vector<Entity::Vertex> Entity::LoadVertices()
 
 void Entity::Initialize(glm::vec3 size)
 {
+	obb.e = size / 2.f;
+
 	std::vector<Vertex> buffer = LoadVertices();
 
 	for (std::vector<Vertex>::iterator it = buffer.begin(); it < buffer.end(); it++)
@@ -184,6 +192,7 @@ glm::mat4 Entity::GetWorldMatrix() const
 void Entity::SetPosition(glm::vec3 position)
 {
 	this->position = position;
+	obb.c = GetPosition();
 }
 
 void Entity::SetScaling(glm::vec3 scaling)

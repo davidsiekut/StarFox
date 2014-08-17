@@ -233,8 +233,11 @@ void Scene::UpdateEntities(std::vector<Entity*> &entities, float dt)
 			{
 				for (std::vector<Entity*>::iterator itt = entities.begin(); itt < entities.end(); ++itt)
 				{
+					// do not use OBB collision; it lags without optimization and misses collision checks
+					//if (*it != *itt && Physics::CheckOBBCollision(*it, *itt))
 					if (*it != *itt && Physics::CheckAABBCollision(*it, *itt))
 					{
+						//printf("%s, %s\n", (*it)->GetName().c_str(), (*itt)->GetName().c_str());
 						(*it)->OnCollision(*itt);
 						(*itt)->OnCollision(*it);
 					}

@@ -45,10 +45,14 @@ void UltraBoss::Update(float dt)
 		attackCooldown -= dt;
 	}
 
-	if (position.y > size.y + 5) // descend from thy heavens, o mighty dolan
-		position.y -= dt * 50.f;
+	glm::vec3 pos = this->GetPosition();
 
-	position.z += dt * Scene::GetInstance().GetPlayer()->speedZ;
+	if (pos.y > size.y + 5) // descend from thy heavens, o mighty dolan
+		pos.y -= dt * 50.f;
+
+	pos.z += dt * Scene::GetInstance().GetPlayer()->speedZ;
+
+	this->SetPosition(pos);
 
 }
 
