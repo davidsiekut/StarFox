@@ -12,8 +12,9 @@ UltraBoss::UltraBoss(Entity *parent) : Entity(parent)
 	objPath = "../Assets/Models/sphere.obj"; // ultra sphere
 	shaderType = SHADER_PHONG_TEXTURED;
 	textureID = 5;
+	hasShadow = true;
 
-	this->shield = 500.f; // ultra boss, ultra shield
+	this->shield = 1000.f; // ultra boss, ultra shield
 
 	// ultra colliders
 	COLLIDE_X = size.x;

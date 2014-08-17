@@ -57,6 +57,7 @@ protected:
 	glm::vec2 textureCoordinates;
 	glm::vec3 rotationAxis;
 	float rotationAngle; // in degrees
+	bool hasShadow;
 
 	glm::vec4 materialCoefficients; //ka, kd, ks, n
 	ShaderType shaderType;
@@ -90,6 +91,7 @@ private:
 	unsigned int currentVertexBufferID;
 
 	bool loadOBJ(std::string path, std::vector<Vertex> &buffer);
+	Entity* shadow;
 
 	// Hold the blueprints of each Entity in memory once the .obj has been loaded.
 	static std::map<std::string, std::vector<Vertex>*> bluePrints;

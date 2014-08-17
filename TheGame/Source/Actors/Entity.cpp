@@ -1,4 +1,6 @@
 #include "Entity.h"
+#include "Scene.h"
+#include "Shadow.h"
 #define GLM_FORCE_RADIANS
 #define dtor(x) x*(3.141592f/180.0f)
 #include <glm/gtc/matrix_transform.hpp>
@@ -20,7 +22,8 @@ Entity::Entity(Entity *parent) :	name("UNNAMED"),
 									objPath(""),
 									textureID(0),
 									markedForDeletion(false),
-									isFlashing(false)
+									isFlashing(false),
+									hasShadow(false)
 {
 	
 }
@@ -29,6 +32,11 @@ Entity::~Entity()
 {
 	glDeleteBuffers(1, &vertexBufferID);
 	glDeleteVertexArrays(1, &vertexArrayID);
+
+	if (shadow != nullptr)
+	{
+		Scene::GetInstance().RemoveEntity(shadow);
+	}
 }
 
 std::vector<Entity::Vertex> Entity::LoadVertices()
@@ -75,6 +83,12 @@ void Entity::Initialize(glm::vec3 size)
 	// and keep a reference to it (vertexBufferID)
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferID);
 	glBufferData(GL_ARRAY_BUFFER, buffer.size() * (3 * sizeof(glm::vec3) + sizeof(glm::vec2)), &buffer[0], GL_STATIC_DRAW);
+
+	if (hasShadow)
+	{
+		shadow = new Shadow(*this, objPath);
+		Scene::GetInstance().AddEntity(shadow);
+	}
 }
 
 void Entity::Update(float dt)
@@ -166,7 +180,7 @@ void Entity::Draw()
 		glDisableVertexAttribArray(2);
 		glDisableVertexAttribArray(1);
 		glDisableVertexAttribArray(0);
-		}
+	}
 }
 
 glm::mat4 Entity::GetWorldMatrix() const
