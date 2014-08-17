@@ -74,7 +74,6 @@ void Arwing::Update(float dt)
 	if (invicibilityFrames > 0)
 	{
 		invicibilityFrames -= dt;
-		printf("%f\n", round(invicibilityFrames * 100));
 
 		if ((int)(invicibilityFrames * 100) % 5 == 0)
 		{

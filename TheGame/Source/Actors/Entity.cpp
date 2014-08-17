@@ -96,77 +96,74 @@ glm::vec3 Entity::GetPositionWorld()
 
 void Entity::Draw()
 {
-	if (!isFlashing)
-	{
-		//GLuint program = Renderer::GetInstance().GetShaderProgramID(this->shaderType);
-		GLuint program;
-		if (Renderer::GetInstance().GetCurrentShader() > -1)
-			program = Renderer::GetInstance().GetShaderProgramID(Renderer::GetInstance().GetCurrentShader());
-		else
-			program = Renderer::GetInstance().GetShaderProgramID(this->GetShaderType());
-		glUseProgram(program);
+	//GLuint program = Renderer::GetInstance().GetShaderProgramID(this->shaderType);
+	GLuint program;
+	if (Renderer::GetInstance().GetCurrentShader() > -1)
+		program = Renderer::GetInstance().GetShaderProgramID(Renderer::GetInstance().GetCurrentShader());
+	else
+		program = Renderer::GetInstance().GetShaderProgramID(this->GetShaderType());
+	glUseProgram(program);
 
-		glm::mat4 W = GetWorldMatrix();
-		GLuint WorldMatrixID = glGetUniformLocation(program, "WorldTransform");
-		glUniformMatrix4fv(WorldMatrixID, 1, GL_FALSE, &W[0][0]);
+	glm::mat4 W = GetWorldMatrix();
+	GLuint WorldMatrixID = glGetUniformLocation(program, "WorldTransform");
+	glUniformMatrix4fv(WorldMatrixID, 1, GL_FALSE, &W[0][0]);
 
-		GLuint materialCoefficientsID = glGetUniformLocation(program, "materialCoefficients");
-		glUniform4f(materialCoefficientsID, materialCoefficients.x, materialCoefficients.y, materialCoefficients.z, materialCoefficients.w);
+	GLuint materialCoefficientsID = glGetUniformLocation(program, "materialCoefficients");
+	glUniform4f(materialCoefficientsID, materialCoefficients.x, materialCoefficients.y, materialCoefficients.z, materialCoefficients.w);
 
-		glBindVertexArray(vertexArrayID);
+	glBindVertexArray(vertexArrayID);
 
-		// position
-		glEnableVertexAttribArray(0);
-		glBindBuffer(GL_ARRAY_BUFFER, vertexBufferID);
-		glVertexAttribPointer(0,    // attribute. No particular reason for 0, but must match the layout in the shader.
-			3,                      // size
-			GL_FLOAT,               // type
-			GL_FALSE,               // normalized?
-			sizeof(Vertex),         // stride
-			(void*)0                // array buffer offset
-			);
+	// position
+	glEnableVertexAttribArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferID);
+	glVertexAttribPointer(0,    // attribute. No particular reason for 0, but must match the layout in the shader.
+		3,                      // size
+		GL_FLOAT,               // type
+		GL_FALSE,               // normalized?
+		sizeof(Vertex),         // stride
+		(void*)0                // array buffer offset
+		);
 
-		// uv
-		glEnableVertexAttribArray(1);
-		glBindBuffer(GL_ARRAY_BUFFER, vertexBufferID);
-		glVertexAttribPointer(1,
-			2,
-			GL_FLOAT,
-			GL_FALSE,
-			sizeof(Vertex),
-			(void*)sizeof(glm::vec3) // offset
-			);
+	// uv
+	glEnableVertexAttribArray(1);
+	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferID);
+	glVertexAttribPointer(1,
+		2,
+		GL_FLOAT,
+		GL_FALSE,
+		sizeof(Vertex),
+		(void*)sizeof(glm::vec3) // offset
+		);
 
-		// normal
-		glEnableVertexAttribArray(2);
-		glBindBuffer(GL_ARRAY_BUFFER, vertexBufferID);
-		glVertexAttribPointer(2,
-			3,
-			GL_FLOAT,
-			GL_FALSE,
-			sizeof(Vertex),
-			(void*)(sizeof(glm::vec3) + sizeof(glm::vec2)) // offset
-			);
+	// normal
+	glEnableVertexAttribArray(2);
+	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferID);
+	glVertexAttribPointer(2,
+		3,
+		GL_FLOAT,
+		GL_FALSE,
+		sizeof(Vertex),
+		(void*)(sizeof(glm::vec3) + sizeof(glm::vec2)) // offset
+		);
 
 
-		// color
-		glEnableVertexAttribArray(3);
-		glBindBuffer(GL_ARRAY_BUFFER, vertexBufferID);
-		glVertexAttribPointer(3,
-			3,
-			GL_FLOAT,
-			GL_FALSE,
-			sizeof(Vertex),
-			(void*)(2*sizeof(glm::vec3) + sizeof(glm::vec2)) // offset
-			);
+	// color
+	glEnableVertexAttribArray(3);
+	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferID);
+	glVertexAttribPointer(3,
+		3,
+		GL_FLOAT,
+		GL_FALSE,
+		sizeof(Vertex),
+		(void*)(2*sizeof(glm::vec3) + sizeof(glm::vec2)) // offset
+		);
 
-		glDrawArrays(GL_TRIANGLES, 0, vertexBufferSize);
+	glDrawArrays(GL_TRIANGLES, 0, vertexBufferSize);
 
-		glDisableVertexAttribArray(3);
-		glDisableVertexAttribArray(2);
-		glDisableVertexAttribArray(1);
-		glDisableVertexAttribArray(0);
-		}
+	glDisableVertexAttribArray(3);
+	glDisableVertexAttribArray(2);
+	glDisableVertexAttribArray(1);
+	glDisableVertexAttribArray(0);
 }
 
 glm::mat4 Entity::GetWorldMatrix() const
@@ -311,3 +308,20 @@ void Entity::TakeDamage(float f)
 {
 	shield -= f;
 }
+
+float Entity::GetRadius()
+{
+	float radius = COLLIDE_X;
+
+	if (COLLIDE_Y > radius)
+	{
+		radius = COLLIDE_Y;
+	}
+
+	if (COLLIDE_Z > radius)
+	{
+		radius = COLLIDE_Z;
+	}
+	
+	return radius;
+}				   

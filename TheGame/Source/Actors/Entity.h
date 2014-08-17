@@ -37,6 +37,8 @@ public:
 	unsigned int GetTextureID() { return textureID; }
 	virtual bool IsOpaque() { return true; }
 
+	float GetRadius();
+
 	// dimensions of box collider for this entity
 	float COLLIDE_X;
 	float COLLIDE_Y;
