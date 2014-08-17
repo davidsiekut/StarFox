@@ -19,8 +19,8 @@
 #include <glm/gtx/transform.hpp>
 #include <time.h>
 
-const unsigned int Scene::TERRAIN_PRELOAD = 5;
-const unsigned int Scene::TERRAIN_LOADAHEAD = 5;
+#define TERRAIN_PRELOAD 5
+#define TERRAIN_LOADAHEAD 5
 #define SCORE_SPAWN_BOSS 1000
 
 #define MAXTEXTURES 7
