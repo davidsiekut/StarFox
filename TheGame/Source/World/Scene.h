@@ -9,6 +9,7 @@
 
 class Entity;
 class EnemyFactory;
+class UltraBoss;
 
 class Scene
 {
@@ -24,11 +25,13 @@ public:
 	void Draw();
 
 	void AddEntity(Entity* entity);
+	void RemoveEntity(Entity* entity);
 	void AddChunk(glm::vec3 pos);
 
 	int ChangeLightingMode() { ++lightingMode > 1 ? lightingMode = 0 : lightingMode = 1; return lightingMode; };
 
 	Arwing* GetPlayer() { return a; }
+	UltraBoss* GetBoss() { return boss; }
 	GameplayCamera* GetGPCamera() { return static_cast<GameplayCamera*>(camera); }
 
 	void GameOver();
@@ -49,6 +52,7 @@ private:
 	Camera* camera;
 	Arwing* a;
 	EnemyFactory* enemyFactory;
+	UltraBoss* boss;
 
 	int lightingMode = 0; // 0 or 1
 	int lastChunk = 0;

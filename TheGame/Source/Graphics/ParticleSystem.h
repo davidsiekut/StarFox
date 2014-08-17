@@ -3,7 +3,7 @@
 #include "Entity.h"
 #include <functional>
 
-#define MAXIMUM_PARTICLES 100
+#define MAXIMUM_PARTICLES 200
 
 class ParticleSystem : public Entity
 {

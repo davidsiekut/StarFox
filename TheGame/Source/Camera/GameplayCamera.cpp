@@ -3,7 +3,10 @@
 #include <GLM/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#define CAMERA_SHAKE_TIME 0.5f
+//This value needs to be adjusted when you change the bounce. 
+//The shake should stop when the values of Viewpoint.x and .y realign with the original x=0.0 and y=10.0
+//Otherwise the camera will just realign abruptly
+#define CAMERA_SHAKE_TIME 0.333237f
 
 GameplayCamera::GameplayCamera(float distance, Entity* parent) : Camera(parent)
 {
@@ -31,26 +34,30 @@ void GameplayCamera::Update(float dt)
 	//change this value in multiples of 20 for longer shaking
 	if (isShaking && timeElapsed <= CAMERA_SHAKE_TIME)
 	{
+		
+		
 		//the interval of x should be equal values above and below 0
 		//the interval of y should be equal values above and below 10
 		//changing the range will change the amplitude of the shake 
 		//changing the value of the bounces will change the speed of the shake
+		//you have to adjust the interval if you play with the bounce and vice-versa
+
 		if (mViewPoint.y <= 9)
 		{
-			yBounce = .55f;
+			yBounce = .10f;
 		}
 		else if (mViewPoint.y >= 11)
 		{
-			yBounce = -.55f;
+			yBounce = -.10f;
 		}
 
-		if (mViewPoint.x <= -1.25)
+		if (mViewPoint.x <= -0.2)
 		{
-			xBounce = .125f;
+			xBounce = 0.10f;
 		}
-		else if (mViewPoint.x >= 1.25)
+		else if (mViewPoint.x >= 0.2)
 		{
-			xBounce = -.125f;
+			xBounce = -0.10f;
 		}
 
 		mViewPoint.x += xBounce; 

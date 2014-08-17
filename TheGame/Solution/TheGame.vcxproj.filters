@@ -143,6 +143,15 @@
     <ClCompile Include="..\Source\UI\HealthBar.cpp">
       <Filter>Source Files\UI</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\Graphics\Bloom.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\UI\Score.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\UI\Image.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Util\InputManager.h">
@@ -229,6 +238,15 @@
     <ClInclude Include="..\Source\UI\HealthBar.h">
       <Filter>Source Files\UI</Filter>
     </ClInclude>
+    <ClInclude Include="..\Source\Graphics\Bloom.h">
+      <Filter>Source Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\UI\Score.h">
+      <Filter>Source Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\UI\Image.h">
+      <Filter>Source Files\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Source\Shaders\SolidColor.frag">
@@ -273,16 +291,16 @@
     <None Include="..\Source\Shaders\Particle.vert">
       <Filter>Source Files\Shaders</Filter>
     </None>
-    <None Include="..\Source\Shaders\BlurHeight.frag">
+    <None Include="..\Source\Shaders\HorizontalBlur.frag">
       <Filter>Source Files\Shaders</Filter>
     </None>
-    <None Include="..\Source\Shaders\BlurHeight.vert">
+    <None Include="..\Source\Shaders\VerticalBlur.vert">
       <Filter>Source Files\Shaders</Filter>
     </None>
-    <None Include="..\Source\Shaders\BlurWidth.frag">
+    <None Include="..\Source\Shaders\VerticalBlur.frag">
       <Filter>Source Files\Shaders</Filter>
     </None>
-    <None Include="..\Source\Shaders\BlurWidth.vert">
+    <None Include="..\Source\Shaders\HorizontalBlur.vert">
       <Filter>Source Files\Shaders</Filter>
     </None>
   </ItemGroup>

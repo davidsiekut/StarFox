@@ -20,12 +20,13 @@
 #include <time.h>
 #include <UIElement.h>
 #include <HealthBar.h>
+#include <Image.h>
 
 const unsigned int Scene::TERRAIN_PRELOAD = 5;
 const unsigned int Scene::TERRAIN_LOADAHEAD = 5;
-#define SCORE_SPAWN_BOSS 2000
+#define SCORE_SPAWN_BOSS 1000
 
-#define MAXTEXTURES 7
+#define MAXTEXTURES 16
 Texture textures[MAXTEXTURES];
 
 Scene::Scene()
@@ -60,14 +61,23 @@ void Scene::Initialize()
 	skybox->SetPosition(glm::vec3(0, 200, a->GetPosition().z + 500));
 	AddEntity(skybox);
 
-	HealthBar* ui_healthBar = new HealthBar(glm::vec3(50, 50, 0), glm::vec3(100, 50, 1));
+	Image* ui_healthBarFrame = new Image(glm::vec3(223, 30, 0), glm::vec3(250, 25, 1));
+	uiElements.push_back(ui_healthBarFrame);
+
+	HealthBar* ui_healthBar = new HealthBar(glm::vec3(223, 30.5, 0.1), glm::vec3(240, 14.6, 1), "PLAYER");
+	ui_healthBar->SetTextureID(8);
 	uiElements.push_back(ui_healthBar);
 
+	int i = (rand() % 4) + 11;
+
+	Image* ui_playerIcon = new Image(glm::vec3(60, 60, 0), glm::vec3(85, 85, 1));
+	ui_playerIcon->SetTextureID(i);
+	uiElements.push_back(ui_playerIcon);
 }
 
 void Scene::LoadTextures()
 {
-	std::string texturesToLoad[] = { "default.jpg", "dolan.jpg", "building.jpg", "grass.jpg", "sky.jpg", "dolan_ultra.jpg", "pewpew.jpg", "UI/healthbar_empty.jpg", "UI/healthbar_green.jpg", "UI/healthbar_orange.jpg", "UI/healthbar_red.jpg" };
+	std::string texturesToLoad[] = { "default.jpg", "dolan.jpg", "building.jpg", "grass.jpg", "sky.jpg", "dolan_ultra.jpg", "pewpew.jpg", "UI/healthbar_empty.jpg", "UI/healthbar_green.jpg", "UI/healthbar_orange.jpg", "UI/healthbar_red.jpg", "UI/player1.jpg", "UI/player2.jpg", "UI/player3.jpg", "UI/player4.jpg", "UI/boss.jpg" };
 
 	for (unsigned int i = 0; i < MAXTEXTURES; i++)
 	{
@@ -105,7 +115,18 @@ void Scene::Update(float dt)
 	else if (!bossSpawned)
 	{
 		bossSpawned = true;
-		enemyFactory->SpawnUltraBoss();
+		boss = enemyFactory->SpawnUltraBoss();
+
+		Image* ui_bossIcon = new Image(glm::vec3(740, 540, 0), glm::vec3(85, 85, 1));
+		ui_bossIcon->SetTextureID(15);
+		uiElements.push_back(ui_bossIcon);
+
+		Image* ui_bossHealthBarFrame = new Image(glm::vec3(577, 570, 0), glm::vec3(250, 25, 1));
+		uiElements.push_back(ui_bossHealthBarFrame);
+
+		HealthBar* ui_bossHealthBar = new HealthBar(glm::vec3(577, 570.5, 0.1), glm::vec3(240, 14.6, 1), "BOSS");
+		ui_bossHealthBar->SetTextureID(8);
+		uiElements.push_back(ui_bossHealthBar);
 	}
 
 	// if enemies can attack, do so and add pewpews to entity list
@@ -206,6 +227,25 @@ void Scene::AddEntity(Entity* entity)
 	else
 	{
 		transparentEntities.push_back(entity);
+	}
+}
+
+void Scene::RemoveEntity(Entity* entity)
+{
+	std::vector<Entity*>::iterator it = std::find(entities.begin(), entities.end(), entity);
+	if (it != entities.end())
+	{
+		delete *it;
+		it = entities.erase(it);
+	}
+	else
+	{
+		it = std::find(transparentEntities.begin(), transparentEntities.end(), entity);
+		if (it != transparentEntities.end())
+		{
+			delete *it;
+			transparentEntities.erase(it);
+		}
 	}
 }
 
@@ -334,6 +374,4 @@ void Scene::DrawEntities(std::vector<Entity*> &entities)
 
 		(*it)->Draw();
 	}
-
-	Renderer::GetInstance().EndFrame();
 }

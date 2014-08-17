@@ -11,18 +11,25 @@
 
 #define TIMER_BARRELROLL 0.3f
 
+#define FIRE_REPEAT_RATE 0.1f
+float InputManager::fireRepeatRate = FIRE_REPEAT_RATE;
+
 double InputManager::mouseX = 0.0f;
 double InputManager::mouseY = 0.0f;
 float  InputManager::mouseDeltaX = 0.0f;
 float  InputManager::mouseDeltaY = 0.0f;
 
-bool InputManager::shotsFired = false;
 bool InputManager::G_PRESSED = false;
 bool InputManager::L_PRESSED = false;
 bool InputManager::P_PRESSED = false;
 bool InputManager::disabled = false;
-bool InputManager::gottaGoFast = false;
-bool InputManager::youreTooSlow = false;
+
+bool gottaGoFast = false;
+bool youreTooSlow = false;
+bool normalSpeed = true;
+
+float boostTimer = 3.0f;
+
 Arwing* InputManager::arwing;
 
 float InputManager::doublePressTimer = TIMER_BARRELROLL;
@@ -106,15 +113,23 @@ void InputManager::Update(float dt)
 	}
 
 	// Shoot action. If the space bar is already pressed then do not create more lasers.
-	if (glfwGetKey(w, GLFW_KEY_SPACE) == GLFW_PRESS && !shotsFired)
+	if (glfwGetKey(w, GLFW_KEY_SPACE) == GLFW_PRESS)
 	{
-		shotsFired = true;
-		Fire();
+		if (fireRepeatRate < 0)
+		{
+			Fire();
+			fireRepeatRate = FIRE_REPEAT_RATE;
+		}
+		else
+		{
+			fireRepeatRate -= dt;
+		}
 	}
 	else if (glfwGetKey(w, GLFW_KEY_SPACE) == GLFW_RELEASE)
 	{
-		shotsFired = false;
+		fireRepeatRate = 0.0001;
 	}
+
 
 	// Get the directional input
 	glm::vec3 direction = glm::vec3(0, 0, 0);
@@ -135,13 +150,52 @@ void InputManager::Update(float dt)
 		direction.x++;
 	}
 
-	if (glfwGetKey(w, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+	//Boost
+	if (glfwGetKey(w, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS && boostTimer == 3.0f)
 	{
-		arwing->speedZ = 175.0f;
+		gottaGoFast = true;
 	}
-	if (glfwGetKey(w, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
+	if (gottaGoFast == true)
 	{
-		arwing->speedZ = 30.0f;
+		boostTimer -= dt;
+		arwing->speedZ = 110.0f;
+	}
+
+	//Brake
+	if (glfwGetKey(w, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS && boostTimer == 3.0f)
+	{
+		youreTooSlow = true;
+	}
+	if (youreTooSlow == true)
+	{
+		boostTimer -= dt;
+		arwing->speedZ = 20.0f;
+	}
+
+	//Normal speed
+	if (boostTimer <= 0.0f)
+	{
+		arwing->speedZ = 60.0f;
+
+		if (gottaGoFast == true)
+		{
+			gottaGoFast = false;
+		}
+		if (youreTooSlow == true)
+		{
+			youreTooSlow = false;
+		}
+	}
+
+	//Refill boostTimer
+	if (gottaGoFast == false && youreTooSlow == false)
+	{
+		boostTimer += dt;
+	}
+
+	if (boostTimer >= 3.0f)
+	{
+		boostTimer = 3.0f;
 	}
 
 

@@ -15,14 +15,12 @@ public:
 	static void SetDisabled(bool disable);
 
 private:
-	static bool shotsFired;
 	static bool G_PRESSED;
 	static bool L_PRESSED;
 	static bool P_PRESSED;
 	static bool disabled;
-	static bool gottaGoFast;
-	static bool youreTooSlow;
 	static void Fire();
+	static float fireRepeatRate;
 
 	static Arwing* arwing;
 

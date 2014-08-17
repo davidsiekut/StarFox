@@ -5,6 +5,7 @@
 #include "Scene.h"
 
 class Scene;
+class UltraBoss;
 
 class EnemyFactory
 {
@@ -20,11 +21,15 @@ public:
 
 	void SpawnCheck(float dt);
 	void SpawnEnemies(int numberEnemies, Direction direction, float y);
-	void SpawnUltraBoss();
+	void SpawnEnemy(int index, Direction direction, float y);
+	UltraBoss* SpawnUltraBoss();
 
 private:
 	Arwing* a;
 
-	float timer = 3.f;
+	float timer = 4.f;
 	bool left = false;
+
+	int enemiesToSpawnTotal = 0;
+	int enemiesToSpawnLeft = 0;
 };

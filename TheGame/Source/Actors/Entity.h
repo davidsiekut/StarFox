@@ -46,6 +46,7 @@ public:
 	void TakeDamage(float f);
 	float invicibilityFrames = 0.f;
 	bool markedForDeletion;
+	bool isFlashing;
 
 protected:
 	Entity *parent;
@@ -75,10 +76,18 @@ protected:
 	// gameplay stuff
 	float shield = 100.f;
 
+	std::vector<Vertex> LoadVertices();
+
 private:
 	unsigned int vertexArrayID;
 	unsigned int vertexBufferID;
 	unsigned int vertexBufferSize;
+
+	unsigned int vertexArrayBloomID;
+	unsigned int vertexBufferBloomID;
+
+	unsigned int currentVertexArrayID;
+	unsigned int currentVertexBufferID;
 
 	bool loadOBJ(std::string path, std::vector<Vertex> &buffer);
 

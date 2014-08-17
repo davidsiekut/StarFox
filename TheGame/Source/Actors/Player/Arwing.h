@@ -12,6 +12,7 @@ public:
 	void OnCollision(Entity* other);
 
 	void SetMovingForwards(bool forward) { movingForward = forward; }
+	void Flash() { isFlashing = !isFlashing; }
 
 	void TiltLeft(float dt);
 	void TiltRight(float dt);
