@@ -1,17 +1,3 @@
-//
-// COMP 371 Term Project
-//
-// Created by
-// Boutas, Vasiliki	  (6220304)
-// Di Girolamo, John  (6202918)
-// Ozgaon, Dror Asher (6296742)
-// Siekut, David      (6329810)
-// Tran, Quang        (6339816)
-// Wan, Kwok - Chak   (6291643)
-//
-// This file contributions: David
-//
-
 #pragma once
 
 #include "Renderer.h"
@@ -55,12 +41,8 @@ public:
 	glm::vec4 GetMaterialCoefficients() const { return materialCoefficients; }
 	ShaderType GetShaderType() const { return shaderType; }
 	unsigned int GetTextureID() const { return textureID; }
-	float GetRadius();
 
-	// dimensions of box collider for this entity
-	//float COLLIDE_X;
-	//float COLLIDE_Y;
-	//float COLLIDE_Z;
+	float GetRadius();
 	void TakeDamage(float f) { shield -= f; }
 
 protected:

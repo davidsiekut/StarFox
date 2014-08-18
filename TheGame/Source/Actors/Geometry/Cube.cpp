@@ -2,35 +2,28 @@
 
 Cube::Cube(Entity *parent, glm::vec3 size) : Entity(parent)
 {
-	name = "CUBE";
+	this->name = "CUBE";
 	this->size = size;
-	objPath = "../Assets/Models/cube.obj";
-
-	collider.x = size.x;
-	collider.y = size.y;
-	collider.z = size.z;
+	this->objPath = "../Assets/Models/cube.obj";
+	this->collider = glm::vec3(size.x, size.y, size.z);
 
 	Initialize(size);
 }
 
 Cube::Cube(Entity *parent, glm::vec3 size, glm::vec2 textureCoordinates) : Entity(parent)
 {
-	name = "CUBE";
+	this->name = "CUBE";
 	this->size = size;
-	objPath = "../Assets/Models/cube.obj";
-
-	collider.x = size.x;
-	collider.y = size.y;
-	collider.z = size.z;
-
+	this->objPath = "../Assets/Models/cube.obj";
 	this->textureCoordinates = textureCoordinates;
+	this->collider = glm::vec3(size.x, size.y, size.z);
 
 	Initialize(size);
 }
 
 Cube::~Cube()
 {
-	//printf("[Cleanup] Cube deleted\n");
+
 }
 
 void Cube::Update(float dt)

@@ -17,6 +17,7 @@ PewPew::PewPew(std::string owner) : Entity(NULL), owner(owner)
 	{
 		direction = glm::vec3(0.f, 0.f, -1.f);
 	}
+
 	Init();
 }
 
@@ -32,26 +33,23 @@ void PewPew::Init()
 	if (owner == "PLAYER")
 	{
 		this->size = glm::vec3(2.f, 2.f, 10.f);
-		objPath = "../Assets/Models/pewpew.obj";
-		damage = 1.0f;
+		this->objPath = "../Assets/Models/pewpew.obj";
 		this->textureID = 6;
+		this->damage = 1.0f;
 	}
 	else
 	{
 		this->SetRotation(glm::vec3(0.f, 1.f, 0.f), 90.f);
 		this->size = glm::vec3(0.5f, 0.5f, 0.5f);
-		objPath = "../Assets/Models/sphere.obj";
-		damage = 10.f;
+		this->objPath = "../Assets/Models/sphere.obj";
 		this->textureID = 1;
+		this->damage = 10.f;
 	}
 
-	collider.x = size.x;
-	collider.y = size.y;
-	collider.z = size.z;
+	this->shaderType = SHADER_BLOOM;
+	this->collider = glm::vec3(size.x, size.y, size.z);
 
-	shaderType = SHADER_BLOOM;
-
-	Entity::Initialize(size);
+	Initialize(size);
 
 	std::vector<Vertex> buffer = Entity::LoadVertices();
 
@@ -104,7 +102,7 @@ void PewPew::Update(float dt)
 	// Player pewpews have a lifetime. Enemy pewpews will be deleted when they go behind the player.
 	if ((timeElapsed > PEWPEW_LIFETIME && owner == "PLAYER") || Scene::GetInstance().IsGameOver())
 	{
-		markedForDeletion = true;
+		SetMarkedForDeletion();
 	}
 }
 
@@ -112,6 +110,6 @@ void PewPew::OnCollision(Entity* other)
 {
 	if (other->GetName() != owner && other->GetName() != "PEWPEW")
 	{
-		markedForDeletion = true;
+		SetMarkedForDeletion();
 	}
 }

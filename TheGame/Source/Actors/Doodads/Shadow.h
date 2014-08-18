@@ -10,7 +10,4 @@ public:
 	virtual void Update(float dt);
 	virtual void Draw();
 	virtual bool IsOpaque() { return false; }
-
-private:
-
 };

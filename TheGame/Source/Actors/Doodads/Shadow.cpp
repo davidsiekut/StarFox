@@ -4,8 +4,8 @@
 
 Shadow::Shadow(Entity &parent, std::string objPath) : Entity(&parent)
 {
-	name = "SHADOW";
-	shaderType = SHADER_SHADOW;
+	this->name = "SHADOW";
+	this->shaderType = SHADER_SHADOW;
 	this->objPath = objPath;
 
 	Initialize(parent.GetSize());

@@ -171,7 +171,7 @@ void Scene::Update(float dt)
 	{
 		if ((*it)->GetName().compare("ENEMY") == 0)
 		{
-			if (((Enemy*)(*it))->attackCooldown <= 0)
+			if (((Enemy*)(*it))->GetAttackCooldown() <= 0)
 			{
 				float meetingTime = ((*it)->GetPosition().z - a->GetPosition().z) / (a->speedZ - PewPew::PEWPEW_SPEED_ENEMY);
 				glm::vec3 target = a->GetPosition();
@@ -182,12 +182,12 @@ void Scene::Update(float dt)
 				PewPew* pewpew = new PewPew("ENEMY", direction);
 				pewpew->SetPosition(glm::vec3((*it)->GetPosition().x, (*it)->GetPosition().y, (*it)->GetPosition().z));
 				queued.push_back(pewpew);
-				((Enemy*)(*it))->attackCooldown = 2.f;
+				((Enemy*)(*it))->ResetAttackCooldown();
 			}
 		}
 		else if ((*it)->GetName().compare("BOSS") == 0)
 		{
-			if (((Enemy*)(*it))->attackCooldown <= 0)
+			if (((Enemy*)(*it))->GetAttackCooldown() <= 0)
 			{
 				glm::vec3 target = a->GetPosition();
 				target.x += (rand() % 150 * 2) - 150; // spread range
@@ -202,7 +202,7 @@ void Scene::Update(float dt)
 				pewpewR->SetPosition(glm::vec3((*it)->GetPosition().x + 17, (*it)->GetPosition().y - 5, (*it)->GetPosition().z));
 				queued.push_back(pewpewL);
 				queued.push_back(pewpewR);
-				((Enemy*)(*it))->attackCooldown = UltraBoss::BOSS_ATTACK_CD;
+				((Enemy*)(*it))->ResetAttackCooldown();
 			}
 		}
 	}

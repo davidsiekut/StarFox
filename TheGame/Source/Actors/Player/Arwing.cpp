@@ -11,29 +11,32 @@
 
 #define BARREL_ROLL_TIME 0.3f
 #define INV_FRAMES_TIME 0.5f
+#define SPEED_X 20.f
+#define SPEED_Y 15.f
 #define SPEED_Z 60.f
+#define SPEED_ROT 60.f
 
 Arwing::Arwing(Entity *parent) : Entity(parent)
 {
-	name = "PLAYER";
-	size = glm::vec3(2.f, 2.f, 2.f);
-	objPath = "../Assets/Models/arwing.obj";
-	shaderType = SHADER_PHONG;
-	collider = glm::vec3(7.8f, 1.5f, 2.0f);
-	hasShadow = true;
+	this->name = "PLAYER";
+	this->size = glm::vec3(2.f, 2.f, 2.f);
+	this->objPath = "../Assets/Models/arwing.obj";
+	this->shaderType = SHADER_PHONG;
+	this->collider = glm::vec3(7.8f, 1.5f, 2.0f);
+	this->hasShadow = true;
 
-	rotationSpeed = 60.f;
-	speedX = 20.f;
-	speedY = 15.f;
-	speedZ = SPEED_Z;
-	isMovingForward = true;
-	isTiltingLeft = false;
-	isTiltingRight = false;
-	isBarrelRolling = false;
-	barrelRollTimer = BARREL_ROLL_TIME;
-	invicibilityFrames = 0.f;
-	iddqd = false;
-	isFlashing = false;
+	this->rotationSpeed = SPEED_ROT;
+	this->speedX = SPEED_X;
+	this->speedY = SPEED_Y;
+	this->speedZ = SPEED_Z;
+	this->isMovingForward = true;
+	this->isTiltingLeft = false;
+	this->isTiltingRight = false;
+	this->isBarrelRolling = false;
+	this->barrelRollTimer = BARREL_ROLL_TIME;
+	this->invicibilityFrames = 0.f;
+	this->iddqd = false;
+	this->isFlashing = false;
 
 	booster = new ParticleSystem(this, 0.2f, 0.f, SPEED_Z / 1.3f);
 	booster->SetPosition(glm::vec3(0.f, -0.25f, -3.f));
@@ -120,9 +123,9 @@ void Arwing::OnCollision(Entity* other)
 		{
 			resolveHit(5);
 		}
-		else if (other->GetName() == "PEWPEW" && (((PewPew*)other)->owner == "ENEMY"))
+		else if (other->GetName() == "PEWPEW" && (((PewPew*)other)->GetOwner() == "ENEMY"))
 		{
-			resolveHit(((PewPew*)other)->damage);
+			resolveHit(((PewPew*)other)->GetDamage());
 		}
 	}
 }

@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Arwing.h"
-#include "Entity.h"
 #include "Bloom.h"
+#include "Entity.h"
 
 class PewPew : public Entity
 {
@@ -14,8 +14,8 @@ public:
 	void Update(float dt);
 	void OnCollision(Entity* other);
 
-	float damage;
-	std::string owner;
+	float GetDamage() { return damage; }
+	std::string GetOwner() { return owner; }
 
 	static const float PEWPEW_LIFETIME;
 	static const float PEWPEW_SPEED_PLAYER;
@@ -23,12 +23,13 @@ public:
 	static const float BLOOM_SCALE;
 
 protected:
+	float damage;
+	std::string owner;
 
 private:
+	void Init();
+
 	float timeElapsed = 0.f;
 	glm::vec3 direction;
-
 	Bloom* bloom;
-
-	void Init();
 };

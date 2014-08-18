@@ -124,9 +124,9 @@ void Building::Parse(char c)
 
 void Building::OnCollision(Entity* other)
 {
-	if (other->GetName() == "PEWPEW" && (((PewPew*)other)->owner == "PLAYER"))
+	if (other->GetName() == "PEWPEW" && (((PewPew*)other)->GetOwner() == "PLAYER"))
 	{
-		TakeDamage(((PewPew*)other)->damage);
+		TakeDamage(((PewPew*)other)->GetDamage());
 	}
 	if (other->GetName() == "PLAYER")
 	{
