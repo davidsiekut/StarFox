@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Entity.h"
+#include "ParticleSystem.h"
 
 class UltraBoss : public Entity
 {
@@ -17,5 +18,4 @@ protected:
 
 private:
 	static const float UltraBoss::BOSS_SPEED_Z;
-
 };

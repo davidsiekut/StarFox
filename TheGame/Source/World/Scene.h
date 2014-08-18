@@ -37,7 +37,7 @@ public:
 	void GameOver();
 	bool IsGameOver() { return gameOver; }
 	bool IsGameWon() { return gameWon; }
-	void GameWon() { gameWon = true; }
+	void GameWon();
 
 	int score = 0;
 

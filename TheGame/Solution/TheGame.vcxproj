@@ -36,6 +36,7 @@
     <ClCompile Include="..\Source\UI\Image.cpp" />
     <ClCompile Include="..\Source\UI\Digit.cpp" />
     <ClCompile Include="..\Source\UI\UIElement.cpp" />
+    <ClCompile Include="..\Source\UI\WinnerImage.cpp" />
     <ClCompile Include="..\Source\Util\BuildingFactory.cpp" />
     <ClCompile Include="..\Source\Util\EnemyFactory.cpp" />
     <ClCompile Include="..\Source\Util\GameTime.cpp" />
@@ -70,6 +71,7 @@
     <ClInclude Include="..\Source\UI\Image.h" />
     <ClInclude Include="..\Source\UI\Digit.h" />
     <ClInclude Include="..\Source\UI\UIElement.h" />
+    <ClInclude Include="..\Source\UI\WinnerImage.h" />
     <ClInclude Include="..\Source\Util\BuildingFactory.h" />
     <ClInclude Include="..\Source\Util\EnemyFactory.h" />
     <ClInclude Include="..\Source\Util\GameTime.h" />

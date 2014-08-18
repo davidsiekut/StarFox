@@ -155,6 +155,9 @@
     <ClCompile Include="..\Source\UI\Digit.cpp">
       <Filter>Source Files\UI</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\UI\WinnerImage.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Util\InputManager.h">
@@ -251,6 +254,9 @@
       <Filter>Source Files\UI</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\UI\Digit.h">
+      <Filter>Source Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\UI\WinnerImage.h">
       <Filter>Source Files\UI</Filter>
     </ClInclude>
   </ItemGroup>

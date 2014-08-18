@@ -14,8 +14,7 @@ UltraBoss::UltraBoss(Entity *parent) : Entity(parent)
 	textureID = 5;
 	hasShadow = true;
 
-	this->shield = 240.f; // ultra boss, ultra shield
-
+	this->shield = 1.f; // ultra boss, ultra shield
 
 	// ultra colliders
 	COLLIDE_X = size.x;
@@ -32,10 +31,26 @@ UltraBoss::~UltraBoss()
 
 void UltraBoss::Update(float dt)
 {
+	if (position.y > size.y + 5) // descend from thy heavens, o mighty dolan
+		position.y -= dt * 50.f;
+
+	position.z += dt * Scene::GetInstance().GetPlayer()->speedZ;
+
+
 	if (GetShieldAmount() <= 0)
 	{
+		glm::vec3 scale = this->GetScaling();
+
+		if (scale.y <= 0.f)
+		{
+			markedForDeletion = true;
+		}
+
+		scale.y -= (dt / 2);
+		this->SetScaling(scale);
 		Scene::GetInstance().GameWon();
-		markedForDeletion = true;
+		//markedForDeletion = true;
+		return;
 	}
 
 	if (attackCooldown <= 0)
@@ -48,10 +63,7 @@ void UltraBoss::Update(float dt)
 		attackCooldown -= dt;
 	}
 
-	if (position.y > size.y + 5) // descend from thy heavens, o mighty dolan
-		position.y -= dt * 50.f;
 
-	position.z += dt * Scene::GetInstance().GetPlayer()->speedZ;
 
 }
 

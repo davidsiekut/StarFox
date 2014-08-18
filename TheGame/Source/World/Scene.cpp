@@ -22,12 +22,13 @@
 #include <HealthBar.h>
 #include <Image.h>
 #include <Digit.h>
+#include <WinnerImage.h>
 
 #define TERRAIN_PRELOAD 5
 #define TERRAIN_LOADAHEAD 5
-#define SCORE_SPAWN_BOSS 1000
+#define SCORE_SPAWN_BOSS 1
 
-#define MAXTEXTURES 27
+#define MAXTEXTURES 28
 Texture textures[MAXTEXTURES];
 
 Scene::Scene()
@@ -111,7 +112,9 @@ void Scene::LoadTextures()
 	std::string texturesToLoad[] = { "default.jpg", "dolan.jpg", "building.jpg", "grass.jpg", "sky.jpg", "dolan_ultra.jpg", "pewpew.jpg", 
 		"UI/healthbar_empty.jpg", "UI/healthbar_green.jpg", "UI/healthbar_orange.jpg", "UI/healthbar_red.jpg", 
 		"UI/player1.jpg", "UI/player2.jpg", "UI/player3.jpg", "UI/player4.jpg", "UI/boss.jpg", 
-		"UI/score_frame.jpg", "UI/zero.jpg", "UI/one.jpg", "UI/two.jpg", "UI/three.jpg", "UI/four.jpg", "UI/five.jpg", "UI/six.jpg", "UI/seven.jpg", "UI/eight.jpg", "UI/nine.jpg" };
+		"UI/score_frame.jpg", "UI/zero.jpg", "UI/one.jpg", "UI/two.jpg", "UI/three.jpg", "UI/four.jpg", 
+		"UI/five.jpg", "UI/six.jpg", "UI/seven.jpg", "UI/eight.jpg", "UI/nine.jpg", 
+		"winner.jpg" };
 
 	for (unsigned int i = 0; i < MAXTEXTURES; i++)
 	{
@@ -308,6 +311,14 @@ void Scene::GameOver()
 		glfwSetInputMode(WindowManager::GetWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 		InputManager::SetDisabled(true);
 	}
+}
+
+void Scene::GameWon()
+{
+	gameWon = true;
+
+	WinnerImage* winner = new WinnerImage(glm::vec3(400, 300, 0), glm::vec3(512, 512, 1));
+	uiElements.push_back(winner);
 }
 
 void Scene::UpdateEntities(std::vector<Entity*> &entities, float dt)
