@@ -14,7 +14,7 @@ UltraBoss::UltraBoss(Entity *parent) : Entity(parent)
 	textureID = 5;
 	hasShadow = true;
 
-	this->shield = 1000.f; // ultra boss, ultra shield
+	this->shield = 240.f; // ultra boss, ultra shield
 
 	// ultra colliders
 	COLLIDE_X = size.x;
@@ -33,6 +33,7 @@ void UltraBoss::Update(float dt)
 {
 	if (GetShieldAmount() <= 0)
 	{
+		Scene::GetInstance().GameWon();
 		markedForDeletion = true;
 	}
 
@@ -57,6 +58,7 @@ void UltraBoss::OnCollision(Entity* other)
 {
 	if (other->GetName() == "PEWPEW" && (((PewPew*)other)->owner == "PLAYER"))
 	{
+		Scene::GetInstance().score += 5;
 		TakeDamage(((PewPew*)other)->damage);
 	}
 }

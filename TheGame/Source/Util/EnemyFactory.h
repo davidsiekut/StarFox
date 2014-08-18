@@ -5,6 +5,7 @@
 #include "Scene.h"
 
 class Scene;
+class UltraBoss;
 
 class EnemyFactory
 {
@@ -21,7 +22,7 @@ public:
 	void SpawnCheck(float dt);
 	void SpawnEnemies(int numberEnemies, Direction direction, float y);
 	void SpawnEnemy(int index, Direction direction, float y);
-	void SpawnUltraBoss();
+	UltraBoss* SpawnUltraBoss();
 
 private:
 	Arwing* a;

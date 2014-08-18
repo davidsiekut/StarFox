@@ -17,7 +17,7 @@ Building::Building(Entity* parent, std::string lSystem) : Entity(parent)
 	shaderType = SHADER_PHONG_TEXTURED;
 	textureID = 2;
 
-	shield = 100;
+	shield = 1.f;
 
 	COLLIDE_X = BUILDING_SIZE_X;
 	COLLIDE_Y = BUILDING_SIZE_Y;
@@ -48,6 +48,7 @@ void Building::Update(float dt)
 	{
 		if (dustSystem == nullptr)
 		{
+			Scene::GetInstance().score += 50;
 			dustSystem = new ParticleSystem(this, 1.5f, -1.f, 0.f);
 			dustSystem->SetInitialColor(glm::vec3(150.f / 255.f, 75.f / 255.f, 0.f));
 			dustSystem->SetParticleSize(7.f);

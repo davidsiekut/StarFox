@@ -33,7 +33,7 @@ void PewPew::Init()
 	{
 		this->size = glm::vec3(2.f, 2.f, 10.f);
 		objPath = "../Assets/Models/pewpew.obj";
-		damage = 50.f;
+		damage = 1.0f;
 		this->textureID = 6;
 	}
 	else

@@ -19,7 +19,7 @@ Enemy::Enemy(Entity *parent, EnemyFactory::Direction direction, float horizontal
 	textureID = 1;
 	hasShadow = true;
 
-	shield = 150;
+	shield = 2;
 
 	this->direction = direction;
 	this->horizontalAxis = horizontalAxis;
@@ -54,7 +54,7 @@ void Enemy::Update(float dt)
 	{
 		if (poofSystem == nullptr)
 		{
-			Scene::GetInstance().score += 111;
+			Scene::GetInstance().score += 100;
 
 			poofSystem = new ParticleSystem(this, 1.5f, -1.f, 0.f);
 			Scene::GetInstance().AddEntity(poofSystem);

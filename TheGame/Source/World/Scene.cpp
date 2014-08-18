@@ -18,12 +18,16 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform.hpp>
 #include <time.h>
+#include <UIElement.h>
+#include <HealthBar.h>
+#include <Image.h>
+#include <Digit.h>
 
 #define TERRAIN_PRELOAD 5
 #define TERRAIN_LOADAHEAD 5
 #define SCORE_SPAWN_BOSS 1000
 
-#define MAXTEXTURES 7
+#define MAXTEXTURES 27
 Texture textures[MAXTEXTURES];
 
 Scene::Scene()
@@ -57,11 +61,57 @@ void Scene::Initialize()
 	SkyBox* skybox = new SkyBox(NULL, a);
 	skybox->SetPosition(glm::vec3(0, 200, a->GetPosition().z + 500));
 	AddEntity(skybox);
+
+	Image* ui_healthBarFrame = new Image(glm::vec3(223, 30, 0), glm::vec3(250, 25, 1));
+	uiElements.push_back(ui_healthBarFrame);
+
+	HealthBar* ui_healthBar = new HealthBar(glm::vec3(223, 30.5, 0.1), glm::vec3(240, 14.6, 1), "PLAYER");
+	ui_healthBar->SetTextureID(8);
+	uiElements.push_back(ui_healthBar);
+
+	int i = (rand() % 4) + 11;
+
+	Image* ui_playerIcon = new Image(glm::vec3(60, 60, 0), glm::vec3(85, 85, 1));
+	ui_playerIcon->SetTextureID(i);
+	uiElements.push_back(ui_playerIcon);
+
+	//Scoreboard
+
+	Image* ui_scoreBoard = new Image(glm::vec3(85, 555, 0), glm::vec3(136, 50, 1));
+	ui_scoreBoard->SetTextureID(16);
+	uiElements.push_back(ui_scoreBoard);
+
+	Digit* ui_zero1 = new Digit(glm::vec3(36, 555, 0.1), glm::vec3(19, 28, 1), 5);
+	ui_zero1->SetTextureID(17);
+	uiElements.push_back(ui_zero1);
+	
+	Digit* ui_zero2 = new Digit(glm::vec3(55, 555, 0.1), glm::vec3(19, 28, 1), 4);
+	ui_zero2->SetTextureID(17);
+	uiElements.push_back(ui_zero2);
+
+	Digit* ui_zero3 = new Digit(glm::vec3(74, 555, 0.1), glm::vec3(19, 28, 1), 3);
+	ui_zero3->SetTextureID(17);
+	uiElements.push_back(ui_zero3);
+
+	Digit* ui_zero4 = new Digit(glm::vec3(93, 555, 0.1), glm::vec3(19, 28, 1), 2);
+	ui_zero4->SetTextureID(17);
+	uiElements.push_back(ui_zero4);
+
+	Digit* ui_zero5 = new Digit(glm::vec3(112, 555, 0.1), glm::vec3(19, 28, 1), 1);
+	ui_zero5->SetTextureID(17);
+	uiElements.push_back(ui_zero5);
+
+	Digit* ui_zero6 = new Digit(glm::vec3(131, 555, 0.1), glm::vec3(19, 28, 1), 0);
+	ui_zero6->SetTextureID(17);
+	uiElements.push_back(ui_zero6);
 }
 
 void Scene::LoadTextures()
 {
-	std::string texturesToLoad[] = { "default.jpg", "dolan.jpg", "building.jpg", "grass.jpg", "sky.jpg", "dolan_ultra.jpg", "pewpew.jpg" };
+	std::string texturesToLoad[] = { "default.jpg", "dolan.jpg", "building.jpg", "grass.jpg", "sky.jpg", "dolan_ultra.jpg", "pewpew.jpg", 
+		"UI/healthbar_empty.jpg", "UI/healthbar_green.jpg", "UI/healthbar_orange.jpg", "UI/healthbar_red.jpg", 
+		"UI/player1.jpg", "UI/player2.jpg", "UI/player3.jpg", "UI/player4.jpg", "UI/boss.jpg", 
+		"UI/score_frame.jpg", "UI/zero.jpg", "UI/one.jpg", "UI/two.jpg", "UI/three.jpg", "UI/four.jpg", "UI/five.jpg", "UI/six.jpg", "UI/seven.jpg", "UI/eight.jpg", "UI/nine.jpg" };
 
 	for (unsigned int i = 0; i < MAXTEXTURES; i++)
 	{
@@ -74,6 +124,11 @@ void Scene::LoadTextures()
 
 void Scene::Update(float dt)
 {
+	for (std::vector<UIElement*>::iterator it = uiElements.begin(); it < uiElements.end(); ++it)
+	{
+		(*it)->Update(dt);
+	}
+
 	// update camera
 	camera->Update(dt);
 
@@ -94,7 +149,18 @@ void Scene::Update(float dt)
 	else if (!bossSpawned)
 	{
 		bossSpawned = true;
-		enemyFactory->SpawnUltraBoss();
+		boss = enemyFactory->SpawnUltraBoss();
+
+		Image* ui_bossIcon = new Image(glm::vec3(740, 540, 0), glm::vec3(85, 85, 1));
+		ui_bossIcon->SetTextureID(15);
+		uiElements.push_back(ui_bossIcon);
+
+		Image* ui_bossHealthBarFrame = new Image(glm::vec3(577, 570, 0), glm::vec3(250, 25, 1));
+		uiElements.push_back(ui_bossHealthBarFrame);
+
+		HealthBar* ui_bossHealthBar = new HealthBar(glm::vec3(577, 570.5, 0.1), glm::vec3(240, 14.6, 1), "BOSS");
+		ui_bossHealthBar->SetTextureID(8);
+		uiElements.push_back(ui_bossHealthBar);
 	}
 
 	// if enemies can attack, do so and add pewpews to entity list
@@ -149,20 +215,41 @@ void Scene::Draw()
 {
 	Renderer::GetInstance().BeginFrame();
 
-	glm::mat4 V = camera->GetViewMatrix();
-
-	// draw ui
-	glm::mat4 P = glm::ortho(0.f, (float)800, (float)600, 0.f, 0.1f, 1000.f);
-
-	/*Note that if you are using an orthographic projection that is windowwidth by windowheight in size, 
-	then drawing a quad as small as you are drawing will pretty much just draw a single pixel or two, 
-	since the viewport is now windowwidth units wide and windowheight units tall, and you are drawing a 
-	quad 1 unit wide and 1/2 unit tall. You need to draw your objects larger in order to see anything useful.*/
-
+	DrawUI(uiElements);
 	DrawEntities(entities);
 	DrawEntities(transparentEntities);
 
 	Renderer::GetInstance().EndFrame();
+}
+
+void Scene::DrawUI(std::vector<UIElement*> &uielem)
+{
+	glm::mat4 V = glm::mat4(1.0);
+	glm::mat4 P = glm::ortho(0.f, (float)800, (float)0, 600.f, 0.1f, 1000.f);
+
+	//glDisable(GL_DEPTH_TEST);
+	//glDepthFunc(GL_ALWAYS);
+	for (std::vector<UIElement*>::iterator it = uiElements.begin(); it < uiElements.end(); ++it)
+	{
+		GLuint program = Renderer::GetInstance().GetShaderProgramID((*it)->GetShaderType());
+		glUseProgram(program);
+
+		GLuint WorldMatrixID = glGetUniformLocation(program, "WorldTransform");
+		GLuint ViewMatrixID = glGetUniformLocation(program, "ViewTransform");
+		GLuint ProjMatrixID = glGetUniformLocation(program, "ProjTransform");
+		GLuint samplerID = glGetUniformLocation(program, "sampler"); // for texture2d
+
+		//glUniformMatrix4fv(WorldMatrixID, 1, GL_FALSE, &W[0][0]);
+		glUniformMatrix4fv(ViewMatrixID, 1, GL_FALSE, &V[0][0]);
+		glUniformMatrix4fv(ProjMatrixID, 1, GL_FALSE, &P[0][0]);
+		glUniform1i(samplerID, 0); // for texture2d
+
+		textures[(*it)->GetTextureID()].Bind(); // for texture2d
+
+		(*it)->Draw();
+	}
+	//glEnable(GL_DEPTH_TEST);
+	//glDepthFunc(GL_LESS);
 }
 
 void Scene::AddEntity(Entity* entity)
