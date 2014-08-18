@@ -57,4 +57,5 @@ private:
 	void LoadTextures();
 	void UpdateEntities(std::vector<Entity*> &entities, float dt);
 	void DrawEntities(std::vector<Entity*> &entities);
+	bool checkVisible(const glm::mat4, const GLfloat&, const GLfloat&, const GLfloat&, const GLfloat&);
 };
