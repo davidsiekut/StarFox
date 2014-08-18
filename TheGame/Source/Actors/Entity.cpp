@@ -4,26 +4,26 @@
 #define GLM_FORCE_RADIANS
 #define dtor(x) x*(3.141592f/180.0f)
 #include <glm/gtc/matrix_transform.hpp>
-// TEMPORARY
 #include <time.h>
 
 std::map<std::string, std::vector<Entity::Vertex>*> Entity::bluePrints = std::map<std::string, std::vector<Vertex>*>();
 
-Entity::Entity(Entity *parent) :	name("UNNAMED"),
-									parent(parent),
+Entity::Entity(Entity *parent) :	parent(parent),
+									name("UNNAMED"),
 									position(0.0f, 0.0f, 0.0f),
 									scaling(1.0f, 1.0f, 1.0f),
 									size(1.0f, 1.0f, 1.0f),
-									textureCoordinates(1.0f, 1.0f),
 									rotationAxis(0.0f, 1.0f, 0.0f),
 									rotationAngle(0.0f),
-									materialCoefficients(0.2f, 0.8f, 0.2f, 50.0f),
-									shaderType(ShaderType::SHADER_SOLID_COLOR),
 									objPath(""),
 									textureID(0),
+									textureCoordinates(1.0f, 1.0f),
+									shaderType(ShaderType::SHADER_SOLID_COLOR),
+									materialCoefficients(0.2f, 0.8f, 0.2f, 50.0f),
+									shield(100.f),
+									hasShadow(false),
 									markedForDeletion(false),
-									isFlashing(false),
-									hasShadow(false)
+									isFlashing(false)
 {
 	
 }
@@ -39,73 +39,9 @@ Entity::~Entity()
 	}
 }
 
-std::vector<Entity::Vertex> Entity::LoadVertices()
-{
-	std::vector<Vertex> buffer;
-
-	if (bluePrints.find(objPath) != bluePrints.end())
-	{
-		buffer = *bluePrints[objPath];
-	}
-	else
-	{
-		bool res = loadOBJ(objPath, buffer);
-		bluePrints.insert(std::pair<std::string, std::vector<Vertex>*>(objPath, new std::vector<Vertex>(buffer)));
-		printf("[Entity] Stored %s into memory\n", objPath.c_str());
-	}
-
-	return buffer;
-}
-
-void Entity::Initialize(glm::vec3 size)
-{
-	std::vector<Vertex> buffer = LoadVertices();
-
-	for (std::vector<Vertex>::iterator it = buffer.begin(); it < buffer.end(); it++)
-	{
-		(*it).position.x *= size.x;
-		(*it).position.y *= size.y;
-		(*it).position.z *= size.z;
-
-		(*it).uv.x *= textureCoordinates.x;
-		(*it).uv.y *= textureCoordinates.y;
-	}
-
-	// if Vertex struct is modified, this needs to be changed also
-	vertexBufferSize = buffer.size();
-	//printf("%i", vertexBufferSize);
-
-	// create vertex array
-	glGenVertexArrays(1, &vertexArrayID);
-
-	// upload vertexbuffer to the GPU
-	glGenBuffers(1, &vertexBufferID);
-	// and keep a reference to it (vertexBufferID)
-	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferID);
-	glBufferData(GL_ARRAY_BUFFER, buffer.size() * (3 * sizeof(glm::vec3) + sizeof(glm::vec2)), &buffer[0], GL_STATIC_DRAW);
-
-	if (hasShadow)
-	{
-		shadow = new Shadow(*this, objPath);
-		Scene::GetInstance().AddEntity(shadow);
-	}
-}
-
 void Entity::Update(float dt)
 {
 
-}
-
-glm::vec3 Entity::GetPositionWorld()
-{
-	glm::vec3 pos = GetPosition();
-
-	if (parent != NULL)
-	{
-		pos = parent->GetPosition() + pos;
-	}
-
-	return pos;
 }
 
 void Entity::Draw()
@@ -146,7 +82,7 @@ void Entity::Draw()
 		GL_FLOAT,
 		GL_FALSE,
 		sizeof(Vertex),
-		(void*)sizeof(glm::vec3) // offset
+		(void*)sizeof(glm::vec3)
 		);
 
 	// normal
@@ -157,7 +93,7 @@ void Entity::Draw()
 		GL_FLOAT,
 		GL_FALSE,
 		sizeof(Vertex),
-		(void*)(sizeof(glm::vec3) + sizeof(glm::vec2)) // offset
+		(void*)(sizeof(glm::vec3) + sizeof(glm::vec2))
 		);
 
 
@@ -169,7 +105,7 @@ void Entity::Draw()
 		GL_FLOAT,
 		GL_FALSE,
 		sizeof(Vertex),
-		(void*)(2*sizeof(glm::vec3) + sizeof(glm::vec2)) // offset
+		(void*)(2 * sizeof(glm::vec3) + sizeof(glm::vec2))
 		);
 
 	glDrawArrays(GL_TRIANGLES, 0, vertexBufferSize);
@@ -178,6 +114,46 @@ void Entity::Draw()
 	glDisableVertexAttribArray(2);
 	glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(0);
+}
+
+
+void Entity::Initialize(glm::vec3 size)
+{
+	std::vector<Vertex> buffer = LoadVertices();
+
+	for (std::vector<Vertex>::iterator it = buffer.begin(); it < buffer.end(); it++)
+	{
+		(*it).position.x *= size.x;
+		(*it).position.y *= size.y;
+		(*it).position.z *= size.z;
+
+		(*it).uv.x *= textureCoordinates.x;
+		(*it).uv.y *= textureCoordinates.y;
+	}
+
+	// if Vertex struct is modified, this needs to be changed also
+	vertexBufferSize = buffer.size();
+	//printf("%i", vertexBufferSize);
+
+	// create vertex array
+	glGenVertexArrays(1, &vertexArrayID);
+
+	// upload vertexbuffer to the GPU
+	glGenBuffers(1, &vertexBufferID);
+	// and keep a reference to it (vertexBufferID)
+	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferID);
+	glBufferData(GL_ARRAY_BUFFER, buffer.size() * (3 * sizeof(glm::vec3) + sizeof(glm::vec2)), &buffer[0], GL_STATIC_DRAW);
+
+	if (hasShadow)
+	{
+		shadow = new Shadow(*this, objPath);
+		Scene::GetInstance().AddEntity(shadow);
+	}
+}
+
+void Entity::OnCollision(Entity* other)
+{
+
 }
 
 glm::mat4 Entity::GetWorldMatrix() const
@@ -196,20 +172,56 @@ glm::mat4 Entity::GetWorldMatrix() const
 	return W;
 }
 
-void Entity::SetPosition(glm::vec3 position)
+glm::vec3 Entity::GetPositionWorld()
 {
-	this->position = position;
+	glm::vec3 pos = GetPosition();
+
+	if (parent != NULL)
+	{
+		pos = parent->GetPosition() + pos;
+	}
+
+	return pos;
 }
 
-void Entity::SetScaling(glm::vec3 scaling)
+void Entity::TakeDamage(float f)
 {
-	this->scaling = scaling;
+	shield -= f;
 }
 
-void Entity::SetRotation(glm::vec3 axis, float angle)
+float Entity::GetRadius()
 {
-	this->rotationAxis = axis;
-	this->rotationAngle = angle;
+	float radius = COLLIDE_X;
+
+	if (COLLIDE_Y > radius)
+	{
+		radius = COLLIDE_Y;
+	}
+
+	if (COLLIDE_Z > radius)
+	{
+		radius = COLLIDE_Z;
+	}
+
+	return radius;
+}
+
+std::vector<Entity::Vertex> Entity::LoadVertices()
+{
+	std::vector<Vertex> buffer;
+
+	if (bluePrints.find(objPath) != bluePrints.end())
+	{
+		buffer = *bluePrints[objPath];
+	}
+	else
+	{
+		bool res = loadOBJ(objPath, buffer);
+		bluePrints.insert(std::pair<std::string, std::vector<Vertex>*>(objPath, new std::vector<Vertex>(buffer)));
+		printf("[Entity] Stored %s into memory\n", objPath.c_str());
+	}
+
+	return buffer;
 }
 
 bool Entity::loadOBJ(std::string path, std::vector<Entity::Vertex> &buffer)
@@ -301,7 +313,6 @@ bool Entity::loadOBJ(std::string path, std::vector<Entity::Vertex> &buffer)
 		v.normal = normal;
 
 		// give our vertex a random colour
-		// maybe change this when uv tex mapping is added
 		float r = (rand() / (float)(RAND_MAX + 1));
 		float g = (rand() / (float)(RAND_MAX + 1));
 		float b = (rand() / (float)(RAND_MAX + 1));
@@ -312,30 +323,3 @@ bool Entity::loadOBJ(std::string path, std::vector<Entity::Vertex> &buffer)
 
 	return true;
 }
-
-void Entity::OnCollision(Entity* other)
-{
-
-}
-
-void Entity::TakeDamage(float f)
-{
-	shield -= f;
-}
-
-float Entity::GetRadius()
-{
-	float radius = COLLIDE_X;
-
-	if (COLLIDE_Y > radius)
-	{
-		radius = COLLIDE_Y;
-	}
-
-	if (COLLIDE_Z > radius)
-	{
-		radius = COLLIDE_Z;
-	}
-	
-	return radius;
-}				   

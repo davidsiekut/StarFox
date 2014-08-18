@@ -30,6 +30,7 @@ public:
 	bool isBarrelRolling;
 	float barrelRollTimer;
 	bool iddqd;
+	float invicibilityFrames = 0.f;
 
 protected:
 
