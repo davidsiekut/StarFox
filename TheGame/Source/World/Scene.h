@@ -28,18 +28,16 @@ public:
 	void RemoveEntity(Entity* entity);
 	void AddChunk(glm::vec3 pos);
 
-	int ChangeLightingMode() { ++lightingMode > 1 ? lightingMode = 0 : lightingMode = 1; return lightingMode; };
-
 	Arwing* GetPlayer() { return a; }
 	UltraBoss* GetBoss() { return boss; }
 	GameplayCamera* GetGPCamera() { return static_cast<GameplayCamera*>(camera); }
-
-	void GameOver();
-	bool IsGameOver() { return gameOver; }
-	bool IsGameWon() { return gameWon; }
-	void GameWon();
+	int ChangeLightingMode() { ++lightingMode > 1 ? lightingMode = 0 : lightingMode = 1; return lightingMode; };
 
 	int score = 0;
+	void GameOver();
+	bool IsGameOver() { return gameOver; }
+	void GameWon();
+	bool IsGameWon() { return gameWon; }
 
 private:
 	// Hide constructors
@@ -51,19 +49,25 @@ private:
 	std::vector<Entity*> queued; // queued entities such as pewpews that need to be added
 	std::vector<Chunk*> chunks;
 	std::vector<UIElement*> uiElements;
+
 	Camera* camera;
 	Arwing* a;
-	EnemyFactory* enemyFactory;
 	UltraBoss* boss;
+	EnemyFactory* enemyFactory;
 
 	int lightingMode = 0; // 0 or 1
 	int lastChunk = 0;
-	bool gameOver = false;
-	bool bossSpawned = false;
-	void LoadTextures();
-	void UpdateEntities(std::vector<Entity*> &entities, float dt);
-	void DrawEntities(std::vector<Entity*> &entities);
+
+	void buildUI();
+	void loadTextures();
+	void updateEnemyAttack();
+	void updateEntities(std::vector<Entity*> &entities, float dt);
+	void updateUIElements(std::vector<UIElement*> &uielements, float dt);
+	void drawEntities(std::vector<Entity*> &entities);
+	void drawUI(std::vector<UIElement*> &uielem);
 	bool checkVisible(const glm::mat4, const GLfloat&, const GLfloat&, const GLfloat&, const GLfloat&);
-	void DrawUI(std::vector<UIElement*> &uielem);
+
+	bool bossSpawned = false;
+	bool gameOver = false;
 	bool gameWon = false;
 };

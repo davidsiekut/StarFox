@@ -6,21 +6,19 @@ class GameplayCamera : public Camera
 {
 public:
 	GameplayCamera(float distance, Entity* parent);
-	virtual ~GameplayCamera();
-	virtual glm::vec3 GetPosition();
+	~GameplayCamera();
+	void Update(float dt);
 
-	virtual void Update(float dt);
-
-	virtual glm::mat4 GetViewMatrix() const;
-
+	glm::vec3 GetPosition();
+	glm::mat4 GetViewMatrix() const;
 	void Shake();
 
 private:
-	glm::vec3 mPosition;
-	glm::vec3 mViewPoint;
-	glm::vec3 mUpVector;
-
 	float distance;
+	glm::vec3 position;
+	glm::vec3 viewPoint;
+	glm::vec3 upVector;
+
 	float timeElapsed = 0.0f;
 	float amplitude = 10.0f;
 	float amplitudeDamping = -1.0f;
