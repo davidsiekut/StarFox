@@ -24,6 +24,7 @@ public:
 	void SetTextureID(int id) { textureID = id; }
 	void SetTextureCoords(glm::vec2 textureCoordinates) { this->textureCoordinates = textureCoordinates; }
 	void SetShaderType(ShaderType type) { shaderType = type; }
+	void SetMarkedForDeletion() { markedForDeletion = true; }
 
 	float GetShieldAmount() { return shield; }
 	virtual bool IsOpaque() { return true; }

@@ -38,6 +38,7 @@ void PewPew::Init()
 	}
 	else
 	{
+		this->SetRotation(glm::vec3(0.f, 1.f, 0.f), 90.f);
 		this->size = glm::vec3(0.5f, 0.5f, 0.5f);
 		objPath = "../Assets/Models/sphere.obj";
 		damage = 10.f;

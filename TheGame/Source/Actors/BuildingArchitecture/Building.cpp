@@ -30,7 +30,7 @@ Building::~Building()
 {
 	if (dustSystem != nullptr)
 	{
-		dustSystem->markedForDeletion = true;
+		dustSystem->SetMarkedForDeletion();
 	}
 }
 

@@ -39,7 +39,7 @@ Enemy::~Enemy()
 	//printf("[Cleanup] Enemy deleted\n");
 	if (poofSystem != nullptr)
 	{
-		poofSystem->markedForDeletion = true;
+		poofSystem->SetMarkedForDeletion();
 	}
 }
 

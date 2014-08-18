@@ -127,7 +127,7 @@ void InputManager::Update(float dt)
 	}
 	else if (glfwGetKey(w, GLFW_KEY_SPACE) == GLFW_RELEASE)
 	{
-		fireRepeatRate = 0.0001;
+		fireRepeatRate = 0.0001f;
 	}
 
 

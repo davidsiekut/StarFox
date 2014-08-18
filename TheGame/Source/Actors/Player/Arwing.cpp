@@ -66,7 +66,7 @@ void Arwing::Update(float dt)
 			});
 			burnBabyBurn->SetMainDirection(glm::vec3(0.f, 3.f, 0.f));
 			Scene::GetInstance().AddEntity(burnBabyBurn);
-			booster->markedForDeletion = true;
+			booster->SetMarkedForDeletion();
 		}
 		Scene::GetInstance().GameOver();
 		return;

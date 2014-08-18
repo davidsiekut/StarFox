@@ -326,7 +326,7 @@ void Scene::UpdateEntities(std::vector<Entity*> &entities, float dt)
 	for (std::vector<Entity*>::iterator it = entities.begin(); it < entities.end();)
 	{
 		// deletion check
-		if ((*it)->markedForDeletion)
+		if ((*it)->IsMarkedForDeletion())
 		{
 			delete *it;
 			it = entities.erase(it);
@@ -420,7 +420,7 @@ void Scene::DrawEntities(std::vector<Entity*> &entities)
 		Arwing *arwing = dynamic_cast<Arwing*>(*it);
 
 
-		if ((arwing != NULL && !(*arwing).isFlashing) || arwing == NULL /*|| 
+		if ((arwing != NULL && !(*arwing).IsFlashing()) || arwing == NULL /*|| 
 			checkVisible(P * V * (*it)->GetWorldMatrix(), 
 								 (*it)->GetPosition().x, 
 								 (*it)->GetPosition().y, 
