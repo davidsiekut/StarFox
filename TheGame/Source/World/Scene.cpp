@@ -149,7 +149,7 @@ void Scene::Update(float dt)
 	else if (!bossSpawned)
 	{
 		bossSpawned = true;
-		enemyFactory->SpawnUltraBoss();
+		boss = enemyFactory->SpawnUltraBoss();
 
 		Image* ui_bossIcon = new Image(glm::vec3(740, 540, 0), glm::vec3(85, 85, 1));
 		ui_bossIcon->SetTextureID(15);
