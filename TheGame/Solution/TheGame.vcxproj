@@ -15,6 +15,7 @@
     <ClCompile Include="..\Source\Actors\BuildingArchitecture\FilledMirroredCubes.cpp" />
     <ClCompile Include="..\Source\Actors\BuildingArchitecture\MirroredCubes.cpp" />
     <ClCompile Include="..\Source\Actors\Doodads\PewPew.cpp" />
+    <ClCompile Include="..\Source\Actors\Doodads\Shadow.cpp" />
     <ClCompile Include="..\Source\Actors\Enemy\Enemy.cpp" />
     <ClCompile Include="..\Source\Actors\Enemy\UltraBoss.cpp" />
     <ClCompile Include="..\Source\Actors\Entity.cpp" />
@@ -49,6 +50,7 @@
     <ClInclude Include="..\Source\Actors\BuildingArchitecture\FilledMirroredCubes.h" />
     <ClInclude Include="..\Source\Actors\BuildingArchitecture\MirroredCubes.h" />
     <ClInclude Include="..\Source\Actors\Doodads\PewPew.h" />
+    <ClInclude Include="..\Source\Actors\Doodads\Shadow.h" />
     <ClInclude Include="..\Source\Actors\Enemy\Enemy.h" />
     <ClInclude Include="..\Source\Actors\Enemy\UltraBoss.h" />
     <ClInclude Include="..\Source\Actors\Entity.h" />
@@ -81,6 +83,8 @@
     <None Include="..\Source\Shaders\Bloom.frag" />
     <None Include="..\Source\Shaders\Bloom.vert" />
     <None Include="..\Source\Shaders\HorizontalBlur.vert" />
+    <None Include="..\Source\Shaders\Shadow.frag" />
+    <None Include="..\Source\Shaders\Shadow.vert" />
     <None Include="..\Source\Shaders\VerticalBlur.frag" />
     <None Include="..\Source\Shaders\VerticalBlur.vert" />
     <None Include="..\Source\Shaders\HorizontalBlur.frag" />

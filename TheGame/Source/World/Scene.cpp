@@ -23,9 +23,9 @@
 #include <Image.h>
 #include <Digit.h>
 
-const unsigned int Scene::TERRAIN_PRELOAD = 5;
-const unsigned int Scene::TERRAIN_LOADAHEAD = 5;
-#define SCORE_SPAWN_BOSS 1
+#define TERRAIN_PRELOAD 5
+#define TERRAIN_LOADAHEAD 5
+#define SCORE_SPAWN_BOSS 1000
 
 #define MAXTEXTURES 27
 Texture textures[MAXTEXTURES];
@@ -50,7 +50,7 @@ void Scene::Initialize()
 
 	// setup some other stuff
 	enemyFactory = new EnemyFactory(a);
-	camera = new GameplayCamera(25.f, a);
+	camera = new GameplayCamera(25.f, a);//new ThirdPersonCamera(25.f, a); //new GameplayCamera(25.f, a);
 
 	// load initial level geometry
 	for (unsigned int i = 0; i < TERRAIN_PRELOAD; i++)
@@ -149,7 +149,7 @@ void Scene::Update(float dt)
 	else if (!bossSpawned)
 	{
 		bossSpawned = true;
-		boss = enemyFactory->SpawnUltraBoss();
+		enemyFactory->SpawnUltraBoss();
 
 		Image* ui_bossIcon = new Image(glm::vec3(740, 540, 0), glm::vec3(85, 85, 1));
 		ui_bossIcon->SetTextureID(15);
@@ -406,6 +406,158 @@ void Scene::DrawEntities(std::vector<Entity*> &entities)
 
 		glUniform1f(samplerID, 0); // for texture2d
 
-		(*it)->Draw();
+		Arwing *arwing = dynamic_cast<Arwing*>(*it);
+
+
+		if ((arwing != NULL && !(*arwing).isFlashing) || arwing == NULL /*|| 
+			checkVisible(P * V * (*it)->GetWorldMatrix(), 
+								 (*it)->GetPosition().x, 
+								 (*it)->GetPosition().y, 
+								 (*it)->GetPosition().z, 
+								 (*it)->GetRadius())*/
+							)
+		{
+			(*it)->Draw();
+		}
 	}
+}
+
+bool Scene::checkVisible(const glm::mat4 MVPMatrix, const GLfloat &xPos, const GLfloat &yPos, const GLfloat &zPos, const GLfloat &radius)
+{
+	// The equation for a plane is: Ax + By + Cz + D = 0, where A, B and C define the plane's normal vector, D is the distance from the origin to the plane,
+	// and x, y and z are any points on the plane.. You can plug any point into the equation and if the result is 0 then the point lies on the plane. If the
+	// result is greater than 0 then the point is in front of the plane, and if it's negative the point is behind the plane.
+	enum term { A = 0, B, C, D };
+
+	glm::vec4 leftPlane;
+	GLfloat distance, length;
+
+	/*
+	leftPlane[A] = MVPMatrix[3] + MVPMatrix[0];
+	leftPlane[B] = MVPMatrix[7] + MVPMatrix[4];
+	leftPlane[C] = MVPMatrix[11] + MVPMatrix[8];
+	leftPlane[D] = MVPMatrix[15] + MVPMatrix[12];
+	*/
+
+	leftPlane = MVPMatrix[3] + MVPMatrix[0];
+
+	// Normalise the plane
+	length = sqrtf(leftPlane[A] * leftPlane[A] + leftPlane[B] * leftPlane[B] + leftPlane[C] * leftPlane[C]);
+	leftPlane[A] /= length;
+	leftPlane[B] /= length;
+	leftPlane[C] /= length;
+	leftPlane[D] /= length;
+
+	// Check the point's location with respect to the left plane of our viewing frustrum
+	distance = leftPlane[A] * xPos + leftPlane[B] * yPos + leftPlane[C] * zPos + leftPlane[D];
+	if (distance <= -radius)
+	{
+		return false; // Bounding sphere is completely outside the left plane
+	}
+
+	// Check the point's location with respect to the right plane of our viewing frustum
+	glm::vec4 rightPlane;
+	rightPlane = MVPMatrix[3] - MVPMatrix[0];
+	
+	/*
+	rightPlane[B] = MVPMatrix[7] - MVPMatrix[4];
+	rightPlane[C] = MVPMatrix[11] - MVPMatrix[8];
+	rightPlane[D] = MVPMatrix[15] - MVPMatrix[12];*/
+
+	// Normalise the plane
+	length = sqrtf(rightPlane[A] * rightPlane[A] + rightPlane[B] * rightPlane[B] + rightPlane[C] * rightPlane[C]);
+	rightPlane[A] /= length;
+	rightPlane[B] /= length;
+	rightPlane[C] /= length;
+	rightPlane[D] /= length;
+
+	distance = rightPlane[A] * xPos + rightPlane[B] * yPos + rightPlane[C] * zPos + rightPlane[D];
+	if (distance <= -radius)
+	{
+		return false; // Bounding sphere is completely outside the right plane
+	}
+
+	// Check the point's location with respect to the bottom plane of our viewing frustum
+	glm::vec4 bottomPlane;
+	bottomPlane = MVPMatrix[3] + MVPMatrix[1];
+	/*bottomPlane[B] = MVPMatrix[7] + MVPMatrix[5];
+	bottomPlane[C] = MVPMatrix[11] + MVPMatrix[9];
+	bottomPlane[D] = MVPMatrix[15] + MVPMatrix[13];*/
+
+	// Normalise the plane
+	length = sqrtf(bottomPlane[A] * bottomPlane[A] + bottomPlane[B] * bottomPlane[B] + bottomPlane[C] * bottomPlane[C]);
+	bottomPlane[A] /= length;
+	bottomPlane[B] /= length;
+	bottomPlane[C] /= length;
+	bottomPlane[D] /= length;
+
+	distance = bottomPlane[A] * xPos + bottomPlane[B] * yPos + bottomPlane[C] * zPos + bottomPlane[D];
+	if (distance <= -radius)
+	{
+		return false; // Bounding sphere is completely outside the bottom plane
+	}
+
+	// Check the point's location with respect to the top plane of our viewing frustrum
+	glm::vec4 topPlane;
+	topPlane = MVPMatrix[3] - MVPMatrix[1];
+	
+	/*topPlane[B] = MVPMatrix[7] - MVPMatrix[5];
+	topPlane[C] = MVPMatrix[11] - MVPMatrix[9];
+	topPlane[D] = MVPMatrix[15] - MVPMatrix[13];*/
+
+	// Normalise the plane
+	length = sqrtf(topPlane[A] * topPlane[A] + topPlane[B] * topPlane[B] + topPlane[C] * topPlane[C]);
+	topPlane[A] /= length;
+	topPlane[B] /= length;
+	topPlane[C] /= length;
+	topPlane[D] /= length;
+
+	distance = topPlane[A] * xPos + topPlane[B] * yPos + topPlane[C] * zPos + topPlane[D];
+	if (distance <= -radius)
+	{
+		return false; // Bounding sphere is completely outside the top plane
+	}
+
+	// Check the point's location with respect to the near plane of our viewing frustum
+	glm::vec4 nearPlane;
+	nearPlane = MVPMatrix[3] + MVPMatrix[2];
+	/*nearPlane[B] = MVPMatrix[7] + MVPMatrix[6];
+	nearPlane[C] = MVPMatrix[11] + MVPMatrix[10];
+	nearPlane[D] = MVPMatrix[15] + MVPMatrix[14];*/
+
+	// Normalise the plane
+	length = sqrtf(nearPlane[A] * nearPlane[A] + nearPlane[B] * nearPlane[B] + nearPlane[C] * nearPlane[C]);
+	nearPlane[A] /= length;
+	nearPlane[B] /= length;
+	nearPlane[C] /= length;
+	nearPlane[D] /= length;
+
+	distance = nearPlane[A] * xPos + nearPlane[B] * yPos + nearPlane[C] * zPos + nearPlane[D];
+	if (distance <= -radius)
+	{
+		return false; // Bounding sphere is completely outside the near plane
+	}
+
+	// Check the point's location with respect to the far plane of our viewing frustum
+	glm::vec4 farPlane;
+	farPlane = MVPMatrix[3] - MVPMatrix[2];
+	/*farPlane[B] = MVPMatrix[7] - MVPMatrix[6];
+	farPlane[C] = MVPMatrix[11] - MVPMatrix[10];
+	farPlane[D] = MVPMatrix[15] - MVPMatrix[14];*/
+
+	// Normalise the plane
+	length = sqrtf(farPlane[A] * farPlane[A] + farPlane[B] * farPlane[B] + farPlane[C] * farPlane[C]);
+	farPlane[A] /= length;
+	farPlane[B] /= length;
+	farPlane[C] /= length;
+	farPlane[D] /= length;
+
+	distance = farPlane[A] * xPos + farPlane[B] * yPos + farPlane[C] * zPos + farPlane[D];
+	if (distance <= -radius)
+	{
+		return false; // Bounding sphere is completely outside the far plane
+	}
+
+	// If we got here, then the bounding sphere is within at least all six sides of the view frustum, so it's visible and we should draw it!
+	return true;
 }

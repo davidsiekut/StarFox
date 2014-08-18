@@ -51,6 +51,7 @@ void Renderer::Initialize()
 	shaders.push_back(LoadShader("Particle"));
 	shaders.push_back(LoadShader("VerticalBlur"));
 	shaders.push_back(LoadShader("HorizontalBlur"));
+	shaders.push_back(LoadShader("Shadow"));
 
 	currentShader = -1;
 }

@@ -6,7 +6,7 @@
 const float Enemy::ENEMY_SPEED_X = 30.f;
 const float Enemy::ENEMY_AMPLITUDE_Y = 10.f;
 const float Enemy::ENEMY_SPEED_Z = 55.f;
-const float Enemy::ENEMY_LIFETIME = 40.f;
+const float Enemy::ENEMY_LIFETIME = 35.f;
 const float Enemy::ENEMY_WAVY_WAVE_SPEED = 5.f;
 const float Enemy::ENEMY_SPINNY_SPIN_SPEED = 250.f;
 
@@ -17,6 +17,7 @@ Enemy::Enemy(Entity *parent, EnemyFactory::Direction direction, float horizontal
 	objPath = "../Assets/Models/sphere.obj";
 	shaderType = SHADER_PHONG_TEXTURED;
 	textureID = 1;
+	hasShadow = true;
 
 	shield = 2;
 

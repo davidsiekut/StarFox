@@ -19,6 +19,7 @@ Arwing::Arwing(Entity *parent) : Entity(parent)
 	size = glm::vec3(2.f, 2.f, 2.f);
 	objPath = "../Assets/Models/arwing.obj";
 	shaderType = SHADER_PHONG;
+	hasShadow = true;
 
 	COLLIDE_X = 7.8f;
 	COLLIDE_Y = 1.5f;
@@ -74,7 +75,6 @@ void Arwing::Update(float dt)
 	if (invicibilityFrames > 0)
 	{
 		invicibilityFrames -= dt;
-		printf("%f\n", round(invicibilityFrames * 100));
 
 		if ((int)(invicibilityFrames * 100) % 5 == 0)
 		{
