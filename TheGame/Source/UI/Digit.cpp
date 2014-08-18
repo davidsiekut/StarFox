@@ -26,5 +26,10 @@ int Digit::GetDigit(int i)
 
 void Digit::Update(float dt)
 {
+	if (Scene::GetInstance().IsGameWon())
+	{
+		this->SetScaling(glm::vec3(0.f, 0.f, 0.f));
+	}
+
 	SetTextureID(17 + GetDigit(placeValue));
 }

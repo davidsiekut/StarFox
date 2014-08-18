@@ -22,7 +22,9 @@ void HealthBar::Update(float dt)
 {
 	if (Scene::GetInstance().IsGameWon())
 	{
-		markedForDeletion = true;
+		this->SetScaling(glm::vec3(0.f, 0.f, 0.f));
+		this->markedForDeletion = true;
+		return;
 	}
 
 	if (entityType == "PLAYER")

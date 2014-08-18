@@ -13,9 +13,13 @@ Image::Image(glm::vec3 position, glm::vec3 size) : UIElement()
 
 Image::~Image()
 {
-	if (Scene::GetInstance().GetBoss() == NULL)
-	{
-		this->markedForDeletion = true;
-	}
+
 }
 
+void Image::Update(float dt)
+{
+	if (Scene::GetInstance().IsGameWon())
+	{
+		this->SetScaling(glm::vec3(0.f, 0.f, 0.f));
+	}
+}
