@@ -36,6 +36,8 @@ public:
 
 	void GameOver();
 	bool IsGameOver() { return gameOver; }
+	bool IsGameWon() { return gameWon; }
+	void GameWon() { gameWon = true; }
 
 	int score = 0;
 
@@ -66,4 +68,6 @@ private:
 	void UpdateEntities(std::vector<Entity*> &entities, float dt);
 	void DrawEntities(std::vector<Entity*> &entities);
 	void DrawUI(std::vector<UIElement*> &uielem);
+
+	bool gameWon = false;
 };

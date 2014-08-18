@@ -32,6 +32,7 @@ void UltraBoss::Update(float dt)
 {
 	if (GetShieldAmount() <= 0)
 	{
+		Scene::GetInstance().GameWon();
 		markedForDeletion = true;
 	}
 
@@ -56,6 +57,7 @@ void UltraBoss::OnCollision(Entity* other)
 {
 	if (other->GetName() == "PEWPEW" && (((PewPew*)other)->owner == "PLAYER"))
 	{
+		Scene::GetInstance().score += 5;
 		TakeDamage(((PewPew*)other)->damage);
 	}
 }

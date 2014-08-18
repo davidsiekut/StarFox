@@ -48,6 +48,7 @@ void Building::Update(float dt)
 	{
 		if (dustSystem == nullptr)
 		{
+			Scene::GetInstance().score += 50;
 			dustSystem = new ParticleSystem(this, 1.5f, -1.f, 0.f);
 			dustSystem->SetInitialColor(glm::vec3(150.f / 255.f, 75.f / 255.f, 0.f));
 			dustSystem->SetParticleSize(7.f);

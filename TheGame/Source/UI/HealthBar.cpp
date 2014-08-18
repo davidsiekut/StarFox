@@ -20,6 +20,11 @@ HealthBar::~HealthBar()
 
 void HealthBar::Update(float dt)
 {
+	if (Scene::GetInstance().IsGameWon())
+	{
+		this->markedForDeletion;
+	}
+
 	if (entityType == "PLAYER")
 	{
 		float currentShield = Scene::GetInstance().GetPlayer()->GetShieldAmount();

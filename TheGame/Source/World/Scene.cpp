@@ -81,11 +81,11 @@ void Scene::Initialize()
 	ui_scoreBoard->SetTextureID(16);
 	uiElements.push_back(ui_scoreBoard);
 
-	Digit* ui_zero1 = new Digit(glm::vec3(36, 555, 0.1), glm::vec3(19, 28, 1), 1);
+	Digit* ui_zero1 = new Digit(glm::vec3(36, 555, 0.1), glm::vec3(19, 28, 1), 5);
 	ui_zero1->SetTextureID(17);
 	uiElements.push_back(ui_zero1);
 	
-	Digit* ui_zero2 = new Digit(glm::vec3(55, 555, 0.1), glm::vec3(19, 28, 1), 2);
+	Digit* ui_zero2 = new Digit(glm::vec3(55, 555, 0.1), glm::vec3(19, 28, 1), 4);
 	ui_zero2->SetTextureID(17);
 	uiElements.push_back(ui_zero2);
 
@@ -93,15 +93,15 @@ void Scene::Initialize()
 	ui_zero3->SetTextureID(17);
 	uiElements.push_back(ui_zero3);
 
-	Digit* ui_zero4 = new Digit(glm::vec3(93, 555, 0.1), glm::vec3(19, 28, 1), 4);
+	Digit* ui_zero4 = new Digit(glm::vec3(93, 555, 0.1), glm::vec3(19, 28, 1), 2);
 	ui_zero4->SetTextureID(17);
 	uiElements.push_back(ui_zero4);
 
-	Digit* ui_zero5 = new Digit(glm::vec3(112, 555, 0.1), glm::vec3(19, 28, 1), 5);
+	Digit* ui_zero5 = new Digit(glm::vec3(112, 555, 0.1), glm::vec3(19, 28, 1), 1);
 	ui_zero5->SetTextureID(17);
 	uiElements.push_back(ui_zero5);
 
-	Digit* ui_zero6 = new Digit(glm::vec3(131, 555, 0.1), glm::vec3(19, 28, 1), 6);
+	Digit* ui_zero6 = new Digit(glm::vec3(131, 555, 0.1), glm::vec3(19, 28, 1), 0);
 	ui_zero6->SetTextureID(17);
 	uiElements.push_back(ui_zero6);
 }
