@@ -23,8 +23,7 @@ Entity::Entity(Entity *parent) :	parent(parent),
 									collider(1.0f, 1.0f, 1.0f),
 									shield(100.f),
 									hasShadow(false),
-									markedForDeletion(false),
-									isFlashing(false)
+									markedForDeletion(false)
 {
 	
 }

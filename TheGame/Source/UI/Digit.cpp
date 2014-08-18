@@ -20,7 +20,7 @@ Digit::~Digit()
 int Digit::GetDigit(int i)
 {
 	int score = Scene::GetInstance().score;
-	score = score / (glm::pow(10.f, (float)i));
+	score = score / (int)(glm::pow(10.f, (float)i));
 	return score % 10;
 }
 

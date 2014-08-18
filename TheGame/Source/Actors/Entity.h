@@ -44,7 +44,6 @@ public:
 	float GetShieldAmount() { return shield; }
 	virtual bool IsOpaque() { return true; }
 	bool IsMarkedForDeletion() { return markedForDeletion; }
-	bool IsFlashing() { return isFlashing; }
 
 	std::string GetName() const { return name; }
 	glm::vec3 GetPosition() const { return position; }
@@ -86,7 +85,6 @@ protected:
 	float shield;
 	bool hasShadow;
 	bool markedForDeletion;
-	bool isFlashing;
 
 	struct Vertex
 	{

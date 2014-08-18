@@ -1,13 +1,13 @@
 #pragma once
 
 #include "Arwing.h"
-#include "WindowManager.h"
 #include "InputManager.h"
-#include <GLFW/glfw3.h>
-#include <glm/gtc/matrix_transform.hpp>
 #include "PewPew.h"
 #include "Scene.h"
 #include "ThirdPersonCamera.h"
+#include "WindowManager.h"
+#include <GLFW/glfw3.h>
+#include <glm/gtc/matrix_transform.hpp>
 
 #define BARREL_ROLL_TIME 0.3f
 #define INV_FRAMES_TIME 0.5f
@@ -19,25 +19,21 @@ Arwing::Arwing(Entity *parent) : Entity(parent)
 	size = glm::vec3(2.f, 2.f, 2.f);
 	objPath = "../Assets/Models/arwing.obj";
 	shaderType = SHADER_PHONG;
+	collider = glm::vec3(7.8f, 1.5f, 2.0f);
 	hasShadow = true;
 
-	collider.x = 7.8f;
-	collider.y = 1.5f;
-	collider.z = 2.0f;
-
-	rotationSpeed = 60.0f;
-	speedX = 20.0f;
-	speedY = 15.0f;
+	rotationSpeed = 60.f;
+	speedX = 20.f;
+	speedY = 15.f;
 	speedZ = SPEED_Z;
-	movingForward = true;
+	isMovingForward = true;
 	isTiltingLeft = false;
 	isTiltingRight = false;
 	isBarrelRolling = false;
-	isFlashing = false;
 	barrelRollTimer = BARREL_ROLL_TIME;
+	invicibilityFrames = 0.f;
 	iddqd = false;
-
-
+	isFlashing = false;
 
 	booster = new ParticleSystem(this, 0.2f, 0.f, SPEED_Z / 1.3f);
 	booster->SetPosition(glm::vec3(0.f, -0.25f, -3.f));
@@ -115,6 +111,22 @@ void Arwing::Update(float dt)
 	}
 }
 
+void Arwing::OnCollision(Entity* other)
+{
+	if (invicibilityFrames <= 0 && !isBarrelRolling)
+	{
+		if (other->GetName() == "ENEMY" ||
+			other->GetName() == "BUILDING")
+		{
+			resolveHit(5);
+		}
+		else if (other->GetName() == "PEWPEW" && (((PewPew*)other)->owner == "ENEMY"))
+		{
+			resolveHit(((PewPew*)other)->damage);
+		}
+	}
+}
+
 void Arwing::TiltLeft(float dt)
 {
 	collider.x = 1.5f;
@@ -148,29 +160,13 @@ void Arwing::TiltComplete(float dt)
 	SetRotation(rotationAxis, rotationAngle);
 }
 
-void Arwing::OnCollision(Entity* other)
-{
-	if (invicibilityFrames <= 0 && !isBarrelRolling)
-	{
-		if (other->GetName() == "ENEMY" ||
-			other->GetName() == "BUILDING")
-		{
-			resolveHit(5);
-		}
-		else if (other->GetName() == "PEWPEW" && (((PewPew*)other)->owner == "ENEMY"))
-		{
-			resolveHit(((PewPew*)other)->damage);
-		}
-	}
-}
-
 void Arwing::resolveHit(float damage)
 {
 	if (!iddqd)
 	{
 		TakeDamage(damage);
+		Scene::GetInstance().GetGPCamera()->Shake();
+		invicibilityFrames = INV_FRAMES_TIME;
+		//printf("[Player] Shield = %f\n", GetShieldAmount());
 	}
-	Scene::GetInstance().GetGPCamera()->Shake();
-	invicibilityFrames = INV_FRAMES_TIME;
-	printf("[Player] Shield = %f\n", GetShieldAmount());
 }
