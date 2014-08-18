@@ -14,7 +14,7 @@ UltraBoss::UltraBoss(Entity *parent) : Entity(parent)
 	textureID = 5;
 	hasShadow = true;
 
-	this->shield = 1.f; // ultra boss, ultra shield
+	this->shield = 240.f; // ultra boss, ultra shield
 
 	// ultra colliders
 	COLLIDE_X = size.x;
