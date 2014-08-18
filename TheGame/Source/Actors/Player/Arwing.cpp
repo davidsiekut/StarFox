@@ -21,9 +21,9 @@ Arwing::Arwing(Entity *parent) : Entity(parent)
 	shaderType = SHADER_PHONG;
 	hasShadow = true;
 
-	COLLIDE_X = 7.8f;
-	COLLIDE_Y = 1.5f;
-	COLLIDE_Z = 2.0f;
+	collider.x = 7.8f;
+	collider.y = 1.5f;
+	collider.z = 2.0f;
 
 	rotationSpeed = 60.0f;
 	speedX = 20.0f;
@@ -37,13 +37,15 @@ Arwing::Arwing(Entity *parent) : Entity(parent)
 	barrelRollTimer = BARREL_ROLL_TIME;
 	iddqd = false;
 
-	Initialize(size);
+
 
 	booster = new ParticleSystem(this, 0.2f, 0.f, SPEED_Z / 1.3f);
 	booster->SetPosition(glm::vec3(0.f, -0.25f, -3.f));
 	booster->SetMaxParticles(10);
 	Scene::GetInstance().AddEntity(booster);
 	burnBabyBurn = nullptr;
+
+	Initialize(size);
 }
 
 void Arwing::Update(float dt)
@@ -88,9 +90,9 @@ void Arwing::Update(float dt)
 
 	if (isBarrelRolling)
 	{
-		COLLIDE_X = 7.8f;
-		COLLIDE_Y = 7.8f;
-		COLLIDE_Z = 2.0f;
+		collider.x = 7.8f;
+		collider.y = 7.8f;
+		collider.z = 2.0f;
 
 		float rotationAngle = GetRotationAngle() + dt * rotationSpeed * 40.f;
 
@@ -104,9 +106,9 @@ void Arwing::Update(float dt)
 	}
 	if (barrelRollTimer < 0)
 	{
-		COLLIDE_X = 7.8f;
-		COLLIDE_Y = 1.5f;
-		COLLIDE_Z = 2.0f;
+		collider.x = 7.8f;
+		collider.y = 1.5f;
+		collider.z = 2.0f;
 
 		barrelRollTimer = BARREL_ROLL_TIME;
 		isBarrelRolling = false;
@@ -115,9 +117,9 @@ void Arwing::Update(float dt)
 
 void Arwing::TiltLeft(float dt)
 {
-	COLLIDE_X = 1.5f;
-	COLLIDE_Y = 7.8f;
-	COLLIDE_Z = 2.0f;
+	collider.x = 1.5f;
+	collider.y = 7.8f;
+	collider.z = 2.0f;
 
 	float rotationAngle = glm::clamp(GetRotationAngle() + dt * rotationSpeed * 5.f, 0.f, 90.f);
 	rotationAxis = glm::vec3(0.f, 0.f, -1.f);
@@ -126,9 +128,9 @@ void Arwing::TiltLeft(float dt)
 
 void Arwing::TiltRight(float dt)
 {
-	COLLIDE_X = 1.5f;
-	COLLIDE_Y = 7.8f;
-	COLLIDE_Z = 2.0f;
+	collider.x = 1.5f;
+	collider.y = 7.8f;
+	collider.z = 2.0f;
 
 	float rotationAngle = glm::clamp(GetRotationAngle() + dt * rotationSpeed * 5.f, 0.f, 90.f);
 	rotationAxis = glm::vec3(0.f, 0.f, 1.f);
@@ -137,9 +139,9 @@ void Arwing::TiltRight(float dt)
 
 void Arwing::TiltComplete(float dt)
 {
-	COLLIDE_X = 7.8f;
-	COLLIDE_Y = 1.5f;
-	COLLIDE_Z = 2.0f;
+	collider.x = 7.8f;
+	collider.y = 1.5f;
+	collider.z = 2.0f;
 
 	float rotationAngle = glm::clamp(GetRotationAngle() - dt * rotationSpeed * 5.f, 0.f, 90.f);
 	rotationAxis = GetRotationAxis();

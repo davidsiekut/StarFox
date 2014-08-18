@@ -1,3 +1,17 @@
+//
+// COMP 371 Term Project
+//
+// Created by
+// Boutas, Vasiliki	  (6220304)
+// Di Girolamo, John  (6202918)
+// Ozgaon, Dror Asher (6296742)
+// Siekut, David      (6329810)
+// Tran, Quang        (6339816)
+// Wan, Kwok - Chak   (6291643)
+//
+// This file contributions: David
+//
+
 #pragma once
 
 #include "Renderer.h"
@@ -26,6 +40,7 @@ public:
 	void SetShaderType(ShaderType type) { shaderType = type; }
 	void SetMarkedForDeletion() { markedForDeletion = true; }
 
+	glm::vec3 GetCollider() { return collider; }
 	float GetShieldAmount() { return shield; }
 	virtual bool IsOpaque() { return true; }
 	bool IsMarkedForDeletion() { return markedForDeletion; }
@@ -44,10 +59,10 @@ public:
 	float GetRadius();
 
 	// dimensions of box collider for this entity
-	float COLLIDE_X;
-	float COLLIDE_Y;
-	float COLLIDE_Z;
-	void TakeDamage(float f);
+	//float COLLIDE_X;
+	//float COLLIDE_Y;
+	//float COLLIDE_Z;
+	void TakeDamage(float f) { shield -= f; }
 
 protected:
 	void Initialize(glm::vec3 size);
@@ -67,6 +82,7 @@ protected:
 	ShaderType shaderType;
 	glm::vec4 materialCoefficients; //ka, kd, ks, n
 
+	glm::vec3 collider;
 	float shield;
 	bool hasShadow;
 	bool markedForDeletion;

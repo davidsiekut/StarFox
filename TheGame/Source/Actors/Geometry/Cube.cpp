@@ -6,9 +6,9 @@ Cube::Cube(Entity *parent, glm::vec3 size) : Entity(parent)
 	this->size = size;
 	objPath = "../Assets/Models/cube.obj";
 
-	COLLIDE_X = size.x;
-	COLLIDE_Y = size.y;
-	COLLIDE_Z = size.z;
+	collider.x = size.x;
+	collider.y = size.y;
+	collider.z = size.z;
 
 	Initialize(size);
 }
@@ -19,9 +19,9 @@ Cube::Cube(Entity *parent, glm::vec3 size, glm::vec2 textureCoordinates) : Entit
 	this->size = size;
 	objPath = "../Assets/Models/cube.obj";
 
-	COLLIDE_X = size.x;
-	COLLIDE_Y = size.y;
-	COLLIDE_Z = size.z;
+	collider.x = size.x;
+	collider.y = size.y;
+	collider.z = size.z;
 
 	this->textureCoordinates = textureCoordinates;
 

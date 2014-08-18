@@ -17,9 +17,9 @@ UltraBoss::UltraBoss(Entity *parent) : Entity(parent)
 	this->shield = 240.f; // ultra boss, ultra shield
 
 	// ultra colliders
-	COLLIDE_X = size.x;
-	COLLIDE_Y = size.y;
-	COLLIDE_Z = size.z;
+	collider.x = size.x;
+	collider.y = size.y;
+	collider.z = size.z;
 
 	Initialize(size);
 }

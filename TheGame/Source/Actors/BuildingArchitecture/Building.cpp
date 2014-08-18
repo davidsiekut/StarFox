@@ -19,9 +19,9 @@ Building::Building(Entity* parent, std::string lSystem) : Entity(parent)
 
 	shield = 1.f;
 
-	COLLIDE_X = BUILDING_SIZE_X;
-	COLLIDE_Y = BUILDING_SIZE_Y;
-	COLLIDE_Z = BUILDING_SIZE_Z;
+	collider.x = BUILDING_SIZE_X;
+	collider.y = BUILDING_SIZE_Y;
+	collider.z = BUILDING_SIZE_Z;
 
 	dustSystem = nullptr;
 }

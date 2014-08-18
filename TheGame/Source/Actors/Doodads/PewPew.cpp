@@ -45,9 +45,9 @@ void PewPew::Init()
 		this->textureID = 1;
 	}
 
-	COLLIDE_X = size.x;
-	COLLIDE_Y = size.y;
-	COLLIDE_Z = size.z;
+	collider.x = size.x;
+	collider.y = size.y;
+	collider.z = size.z;
 
 	shaderType = SHADER_BLOOM;
 

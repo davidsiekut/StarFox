@@ -25,9 +25,9 @@ Enemy::Enemy(Entity *parent, EnemyFactory::Direction direction, float horizontal
 	this->horizontalAxis = horizontalAxis;
 	this->timeElapsed = timeElapsed;
 
-	COLLIDE_X = size.x;
-	COLLIDE_Y = size.y;
-	COLLIDE_Z = size.z;
+	collider.x = size.x;
+	collider.y = size.y;
+	collider.z = size.z;
 
 	poofSystem = nullptr;
 

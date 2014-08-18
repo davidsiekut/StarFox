@@ -20,6 +20,7 @@ Entity::Entity(Entity *parent) :	parent(parent),
 									textureCoordinates(1.0f, 1.0f),
 									shaderType(ShaderType::SHADER_SOLID_COLOR),
 									materialCoefficients(0.2f, 0.8f, 0.2f, 50.0f),
+									collider(1.0f, 1.0f, 1.0f),
 									shield(100.f),
 									hasShadow(false),
 									markedForDeletion(false),
@@ -184,23 +185,18 @@ glm::vec3 Entity::GetPositionWorld()
 	return pos;
 }
 
-void Entity::TakeDamage(float f)
-{
-	shield -= f;
-}
-
 float Entity::GetRadius()
 {
-	float radius = COLLIDE_X;
+	float radius = collider.x;
 
-	if (COLLIDE_Y > radius)
+	if (collider.y > radius)
 	{
-		radius = COLLIDE_Y;
+		radius = collider.y;
 	}
 
-	if (COLLIDE_Z > radius)
+	if (collider.z > radius)
 	{
-		radius = COLLIDE_Z;
+		radius = collider.z;
 	}
 
 	return radius;
