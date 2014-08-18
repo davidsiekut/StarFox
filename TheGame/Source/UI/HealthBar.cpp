@@ -22,26 +22,27 @@ void HealthBar::Update(float dt)
 {
 	if (entityType == "PLAYER")
 	{
-		float shield = Scene::GetInstance().GetPlayer()->GetShieldAmount();
-		this->scaling = glm::vec3(-(shield / 100.f), 1.f, 1.f);
-		
 		float currentShield = Scene::GetInstance().GetPlayer()->GetShieldAmount();
 		//printf("%f\n", currentShield);
 		this->scaling = glm::vec3(-(currentShield / 100.f), 1.f, 1.f);
 		float offset = (2.4f * (100.f - currentShield)) / 2.f;
 		this->position = glm::vec3(223 - offset, 30.5, 0.1);
-
-		printf("%f\n", this->position.x);
 	}
 	else if (entityType == "BOSS")
 	{
-		float shield = Scene::GetInstance().GetBoss()->GetShieldAmount();
-		this->scaling = glm::vec3(-(shield / 5000.f), 1.f, 1.f);
-
 		float currentShield = Scene::GetInstance().GetBoss()->GetShieldAmount();
 		//printf("%f\n", currentShield);
-		this->scaling = glm::vec3(-(currentShield / 5000.f), 1.f, 1.f);
-		float offset = (5.7f * (5000.f - currentShield)) / 2.f;
+		this->scaling = glm::vec3(-(currentShield / 240.f), 1.f, 1.f);
+		float offset = ((240.f - currentShield)) / 2.f;
 		this->position = glm::vec3(577 + offset, 570.5, 0.1);
+	}
+
+	if (-(this->scaling.x) <= 0.25 && this->textureID != 10)
+	{
+		this->textureID = 10;
+	}
+	else if (-(this->scaling.x) <= 0.5 && -(this->scaling.x) > 0.25 && this->textureID != 9)
+	{
+		this->textureID = 9;
 	}
 }

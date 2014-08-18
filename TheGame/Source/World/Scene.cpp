@@ -21,12 +21,13 @@
 #include <UIElement.h>
 #include <HealthBar.h>
 #include <Image.h>
+#include <Digit.h>
 
 const unsigned int Scene::TERRAIN_PRELOAD = 5;
 const unsigned int Scene::TERRAIN_LOADAHEAD = 5;
 #define SCORE_SPAWN_BOSS 1000
 
-#define MAXTEXTURES 16
+#define MAXTEXTURES 27
 Texture textures[MAXTEXTURES];
 
 Scene::Scene()
@@ -73,11 +74,44 @@ void Scene::Initialize()
 	Image* ui_playerIcon = new Image(glm::vec3(60, 60, 0), glm::vec3(85, 85, 1));
 	ui_playerIcon->SetTextureID(i);
 	uiElements.push_back(ui_playerIcon);
+
+	//Scoreboard
+
+	Image* ui_scoreBoard = new Image(glm::vec3(85, 555, 0), glm::vec3(136, 50, 1));
+	ui_scoreBoard->SetTextureID(16);
+	uiElements.push_back(ui_scoreBoard);
+
+	Digit* ui_zero1 = new Digit(glm::vec3(36, 555, 0.1), glm::vec3(19, 28, 1), 1);
+	ui_zero1->SetTextureID(17);
+	uiElements.push_back(ui_zero1);
+	
+	Digit* ui_zero2 = new Digit(glm::vec3(55, 555, 0.1), glm::vec3(19, 28, 1), 2);
+	ui_zero2->SetTextureID(17);
+	uiElements.push_back(ui_zero2);
+
+	Digit* ui_zero3 = new Digit(glm::vec3(74, 555, 0.1), glm::vec3(19, 28, 1), 3);
+	ui_zero3->SetTextureID(17);
+	uiElements.push_back(ui_zero3);
+
+	Digit* ui_zero4 = new Digit(glm::vec3(93, 555, 0.1), glm::vec3(19, 28, 1), 4);
+	ui_zero4->SetTextureID(17);
+	uiElements.push_back(ui_zero4);
+
+	Digit* ui_zero5 = new Digit(glm::vec3(112, 555, 0.1), glm::vec3(19, 28, 1), 5);
+	ui_zero5->SetTextureID(17);
+	uiElements.push_back(ui_zero5);
+
+	Digit* ui_zero6 = new Digit(glm::vec3(131, 555, 0.1), glm::vec3(19, 28, 1), 6);
+	ui_zero6->SetTextureID(17);
+	uiElements.push_back(ui_zero6);
 }
 
 void Scene::LoadTextures()
 {
-	std::string texturesToLoad[] = { "default.jpg", "dolan.jpg", "building.jpg", "grass.jpg", "sky.jpg", "dolan_ultra.jpg", "pewpew.jpg", "UI/healthbar_empty.jpg", "UI/healthbar_green.jpg", "UI/healthbar_orange.jpg", "UI/healthbar_red.jpg", "UI/player1.jpg", "UI/player2.jpg", "UI/player3.jpg", "UI/player4.jpg", "UI/boss.jpg" };
+	std::string texturesToLoad[] = { "default.jpg", "dolan.jpg", "building.jpg", "grass.jpg", "sky.jpg", "dolan_ultra.jpg", "pewpew.jpg", 
+		"UI/healthbar_empty.jpg", "UI/healthbar_green.jpg", "UI/healthbar_orange.jpg", "UI/healthbar_red.jpg", 
+		"UI/player1.jpg", "UI/player2.jpg", "UI/player3.jpg", "UI/player4.jpg", "UI/boss.jpg", 
+		"UI/score_frame.jpg", "UI/zero.jpg", "UI/one.jpg", "UI/two.jpg", "UI/three.jpg", "UI/four.jpg", "UI/five.jpg", "UI/six.jpg", "UI/seven.jpg", "UI/eight.jpg", "UI/nine.jpg" };
 
 	for (unsigned int i = 0; i < MAXTEXTURES; i++)
 	{

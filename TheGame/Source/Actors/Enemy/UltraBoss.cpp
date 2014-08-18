@@ -13,7 +13,7 @@ UltraBoss::UltraBoss(Entity *parent) : Entity(parent)
 	shaderType = SHADER_PHONG_TEXTURED;
 	textureID = 5;
 
-	this->shield = 5000.f; // ultra boss, ultra shield
+	this->shield = 240.f; // ultra boss, ultra shield
 
 	// ultra colliders
 	COLLIDE_X = size.x;

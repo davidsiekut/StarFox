@@ -1,4 +1,5 @@
 #include "Image.h"
+#include "Scene.h"
 
 Image::Image(glm::vec3 position, glm::vec3 size) : UIElement()
 {
@@ -12,6 +13,9 @@ Image::Image(glm::vec3 position, glm::vec3 size) : UIElement()
 
 Image::~Image()
 {
-
+	if (Scene::GetInstance().GetBoss() == NULL)
+	{
+		this->markedForDeletion = true;
+	}
 }
 

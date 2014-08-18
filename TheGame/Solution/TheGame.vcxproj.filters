@@ -146,10 +146,10 @@
     <ClCompile Include="..\Source\Graphics\Bloom.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\UI\Score.cpp">
+    <ClCompile Include="..\Source\UI\Image.cpp">
       <Filter>Source Files\UI</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\UI\Image.cpp">
+    <ClCompile Include="..\Source\UI\Digit.cpp">
       <Filter>Source Files\UI</Filter>
     </ClCompile>
   </ItemGroup>
@@ -241,10 +241,10 @@
     <ClInclude Include="..\Source\Graphics\Bloom.h">
       <Filter>Source Files\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\UI\Score.h">
+    <ClInclude Include="..\Source\UI\Image.h">
       <Filter>Source Files\UI</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\UI\Image.h">
+    <ClInclude Include="..\Source\UI\Digit.h">
       <Filter>Source Files\UI</Filter>
     </ClInclude>
   </ItemGroup>
