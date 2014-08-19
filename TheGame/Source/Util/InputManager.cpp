@@ -151,7 +151,7 @@ void InputManager::Update(float dt)
 	}
 
 	//Boost
-	if (glfwGetKey(w, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS && boostTimer == 3.0f)
+	if ((glfwGetKey(w, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS || glfwGetKey(w, GLFW_KEY_RIGHT_SHIFT) == GLFW_PRESS) && boostTimer == 3.0f)
 	{
 		gottaGoFast = true;
 	}
@@ -162,7 +162,7 @@ void InputManager::Update(float dt)
 	}
 
 	//Brake
-	if (glfwGetKey(w, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS && boostTimer == 3.0f)
+	if ((glfwGetKey(w, GLFW_KEY_LEFT_CONTROL) || glfwGetKey(w, GLFW_KEY_RIGHT_CONTROL) == GLFW_PRESS) && boostTimer == 3.0f)
 	{
 		youreTooSlow = true;
 	}
