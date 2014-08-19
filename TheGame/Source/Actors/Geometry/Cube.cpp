@@ -23,7 +23,8 @@ Cube::Cube(Entity *parent, glm::vec3 size, glm::vec2 textureCoordinates) : Entit
 
 Cube::~Cube()
 {
-
+	glDeleteBuffers(1, &vertexBufferID);
+	glDeleteVertexArrays(1, &vertexBufferID);
 }
 
 void Cube::Update(float dt)

@@ -14,9 +14,15 @@ UltraBoss::UltraBoss(Entity *parent) : Enemy(parent)
 	this->shaderType = SHADER_PHONG_TEXTURED; // ultra shader
 	this->collider = glm::vec3(size.x, size.y, size.z); // ultra collider
 	this->shield = 1.f; //ultra shield
-	this->hasShadow = true; // ultra shadow
 
 	Initialize(size);
+	Entity::CreateShadow();
+}
+
+UltraBoss::~UltraBoss()
+{
+	glDeleteBuffers(1, &vertexBufferID);
+	glDeleteVertexArrays(1, &vertexBufferID);
 }
 
 void UltraBoss::Update(float dt)

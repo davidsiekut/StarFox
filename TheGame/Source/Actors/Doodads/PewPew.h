@@ -32,4 +32,15 @@ private:
 	float timeElapsed = 0.f;
 	glm::vec3 direction;
 	Bloom* bloom;
+
+	static unsigned int sphereArrayID;
+	static unsigned int sphereBufferID;
+	static unsigned int sphereBufferSize;
+
+	static unsigned int laserArrayID;
+	static unsigned int laserBufferID;
+	static unsigned int laserBufferSize;
+
+	static float size_x;
+	static float size_y;
 };

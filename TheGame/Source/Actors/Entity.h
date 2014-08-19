@@ -41,13 +41,14 @@ public:
 	glm::vec4 GetMaterialCoefficients() const { return materialCoefficients; }
 	ShaderType GetShaderType() const { return shaderType; }
 	unsigned int GetTextureID() const { return textureID; }
+	unsigned int GetVertexArrayID() const { return vertexArrayID; }
+	unsigned int GetVertexBufferID() const { return vertexBufferID; }
+	unsigned int GetVertexBufferSize() const { return vertexBufferSize; }
 
 	float GetRadius();
 	void TakeDamage(float f) { shield -= f; }
 
 protected:
-	void Initialize(glm::vec3 size);
-
 	Entity *parent;
 	std::string name;
 
@@ -65,8 +66,11 @@ protected:
 
 	glm::vec3 collider;
 	float shield;
-	bool hasShadow;
 	bool markedForDeletion;
+
+	unsigned int vertexArrayID;
+	unsigned int vertexBufferID;
+	unsigned int vertexBufferSize;
 
 	struct Vertex
 	{
@@ -76,17 +80,18 @@ protected:
 		glm::vec3 color;
 	};
 
+	struct BufferID
+	{
+		unsigned int arrayID;
+		unsigned int bufferID;
+		unsigned int bufferSize;
+	};
+
 	std::vector<Vertex> LoadVertices();
+	BufferID Initialize(glm::vec3 size);
+	void CreateShadow();
 
 private:
-	unsigned int vertexArrayID;
-	unsigned int vertexBufferID;
-	unsigned int vertexBufferSize;
-	unsigned int vertexArrayBloomID;
-	unsigned int vertexBufferBloomID;
-	unsigned int currentVertexArrayID;
-	unsigned int currentVertexBufferID;
-
 	Entity* shadow;
 
 	bool loadOBJ(std::string path, std::vector<Vertex> &buffer);

@@ -7,6 +7,17 @@ const float PewPew::PEWPEW_SPEED_PLAYER = 290.f;
 const float PewPew::PEWPEW_SPEED_ENEMY = 25.f;
 const float PewPew::BLOOM_SCALE = 2.75f;
 
+unsigned int PewPew::sphereArrayID = 0;
+unsigned int PewPew::sphereBufferID = 0;
+unsigned int PewPew::sphereBufferSize = 0;
+
+unsigned int PewPew::laserArrayID = 0;
+unsigned int PewPew::laserBufferID = 0;
+unsigned int PewPew::laserBufferSize = 0;
+
+float PewPew::size_x = 0;
+float PewPew::size_y = 0;
+
 PewPew::PewPew(std::string owner) : Entity(NULL), owner(owner)
 {
 	if (owner == "PLAYER")
@@ -49,34 +60,63 @@ void PewPew::Init()
 	this->shaderType = SHADER_BLOOM;
 	this->collider = glm::vec3(size.x, size.y, size.z);
 
-	Initialize(size);
-
-	std::vector<Vertex> buffer = Entity::LoadVertices();
-
-	// Get the maximum x and y to create a billboard.
-	float size_x, size_y;
-	for (std::vector<Vertex>::iterator it = buffer.begin(); it < buffer.end(); it++)
+	if (sphereArrayID == 0 && owner == "ENEMY")
 	{
-		if (it == buffer.begin())
-		{
-			size_x = (*it).position.x * size.x;
-			size_y = (*it).position.y * size.y;
-		}
-		else
-		{
-			if ((*it).position.x * size.x > size_x)
-			{
-				size_x = (*it).position.x * size.x;
-			}
-			if ((*it).position.y * size.y > size_y)
-			{
-				size_y = (*it).position.y * size.y;
-			}
-		}
+		Entity::BufferID gpuBufferIds = Initialize(size);
+		sphereArrayID = gpuBufferIds.arrayID;
+		sphereBufferID = gpuBufferIds.bufferID;
+		sphereBufferSize = gpuBufferIds.bufferSize;
 	}
+	else if (laserArrayID == 0 && owner == "PLAYER")
+	{
+		Entity::BufferID gpuBufferIds = Initialize(size);
+		laserArrayID = gpuBufferIds.arrayID;
+		laserBufferID = gpuBufferIds.bufferID;
+		laserBufferSize = gpuBufferIds.bufferSize;
+	}
+		
+	if (owner == "ENEMY")
+	{
+		vertexArrayID = sphereArrayID;
+		vertexBufferID = sphereBufferID;
+		vertexBufferSize = sphereBufferSize;
+	}
+	else
+	{
+		vertexArrayID = laserArrayID;
+		vertexBufferID = laserBufferID;
+		vertexBufferSize = laserBufferSize;
+	}
+	
 
 	if (owner == "ENEMY")
 	{
+		if (size_x == 0)
+		{
+			std::vector<Vertex> buffer = Entity::LoadVertices();
+
+			// Get the maximum x and y to create a billboard.
+			for (std::vector<Vertex>::iterator it = buffer.begin(); it < buffer.end(); it++)
+			{
+				if (it == buffer.begin())
+				{
+					size_x = (*it).position.x * size.x;
+					size_y = (*it).position.y * size.y;
+				}
+				else
+				{
+					if ((*it).position.x * size.x > size_x)
+					{
+						size_x = (*it).position.x * size.x;
+					}
+					if ((*it).position.y * size.y > size_y)
+					{
+						size_y = (*it).position.y * size.y;
+					}
+				}
+			}
+		}
+
 		bloom = new Bloom(*this, size_x * BLOOM_SCALE, size_y * BLOOM_SCALE);
 		Scene::GetInstance().AddEntity(bloom);
 	}

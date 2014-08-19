@@ -22,7 +22,6 @@ Entity::Entity(Entity *parent) :	parent(parent),
 									materialCoefficients(0.2f, 0.8f, 0.2f, 50.0f),
 									collider(1.0f, 1.0f, 1.0f),
 									shield(100.f),
-									hasShadow(false),
 									markedForDeletion(false)
 {
 	
@@ -30,9 +29,6 @@ Entity::Entity(Entity *parent) :	parent(parent),
 
 Entity::~Entity()
 {
-	glDeleteBuffers(1, &vertexBufferID);
-	glDeleteVertexArrays(1, &vertexArrayID);
-
 	if (shadow != nullptr)
 	{
 		Scene::GetInstance().RemoveEntity(shadow);
@@ -117,7 +113,7 @@ void Entity::Draw()
 }
 
 
-void Entity::Initialize(glm::vec3 size)
+Entity::BufferID Entity::Initialize(glm::vec3 size)
 {
 	std::vector<Vertex> buffer = LoadVertices();
 
@@ -144,11 +140,18 @@ void Entity::Initialize(glm::vec3 size)
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferID);
 	glBufferData(GL_ARRAY_BUFFER, buffer.size() * (3 * sizeof(glm::vec3) + sizeof(glm::vec2)), &buffer[0], GL_STATIC_DRAW);
 
-	if (hasShadow)
-	{
-		shadow = new Shadow(*this, objPath);
-		Scene::GetInstance().AddEntity(shadow);
-	}
+	BufferID ids = BufferID();
+	ids.arrayID = vertexArrayID;
+	ids.bufferID = vertexBufferID;
+	ids.bufferSize = vertexBufferSize;
+
+	return ids;
+}
+
+void Entity::CreateShadow()
+{
+	shadow = new Shadow(*this, objPath);
+	Scene::GetInstance().AddEntity(shadow);
 }
 
 void Entity::OnCollision(Entity* other)

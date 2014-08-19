@@ -23,7 +23,6 @@ Arwing::Arwing(Entity *parent) : Entity(parent)
 	this->objPath = "../Assets/Models/arwing.obj";
 	this->shaderType = SHADER_PHONG;
 	this->collider = glm::vec3(7.8f, 1.5f, 2.0f);
-	this->hasShadow = true;
 
 	this->rotationSpeed = SPEED_ROT;
 	this->speedX = SPEED_X;
@@ -45,6 +44,7 @@ Arwing::Arwing(Entity *parent) : Entity(parent)
 	burnBabyBurn = nullptr;
 
 	Initialize(size);
+	Entity::CreateShadow();
 }
 
 void Arwing::Update(float dt)

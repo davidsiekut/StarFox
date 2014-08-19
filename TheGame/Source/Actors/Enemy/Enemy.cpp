@@ -12,6 +12,10 @@ const float Enemy::ENEMY_LIFETIME = 35.f;
 const float Enemy::ENEMY_WAVY_WAVE_SPEED = 5.f;
 const float Enemy::ENEMY_SPINNY_SPIN_SPEED = 250.f;
 
+unsigned int Enemy::arrayID = 0;
+unsigned int Enemy::bufferID = 0;
+unsigned int Enemy::bufferSize = 0;
+
 Enemy::Enemy(Entity *parent) : Entity(parent)
 {
 
@@ -27,7 +31,6 @@ Enemy::Enemy(Entity *parent, EnemyFactory::Direction direction, float horizontal
 	this->shaderType = SHADER_PHONG_TEXTURED;
 	this->collider = glm::vec3(size.x, size.y, size.z);
 	this->shield = 2;
-	this->hasShadow = true;
 
 	this->direction = direction;
 	this->attackCooldown = ENEMY_ATTACK_COOLDOWN;
@@ -36,7 +39,19 @@ Enemy::Enemy(Entity *parent, EnemyFactory::Direction direction, float horizontal
 
 	poofSystem = nullptr;
 
-	Initialize(size);
+	if (arrayID == 0)
+	{
+		Entity::BufferID gpuBufferIds = Initialize(size);
+		arrayID = gpuBufferIds.arrayID;
+		bufferID = gpuBufferIds.bufferID;
+		bufferSize = gpuBufferIds.bufferSize;
+	}
+
+	vertexArrayID = arrayID;
+	vertexBufferID = bufferID;
+	vertexBufferSize = bufferSize;
+
+	Entity::CreateShadow();
 }
 
 Enemy::~Enemy()

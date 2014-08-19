@@ -8,7 +8,9 @@ Shadow::Shadow(Entity &parent, std::string objPath) : Entity(&parent)
 	this->shaderType = SHADER_SHADOW;
 	this->objPath = objPath;
 
-	Initialize(parent.GetSize());
+	vertexArrayID = parent.GetVertexArrayID();
+	vertexBufferID = parent.GetVertexBufferID();
+	vertexBufferSize = parent.GetVertexBufferSize();
 }
 
 void Shadow::Update(float dt)
