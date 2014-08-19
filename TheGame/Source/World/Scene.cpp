@@ -66,6 +66,8 @@ void Scene::Initialize()
 	SkyBox* skybox = new SkyBox(NULL, a);
 	skybox->SetPosition(glm::vec3(0, 200, a->GetPosition().z + 500));
 	AddEntity(skybox);
+
+	buildUI();
 }
 
 void Scene::Update(float dt)
@@ -179,12 +181,12 @@ void Scene::GameOver()
 
 void Scene::GameWon()
 {
-	//if (!gameWon) // if we comment out this if statement it makes a really cool effect
-	//{
+	if (!gameWon)
+	{
 		gameWon = true;
 		WinnerImage* winner = new WinnerImage(glm::vec3(400, 300, 0), glm::vec3(512, 512, 1));
 		uiElements.push_back(winner);
-	//}
+	}
 }
 
 void Scene::loadTextures()
