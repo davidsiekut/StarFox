@@ -10,8 +10,10 @@
 // Wan, Kwok - Chak   (6291643)
 //
 // Contributions to this file:
-//
-//
+// Dror Ozgaon
+// Quang Tran
+// David Siekut
+// Vasiliki Boutas
 
 #include "Renderer.h"
 #include "WindowManager.h"

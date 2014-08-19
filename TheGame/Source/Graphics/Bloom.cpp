@@ -10,8 +10,8 @@
 // Wan, Kwok - Chak   (6291643)
 //
 // Contributions to this file:
-//
-//
+// Dror Ozgaon
+// Quang Tran
 
 #pragma once
 

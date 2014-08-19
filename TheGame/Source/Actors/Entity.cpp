@@ -10,8 +10,9 @@
 // Wan, Kwok - Chak   (6291643)
 //
 // Contributions to this file:
-//
-//
+// David Siekut
+// Quang Tran
+// Dror Ozgaon
 
 #include "Entity.h"
 #include "Scene.h"

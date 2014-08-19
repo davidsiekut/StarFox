@@ -10,8 +10,12 @@
 // Wan, Kwok - Chak   (6291643)
 //
 // Contributions to this file:
-//
-//
+// Dror Ozgaon
+// Quang Tran
+// David Siekut
+// Kwok-Chak Wan
+// Vasiliki Boutas
+// John Di Girolamo
 
 #include "InputManager.h"
 #include "PewPew.h"

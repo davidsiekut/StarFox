@@ -10,7 +10,7 @@
 // Wan, Kwok - Chak   (6291643)
 //
 // Contributions to this file:
-//
+// Vasiliki Boutas
 //
 
 #include "HealthBar.h"

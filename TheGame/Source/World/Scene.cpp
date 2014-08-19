@@ -10,8 +10,12 @@
 // Wan, Kwok - Chak   (6291643)
 //
 // Contributions to this file:
-//
-//
+// Dror Ozgaon
+// David Siekut
+// John Di Girolamo
+// Kwok-Chak Wan
+// Vasiliki Boutas
+// Quang Tran
 
 #include "Scene.h"
 #include "BuildingFactory.h"
