@@ -16,6 +16,7 @@
 // Kwok-Chak Wan
 // Vasiliki Boutas
 // John Di Girolamo
+//
 
 #include "InputManager.h"
 #include "PewPew.h"
@@ -154,11 +155,15 @@ void InputManager::Update(float dt)
 	glm::vec3 direction = glm::vec3(0, 0, 0);
 	if (glfwGetKey(w, GLFW_KEY_W) == GLFW_PRESS || glfwGetKey(w, GLFW_KEY_UP) == GLFW_PRESS)
 	{
-		direction.y++;
+		// change this for normal and reverse y
+		// direction.y++;
+		direction.y--;
 	}
 	if (glfwGetKey(w, GLFW_KEY_S) == GLFW_PRESS || glfwGetKey(w, GLFW_KEY_DOWN) == GLFW_PRESS)
 	{
-		direction.y--;
+		// change this for normal and reverse y
+		//direction.y--;
+		direction.y++;
 	}
 	if (glfwGetKey(w, GLFW_KEY_D) == GLFW_PRESS || glfwGetKey(w, GLFW_KEY_RIGHT) == GLFW_PRESS)
 	{

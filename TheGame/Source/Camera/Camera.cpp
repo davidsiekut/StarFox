@@ -11,7 +11,7 @@
 //
 // Contributions to this file:
 // Dror Ozgaon
-// David Siekut
+//
 
 #include "Camera.h"
 #include "Entity.h"

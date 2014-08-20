@@ -28,7 +28,7 @@ UltraBoss::UltraBoss(Entity *parent) : Enemy(parent)
 	this->textureID = 5; // ultra texture
 	this->shaderType = SHADER_PHONG_TEXTURED; // ultra shader
 	this->collider = glm::vec3(size.x, size.y, size.z); // ultra collider
-	this->shield = 1.f; //ultra shield
+	this->shield = 240.f; //ultra shield
 
 	Initialize(size);
 	Entity::CreateShadow();

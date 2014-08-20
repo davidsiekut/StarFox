@@ -16,6 +16,7 @@
 // Kwok-Chak Wan
 // Vasiliki Boutas
 // Quang Tran
+//
 
 #include "Scene.h"
 #include "BuildingFactory.h"
@@ -47,7 +48,7 @@
 
 #define TERRAIN_PRELOAD 5
 #define TERRAIN_LOADAHEAD 5
-#define SCORE_SPAWN_BOSS 1
+#define SCORE_SPAWN_BOSS 1000
 
 #define MAXTEXTURES 28
 Texture textures[MAXTEXTURES];

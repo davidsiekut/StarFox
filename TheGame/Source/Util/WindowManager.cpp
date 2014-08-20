@@ -11,6 +11,7 @@
 //
 // Contributions to this file:
 // David Siekut
+//
 
 #include "WindowManager.h"
 #include <GLFW/glfw3.h>
