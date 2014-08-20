@@ -10,7 +10,6 @@
 // Wan, Kwok - Chak   (6291643)
 //
 // Contributions to this file:
-// David Siekut
 // Quang Tran
 
 #pragma once
