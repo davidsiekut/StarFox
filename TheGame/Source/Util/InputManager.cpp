@@ -42,6 +42,8 @@ float  InputManager::mouseDeltaY = 0.0f;
 bool InputManager::G_PRESSED = false;
 bool InputManager::L_PRESSED = false;
 bool InputManager::P_PRESSED = false;
+bool InputManager::I_PRESSED = false;
+bool InputManager::invertedY = true;
 bool InputManager::disabled = false;
 
 bool gottaGoFast = false;
@@ -121,6 +123,18 @@ void InputManager::Update(float dt)
 		L_PRESSED = false;
 	}
 
+	if (glfwGetKey(w, GLFW_KEY_I) == GLFW_PRESS && !I_PRESSED)
+	{
+		I_PRESSED = true;
+		invertedY = !invertedY;
+		printf("[Controls] Inverted Y: %i\n", invertedY);
+
+	}
+	else if (glfwGetKey(w, GLFW_KEY_I) == GLFW_RELEASE)
+	{
+		I_PRESSED = false;
+	}
+
 	if (glfwGetKey(w, GLFW_KEY_G) == GLFW_PRESS && !G_PRESSED)
 	{
 		G_PRESSED = true;
@@ -155,15 +169,25 @@ void InputManager::Update(float dt)
 	glm::vec3 direction = glm::vec3(0, 0, 0);
 	if (glfwGetKey(w, GLFW_KEY_W) == GLFW_PRESS || glfwGetKey(w, GLFW_KEY_UP) == GLFW_PRESS)
 	{
-		// change this for normal and reverse y
-		// direction.y++;
-		direction.y--;
+		if (invertedY)
+		{
+			direction.y--;
+		}
+		else
+		{
+			direction.y++;
+		}
 	}
 	if (glfwGetKey(w, GLFW_KEY_S) == GLFW_PRESS || glfwGetKey(w, GLFW_KEY_DOWN) == GLFW_PRESS)
 	{
-		// change this for normal and reverse y
-		//direction.y--;
-		direction.y++;
+		if (invertedY)
+		{
+			direction.y++;
+		}
+		else
+		{
+			direction.y--;
+		}
 	}
 	if (glfwGetKey(w, GLFW_KEY_D) == GLFW_PRESS || glfwGetKey(w, GLFW_KEY_RIGHT) == GLFW_PRESS)
 	{

@@ -18,6 +18,8 @@ private:
 	static bool G_PRESSED;
 	static bool L_PRESSED;
 	static bool P_PRESSED;
+	static bool I_PRESSED;
+	static bool invertedY;
 	static bool disabled;
 	static void Fire();
 	static float fireRepeatRate;
