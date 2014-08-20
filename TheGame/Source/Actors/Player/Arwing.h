@@ -8,29 +8,30 @@ class Arwing : public Entity
 {
 public:
 	Arwing(Entity *parent);
+
 	void Update(float dt);
 	void OnCollision(Entity* other);
 
-	void SetMovingForwards(bool forward) { movingForward = forward; }
-	void Flash() { isFlashing = !isFlashing; }
-
+	void SetMovingForward(bool forward) { isMovingForward = forward; }
 	void TiltLeft(float dt);
 	void TiltRight(float dt);
 	void TiltComplete(float dt);
 
-	// Movement constants
-	float rotationAngle;
+	void Flash() { isFlashing = !isFlashing; }
+	bool IsFlashing() { return isFlashing; }
+
 	float rotationSpeed;
 	float speedX;
 	float speedY;
 	float speedZ;
-	bool movingForward;
+	bool isMovingForward;
 	bool isTiltingLeft;
 	bool isTiltingRight;
 	bool isBarrelRolling;
 	float barrelRollTimer;
+	float invicibilityFrames;
 	bool iddqd;
-	float invicibilityFrames = 0.f;
+	bool isFlashing;
 
 protected:
 

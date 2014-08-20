@@ -1,49 +1,68 @@
+//
+// COMP 371 Term Project
+//
+// Created by
+// Boutas, Vasiliki   (6220304)
+// Di Girolamo, John  (6202918)
+// Ozgaon, Dror Asher (6296742)
+// Siekut, David      (6329810)
+// Tran, Quang        (6339816)
+// Wan, Kwok - Chak   (6291643)
+//
+// Contributions to this file:
+// David Siekut
+// Quang Tran
+// Dror Ozgaon
+// John Di Girolamo
+//
+
 #pragma once
 
 #include "Arwing.h"
-#include "WindowManager.h"
 #include "InputManager.h"
-#include <GLFW/glfw3.h>
-#include <glm/gtc/matrix_transform.hpp>
 #include "PewPew.h"
 #include "Scene.h"
 #include "ThirdPersonCamera.h"
+#include "WindowManager.h"
+#include <GLFW/glfw3.h>
+#include <glm/gtc/matrix_transform.hpp>
 
 #define BARREL_ROLL_TIME 0.3f
 #define INV_FRAMES_TIME 0.5f
+#define SPEED_X 20.f
+#define SPEED_Y 15.f
 #define SPEED_Z 60.f
+#define SPEED_ROT 60.f
 
 Arwing::Arwing(Entity *parent) : Entity(parent)
 {
-	name = "PLAYER";
-	size = glm::vec3(2.f, 2.f, 2.f);
-	objPath = "../Assets/Models/arwing.obj";
-	shaderType = SHADER_PHONG;
-	hasShadow = true;
+	this->name = "PLAYER";
+	this->size = glm::vec3(2.f, 2.f, 2.f);
+	this->objPath = "../Assets/Models/arwing.obj";
+	this->shaderType = SHADER_PHONG;
+	this->collider = glm::vec3(7.8f, 1.5f, 2.0f);
 
-	COLLIDE_X = 7.8f;
-	COLLIDE_Y = 1.5f;
-	COLLIDE_Z = 2.0f;
-
-	rotationSpeed = 60.0f;
-	speedX = 20.0f;
-	speedY = 15.0f;
-	speedZ = SPEED_Z;
-	movingForward = true;
-	isTiltingLeft = false;
-	isTiltingRight = false;
-	isBarrelRolling = false;
-	isFlashing = false;
-	barrelRollTimer = BARREL_ROLL_TIME;
-	iddqd = false;
-
-	Initialize(size);
+	this->rotationSpeed = SPEED_ROT;
+	this->speedX = SPEED_X;
+	this->speedY = SPEED_Y;
+	this->speedZ = SPEED_Z;
+	this->isMovingForward = true;
+	this->isTiltingLeft = false;
+	this->isTiltingRight = false;
+	this->isBarrelRolling = false;
+	this->barrelRollTimer = BARREL_ROLL_TIME;
+	this->invicibilityFrames = 0.f;
+	this->iddqd = false;
+	this->isFlashing = false;
 
 	booster = new ParticleSystem(this, 0.2f, 0.f, SPEED_Z / 1.3f);
 	booster->SetPosition(glm::vec3(0.f, -0.25f, -3.f));
 	booster->SetMaxParticles(10);
 	Scene::GetInstance().AddEntity(booster);
 	burnBabyBurn = nullptr;
+
+	Initialize(size);
+	Entity::CreateShadow();
 }
 
 void Arwing::Update(float dt)
@@ -88,9 +107,9 @@ void Arwing::Update(float dt)
 
 	if (isBarrelRolling)
 	{
-		COLLIDE_X = 7.8f;
-		COLLIDE_Y = 7.8f;
-		COLLIDE_Z = 2.0f;
+		collider.x = 7.8f;
+		collider.y = 7.8f;
+		collider.z = 2.0f;
 
 		float rotationAngle = GetRotationAngle() + dt * rotationSpeed * 40.f;
 
@@ -104,46 +123,13 @@ void Arwing::Update(float dt)
 	}
 	if (barrelRollTimer < 0)
 	{
-		COLLIDE_X = 7.8f;
-		COLLIDE_Y = 1.5f;
-		COLLIDE_Z = 2.0f;
+		collider.x = 7.8f;
+		collider.y = 1.5f;
+		collider.z = 2.0f;
 
 		barrelRollTimer = BARREL_ROLL_TIME;
 		isBarrelRolling = false;
 	}
-}
-
-void Arwing::TiltLeft(float dt)
-{
-	COLLIDE_X = 1.5f;
-	COLLIDE_Y = 7.8f;
-	COLLIDE_Z = 2.0f;
-
-	float rotationAngle = glm::clamp(GetRotationAngle() + dt * rotationSpeed * 5.f, 0.f, 90.f);
-	rotationAxis = glm::vec3(0.f, 0.f, -1.f);
-	SetRotation(rotationAxis, rotationAngle);
-}
-
-void Arwing::TiltRight(float dt)
-{
-	COLLIDE_X = 1.5f;
-	COLLIDE_Y = 7.8f;
-	COLLIDE_Z = 2.0f;
-
-	float rotationAngle = glm::clamp(GetRotationAngle() + dt * rotationSpeed * 5.f, 0.f, 90.f);
-	rotationAxis = glm::vec3(0.f, 0.f, 1.f);
-	SetRotation(rotationAxis, rotationAngle);
-}
-
-void Arwing::TiltComplete(float dt)
-{
-	COLLIDE_X = 7.8f;
-	COLLIDE_Y = 1.5f;
-	COLLIDE_Z = 2.0f;
-
-	float rotationAngle = glm::clamp(GetRotationAngle() - dt * rotationSpeed * 5.f, 0.f, 90.f);
-	rotationAxis = GetRotationAxis();
-	SetRotation(rotationAxis, rotationAngle);
 }
 
 void Arwing::OnCollision(Entity* other)
@@ -155,11 +141,44 @@ void Arwing::OnCollision(Entity* other)
 		{
 			resolveHit(5);
 		}
-		else if (other->GetName() == "PEWPEW" && (((PewPew*)other)->owner == "ENEMY"))
+		else if (other->GetName() == "PEWPEW" && (((PewPew*)other)->GetOwner() == "ENEMY"))
 		{
-			resolveHit(((PewPew*)other)->damage);
+			resolveHit(((PewPew*)other)->GetDamage());
 		}
 	}
+}
+
+void Arwing::TiltLeft(float dt)
+{
+	collider.x = 1.5f;
+	collider.y = 7.8f;
+	collider.z = 2.0f;
+
+	float rotationAngle = glm::clamp(GetRotationAngle() + dt * rotationSpeed * 5.f, 0.f, 90.f);
+	rotationAxis = glm::vec3(0.f, 0.f, -1.f);
+	SetRotation(rotationAxis, rotationAngle);
+}
+
+void Arwing::TiltRight(float dt)
+{
+	collider.x = 1.5f;
+	collider.y = 7.8f;
+	collider.z = 2.0f;
+
+	float rotationAngle = glm::clamp(GetRotationAngle() + dt * rotationSpeed * 5.f, 0.f, 90.f);
+	rotationAxis = glm::vec3(0.f, 0.f, 1.f);
+	SetRotation(rotationAxis, rotationAngle);
+}
+
+void Arwing::TiltComplete(float dt)
+{
+	collider.x = 7.8f;
+	collider.y = 1.5f;
+	collider.z = 2.0f;
+
+	float rotationAngle = glm::clamp(GetRotationAngle() - dt * rotationSpeed * 5.f, 0.f, 90.f);
+	rotationAxis = GetRotationAxis();
+	SetRotation(rotationAxis, rotationAngle);
 }
 
 void Arwing::resolveHit(float damage)
@@ -167,8 +186,8 @@ void Arwing::resolveHit(float damage)
 	if (!iddqd)
 	{
 		TakeDamage(damage);
+		Scene::GetInstance().GetGPCamera()->Shake();
+		invicibilityFrames = INV_FRAMES_TIME;
+		//printf("[Player] Shield = %f\n", GetShieldAmount());
 	}
-	Scene::GetInstance().GetGPCamera()->Shake();
-	invicibilityFrames = INV_FRAMES_TIME;
-	printf("[Player] Shield = %f\n", GetShieldAmount());
 }

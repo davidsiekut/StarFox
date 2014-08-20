@@ -26,10 +26,10 @@ public:
 	void SetShaderType(ShaderType type) { shaderType = type; }
 	void SetMarkedForDeletion() { markedForDeletion = true; }
 
+	glm::vec3 GetCollider() { return collider; }
 	float GetShieldAmount() { return shield; }
 	virtual bool IsOpaque() { return true; }
 	bool IsMarkedForDeletion() { return markedForDeletion; }
-	bool IsFlashing() { return isFlashing; }
 
 	std::string GetName() const { return name; }
 	glm::vec3 GetPosition() const { return position; }
@@ -41,17 +41,14 @@ public:
 	glm::vec4 GetMaterialCoefficients() const { return materialCoefficients; }
 	ShaderType GetShaderType() const { return shaderType; }
 	unsigned int GetTextureID() const { return textureID; }
-	float GetRadius();
+	unsigned int GetVertexArrayID() const { return vertexArrayID; }
+	unsigned int GetVertexBufferID() const { return vertexBufferID; }
+	unsigned int GetVertexBufferSize() const { return vertexBufferSize; }
 
-	// dimensions of box collider for this entity
-	float COLLIDE_X;
-	float COLLIDE_Y;
-	float COLLIDE_Z;
-	void TakeDamage(float f);
+	float GetRadius();
+	void TakeDamage(float f) { shield -= f; }
 
 protected:
-	void Initialize(glm::vec3 size);
-
 	Entity *parent;
 	std::string name;
 
@@ -67,10 +64,13 @@ protected:
 	ShaderType shaderType;
 	glm::vec4 materialCoefficients; //ka, kd, ks, n
 
+	glm::vec3 collider;
 	float shield;
-	bool hasShadow;
 	bool markedForDeletion;
-	bool isFlashing;
+
+	unsigned int vertexArrayID;
+	unsigned int vertexBufferID;
+	unsigned int vertexBufferSize;
 
 	struct Vertex
 	{
@@ -80,17 +80,18 @@ protected:
 		glm::vec3 color;
 	};
 
+	struct BufferID
+	{
+		unsigned int arrayID;
+		unsigned int bufferID;
+		unsigned int bufferSize;
+	};
+
 	std::vector<Vertex> LoadVertices();
+	BufferID Initialize(glm::vec3 size);
+	void CreateShadow();
 
 private:
-	unsigned int vertexArrayID;
-	unsigned int vertexBufferID;
-	unsigned int vertexBufferSize;
-	unsigned int vertexArrayBloomID;
-	unsigned int vertexBufferBloomID;
-	unsigned int currentVertexArrayID;
-	unsigned int currentVertexBufferID;
-
 	Entity* shadow;
 
 	bool loadOBJ(std::string path, std::vector<Vertex> &buffer);

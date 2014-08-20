@@ -1,3 +1,20 @@
+//
+// COMP 371 Term Project
+//
+// Created by
+// Boutas, Vasiliki   (6220304)
+// Di Girolamo, John  (6202918)
+// Ozgaon, Dror Asher (6296742)
+// Siekut, David      (6329810)
+// Tran, Quang        (6339816)
+// Wan, Kwok - Chak   (6291643)
+//
+// Contributions to this file:
+// David Siekut
+// Quang Tran
+// Dror Ozgaon
+//
+
 #include "Entity.h"
 #include "Scene.h"
 #include "Shadow.h"
@@ -20,19 +37,15 @@ Entity::Entity(Entity *parent) :	parent(parent),
 									textureCoordinates(1.0f, 1.0f),
 									shaderType(ShaderType::SHADER_SOLID_COLOR),
 									materialCoefficients(0.2f, 0.8f, 0.2f, 50.0f),
+									collider(1.0f, 1.0f, 1.0f),
 									shield(100.f),
-									hasShadow(false),
-									markedForDeletion(false),
-									isFlashing(false)
+									markedForDeletion(false)
 {
 	
 }
 
 Entity::~Entity()
 {
-	glDeleteBuffers(1, &vertexBufferID);
-	glDeleteVertexArrays(1, &vertexArrayID);
-
 	if (shadow != nullptr)
 	{
 		Scene::GetInstance().RemoveEntity(shadow);
@@ -117,7 +130,7 @@ void Entity::Draw()
 }
 
 
-void Entity::Initialize(glm::vec3 size)
+Entity::BufferID Entity::Initialize(glm::vec3 size)
 {
 	std::vector<Vertex> buffer = LoadVertices();
 
@@ -144,11 +157,18 @@ void Entity::Initialize(glm::vec3 size)
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferID);
 	glBufferData(GL_ARRAY_BUFFER, buffer.size() * (3 * sizeof(glm::vec3) + sizeof(glm::vec2)), &buffer[0], GL_STATIC_DRAW);
 
-	if (hasShadow)
-	{
-		shadow = new Shadow(*this, objPath);
-		Scene::GetInstance().AddEntity(shadow);
-	}
+	BufferID ids = BufferID();
+	ids.arrayID = vertexArrayID;
+	ids.bufferID = vertexBufferID;
+	ids.bufferSize = vertexBufferSize;
+
+	return ids;
+}
+
+void Entity::CreateShadow()
+{
+	shadow = new Shadow(*this, objPath);
+	Scene::GetInstance().AddEntity(shadow);
 }
 
 void Entity::OnCollision(Entity* other)
@@ -184,23 +204,18 @@ glm::vec3 Entity::GetPositionWorld()
 	return pos;
 }
 
-void Entity::TakeDamage(float f)
-{
-	shield -= f;
-}
-
 float Entity::GetRadius()
 {
-	float radius = COLLIDE_X;
+	float radius = collider.x;
 
-	if (COLLIDE_Y > radius)
+	if (collider.y > radius)
 	{
-		radius = COLLIDE_Y;
+		radius = collider.y;
 	}
 
-	if (COLLIDE_Z > radius)
+	if (collider.z > radius)
 	{
-		radius = COLLIDE_Z;
+		radius = collider.z;
 	}
 
 	return radius;

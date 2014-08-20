@@ -1,7 +1,13 @@
 #pragma once
 
+#include "Entity.h"
 #include <GLM/glm.hpp>
-#include <Entity.h>
+
+#define CAM_FOV 45.f
+#define CAM_ASPECT_X 4.f
+#define CAM_ASPECT_Y 3.f
+#define CAM_NEAR_CLIP 0.1f
+#define CAM_FAR_CLIP 800.f
 
 class Camera
 {
@@ -18,5 +24,4 @@ public:
 
 protected:
 	Entity* parent;	// camera will follow this entity
-
 };

@@ -1,3 +1,18 @@
+//
+// COMP 371 Term Project
+//
+// Created by
+// Boutas, Vasiliki   (6220304)
+// Di Girolamo, John  (6202918)
+// Ozgaon, Dror Asher (6296742)
+// Siekut, David      (6329810)
+// Tran, Quang        (6339816)
+// Wan, Kwok - Chak   (6291643)
+//
+// Contributions to this file:
+// Quang Tran
+//
+
 #pragma once
 
 #include "Building.h"
@@ -19,9 +34,9 @@ Building::Building(Entity* parent, std::string lSystem) : Entity(parent)
 
 	shield = 1.f;
 
-	COLLIDE_X = BUILDING_SIZE_X;
-	COLLIDE_Y = BUILDING_SIZE_Y;
-	COLLIDE_Z = BUILDING_SIZE_Z;
+	collider.x = BUILDING_SIZE_X;
+	collider.y = BUILDING_SIZE_Y;
+	collider.z = BUILDING_SIZE_Z;
 
 	dustSystem = nullptr;
 }
@@ -124,9 +139,9 @@ void Building::Parse(char c)
 
 void Building::OnCollision(Entity* other)
 {
-	if (other->GetName() == "PEWPEW" && (((PewPew*)other)->owner == "PLAYER"))
+	if (other->GetName() == "PEWPEW" && (((PewPew*)other)->GetOwner() == "PLAYER"))
 	{
-		TakeDamage(((PewPew*)other)->damage);
+		TakeDamage(((PewPew*)other)->GetDamage());
 	}
 	if (other->GetName() == "PLAYER")
 	{

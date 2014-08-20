@@ -1,3 +1,23 @@
+//
+// COMP 371 Term Project
+//
+// Created by
+// Boutas, Vasiliki   (6220304)
+// Di Girolamo, John  (6202918)
+// Ozgaon, Dror Asher (6296742)
+// Siekut, David      (6329810)
+// Tran, Quang        (6339816)
+// Wan, Kwok - Chak   (6291643)
+//
+// Contributions to this file:
+// Dror Ozgaon
+// Quang Tran
+// David Siekut
+// Kwok-Chak Wan
+// Vasiliki Boutas
+// John Di Girolamo
+//
+
 #include "InputManager.h"
 #include "PewPew.h"
 #include "WindowManager.h"
@@ -135,11 +155,15 @@ void InputManager::Update(float dt)
 	glm::vec3 direction = glm::vec3(0, 0, 0);
 	if (glfwGetKey(w, GLFW_KEY_W) == GLFW_PRESS || glfwGetKey(w, GLFW_KEY_UP) == GLFW_PRESS)
 	{
-		direction.y++;
+		// change this for normal and reverse y
+		// direction.y++;
+		direction.y--;
 	}
 	if (glfwGetKey(w, GLFW_KEY_S) == GLFW_PRESS || glfwGetKey(w, GLFW_KEY_DOWN) == GLFW_PRESS)
 	{
-		direction.y--;
+		// change this for normal and reverse y
+		//direction.y--;
+		direction.y++;
 	}
 	if (glfwGetKey(w, GLFW_KEY_D) == GLFW_PRESS || glfwGetKey(w, GLFW_KEY_RIGHT) == GLFW_PRESS)
 	{
@@ -203,7 +227,7 @@ void InputManager::Update(float dt)
 	// Clamp the position so the ship cannot fly offscreen.
 	position.x = glm::clamp(position.x + (direction.x * dt * arwing->speedX), SHIP_CLAMP_X_NEG, SHIP_CLAMP_X_POS);
 	position.y = glm::clamp(position.y + (direction.y * dt * arwing->speedY), SHIP_CLAMP_Y_NEG, SHIP_CLAMP_Y_POS);
-	if (arwing->movingForward) // Constantly move forwards but can be stopped for cinematics or something
+	if (arwing->isMovingForward) // Constantly move forwards but can be stopped for cinematics or something
 	{
 		position.z += dt * arwing->speedZ;
 	}
